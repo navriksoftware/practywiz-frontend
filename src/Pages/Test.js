@@ -21,7 +21,6 @@ const CircularImageUploader = () => {
     }
   };
 
-  // Handle cropping
   const handleCrop = () => {
     const cropper = cropperRef.current?.cropper;
     if (cropper) {
