@@ -1,0 +1,21 @@
+.Newrow{
+  
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.row{
+    flex-direction: column;
+}
+.csdegbfraedd{
+    width: 100%;
+       
+    height: auto;
+}
+.md-header .difuhtre_nav button{
+    width: auto;
+}
+.col-lg-2{
+    width: 100%;
+}

@@ -1,0 +1,359 @@
+
+.applications-type {
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  overflow: hidden;
+  width: 400px;
+  margin: 0.5rem auto 2rem;
+}
+
+.applications-type-header {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.applications-type-header.active {
+  background-color: blue;
+  color: white;
+}
+
+.applications-type-header.inactive {
+  background-color: white;
+  color: black;
+}
+
+
+.applications-clear-filters {
+  background-color: #0255ca;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  margin-top: 16px;
+  transition: background-color 0.2s;
+}
+
+.applications-clear-filters:hover {
+  background-color: #dc2626;
+}
+
+.applications-selected-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.applications-filter-tag {
+  background: #e2e8f0;
+  color: #4a5568;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.applications-remove-tag {
+  cursor: pointer;
+  color: #718096;
+  font-weight: bold;
+  padding: 0 2px;
+}
+
+.applications-remove-tag:hover {
+  color: #4a5568;
+}
+
+.applications-received-board {
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.applications-outer-container {
+  max-width: 1400px;
+  margin: 2rem auto;
+}
+
+.applications-main-content {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 24px;
+}
+
+.applications-filters {
+  height: max-content;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.applications-filter-section {
+  margin-bottom: 20px;
+}
+
+.applications-filter-section h3 {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #4a5568;
+}
+
+.applications-main-content input:focus {
+  outline: none;
+}
+
+.applications-filter-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.applications-rate-inputs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.applications-rate-input {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.applications-listings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.applications-search-bar {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+}
+
+.applications-search-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.applications-job-lists {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 6rem;
+  gap: 16px;
+}
+
+.applications-job-lists::-webkit-scrollbar {
+  width: 0px;
+}
+
+.applications-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.applications-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.applications-info h2 {
+  font-size: 18px;
+  color: #2d3748;
+  margin: 0 0 4px 0;
+}
+
+.applications-meta {
+  font-size: 14px;
+  color: #718096;
+}
+
+.applications-location {
+  text-align: right;
+}
+
+.applications-location-amount {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.applications-location-reply {
+  font-size: 14px;
+  color: #718096;
+}
+
+.applications-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.applications-skill-tag {
+  background: #f7fafc;
+  color: #4a5568;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.applications-status-tag {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #c6f6d5;
+  color: #2f855a;
+}
+
+.applications-view-profile-btn {
+  color: #0255ca;
+  margin-top: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.applications-action-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.applications-shortlist-btn {
+  background: #0255ca;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.applications-mobile-filter-toggle {
+  display: none;
+}
+
+.applications-filter-overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .applications-main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .applications-filters {
+    order: 2;
+  }
+
+  .applications-listings {
+    order: 1;
+  }
+
+  .applications-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .applications-location {
+    text-align: left;
+  }
+}
+
+@media (max-width: 768px) {
+  .applications-close-filters {
+    display: flex;
+    font-size: 20px;
+    justify-content: end;
+    cursor: pointer;
+  }
+
+  .applications-mobile-filter-toggle {
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .applications-filter-overlay {
+    display: block;
+  }
+  .applications-filter-mobile-btn {
+    padding: 10px;
+    background-color: #0255ca;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .applications-filter-mobile-btn:hover {
+    background-color: #2632dc;
+  }
+
+  .applications-filters {
+    display: none;
+  }
+
+  .applications-search-bar {
+    display: none;
+  }
+
+  .applications-search-bar.mobile-filters-visible {
+    display: flex;
+  }
+
+  .applications-filters.mobile-filters-visible {
+    display: block;
+    position: fixed;
+    top: 5rem;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 2rem);
+    background: white;
+    z-index: 1000;
+    padding: 20px;
+  }
+
+  .applications-main-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .applications-listings {
+    order: 1;
+  }
+
+  .applications-filters {
+    order: 2;
+  }
+}

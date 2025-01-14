@@ -1,0 +1,18 @@
+#menteeRegBackground {
+  background: url("../../../../Images/mentorbclk.png") no-repeat;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.dropdown-contentMentee{
+  position: absolute;
+  background-color: #f9f9f9;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}

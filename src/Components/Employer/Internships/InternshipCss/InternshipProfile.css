@@ -1,0 +1,215 @@
+.internship_profile_container {
+  width: 100%;
+  padding: 0 7rem;
+}
+
+.internship_profile_header {
+  margin-bottom: 24px;
+}
+
+.internship_profile_title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.internship_profile_search_wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.internship_profile_search_input {
+  flex: 1;
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.internship_profile_search_input:focus {
+  outline: none;
+}
+
+.internship_profile_search_btn {
+  padding: 8px 24px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.internship_profile_search_btn:hover {
+  background-color: #1d4ed8;
+}
+
+.internship_profile_listings_container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-right: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 64vh;
+  padding-bottom: 1rem;
+}
+
+.internship_profile_listings_container::-webkit-scrollbar {
+  width: 3px;
+}
+.internship_profile_listings_container::-webkit-scrollbar-thumb {
+  background-color: #2563eb;
+  border-radius: 10px;
+}
+
+.internship_profile_card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.internship_profile_card_content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.internship_profile_info_section {
+  flex: 1;
+}
+
+.internship_profile_info_title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.internship_profile_status_section {
+  display: flex;
+  align-items: center;
+  border-radius: full;
+}
+.internship_profile_status_select {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+}
+
+.internship_profile_status_select.active {
+  background-color: #e6f4ea;
+  color: #1e8e3e;
+  border-color: #1e8e3e;
+}
+
+.internship_profile_status_select.closed {
+  background-color: #fce8e6;
+  color: #d93025;
+  border-color: #d93025;
+}
+
+.internship_profile_supervision_label {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.internship_profile_supervision_label_text {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.internship_profile_supervision_label_text.guided {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.internship_profile_supervision_label_text.unsupervised {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+.internship_profile_status_section {
+  flex: 1;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.internship_profile_status_badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background-color: #fee2e2;
+  color: #dc2626;
+  border-radius: 9999px;
+  font-size: 12px;
+}
+
+.internship_profile_views_count {
+  flex: 1;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.internship_profile_action_section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.internship_profile_applicants_btn {
+  padding: 8px 16px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.internship_profile_applicants_btn:hover {
+  background-color: #1d4ed8;
+}
+
+.internship_profile_edit_btn {
+  padding: 8px 16px;
+  background-color: #6b7280;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.internship_profile_edit_btn:hover {
+  background-color: #4b5563;
+}
+
+.internship_profile_pagination {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .internship_profile_container {
+    padding: 0 1rem;
+  }
+  .internship_profile_card_content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

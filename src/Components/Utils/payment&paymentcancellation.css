@@ -1,0 +1,17 @@
+.teal{
+    background-color: #ffc952 !important;
+    color: #444444 !important;
+  }
+  .message{
+    text-align: left;
+  }
+  .price1{
+      font-size: 40px;
+      font-weight: 200;
+      display: block;
+      text-align: center;
+  }
+  .ui.message p {margin: 5px;}
+  .cstm-wdth{
+    width: 100%;
+  }

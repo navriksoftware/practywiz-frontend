@@ -1,0 +1,28 @@
+.case-navbar {
+  display: flex;
+  position: sticky;
+  top: 4rem;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1px 0 36px 0;
+  padding: 16px 9%;
+  z-index: 100;
+  background-color: whitesmoke;
+}
+
+.cart-icon {
+  position: relative;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.cart-icon span {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  padding: 3px 6px;
+  font-size: 0.4em;
+}

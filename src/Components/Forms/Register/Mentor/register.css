@@ -1,0 +1,510 @@
+#menteeRegistrationlink {
+  cursor: pointer;
+}
+
+.regis_background {
+  padding: 4rem 0px 3rem 0px;
+}
+
+header .navbar.mt-3 {
+  margin-top: 0 !important;
+  transition: 0.3s ease-in-out;
+}
+header .navbar.mx-4 {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  transition: 0.3s ease-in-out;
+}
+header .iugeuirrr .udgehrr .cdsfsdvnghff .form-control {
+  padding: 0.5rem 3.8rem 0.5rem 1.5rem;
+  transition: 0.3s ease-in-out;
+}
+
+.bg-light {
+  background-color: transparent !important;
+}
+
+.d-t:focus {
+  box-shadow: none !important;
+}
+
+.csfvgdtrfs .radio-input {
+  visibility: hidden;
+}
+.csfvgdtrfs .radio-label {
+  position: relative;
+  padding-left: 25px;
+}
+.csfvgdtrfs .radio-label:after {
+  content: "";
+  display: block;
+  width: 11px;
+  height: 11px;
+  margin-top: 8px;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  border-radius: 50%;
+}
+.csfvgdtrfs .radio-border {
+  width: 15px;
+  height: 15px;
+  margin-top: 8px;
+  display: inline-block;
+  outline: solid 2px var(--main-orange-color);
+  border-radius: 50%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.csfvgdtrfs .radio-input:checked + .radio-label:after {
+  transition: all 0.5s;
+  background-color: var(--main-orange-color);
+}
+
+.span222 {
+  color: var(--main-orange-color) !important;
+}
+
+.ihduwfr_form_wrapper {
+  height: 25rem;
+  overflow-y: initial;
+  overflow-x: initial;
+  padding: 0.8rem;
+}
+
+#mentorRegisterBg {
+  background: url("../../../../Images/Mentors/iuihnierr.png") no-repeat;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.regis_background {
+  padding: 9rem 0px 3rem 0px;
+}
+.bjuerirr_btn .juybeubrer_btn {
+  font-size: 1.2rem;
+  padding: 0.7rem 4rem;
+  background: #0255ca;
+}
+#form1 .bjuerirr_btn {
+  justify-content: flex-end;
+}
+.ikhwnjrr_right .hinrer_circle {
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
+  background: #063880;
+}
+.ikhwnjrr_right .hinrer_circle h2 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 3rem;
+}
+.idhnerier_right h6 {
+  color: #707070;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.iuhieiuihaw_left.sticky-top {
+  top: 8% !important;
+}
+.regis_background .iuhieiuihaw_left h3 {
+  line-height: 1.5;
+  font-size: 30px;
+}
+.regis_background .iuhieiuihaw_left h5 {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.ihduwfr_form_wrapper #outside-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ihduwfr_form_wrapper #container {
+  width: 100%;
+  height: 200px;
+  border: 2px solid #000;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #acaeaf !important;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ihduwfr_form_wrapper .iduehnbriee_text {
+  color: red;
+  font-style: italic;
+}
+
+.ihduwfr_form_wrapper .draggable {
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  font-family: var(--font-family-lato);
+  border: 1px solid #8a8a8a;
+  text-align: center;
+  margin: 10px 5px;
+  cursor: move;
+  color: #696969;
+  position: relative;
+  font-weight: 600;
+}
+
+.ihduwfr_form_wrapper #container .draggable {
+  padding: 10px 20px 10px 30px;
+  height: max-content;
+}
+
+.ihduwfr_form_wrapper .close-btn {
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  background-color: #fff;
+  color: red;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.8rem;
+}
+
+.ihduwfr_form_wrapper .draggable.inside .close-btn {
+  display: block;
+}
+
+.moideuirer_list li {
+  list-style-type: none;
+  list-style-position: outside;
+  padding: 5px;
+  float: left;
+}
+
+.moideuirer_list input[type="checkbox"]:not(:checked),
+.moideuirer_list input[type="checkbox"]:checked {
+  position: absolute;
+  left: -9999%;
+}
+
+.moideuirer_list input[type="checkbox"] + label {
+  display: inline-block;
+  padding: 5px 25px;
+  cursor: pointer;
+  border: 2px solid #afafaf;
+  color: #696969;
+  font-weight: 600;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.moideuirer_list input[type="checkbox"]:checked + label {
+  border: 2px solid #4064ac;
+  color: #4064ac;
+  background-color: #fff;
+}
+
+.dkjiherer input[type="checkbox"] + label {
+  border-radius: 50px;
+}
+
+.iudhehrnbeer_btn {
+  background: #fff !important;
+  border: 2px solid #000 !important;
+  color: #000 !important;
+  font-size: 1.2rem !important;
+  padding: 0.7rem 4rem !important;
+  font-family: var(--font-family-lato) !important;
+}
+
+.iudhehrnbeer_btn:hover {
+  color: #000 !important;
+}
+
+select,
+option {
+  font-family: var(--font-family-lato);
+}
+
+.regis_background .iuhieiuihaw_left ul li {
+  list-style: none;
+}
+.regis_background .iuhieiuihaw_left ul li i {
+  color: var(--main-orange-color);
+  margin-right: 14px;
+  font-size: 1.4rem;
+}
+.regis_background .iuhieiuihaw_left ul li p a {
+  text-decoration: underline !important;
+}
+.regis_background .iuhieiuihaw_right {
+  border-radius: 25px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  border: 1px solid #d8d5d5;
+  margin: 0 1rem;
+}
+.regis_background .iuhieiuihaw_right .uherrr_text p {
+  font-size: 1rem;
+  color: var(--main-header-text-color);
+}
+.regis_background .iuhieiuihaw_right .uherrr_text p a {
+  text-decoration: underline !important;
+  color: var(--main-orange-color) !important;
+}
+.iuhieiuihaw_right .form-label {
+  font-weight: 700;
+  line-height: 1.28;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+.iuhieiuihaw_right .form-control {
+  padding: 1rem 1rem;
+  border-radius: 10px;
+}
+.iuhieiuihaw_right .form-control::-moz-placeholder {
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.44;
+}
+.iuhieiuihaw_right .form-control::placeholder {
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.44;
+}
+.iuhieiuihaw_right .form-check-label {
+  font-size: 0.8rem;
+  line-height: 1.57;
+  color: #000;
+}
+.iuhieiuihaw_right .form-check-label a {
+  text-decoration: underline !important;
+  color: var(--main-orange-color) !important;
+  font-weight: 600;
+}
+.iuhieiuihaw_right .form-check-input {
+  border-radius: 3px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  border: solid 1px var(--main-orange-color);
+}
+.iuhieiuihaw_right .form-check-input:checked {
+  background-color: var(--main-orange-color);
+}
+.csfvgdtrfs i {
+  color: var(--main-orange-color);
+  font-size: 1.4rem;
+  right: 1rem;
+  top: 2.9rem;
+}
+.csfvgdtrfs .radio-label i {
+  font-size: 1.2rem;
+}
+.dieyhr_iuhfiderr .btn-main {
+  background: transparent !important;
+  color: var(--main-light-black-text-color);
+}
+form .dieyhr_iuhfiderr .btn-main:first-child {
+  border: solid 3px #4064ac;
+  margin-right: 1.4rem;
+}
+.step h4 {
+  font-size: 1.2rem;
+}
+.step h4 img {
+  width: 1.8rem;
+  border: 2px solid #1b759a;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px -3px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.iti--allow-dropdown {
+  display: block !important;
+}
+
+.iti--allow-dropdown #phone {
+  width: 100%;
+  border-radius: 5px;
+  padding-top: 0.375em;
+  padding-bottom: 0.375em;
+  border: 1px dashed #acaeaf !important;
+}
+
+.dieyhr_iuhfiderr .btn-main:last-child {
+  border: solid 3px #cf2c1f;
+}
+.uidherrrr_anchor {
+  text-decoration: underline !important;
+  color: var(--main-orange-color) !important;
+}
+.regis_background .iuhieiuihaw_right .ihduwfr_form_wrapper .btn-main {
+  width: 100%;
+}
+
+.tagify__input {
+  font-family: var(--font-family-lato);
+}
+
+.fiurhetit_tag_input .form-control {
+  padding: 0.5rem 0.5rem !important;
+}
+
+.digheirer h4 {
+  position: relative;
+  color: #858585;
+}
+
+.cihseriniewr #rdo1,
+#rdo4,
+#rdo7 {
+  position: absolute;
+}
+
+.jdoieoir_wrapper {
+  width: 60%;
+  margin: auto;
+}
+.jdoieoir_wrapper .tab {
+  display: none;
+}
+.jdoieoir_wrapper .active {
+  display: block;
+}
+
+.jdoieoir_wrapper #tabs button {
+  width: 100%;
+  margin-right: 10px;
+  background: transparent !important;
+  border-radius: 50px;
+  border: 2px solid #a5a5a5;
+  color: #595959;
+  font-family: var(--font-family-lato);
+  letter-spacing: 1px;
+}
+
+.jdoieoir_wrapper #tabs button:last-child {
+  margin-right: 0;
+}
+
+.jdoieoir_wrapper #tabs button.active {
+  border: 2px solid #000;
+  color: #000;
+  font-weight: 600;
+}
+
+.jdoieoir_wrapper #tabs button.active i {
+  color: #0255ca;
+}
+
+.jdoieoir_wrapper .idneihrrr {
+  background: #ebf5ff;
+  border-radius: 10px;
+}
+
+.jdoieoir_wrapper .idneihrrr h5 {
+  color: #063880;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.csfvgdtrfs .vcetgvfeeeee {
+  border-radius: 50px;
+  background: #fff !important;
+  border: 3px solid #4064ac;
+  color: #000;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.juybeubrer_btn {
+  font-family: var(--font-family-lato);
+}
+
+.jdoieoir_wrapper .ihduwfr_form_wrapper .form-control,
+.jdoieoir_wrapper .iti--allow-dropdown #phone {
+  border: 1px solid #acaeaf !important;
+}
+
+.error-msg {
+  color: red;
+}
+
+.moideuirer_list input[type="radio"] + label {
+  display: inline-block;
+  padding: 5px 25px;
+  cursor: pointer;
+  border: 2px solid #afafaf;
+  color: #696969;
+  font-weight: 600;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+
+label:hover {
+}
+.country-flag {
+  width: 15rem;
+  position: absolute;
+  vertical-align: inherit;
+  padding-bottom: 5px;
+  text-align: left;
+  z-index: 2;
+}
+
+
+.SignupStyleBox {
+  position: relative;
+  margin-top: 42px;
+  padding: 20px;
+  border: 1.5px solid #a5a5a5;
+  border-radius: 5px;
+  border-top-left-radius: 0px;
+}
+
+.sign-up-btn {
+  position: absolute;
+  top: -41px;
+  left: -1px;
+  padding: 10px 20px;
+  background-color: #0255ca;
+  color: white;
+  border: 1.5px solid #a5a5a5;
+  font-weight: bold;
+  font-family: "lato";
+  cursor: pointer;
+  border-bottom: none;
+  border-top-right-radius: 25px;
+  border-top-left-radius: 5px;
+}
+
+.ghaddhdwhk{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.RedColorStarMark{
+  color: red;
+  font-size: larger;
+}
+.whiteColorStarMark{
+  color: rgb(255, 255, 255);
+  font-size: larger;
+}
+
+.ghhduenee{
+  color: #0255ca;
+  font-style: italic;
+}
+.djssjbfe{
+  margin-bottom: 20px;
+}
+.jhjhjujh{
+  text-align: center;
+}

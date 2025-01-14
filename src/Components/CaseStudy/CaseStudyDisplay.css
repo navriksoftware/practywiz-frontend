@@ -1,0 +1,132 @@
+.head-clr {
+  color: transparent;
+  background: linear-gradient(45deg, #0074d9, #00aeef);
+  background-clip: text;
+  text-rendering: geometricPrecision;
+  font-size: 32px;
+}
+
+.case-study-display-container {
+  width: 85%;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.case-study-display-container > h1 {
+  margin: 1.2rem auto;
+  text-align: center;
+}
+
+.case-study-card {
+  background-color: #fff;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.bright-border {
+  padding: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.case-study-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.case-study-text {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.case-study-text > p > strong {
+}
+
+.case-study-text > p {
+  font-size: 1.2rem;
+}
+
+.case-study-text > p > ul > li {
+  font-size: inherit;
+}
+
+.case-study-video {
+  width: 50%;
+}
+
+.case-study-video > video {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.case-btn-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
+.see-case-btn {
+  background-color: #0074d9;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: #2896f6;
+  }
+}
+
+.add-to-cart,
+.go-to-cart {
+  background-color: #121212;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: #414141;
+  }
+}
+
+.buy-now {
+  background-color: #0ac800;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: #1d9a16;
+  }
+}
+
+.full-star {
+  color: #f5c518;
+}
+
+.half-star {
+  color: #f5c518;
+}
+
+.empty-star {
+  color: #ddd;
+}
+
+.star-icon {
+  margin-right: 2px;
+  font-size: 1rem;
+}

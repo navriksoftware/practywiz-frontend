@@ -1,0 +1,126 @@
+.case-study-display-container {
+  width: 85%;
+  margin: 0 auto;
+  padding: 30px 15px;
+  font-family: "Roboto", sans-serif;
+  background-color: #f0f4f8;
+}
+
+.case-study-display-container > h1 {
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 4.5yrem;
+  font-weight: 900;
+  color: #333;
+  letter-spacing: 1.2px;
+  background: linear-gradient(90deg, #0074d9, #00a8ff);
+
+  background-clip: text;
+  color: transparent;
+}
+
+.case-study-card {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  padding: 30px;
+  margin-bottom: 40px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  border-left: 6px solid #0074d9;
+}
+
+.case-study-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.case-study-card > h2 {
+  margin-top: 0;
+  font-size: 1.9rem;
+  color: #444;
+  letter-spacing: 0.5px;
+
+  background: linear-gradient(90deg, #0074d9, #00a8ff);
+
+  background-clip: text;
+  color: transparent;
+}
+
+.case-study-card > hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 20px 0;
+}
+
+.case-study-card > p {
+  font-size: 1.15rem;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+.case-study-card > strong {
+  font-weight: 700;
+  color: #333;
+}
+
+.case-study-card > ul {
+  list-style-type: disc;
+  margin-left: 25px;
+  color: #444;
+  padding-left: 20px;
+}
+
+.case-study-card > ul > li {
+  margin-bottom: 10px;
+  font-size: 1.15rem;
+  color: #444;
+}
+
+.read-more-btn {
+  background-color: #0074d9;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.read-more-btn:hover {
+  background-color: #2896f6;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .case-study-display-container {
+    width: 95%;
+    padding: 20px 10px;
+  }
+
+  .case-study-card {
+    padding: 20px;
+  }
+
+  .case-study-display-container > h1 {
+    font-size: 2.4rem;
+  }
+
+  .case-study-card h2 > {
+    font-size: 1.6rem;
+  }
+
+  .case-study-card > p,
+  .case-study-card > ul > li {
+    font-size: 1rem;
+  }
+
+  .read-more-btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+}

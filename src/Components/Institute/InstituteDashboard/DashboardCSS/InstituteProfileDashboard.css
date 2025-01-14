@@ -1,0 +1,250 @@
+.institute-main-content {
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 20px;
+  height: auto;
+  font-family: "Poppins", sans-serif;
+}
+
+.institute-name {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.institute-left-side {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.institute-summary-cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.institute-card {
+  background: linear-gradient(135deg, #0255c5, #00ccce);
+  padding: 25px;
+  border-radius: 10px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.institute-card-icon i {
+  font-size: 50px;
+  color: #fff;
+  opacity: 0.5;
+}
+
+.institute-card-info {
+  text-align: left;
+}
+
+.institute-card-info h2 {
+  margin: 0;
+  font-size: 42px;
+  color: #fff;
+}
+
+.institute-card-info p {
+  margin: 0;
+  font-size: 16px;
+  color: #ffffff93;
+  line-height: normal;
+}
+
+
+.institute-bar-chart {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: auto;
+}
+
+.institute-chart-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  padding: 1rem;
+}
+
+.institute-bar-chart-canva {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.institute-right-side {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.institute-top-alumni {
+  background-color: #ffffff;
+  height: 370px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+}
+
+.intitute-alumni-avatar {
+  font-size: 20px;
+}
+
+.institute-alumni-names {
+  margin-left: 20px;
+  line-height: normal;
+  display: flex;
+  flex-direction: column;
+}
+
+.institute-alumni-designation {
+  color: #00000094;
+}
+
+.institute-top-alumni h3 {
+  margin-bottom: 10px;
+}
+
+.institute-top-alumni ul {
+  list-style: none;
+  padding: 0;
+}
+
+.institute-top-alumni li {
+  padding: 10px 0;
+  align-content: center;
+  display: flex;
+}
+
+.institute-percentage-alumni {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.institute-circle-chart {
+  position: relative;
+  display: flex;
+  align-self: center;
+  width: 160px;
+  height: 160px;
+  margin-top: 10px;
+}
+
+.institute-percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+}
+
+@media (max-width: 1200px) {
+  .institute-main-content {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .institute-summary-cards {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .institute-card {
+    flex: 1 1 calc(50% - 10px);
+  }
+
+  .institute-card-info h2 {
+    font-size: 28px;
+  }
+
+  .institute-card-icon {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .institute-main-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .institute-summary-cards {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  .institute-card {
+    justify-content: space-around;
+  }
+
+  .institute-chart-container {
+    height: 300px;
+  }
+
+  .institute-circle-chart {
+    width: 200px;
+    height: 200px;
+  }
+
+  .institute-percentage {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .institute-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .institute-header-search {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .institute-main-content {
+    padding: 1rem;
+  }
+
+  .institute-summary-cards {
+    gap: 10px;
+  }
+
+  .institute-card {
+    text-align: center;
+    padding: 15px;
+  }
+
+  .institute-card-info h2 {
+    font-size: 24px;
+  }
+
+  .institute-bar-chart {
+    padding: 15px;
+  }
+
+  .institute-circle-chart {
+    width: 100px;
+    height: 100px;
+  }
+
+  .institute-percentage {
+    font-size: 18px;
+  }
+}

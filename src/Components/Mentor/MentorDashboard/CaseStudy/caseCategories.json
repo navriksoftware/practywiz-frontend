@@ -1,0 +1,58 @@
+{
+  "caseCategories": [
+    { "value": "telecom", "label": "Telecom" },
+    { "value": "retail", "label": "Retail and consumer goods" },
+    { "value": "financial-services", "label": "Financial service sector" },
+    { "value": "agriculture", "label": "Agriculture sector" },
+    {
+      "value": "media-entertainment",
+      "label": "Media, entertainment, and professional sports"
+    },
+    { "value": "transportation", "label": "Transportation and distribution" },
+    { "value": "pharmaceutical", "label": "Pharmaceutical industry" },
+    { "value": "business-consulting", "label": "Business consulting services" },
+    { "value": "real-estate", "label": "Real estate industry" },
+    { "value": "energy", "label": "Energy and natural resources sector" },
+    { "value": "professional-sports", "label": "Professional sports industry" },
+    { "value": "fabrication", "label": "Fabrication and manufacturing" },
+    { "value": "consumer-services", "label": "Consumer services" },
+    { "value": "hr-services", "label": "Human resource services" },
+    { "value": "healthcare", "label": "Healthcare sector" },
+    { "value": "construction", "label": "Construction and engineering" },
+    { "value": "food-beverage", "label": "Food and beverage sector" },
+    { "value": "aerospace-defense", "label": "Aerospace and defense sector" },
+    { "value": "travel-tourism", "label": "Travel and tourism industry" },
+    {
+      "value": "it-telecom",
+      "label": "Information technology and telecom sector"
+    },
+    { "value": "advertising", "label": "Advertising industry" },
+    { "value": "professional-services", "label": "Professional services" },
+    {
+      "value": "public-administration",
+      "label": "Public administration and nonprofits"
+    },
+    { "value": "legal", "label": "Legal services industry" },
+    { "value": "education", "label": "Education institutions" },
+    { "value": "marketing", "label": "Marketing industry" },
+    { "value": "business-services", "label": "Business services sector" },
+    { "value": "media", "label": "Media industry" },
+    {
+      "value": "goods-trade-consumer",
+      "label": "Goods, trade, and consumer services"
+    },
+    { "value": "industrial", "label": "Industrial sector" },
+    {
+      "value": "business-admin-support",
+      "label": "Business administration and support services"
+    },
+    { "value": "airline", "label": "Airline industry" },
+    { "value": "aircraft-manufacturing", "label": "Aircraft manufacturing" },
+    { "value": "aerospace", "label": "Aerospace sector" },
+    { "value": "military", "label": "Military" },
+    { "value": "public-relations", "label": "Public relations industry" },
+    { "value": "retail-trade", "label": "Retail trade" },
+    { "value": "educational-services", "label": "Educational services" },
+    { "value": "space-vehicles", "label": "Space vehicles" }
+  ]
+}

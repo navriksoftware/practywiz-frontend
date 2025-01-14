@@ -1,0 +1,73 @@
+.internship-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: #0255ca;
+  padding: 50px 0 0 0;
+  font-family: "Poppins", sans-serif;
+  margin: 30px;
+}
+
+.internship-content {
+  text-align: center;
+  animation: internshipFadeIn 2s ease-in-out;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(2, 85, 202, 0.3);
+  border: 1px solid rgba(2, 85, 202, 0.2);
+}
+
+.internship-heading {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  color: #0255ca;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  text-shadow: 2px 4px 10px rgba(2, 85, 202, 0.2);
+}
+
+.internship-message {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #333;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  text-align: center;
+}
+
+.animation-container {
+  margin-bottom: 2rem;
+}
+
+.internship-icon {
+  color: #0255ca;
+}
+
+@keyframes internshipFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .internship-heading {
+    font-size: 2.5rem;
+  }
+
+  .internship-message {
+    font-size: 1.2rem;
+  }
+
+  .animation-container {
+    width: 100%;
+  }
+}

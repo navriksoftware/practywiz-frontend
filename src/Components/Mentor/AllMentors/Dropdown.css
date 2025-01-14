@@ -1,0 +1,77 @@
+.filter-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.filter-button {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filter-button:hover {
+  background-color: #f0f0f0;
+}
+
+.filter-button img {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.filter-text {
+  margin-right: 8px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.filter-dropdown {
+  border: none;
+  background-color: transparent;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+}
+
+.filter-dropdown:focus {
+  outline: none;
+}
+
+.icon {
+  font-size: 18px;
+  color: #0066cc;
+  margin-right: 8px;
+}
+
+.icon-availability:before {
+  content: "🖥️";
+}
+.icon-experience:before {
+  content: "📊";
+}
+.icon-price:before {
+  content: "💰";
+}
+.icon-rating:before {
+  content: "⭐";
+}
+.btn-clear-availability-unique {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-clear-availability-unique:hover {
+  background-color: #005bb5;
+}

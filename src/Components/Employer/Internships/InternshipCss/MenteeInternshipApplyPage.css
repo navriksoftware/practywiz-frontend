@@ -1,0 +1,96 @@
+.resume {
+  font-family: Arial, sans-serif;
+  max-width: 70%;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+
+}
+
+.resume h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.resume p {
+  color: #666;
+  font-size: 14px;
+}
+
+.resume h2 {
+  font-size: 20px;
+  color: #333;
+  margin-top: 20px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.resume ul {
+  list-style: none;
+  padding: 0;
+}
+
+.education, .certificate, .work-experience {
+  margin-bottom: 15px;
+}
+
+.education strong, .certificate strong, .work-experience strong {
+  font-size: 16px;
+  color: #444;
+}
+
+.education p, .certificate p, .work-experience p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.resume span {
+  font-size: 14px;
+  color: #777;
+}
+.resume {
+  font-family: Arial, sans-serif;
+  padding: 20px 50px 20px 50px;
+  color: #333;
+}
+
+.resume h1 {
+  font-size: 2em;
+}
+
+.resume h2 {
+  margin-top: 20px;
+  font-size: 1.5em;
+}
+
+.resume ul {
+  list-style: none;
+  padding: 0;
+}
+
+.education, .certificate, .work-experience, .skill {
+  margin-bottom: 10px;
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.skill {
+  background-color: #f1f1f1;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.tag3847{
+  text-align: center;
+}
+.Internapplypage-row{
+  display: flex;
+  gap: 20px;
+}

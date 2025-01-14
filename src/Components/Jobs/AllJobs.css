@@ -1,0 +1,475 @@
+
+.aslkhghj {
+  padding: 10rem 0 5rem 0;
+  background: linear-gradient(
+    90deg,
+    rgb(45, 190, 219, 0.3) 20%,
+    rgb(45, 190, 219, 0.2) 52%,
+    rgb(45, 19, 201, 0.1) 92%
+  );
+}
+
+.knjghjfggfgfghgh input {
+  border: 1px solid #d9d9d9 !important;
+  font-family: var(--font-family-lato);
+}
+
+.sfgrwwe_btn .select-selected {
+  color: #000000;
+  cursor: pointer;
+  text-transform: initial;
+  display: flex;
+  align-items: center;
+  color: #636363;
+}
+
+.sfgrwwe_btn .select-selected:before {
+  position: relative;
+  content: "\f161";
+  font-family: "Font Awesome 6 Free";
+  padding: 0.2rem 0.4rem;
+  border-radius: 50%;
+  background: var(--main-orange-color);
+  display: -webkit-inline-box;
+  color: #fff;
+  margin-right: 0.5rem;
+}
+
+.sfgrwwe_btn .select-selected:after {
+  border-color: #000 transparent transparent transparent;
+  top: 1.2rem;
+}
+
+.sfgrwwe_btn .select-selected.select-arrow-active:after {
+  border-color: transparent transparent #000 transparent;
+  top: 0.8rem;
+}
+
+.cfbghed i {
+  color: var(--main-orange-color);
+}
+
+.jgfgfg {
+  text-align: center;
+  margin-top: 30px;
+}
+.jgfgfg h2 {
+  font-size: 40px;
+}
+
+.lkrhhdfgfdfgfhf {
+  width: 100%;
+  padding: 40px 0;
+  margin-bottom: 8rem;
+}
+
+.khgjfgfhg2252 {
+  background: #fafafa;
+  padding: 1.2rem;
+  height: 33rem;
+  overflow-y: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.khgjfgfhg2252.sticky-top {
+  top: 17%;
+}
+
+.dfdf2 {
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom: 4px;
+}
+
+.knjghjfggfgfghgh input[type="text"] {
+  width: 100%;
+  border: 1px solid #8b8989;
+  border-radius: 4px;
+  margin: 12px 0;
+  outline: none;
+  padding: 12px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+.knjghjfggfgfghgh input[type="text"]::-moz-placeholder {
+  font-size: 0.8rem !important;
+  color: #636363 !important;
+  font-family: var(--font-family-lato);
+  font-weight: 500 !important;
+}
+
+.knjghjfggfgfghgh input[type="text"]::placeholder {
+  font-size: 0.8rem !important;
+  color: #636363 !important;
+  font-family: var(--font-family-lato);
+  font-weight: 500 !important;
+  letter-spacing: 0.5px;
+}
+
+.knjghjfggfgfghgh input[type="text"]:focus {
+  border-color: dodgerBlue;
+  box-shadow: 0 0 8px 0 dodgerBlue;
+}
+
+.knjghjfggfgfghgh .inputWithIcon input[type="text"] {
+  padding-left: 2rem;
+}
+
+.knjghjfggfgfghgh .inputWithIcon {
+  position: relative;
+}
+
+.knjghjfggfgfghgh .inputWithIcon i {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  padding: 9px 8px;
+  color: var(--main-orange-color);
+  transition: 0.3s;
+}
+
+.knjghjfggfgfghgh .inputWithIcon input[type="text"]:focus + i {
+  color: dodgerBlue;
+}
+
+.knjghjfggfgfghgh .inputWithIcon.inputIconBg i {
+  background-color: #aaa;
+  color: #fff;
+  padding: 9px 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.knjghjfggfgfghgh .inputWithIcon.inputIconBg input[type="text"]:focus + i {
+  color: #fff;
+  background-color: dodgerBlue;
+}
+
+.label2 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  font-family: var(--font-family-lato);
+}
+
+.knjghjfggfgfghgh {
+  margin-bottom: 15px;
+}
+
+.njghbfgfhhg h4 {
+  font-size: 1.2rem;
+  margin: 1.2rem 0;
+}
+
+.khgjfgfhg2252 .knjghjfggfgfghgh:nth-of-type(3n-2) {
+  padding: 1.4rem 0;
+}
+
+.toggleSwitch span span {
+  display: none;
+}
+
+.toggleSwitch {
+  margin-left: 0 !important;
+}
+
+@media only screen {
+  .toggleSwitch {
+    display: inline-block;
+    height: 18px;
+    position: relative;
+    overflow: visible;
+    padding: 0;
+    margin-left: 50px;
+    cursor: pointer;
+    width: 40px;
+  }
+  .toggleSwitch * {
+    box-sizing: border-box;
+  }
+  .toggleSwitch label,
+  .toggleSwitch > span {
+    line-height: 20px;
+    height: 20px;
+    vertical-align: middle;
+  }
+  .toggleSwitch input:focus ~ a,
+  .toggleSwitch input:focus + label {
+    outline: none;
+  }
+  .toggleSwitch label {
+    position: relative;
+    z-index: 3;
+    display: block;
+    width: 100%;
+  }
+  .toggleSwitch input {
+    position: absolute;
+    opacity: 0;
+    z-index: 5;
+  }
+  .toggleSwitch > span {
+    position: absolute;
+    left: -50px;
+    width: 100%;
+    margin: 0;
+    padding-right: 50px;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .toggleSwitch > span span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    display: block;
+    width: 50%;
+    margin-left: 50px;
+    text-align: left;
+    font-size: 0.9em;
+    width: 100%;
+    left: 15%;
+    top: -1px;
+    opacity: 0;
+  }
+  .toggleSwitch a {
+    position: absolute;
+    right: 50%;
+    z-index: 4;
+    display: block;
+    height: 100%;
+    padding-top: 2px !important;
+    left: 2px;
+    width: 17px;
+    background-color: #fff;
+    border: 2px solid var(--main-orange-color);
+    border-radius: 100%;
+    transition: all 0.2s ease-out;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  .toggleSwitch > span span:first-of-type {
+    color: #ccc;
+    opacity: 1;
+    left: 45%;
+  }
+  .toggleSwitch > span:before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 50px;
+    top: -2px;
+    background-color: #fff;
+    border: 1px solid var(--main-orange-color);
+    border-radius: 30px;
+    transition: all 0.2s ease-out;
+  }
+  .toggleSwitch input:checked ~ a {
+    border-color: #fff;
+    left: 100%;
+    margin-left: -8px;
+  }
+  .toggleSwitch input:checked ~ span:before {
+    border-color: var(--main-orange-color);
+    box-shadow: inset 0 0 0 30px var(--main-orange-color);
+  }
+  .toggleSwitch input:checked ~ span span:first-of-type {
+    opacity: 0;
+  }
+  .toggleSwitch input:checked ~ span span:last-of-type {
+    opacity: 1;
+    color: #fff;
+  }
+}
+.gghfthghdf {
+  display: flex;
+  align-items: baseline;
+}
+
+.khgjfgf {
+  margin-left: 25px;
+}
+.khgjfgf p {
+  color: gray;
+  font-size: 16px;
+}
+
+.mkdfhgjgh h4,
+.kjghfhgj h4 {
+  font-size: 1.2rem;
+  margin: 1.2rem 0;
+}
+
+.csdfygtyy {
+  justify-content: end;
+}
+
+.csdfygtyy h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.dieirherr_btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dieirherr_btn button {
+  text-transform: initial !important;
+  line-height: 2rem;
+}
+
+.dieirherr_btn .sfgrwwe_btn {
+  background: #fff !important;
+  color: #636363;
+}
+
+.kjhfhffd {
+  display: flex;
+  margin-top: 45px;
+  align-items: baseline;
+}
+
+.mhgf1 i {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  padding-top: 10px;
+  color: gray;
+  border: 2px solid var(--main-orange-color);
+  border-radius: 50px;
+  margin-left: 15px;
+}
+
+.jhgjgf i {
+  color: #ee6c29;
+}
+
+.kjdfvghjdrbgdfgfd {
+  width: 100%;
+  padding: 40px 0;
+}
+
+.lghjgt {
+  margin-bottom: 25px;
+}
+.lghjgt h5 {
+  font-size: 25px;
+  color: black;
+  font-weight: 600;
+}
+.lghjgt p {
+  font-size: 16px;
+  color: gray;
+  line-height: 25px;
+}
+.lghjgt ul li {
+  font-size: 16px;
+  color: gray;
+  padding-bottom: 10px;
+  line-height: 25px;
+}
+
+.kfgjh i {
+  padding: 8px;
+  border-radius: 50px;
+  font-size: 18px;
+  border: 2px solid var(--main-orange-color);
+  color: var(--main-orange-color);
+}
+
+.kfgjh {
+  margin-left: 20px;
+}
+
+.jfgngjfgh {
+  display: flex;
+}
+
+.jfgngjfgh p {
+  font-weight: bold;
+}
+
+.kjdhjdrgfg {
+  margin-top: 15px;
+}
+.kjdhjdrgfg h5 {
+  font-size: 25px;
+  color: black;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+.kjdhjdrgfg p {
+  font-size: 17px;
+  color: #8b8989;
+}
+
+.oidjaioerr,
+.klfgf {
+  height: 10rem;
+  overflow-y: auto;
+  margin-bottom: 1.8rem;
+}
+
+.kjdfhjdfdffg {
+  padding: 15px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+.kjdfhjdfdffg h5 {
+  font-size: 22px;
+  color: black;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.fkghfgnhgjhg {
+  margin-top: 15px;
+}
+
+.fjhg {
+  display: flex;
+  margin-bottom: -10px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.fjhg h6 {
+  font-weight: 600;
+  font-size: 16px;
+  color: black;
+}
+.fjhg p {
+  font-size: 15px;
+  color: gray;
+}
+
+.nfhjdfghfdghf {
+  margin-top: -10px;
+}
+
+.hjgfjgfgf {
+  margin-top: -10px;
+}
+
+.fkjhgjfgf {
+  display: flex;
+  justify-content: space-between;
+}
+.fkjhgjfgf i {
+  color: var(--main-orange-color);
+  font-size: 14px;
+}
+.fkjhgjfgf p {
+  font-size: 16px;
+  color: gray;
+  font-weight: 500;
+}
+
+.fkjhgjfgf {
+  margin-top: 10px;
+}
+

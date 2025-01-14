@@ -1,0 +1,75 @@
+.tag2322 {
+  display: flex;
+  align-items: center;
+  width: 30%;
+}
+.w-5 {
+  width: 50%;
+}
+.tag26636 {
+  display: flex;
+
+  flex-direction: column;
+}
+.w-7 {
+  width: 70%;
+}
+.tag43763 {
+  margin-bottom: 1rem;
+  position: relative;
+  padding: 1rem;
+}
+.tag928 {
+  position: absolute;
+  right: 20px;
+  top: 5px;
+}
+.textend {
+  text-align: end;
+}
+.tag3678 {
+  display: flex;
+  gap: 20px;
+  width: fit-content;
+  margin: 2px 0px 15px 5px;
+}
+.tag2456 {
+  margin-top: 20px;
+}
+.tag4775 {
+  margin-left: 216px;
+}
+.w3-5 {
+  width: 35%;
+}
+.tag2334 {
+  display: flex;
+  align-items: baseline;
+  flex-direction: column;
+}
+.ml-1 {
+  margin-right: 10px;
+}
+
+.h-38px {
+  height: 38px;
+}
+.tga3843 {
+  display: flex;
+  gap: 40px;
+}
+
+.tag8273 {
+  margin-top: 17px;
+}
+.tag374 {
+  margin-top: 4px;
+}
+
+.react-tel-input .form-control {
+  background-color: #e9ecef !important;
+}
+
+.Edudetails_ApplyInterns .react-tel-input .form-control {
+  background-color: #e9ecef !important;
+}

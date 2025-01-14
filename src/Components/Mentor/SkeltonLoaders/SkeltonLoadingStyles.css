@@ -1,0 +1,83 @@
+.mentorDiv {
+  width: 100%;
+  margin: 20px;
+
+  border: 1px solid gainsboro;
+  border-radius: 10px !important;
+  margin-bottom: 40px;
+  background-color: #fff;
+  @media screen and (max-width: 868px) {
+    width: 50%;
+    margin: 0 auto 40px auto;
+  }
+  @media screen and (max-width: 668px) {
+    width: 90%;
+    margin: 0 auto 40px auto;
+  }
+}
+
+.mentorDownDiv {
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+.mentorImage {
+  width: 80% !important;
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.bookNowButtonDiv {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+}
+
+.mentorName {
+  text-transform: capitalize;
+  text-align: center;
+  padding-top: 10px;
+  font-size: 24px;
+  color: #111;
+}
+
+.skeleton {
+  opacity: 0.7;
+  animation: skelton-loading 1s linear infinite alternate;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+.skelton-text {
+  height: 20px;
+  width: 100%;
+  border-radius: 3px;
+}
+.skelton-text.width {
+  width: 80% !important;
+}
+@keyframes skelton-loading {
+  0% {
+    background-color: hsl(200, 20%, 80%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+@media screen and (max-width: 868px) {
+  .mentorDiv {
+    width: 100%;
+    margin: 0 0 40px 0;
+  }
+  .mentorImage {
+    width: 200px !important;
+    height: 200px;
+  }
+  .bookNowButton {
+    margin-bottom: 16px;
+  }
+}

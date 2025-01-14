@@ -1,0 +1,180 @@
+.single-intern-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.single-intern-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  color: #0369a1;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.single-intern-back-btn:hover {
+  color: #075985;
+}
+
+.single-intern-header {
+  margin-top: 24px;
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.single-intern-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 12px;
+  text-transform: capitalize;
+}
+
+.single-intern-company {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4b5563;
+  margin-bottom: 16px;
+  text-transform: capitalize;
+}
+
+.single-intern-meta {
+  display: flex;
+  gap: 24px;
+}
+
+.single-intern-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b7280;
+}
+
+.single-intern-apply-btn {
+  padding: 12px 24px;
+  background: #0255ca;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.single-intern-apply-btn:hover {
+  background: #2563eb;
+}
+
+.single-intern-content {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+.single-intern-section {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.single-intern-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+.single-intern-text {
+  color: #4b5563;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.single-intern-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  color: #4b5563;
+}
+
+.single-intern-list-item {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.single-intern-skills,
+.single-intern-perks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.single-intern-skill-tag {
+  padding: 6px 12px;
+  background: #f3f4f6;
+  color: #111827;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.single-intern-perk-tag {
+  padding: 6px 12px;
+  background: #f0f9ff;
+  color: #0369a1;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.single-intern-sidebar {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.single-intern-company-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.single-intern-company-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .single-intern-content {
+    grid-template-columns: 1fr;
+  }
+
+  .single-intern-meta {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .single-intern-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .single-intern-apply-btn {
+    width: 100%;
+  }
+}

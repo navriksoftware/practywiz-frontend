@@ -1,0 +1,265 @@
+#menteeBackgroundCover {
+  background-color: #244e92;
+}
+.mt70 {
+  margin-top: 70px;
+}
+
+.ljrfhf i {
+  color: var(--main-orange-color);
+  padding: 10px;
+  background-color: white;
+  border-radius: 50px;
+  margin-top: 15px;
+}
+
+.dfhhdfjgdfgf button i {
+  padding-left: 5px !important;
+  padding-right: 5px;
+}
+
+.ghvfvdfgg {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.gjnjfghg h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: rgb(2, 2, 2);
+  border-bottom: 1px solid rgb(191, 191, 191);
+}
+
+.njfgfghf i {
+  color: var(--main-orange-color);
+  padding: 10px;
+  box-shadow: 0 4px 4px 0 rgba(238, 108, 41, 0.25);
+  border-radius: 10px;
+  width: 2.3rem;
+  height: 2.3rem;
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 5px;
+}
+
+.gjfhg {
+  width: 25px;
+  height: 25px;
+  margin-top: 5px;
+}
+
+.gjfhg img {
+  width: 100%;
+}
+
+.hfuydfgftgh p {
+  color: var(--main-light-black-text-color);
+  line-height: 1.4;
+}
+
+.iijieirr_left {
+  width: 15rem;
+  height: 15rem;
+  border-radius: 50%;
+  border: 8px solid #fff;
+  transform: translateY(1rem);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.iijieirr_left img {
+  object-fit: contain;
+  transform: scale(1.3);
+  margin-top: 20px;
+}
+
+.csdpeijf {
+  align-items: end;
+  padding-top: 4rem;
+  transform: translateY(1.5rem);
+}
+
+.ihurtf_btn .btn i {
+  font-size: 1.2rem;
+}
+
+.spnrr {
+  color: #000 !important;
+  font-weight: 600;
+}
+
+.spnn45 {
+  color: var(--main-orange-color);
+  font-weight: 600;
+}
+
+.jgufgfhghjg h4 {
+  padding-top: 15px;
+  font-size: 1.6rem;
+  border-bottom: 1px solid rgb(181, 180, 180);
+  display: inline-block;
+}
+
+.hjuyfgdfggh button {
+  padding: 5px 15px;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  color: var(--main-light-black-text-color);
+  font-family: var(--font-family-lato);
+  background-color: white;
+  border: 1px solid #d2d2d2;
+  margin: 5px 5px;
+}
+
+.jnfhujydfgfghfh {
+  margin-top: 15px;
+}
+
+.mgjhg {
+  width: 30px;
+  height: 30px;
+}
+.mgjhg img {
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  border-radius: 50px;
+  box-shadow: 0 4px 4px 0 rgba(238, 108, 41, 0.25);
+}
+
+.lgjgf {
+  display: flex;
+  align-items: baseline;
+}
+.lgjgf h3 {
+  border-bottom: 1px solid rgb(198, 194, 194);
+  font-size: 1.6rem;
+  letter-spacing: 0 !important;
+}
+
+.lgjgf2 {
+  display: flex;
+  align-items: baseline;
+}
+.lgjgf2 h3 {
+  color: #000;
+  border-bottom: 1px solid rgb(198, 194, 194);
+  font-size: 1.6rem;
+  letter-spacing: 0 !important;
+}
+
+.lgjgf3 {
+  display: flex;
+  align-items: baseline;
+}
+.lgjgf3 h3 {
+  color: #000;
+  border-bottom: 1px solid rgb(198, 194, 194);
+  font-size: 1.6rem;
+  letter-spacing: 0 !important;
+}
+
+.gfgh h6 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 0;
+  font-family: var(--font-family-lato);
+}
+.gfgh p {
+  color: var(--light-highlighted-text-color);
+  padding-top: 5px;
+  line-height: 1.78;
+  letter-spacing: 0.5px;
+}
+
+.info-code {
+  cursor: pointer;
+}
+
+.info-code:hover {
+  color: salmon;
+}
+
+.pie-text-1 {
+  font-family: var(--font-family-lato);
+  font-weight: 800;
+}
+
+[type="range"] {
+  width: 200px;
+}
+
+[data-pie-index="2"] {
+  position: relative;
+  border-radius: 50%;
+  box-shadow: inset 0 0 25px 10px #a2caff;
+}
+
+[data-pie-index="16"] {
+  position: relative;
+  border-radius: 50%;
+  box-shadow: inset 0 0 25px 10px #f50057;
+}
+
+.duiegrrrr_wrapper h5 {
+  color: #000;
+  font-weight: 600;
+}
+
+.dfkjbgdfgg {
+  padding: 0.9rem;
+  border: 1px solid gainsboro;
+  border-radius: 10px;
+}
+.dfkjbgdfgg hr {
+  margin-bottom: 8px;
+  margin-top: -10px;
+  background-color: rgb(139, 134, 134) !important;
+}
+
+.nggh {
+  text-align: center;
+}
+.nggh h5 {
+  color: #000;
+  font-weight: 600;
+}
+
+.jnhfgjhf {
+  width: 35px;
+  height: 35px;
+}
+.jnhfgjhf img {
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  border-radius: 50px;
+}
+.mfbghffghg h6 {
+  color: #000;
+  font-weight: 600;
+  font-family: var(--font-family-lato);
+}
+
+.dfkjbgdfgg .mfbghffghg:last-child {
+  border-bottom: 0;
+  padding-bottom: 0 !important;
+}
+
+.mfbghffghg {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--light-grey-border);
+}
+.EduBoxSub {
+  display: flex !important;
+  gap: 10px;
+  margin-top: 1rem;
+  padding-left: 2rem;
+}
+
+.hththtggh p {
+  color: #000 !important;
+}

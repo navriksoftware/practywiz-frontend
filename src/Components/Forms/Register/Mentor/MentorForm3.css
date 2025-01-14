@@ -1,0 +1,283 @@
+.whole {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.doiherner_wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.linesepration {
+  display: flex;
+  gap: 10rem;
+  width: max-content;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100% !important;
+}
+
+.dayColumn {
+  flex: 1;
+  display: flex;
+  gap: 6px;
+  margin-right: 24px;
+  flex-direction: column;
+}
+
+.daycolumns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  padding: 2px 30px;
+  background: rgba(217, 217, 217, 0.05);
+  border-radius: 7px;
+  border: 1px solid #afafaf;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-bottom: 10px;
+}
+
+.Timecolumn {
+  flex: 4;
+
+  flex-direction: column;
+  gap: 10px;
+  align-items: baseline;
+  overflow: auto;
+  justify-content: center;
+}
+
+.innertimeslot {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: space-evenly;
+  padding: 10px;
+  background: rgba(217, 217, 217, 0.05);
+  border: 0.5px solid #afafaf;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+.timeslots {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+  height: 40px;
+  border-radius: 10px;
+  align-items: center;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: fit-content;
+  margin-bottom: 10px;
+  background-color: rgb(233, 236, 239);
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.label-input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+h6 {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.12em;
+  color: #000000;
+  margin: 5px;
+}
+
+.line-1 {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 41px;
+  line-height: 49px;
+  text-align: center;
+  letter-spacing: 0.12em;
+  color: #444444;
+  margin-bottom: 25px;
+}
+
+.line-2 {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 23px;
+  text-align: center;
+  letter-spacing: 0.12em;
+  color: #444444;
+  margin-left: 3rem;
+}
+
+.line-3 {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 23px;
+  line-height: 30px;
+  text-align: center;
+  color: #444444;
+  width: 543px;
+  margin-right: 100px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 55px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.daycolumns .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  height: 27px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  top: 4px;
+  left: 4px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .dayColumn,
+  .Timecolumn {
+    flex: 1;
+    width: 100%;
+  }
+
+  .timeslots {
+    display: flex;
+
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .daycolumns {
+    justify-content: space-between;
+  }
+  .innertimeslot {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: space-evenly;
+    padding: 7px;
+    background: rgba(217, 217, 217, 0.05);
+    border: 0.5px solid #afafaf;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-bottom: 20px;
+    gap: 15px;
+
+    width: fit-content;
+  }
+}
+
+@media (max-width: 480px) {
+  .line-1 {
+    font-size: 1.5rem;
+  }
+
+  .line-2 {
+    font-size: 1.2rem;
+  }
+
+  .line-3 {
+    font-size: 1rem;
+  }
+
+  .dayLabel {
+    font-size: 1rem;
+  }
+
+  .toLabel {
+    margin: 10px 0;
+  }
+
+  .label-input {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .datePicker {
+    width: 100%;
+  }
+
+  .okButton {
+    width: 100%;
+  }
+}
+
+.slotrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.TimecolumnDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

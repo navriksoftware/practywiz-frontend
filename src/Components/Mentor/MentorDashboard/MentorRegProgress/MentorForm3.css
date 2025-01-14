@@ -1,0 +1,199 @@
+.AvailabilityMainContainer {
+  border: 1px solid gray;
+  position: relative;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+
+  background: rgba(217, 217, 217, 0.05);
+  border: 0.5px solid #afafaf;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.Availability-container {
+  display: flex;
+  justify-content: space-between;
+}
+.slot-container1 {
+  display: flex;
+  gap: 40px;
+  height: 5rem;
+  width: 7rem;
+}
+.slot-container2 {
+  display: flex;
+}
+
+.timeslot {
+  display: flex;
+  gap: 5px;
+}
+.date-availability {
+  width: min-content;
+}
+.availability-duration {
+  display: flex;
+  flex-direction: column;
+}
+.availability-day {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  font-family: "lato";
+}
+
+.availability-saveDiv {
+  display: flex;
+
+  bottom: 10px;
+  right: 10px;
+
+  justify-content: space-between;
+  align-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.save-btn {
+  background-color: #28a745;
+  font-family: "lato";
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.save-btn:hover {
+  background-color: #218838;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.save-btn:active {
+  background-color: #1e7e34;
+  transform: translateY(1px);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.save-btn:disabled {
+  background-color: #c3e6cb;
+  color: #6c757d;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.add-slot-btn {
+  font-family: "lato";
+  background-color: #0255ca; 
+  color: #fff; 
+  border: none; 
+  border-radius: 5px; 
+  padding: 10px 20px;
+  font-size: 16px; 
+  font-weight: bold;
+  cursor: pointer; 
+  transition: all 0.3s ease;
+  margin-top: 10px; 
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+
+.add-slot-btn:hover {
+  background-color: #0147a8;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+
+.add-slot-btn:active {
+  background-color: #013a87;
+  transform: translateY(1px);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+
+.add-slot-btn:disabled {
+  background-color: #b8d4f7; 
+  color: #6c757d; 
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.addBtnAvailability {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+
+.cross-btn:hover {
+  color: #c9302c;
+  background-color: none;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+  transform: scale(2.1);
+}
+.errorfont {
+  font-size: 14px;
+}
+.dropdownDay {
+  position: absolute;
+  background-color: #f9f9f9;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  top: 100%;
+  left: 0px;
+  width: 100%;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.custom-dropdown {
+  height: 23px;
+  background-color: white;
+  border: 0.5px solid black;
+  width: 10rem;
+  padding-top: 2px;
+  padding-left: 5px;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+.dropdownDayOption {
+  width: 100%;
+}
+.dropdownDayBox {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.react-datepicker__input-container input {
+
+  width: 70%;
+}
+
+
+.react-datepicker-wrapper {
+  width: 130px;
+}
+.dateAvialbility {
+  width: 100px;
+}
+
+.btnDays {
+  padding: 5px;
+  border: none;
+}
+.checkbox-item {
+  padding-left: 20px;
+  display: flex;
+  gap: 5px;
+}
+.dropdown-header {
+  width: 100%;
+}

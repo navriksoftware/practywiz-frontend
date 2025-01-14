@@ -1,0 +1,47 @@
+#singleMentorCoverPicture {
+  background-image: url("../../../Images/Mentors/ddd.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#disabledButton {
+  cursor: not-allowed;
+}
+.noReviewsFound {
+  color: #111;
+  margin: auto;
+  text-align: center;
+  padding: 10px 20px;
+}
+.mt-6 {
+  margin-top: 5rem;
+}
+
+.kukuddd {
+  text-align: center;
+  position: relative;
+}
+.fgtrbdhefg {
+  color: rgb(27, 99, 222);
+  font-size: 30px;
+  position: absolute;
+  top: 14px;
+  margin-left: 5px;
+}
+
+.ColSize {
+  width: 480px;
+}
+.slotOptionmetor {
+  width: 2rem;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: aliceblue;
+}
+.heightofdiv {
+  height: 3rem;
+  margin-left: 20px;
+}
+.MarginR {
+  margin-right: 8px;
+}

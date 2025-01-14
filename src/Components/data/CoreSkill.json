@@ -1,0 +1,837 @@
+[
+  {
+    "id": 1,
+    "name": "Technology & Software Development",
+    "sub_options": [
+      {
+        "id": 101,
+        "name": "Web Development",
+        "skills": [
+          { "id": 10101, "name": "HTML/CSS/JavaScript" },
+          { "id": 10102, "name": "React.js, Angular, Vue.js (Frontend)" },
+          { "id": 10103, "name": "Node.js, Django, Ruby on Rails (Backend)" },
+          { "id": 10104, "name": "RESTful API development" },
+          { "id": 10105, "name": "Web security (OWASP)" }
+        ]
+      },
+      {
+        "id": 102,
+        "name": "Mobile App Development",
+        "skills": [
+          { "id": 10201, "name": "iOS (Swift, Objective-C)" },
+          { "id": 10202, "name": "Android (Kotlin, Java)" },
+          { "id": 10203, "name": "Cross-platform (React Native, Flutter)" },
+          { "id": 10204, "name": "App Store Optimization (ASO)" }
+        ]
+      },
+      {
+        "id": 103,
+        "name": "Cloud Computing",
+        "skills": [
+          { "id": 10301, "name": "AWS, Google Cloud, Microsoft Azure" },
+          { "id": 10302, "name": "Cloud architecture and infrastructure" },
+          { "id": 10303, "name": "Containerization (Docker, Kubernetes)" },
+          { "id": 10304, "name": "Cloud security" }
+        ]
+      },
+      {
+        "id": 104,
+        "name": "Cybersecurity",
+        "skills": [
+          { "id": 10401, "name": "Network security" },
+          { "id": 10402, "name": "Ethical hacking and penetration testing" },
+          { "id": 10403, "name": "Incident response" },
+          { "id": 10404, "name": "Cryptography" }
+        ]
+      },
+      {
+        "id": 105,
+        "name": "Data Science & Machine Learning",
+        "skills": [
+          { "id": 10501, "name": "Python, R" },
+          { "id": 10502, "name": "Data visualization (Matplotlib, Seaborn)" },
+          {
+            "id": 10503,
+            "name": "Machine learning libraries (TensorFlow, PyTorch)"
+          },
+          { "id": 10504, "name": "Data processing (Pandas, NumPy)" },
+          { "id": 10505, "name": "Big Data (Hadoop, Spark)" }
+        ]
+      },
+      {
+        "id": 106,
+        "name": "Artificial Intelligence",
+        "skills": [
+          { "id": 10601, "name": "Natural Language Processing (NLP)" },
+          { "id": 10602, "name": "Computer vision" },
+          {
+            "id": 10603,
+            "name": "Deep learning frameworks (Keras, TensorFlow)"
+          },
+          { "id": 10604, "name": "Reinforcement learning" }
+        ]
+      },
+      {
+        "id": 107,
+        "name": "Blockchain Development",
+        "skills": [
+          { "id": 10701, "name": "Smart contracts (Solidity)" },
+          {
+            "id": 10702,
+            "name": "Cryptocurrencies and decentralized finance (DeFi)"
+          },
+          { "id": 10703, "name": "Distributed ledger technologies" },
+          {
+            "id": 10704,
+            "name": "Blockchain frameworks (Ethereum, Hyperledger)"
+          }
+        ]
+      },
+      {
+        "id": 108,
+        "name": "DevOps & Automation",
+        "skills": [
+          {
+            "id": 10801,
+            "name": "Continuous Integration/Continuous Deployment (CI/CD) tools (Jenkins, GitLab CI)"
+          },
+          {
+            "id": 10802,
+            "name": "Infrastructure as Code (IaC) (Terraform, Ansible)"
+          },
+          { "id": 10803, "name": "Monitoring & logging (Prometheus, Grafana)" }
+        ]
+      },
+      {
+        "id": 109,
+        "name": "Software Architecture",
+        "skills": [
+          { "id": 10901, "name": "Microservices architecture" },
+          { "id": 10902, "name": "Event-driven architecture" },
+          { "id": 10903, "name": "API design and integration" },
+          { "id": 10904, "name": "Scalability and performance optimization" }
+        ]
+      },
+      {
+        "id": 110,
+        "name": "UI/UX Design",
+        "skills": [
+          { "id": 11001, "name": "Prototyping tools (Figma, Sketch)" },
+          { "id": 11002, "name": "Wireframing and user flows" },
+          { "id": 11003, "name": "Design systems and guidelines" },
+          { "id": 11004, "name": "User research and personas" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Business & Management",
+    "sub_options": [
+      {
+        "id": 201,
+        "name": "Business Strategy",
+        "skills": [
+          { "id": 20101, "name": "SWOT Analysis" },
+          { "id": 20102, "name": "Market analysis" },
+          { "id": 20103, "name": "Competitive strategy" },
+          { "id": 20104, "name": "Business model development" }
+        ]
+      },
+      {
+        "id": 202,
+        "name": "Project Management",
+        "skills": [
+          { "id": 20201, "name": "Agile/Scrum methodologies" },
+          { "id": 20202, "name": "Gantt charts, roadmaps" },
+          { "id": 20203, "name": "Risk management" },
+          { "id": 20204, "name": "Stakeholder communication" }
+        ]
+      },
+      {
+        "id": 203,
+        "name": "Marketing & Branding",
+        "skills": [
+          { "id": 20301, "name": "Brand positioning" },
+          { "id": 20302, "name": "Campaign management" },
+          { "id": 20303, "name": "Content marketing" },
+          { "id": 20304, "name": "Influencer marketing" }
+        ]
+      },
+      {
+        "id": 204,
+        "name": "Financial Planning & Analysis",
+        "skills": [
+          { "id": 20401, "name": "Budgeting and forecasting" },
+          { "id": 20402, "name": "Cost control and financial analysis" },
+          { "id": 20403, "name": "Variance analysis" },
+          { "id": 20404, "name": "Profitability analysis" }
+        ]
+      },
+      {
+        "id": 205,
+        "name": "Human Resource Management",
+        "skills": [
+          { "id": 20501, "name": "Talent acquisition" },
+          { "id": 20502, "name": "Performance management systems" },
+          { "id": 20503, "name": "Employee relations" },
+          { "id": 20504, "name": "Leadership development" }
+        ]
+      },
+      {
+        "id": 206,
+        "name": "Operations & Supply Chain Management",
+        "skills": [
+          { "id": 20601, "name": "Lean manufacturing" },
+          { "id": 20602, "name": "Logistics management" },
+          { "id": 20603, "name": "Inventory optimization" },
+          { "id": 20604, "name": "Process improvement (Six Sigma)" }
+        ]
+      },
+      {
+        "id": 207,
+        "name": "Sales & Business Development",
+        "skills": [
+          { "id": 20701, "name": "Lead generation" },
+          { "id": 20702, "name": "CRM tools (Salesforce, HubSpot)" },
+          { "id": 20703, "name": "Negotiation skills" },
+          { "id": 20704, "name": "Sales funnel management" }
+        ]
+      },
+      {
+        "id": 208,
+        "name": "Product Management",
+        "skills": [
+          { "id": 20801, "name": "Product lifecycle management" },
+          { "id": 20802, "name": "Roadmapping" },
+          { "id": 20803, "name": "Customer journey mapping" },
+          { "id": 20804, "name": "Feature prioritization" }
+        ]
+      },
+      {
+        "id": 209,
+        "name": "Entrepreneurship",
+        "skills": [
+          { "id": 20901, "name": "Startup funding and investment" },
+          { "id": 20902, "name": "Business pitch creation" },
+          { "id": 20903, "name": "Product-market fit" },
+          { "id": 20904, "name": "MVP development" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Finance & Accounting",
+    "sub_options": [
+      {
+        "id": 301,
+        "name": "Corporate Finance",
+        "skills": [
+          { "id": 30101, "name": "Capital budgeting" },
+          { "id": 30102, "name": "Mergers and acquisitions" },
+          { "id": 30103, "name": "Financial modeling" },
+          { "id": 30104, "name": "Corporate governance" }
+        ]
+      },
+      {
+        "id": 302,
+        "name": "Auditing & Assurance",
+        "skills": [
+          { "id": 30201, "name": "Internal audit procedures" },
+          { "id": 30202, "name": "SOX compliance" },
+          { "id": 30203, "name": "Audit reporting" },
+          { "id": 30204, "name": "Risk-based auditing" }
+        ]
+      },
+      {
+        "id": 303,
+        "name": "Taxation & Compliance",
+        "skills": [
+          { "id": 30301, "name": "Corporate tax planning" },
+          { "id": 30302, "name": "Indirect tax (VAT, GST)" },
+          { "id": 30303, "name": "Tax law and regulations" },
+          { "id": 30304, "name": "Compliance frameworks" }
+        ]
+      },
+      {
+        "id": 304,
+        "name": "Investment Banking",
+        "skills": [
+          { "id": 30401, "name": "Mergers & Acquisitions (M&A)" },
+          { "id": 30402, "name": "Valuation techniques (DCF, comparable)" },
+          { "id": 30403, "name": "Financial advisory" },
+          { "id": 30404, "name": "Capital raising" }
+        ]
+      },
+      {
+        "id": 305,
+        "name": "Financial Risk Management",
+        "skills": [
+          { "id": 30501, "name": "Credit risk modeling" },
+          { "id": 30502, "name": "Market risk analysis (VaR)" },
+          { "id": 30503, "name": "Risk mitigation strategies" },
+          { "id": 30504, "name": "Derivatives and hedging" }
+        ]
+      },
+      {
+        "id": 306,
+        "name": "Wealth Management",
+        "skills": [
+          { "id": 30601, "name": "Portfolio management" },
+          { "id": 30602, "name": "Retirement planning" },
+          { "id": 30603, "name": "Asset allocation strategies" },
+          { "id": 30604, "name": "Investment advisory" }
+        ]
+      },
+      {
+        "id": 307,
+        "name": "Accounting Standards (GAAP/IFRS)",
+        "skills": [
+          { "id": 30701, "name": "Revenue recognition" },
+          { "id": 30702, "name": "Lease accounting" },
+          { "id": 30703, "name": "Financial statement analysis" },
+          { "id": 30704, "name": "Deferred tax accounting" }
+        ]
+      },
+      {
+        "id": 308,
+        "name": "Forensic Accounting",
+        "skills": [
+          { "id": 30801, "name": "Fraud investigation" },
+          { "id": 30802, "name": "Forensic audits" },
+          { "id": 30803, "name": "Litigation support" },
+          { "id": 30804, "name": "Financial dispute resolution" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Healthcare & Medical",
+    "sub_options": [
+      {
+        "id": 401,
+        "name": "General Medicine",
+        "skills": [
+          { "id": 40101, "name": "Patient care and diagnosis" },
+          { "id": 40102, "name": "Pharmacology" },
+          { "id": 40103, "name": "Pathophysiology" },
+          { "id": 40104, "name": "Clinical decision-making" }
+        ]
+      },
+      {
+        "id": 402,
+        "name": "Medical Research",
+        "skills": [
+          { "id": 40201, "name": "Clinical trial design" },
+          { "id": 40202, "name": "Data collection and analysis" },
+          { "id": 40203, "name": "Research ethics" },
+          { "id": 40204, "name": "Statistical methods in healthcare" }
+        ]
+      },
+      {
+        "id": 403,
+        "name": "Healthcare Management",
+        "skills": [
+          { "id": 40301, "name": "Hospital administration" },
+          { "id": 40302, "name": "Healthcare policy and regulations" },
+          { "id": 40303, "name": "Healthcare finance" },
+          { "id": 40304, "name": "Patient care quality management" }
+        ]
+      },
+      {
+        "id": 404,
+        "name": "Nursing",
+        "skills": [
+          { "id": 40401, "name": "Patient care plans" },
+          { "id": 40402, "name": "Critical care nursing" },
+          { "id": 40403, "name": "Patient advocacy" },
+          { "id": 40404, "name": "Community health nursing" }
+        ]
+      },
+      {
+        "id": 405,
+        "name": "Public Health",
+        "skills": [
+          { "id": 40501, "name": "Epidemiology" },
+          { "id": 40502, "name": "Health promotion and disease prevention" },
+          { "id": 40503, "name": "Biostatistics" },
+          { "id": 40504, "name": "Global health policies" }
+        ]
+      },
+      {
+        "id": 406,
+        "name": "Pharmacology",
+        "skills": [
+          { "id": 40601, "name": "Drug discovery and development" },
+          { "id": 40602, "name": "Clinical pharmacology" },
+          { "id": 40603, "name": "Pharmacodynamics and pharmacokinetics" },
+          { "id": 40604, "name": "Regulatory affairs" }
+        ]
+      },
+      {
+        "id": 407,
+        "name": "Telemedicine",
+        "skills": [
+          { "id": 40701, "name": "Remote patient monitoring" },
+          { "id": 40702, "name": "Virtual care delivery" },
+          { "id": 40703, "name": "Telehealth software tools" },
+          { "id": 40704, "name": "Regulatory and compliance issues" }
+        ]
+      },
+      {
+        "id": 408,
+        "name": "Clinical Psychology",
+        "skills": [
+          { "id": 40801, "name": "Behavioral therapy" },
+          { "id": 40802, "name": "Cognitive therapy" },
+          { "id": 40803, "name": "Psychological assessment" },
+          { "id": 40804, "name": "Mental health disorders" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Creative & Media",
+    "sub_options": [
+      {
+        "id": 501,
+        "name": "Graphic Design",
+        "skills": [
+          {
+            "id": 50101,
+            "name": "Adobe Creative Suite (Photoshop, Illustrator)"
+          },
+          { "id": 50102, "name": "Typography and color theory" },
+          { "id": 50103, "name": "Branding and logo design" },
+          { "id": 50104, "name": "Layout design" }
+        ]
+      },
+      {
+        "id": 502,
+        "name": "Video Production & Editing",
+        "skills": [
+          { "id": 50201, "name": "Adobe Premiere Pro, Final Cut Pro" },
+          { "id": 50202, "name": "Video scripting and storyboarding" },
+          { "id": 50203, "name": "Motion graphics and animation" },
+          { "id": 50204, "name": "Post-production editing" }
+        ]
+      },
+      {
+        "id": 503,
+        "name": "Photography",
+        "skills": [
+          { "id": 50301, "name": "DSLR and mirrorless cameras" },
+          { "id": 50302, "name": "Lighting techniques" },
+          {
+            "id": 50303,
+            "name": "Portrait, landscape, and product photography"
+          },
+          { "id": 50304, "name": "Photo editing (Lightroom, Photoshop)" }
+        ]
+      },
+      {
+        "id": 504,
+        "name": "Animation & Motion Graphics",
+        "skills": [
+          { "id": 50401, "name": "2D animation (After Effects)" },
+          { "id": 50402, "name": "3D modeling and animation (Blender, Maya)" },
+          { "id": 50403, "name": "Character design and rigging" },
+          { "id": 50404, "name": "Motion design and keyframing" }
+        ]
+      },
+      {
+        "id": 505,
+        "name": "Content Writing & Copywriting",
+        "skills": [
+          { "id": 50501, "name": "SEO copywriting" },
+          { "id": 50502, "name": "Blog writing" },
+          { "id": 50503, "name": "Sales copy and ad copy" },
+          { "id": 50504, "name": "Technical writing" }
+        ]
+      },
+      {
+        "id": 506,
+        "name": "Social Media Management",
+        "skills": [
+          { "id": 50601, "name": "Social media strategy" },
+          { "id": 50602, "name": "Content creation for social platforms" },
+          { "id": 50603, "name": "Social media analytics" },
+          { "id": 50604, "name": "Community management" }
+        ]
+      },
+      {
+        "id": 507,
+        "name": "Branding & Advertising",
+        "skills": [
+          { "id": 50701, "name": "Ad copywriting" },
+          { "id": 50702, "name": "Campaign planning and execution" },
+          { "id": 50703, "name": "Target audience analysis" },
+          { "id": 50704, "name": "Social media advertising" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Education & Training",
+    "sub_options": [
+      {
+        "id": 601,
+        "name": "Curriculum Development",
+        "skills": [
+          { "id": 60101, "name": "Curriculum mapping" },
+          { "id": 60102, "name": "Learning outcomes development" },
+          { "id": 60103, "name": "Course content creation" },
+          { "id": 60104, "name": "Assessment design" }
+        ]
+      },
+      {
+        "id": 602,
+        "name": "Educational Technology (EdTech)",
+        "skills": [
+          { "id": 60201, "name": "Learning management systems (LMS)" },
+          { "id": 60202, "name": "E-learning platforms (Moodle, Blackboard)" },
+          { "id": 60203, "name": "Gamification in education" },
+          { "id": 60204, "name": "Mobile learning solutions" }
+        ]
+      },
+      {
+        "id": 603,
+        "name": "E-Learning Design",
+        "skills": [
+          { "id": 60301, "name": "Instructional design models (ADDIE, SAM)" },
+          { "id": 60302, "name": "Storyboarding for e-learning" },
+          { "id": 60303, "name": "E-learning development tools (Articulate, Captivate)" },
+          { "id": 60304, "name": "Interactive multimedia learning" }
+        ]
+      },
+      {
+        "id": 604,
+        "name": "Corporate Training",
+        "skills": [
+          { "id": 60401, "name": "Training needs analysis" },
+          { "id": 60402, "name": "Leadership development" },
+          { "id": 60403, "name": "Soft skills training" },
+          { "id": 60404, "name": "Online training facilitation" }
+        ]
+      },
+      {
+        "id": 605,
+        "name": "Language Teaching",
+        "skills": [
+          { "id": 60501, "name": "ESL/TEFL certification" },
+          { "id": 60502, "name": "Communicative language teaching (CLT)" },
+          { "id": 60503, "name": "Classroom management" },
+          { "id": 60504, "name": "Curriculum planning for language learners" }
+        ]
+      },
+      {
+        "id": 606,
+        "name": "Instructional Design",
+        "skills": [
+          { "id": 60601, "name": "Bloom’s Taxonomy" },
+          { "id": 60602, "name": "Cognitive load theory" },
+          { "id": 60603, "name": "Adult learning principles" },
+          { "id": 60604, "name": "Multimedia learning principles" }
+        ]
+      },
+      {
+        "id": 607,
+        "name": "Research & Academic Writing",
+        "skills": [
+          { "id": 60701, "name": "Research methodology" },
+          { "id": 60702, "name": "Academic publishing" },
+          { "id": 60703, "name": "Literature review writing" },
+          { "id": 60704, "name": "Citation and referencing styles" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Law & Legal Services",
+    "sub_options": [
+      {
+        "id": 701,
+        "name": "Corporate Law",
+        "skills": [
+          { "id": 70101, "name": "Corporate governance" },
+          { "id": 70102, "name": "Contract drafting and negotiation" },
+          { "id": 70103, "name": "Mergers and acquisitions" },
+          { "id": 70104, "name": "Compliance and regulatory frameworks" }
+        ]
+      },
+      {
+        "id": 702,
+        "name": "Intellectual Property Law",
+        "skills": [
+          { "id": 70201, "name": "Trademark and copyright law" },
+          { "id": 70202, "name": "Patent law" },
+          { "id": 70203, "name": "IP enforcement" },
+          { "id": 70204, "name": "Licensing agreements" }
+        ]
+      },
+      {
+        "id": 703,
+        "name": "International Law",
+        "skills": [
+          { "id": 70301, "name": "International trade law" },
+          { "id": 70302, "name": "Diplomatic law" },
+          { "id": 70303, "name": "International dispute resolution" },
+          { "id": 70304, "name": "Human rights law" }
+        ]
+      },
+      {
+        "id": 704,
+        "name": "Tax Law",
+        "skills": [
+          { "id": 70401, "name": "Corporate tax law" },
+          { "id": 70402, "name": "International tax regulations" },
+          { "id": 70403, "name": "Tax litigation" },
+          { "id": 70404, "name": "Tax compliance" }
+        ]
+      },
+      {
+        "id": 705,
+        "name": "Contract Law",
+        "skills": [
+          { "id": 70501, "name": "Contract formation" },
+          { "id": 70502, "name": "Contract disputes" },
+          { "id": 70503, "name": "Legal drafting and review" },
+          { "id": 70504, "name": "Breach of contract claims" }
+        ]
+      },
+      {
+        "id": 706,
+        "name": "Employment Law",
+        "skills": [
+          { "id": 70601, "name": "Employment contracts" },
+          { "id": 70602, "name": "Workplace discrimination laws" },
+          { "id": 70603, "name": "Employee benefits law" },
+          { "id": 70604, "name": "Labor relations and union laws" }
+        ]
+      },
+      {
+        "id": 707,
+        "name": "Litigation",
+        "skills": [
+          { "id": 70701, "name": "Trial preparation" },
+          { "id": 70702, "name": "Evidence gathering" },
+          { "id": 70703, "name": "Case analysis and strategy" },
+          { "id": 70704, "name": "Cross-examination techniques" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Engineering",
+    "sub_options": [
+      {
+        "id": 801,
+        "name": "Civil Engineering",
+        "skills": [
+          { "id": 80101, "name": "Structural analysis" },
+          { "id": 80102, "name": "Construction management" },
+          { "id": 80103, "name": "Geotechnical engineering" },
+          { "id": 80104, "name": "Transportation systems" }
+        ]
+      },
+      {
+        "id": 802,
+        "name": "Mechanical Engineering",
+        "skills": [
+          { "id": 80201, "name": "CAD and simulation tools (AutoCAD, SolidWorks)" },
+          { "id": 80202, "name": "Thermodynamics" },
+          { "id": 80203, "name": "Materials science" },
+          { "id": 80204, "name": "Mechanical systems design" }
+        ]
+      },
+      {
+        "id": 803,
+        "name": "Electrical Engineering",
+        "skills": [
+          { "id": 80301, "name": "Circuit design and analysis" },
+          { "id": 80302, "name": "Power systems" },
+          { "id": 80303, "name": "Microcontrollers and embedded systems" },
+          { "id": 80304, "name": "Control systems" }
+        ]
+      },
+      {
+        "id": 804,
+        "name": "Chemical Engineering",
+        "skills": [
+          { "id": 80401, "name": "Process design and optimization" },
+          { "id": 80402, "name": "Thermodynamics and kinetics" },
+          { "id": 80403, "name": "Safety in chemical processing" },
+          { "id": 80404, "name": "Industrial process control" }
+        ]
+      },
+      {
+        "id": 805,
+        "name": "Environmental Engineering",
+        "skills": [
+          { "id": 80501, "name": "Waste management" },
+          { "id": 80502, "name": "Water and wastewater treatment" },
+          { "id": 80503, "name": "Renewable energy systems" },
+          { "id": 80504, "name": "Environmental impact assessment" }
+        ]
+      },
+      {
+        "id": 806,
+        "name": "Robotics & Automation",
+        "skills": [
+          { "id": 80601, "name": "Robotics programming (ROS)" },
+          { "id": 80602, "name": "Embedded systems design" },
+          { "id": 80603, "name": "Industrial automation (PLC, SCADA)" },
+          { "id": 80604, "name": "Mechatronics" }
+        ]
+      },
+      {
+        "id": 807,
+        "name": "Renewable Energy Engineering",
+        "skills": [
+          { "id": 80701, "name": "Solar energy systems" },
+          { "id": 80702, "name": "Wind power generation" },
+          { "id": 80703, "name": "Energy storage technologies" },
+          { "id": 80704, "name": "Renewable energy policy" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Science & Research",
+    "sub_options": [
+      {
+        "id": 901,
+        "name": "Biotechnology",
+        "skills": [
+          { "id": 90101, "name": "Genetic engineering" },
+          { "id": 90102, "name": "Bioprocessing techniques" },
+          { "id": 90103, "name": "Cell culture and tissue engineering" },
+          { "id": 90104, "name": "Pharmaceutical biotechnology" }
+        ]
+      },
+      {
+        "id": 902,
+        "name": "Environmental Science",
+        "skills": [
+          { "id": 90201, "name": "Climate change studies" },
+          { "id": 90202, "name": "Ecology and conservation biology" },
+          { "id": 90203, "name": "Environmental impact assessments" },
+          { "id": 90204, "name": "Pollution control technologies" }
+        ]
+      },
+      {
+        "id": 903,
+        "name": "Physics & Astronomy",
+        "skills": [
+          { "id": 90301, "name": "Quantum mechanics" },
+          { "id": 90302, "name": "Astrophysics" },
+          { "id": 90303, "name": "Particle physics" },
+          { "id": 90304, "name": "Cosmology" }
+        ]
+      },
+      {
+        "id": 904,
+        "name": "Chemistry & Materials Science",
+        "skills": [
+          { "id": 90401, "name": "Organic chemistry" },
+          { "id": 90402, "name": "Inorganic materials synthesis" },
+          { "id": 90403, "name": "Nanomaterials" },
+          { "id": 90404, "name": "Analytical techniques (NMR, X-ray diffraction)" }
+        ]
+      },
+      {
+        "id": 905,
+        "name": "Biomedical Research",
+        "skills": [
+          { "id": 90501, "name": "Clinical trials" },
+          { "id": 90502, "name": "Molecular biology techniques" },
+          { "id": 90503, "name": "Pharmacogenomics" },
+          { "id": 90504, "name": "Biomedical imaging" }
+        ]
+      },
+      {
+        "id": 906,
+        "name": "Earth Sciences",
+        "skills": [
+          { "id": 90601, "name": "Geology and seismology" },
+          { "id": 90602, "name": "Oceanography" },
+          { "id": 90603, "name": "Environmental geochemistry" },
+          { "id": 90604, "name": "Natural disaster management" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Marketing & Sales",
+    "sub_options": [
+      {
+        "id": 1001,
+        "name": "Digital Marketing",
+        "skills": [
+          { "id": 100101, "name": "Google Ads, Facebook Ads" },
+          { "id": 100102, "name": "SEO strategies" },
+          { "id": 100103, "name": "Email marketing campaigns" },
+          { "id": 100104, "name": "Influencer marketing" }
+        ]
+      },
+      {
+        "id": 1002,
+        "name": "SEO & SEM",
+        "skills": [
+          { "id": 100201, "name": "Keyword research" },
+          { "id": 100202, "name": "On-page and off-page optimization" },
+          { "id": 100203, "name": "Link building strategies" },
+          { "id": 100204, "name": "PPC campaigns (Google Ads, Bing Ads)" }
+        ]
+      },
+      {
+        "id": 1003,
+        "name": "Social Media Advertising",
+        "skills": [
+          { "id": 100301, "name": "Paid social campaigns (Facebook, Instagram, LinkedIn)" },
+          { "id": 100302, "name": "Social media content creation" },
+          { "id": 100303, "name": "Ad targeting and retargeting" },
+          { "id": 100304, "name": "Analytics and performance tracking" }
+        ]
+      },
+      {
+        "id": 1004,
+        "name": "Market Research & Analytics",
+        "skills": [
+          { "id": 100401, "name": "Consumer behavior analysis" },
+          { "id": 100402, "name": "Competitor analysis" },
+          { "id": 100403, "name": "Data collection and analysis" },
+          { "id": 100404, "name": "Focus groups and surveys" }
+        ]
+      },
+      {
+        "id": 1005,
+        "name": "Public Relations",
+        "skills": [
+          { "id": 100501, "name": "Media relations" },
+          { "id": 100502, "name": "Crisis management" },
+          { "id": 100503, "name": "Press release writing" },
+          { "id": 100504, "name": "Brand reputation management" }
+        ]
+      },
+      {
+        "id": 1006,
+        "name": "Brand Management",
+        "skills": [
+          { "id": 100601, "name": "Brand identity development" },
+          { "id": 100602, "name": "Brand consistency and guidelines" },
+          { "id": 100603, "name": "Product branding" },
+          { "id": 100604, "name": "Rebranding strategies" }
+        ]
+      }
+    ]
+  }
+]

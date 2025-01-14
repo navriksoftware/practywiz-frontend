@@ -1,0 +1,166 @@
+.container-of-case-study {
+  width: 60vw;
+  margin: 20px auto;
+  padding: 10px 35px;
+  border: none;
+  border-radius: 15px;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+#CaseStudyBg {
+  background: url("../../../../Images/mentorbclk.png") no-repeat;
+  background-size: "cover";
+  background-position: "center";
+}
+.container-of-case-study:hover {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.label-case-input {
+  padding: 10px 10px;
+  border-radius: 10px;
+}
+
+.label-case-input > h5 {
+  font-weight: 400;
+  color: #333;
+  font-size: 16px;
+}
+
+
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.label-case-input-fields {
+  width: calc(100% - 20px);
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: border 0.3s ease-in-out, background-color 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
+
+  &:focus {
+    border: 1px solid #0095ff;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0, 149, 255, 0.3);
+  }
+}
+
+.label-case-input > textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.button-container-case-input {
+  width: calc(100% - 20px);
+  padding: 5px 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.button-container-case-input > button {
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  color: #fff;
+  background-color: #0095ff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out,
+    transform 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  &:hover {
+    background-color: #007acc;
+  }
+  &:active {
+    background-color: #005fa1;
+    box-shadow: none;
+    transform: translateY(0);
+  }
+}
+
+.button-container-case-input > button[type="submit"] {
+  background-color: #28a745;
+  &:hover {
+    background-color: #218838;
+    box-shadow: 0 8px 20px rgba(33, 136, 56, 0.3);
+  }
+
+  &:active {
+    background-color: #1e7e34;
+  }
+}
+
+.button-container-case-input > button[type="button"] {
+  background-color: #dc3545;
+  &:hover {
+    background-color: #c82333;
+    box-shadow: 0 8px 20px rgba(200, 35, 51, 0.3);
+  }
+
+  &:active {
+    background-color: #bd2130;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-of-case-study {
+    width: 90vw;
+    padding: 25px;
+  }
+
+  .space-between {
+    flex-direction: column;
+  }
+
+  .label-case-input-fields {
+    width: 100%;
+  }
+
+  .button-container {
+    justify-content: center;
+    gap: 10px;
+  }
+}
+
+.dropdown-content {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  top: 5.5rem;
+  width: 70%;
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-item:active {
+  background-color: #e0e0e0;
+}
+
+.posrelativ {
+  position: relative;
+}

@@ -1,0 +1,80 @@
+.table-container {
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.mentor-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mentor-table th,
+.mentor-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.mentor-table th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+.action-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 8px;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.profile-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.invite-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.profile-button:hover,
+.invite-button:hover {
+  opacity: 0.8;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.pagination-controls button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-controls button:disabled {
+  background-color: #c0c0c0;
+  cursor: not-allowed;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.pagination-controls span {
+  margin: 0 10px;
+  font-weight: bold;
+}

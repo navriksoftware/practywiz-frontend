@@ -1,0 +1,619 @@
+.Singlementor-screen {
+  position: relative;
+}
+
+.Singlementor-mainComtainer {
+  background: url("../../../../Images/Mentors/iuihnierr.png") no-repeat;
+  top: 36px;
+  position: absolute;
+  width: 100%;
+  border-radius: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  align-items: stretch;
+  background: rgba(217, 217, 217, 0.05);
+  border: 0.5px solid #afafaf;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.Singlementor-Container {
+  display: flex;
+
+  flex-direction: column;
+  gap: 40px;
+}
+.SingleMentor-TopImg {
+  position: absolute;
+  top: auto;
+  width: 100%;
+  background-color: #244e92;
+  height: 15.5rem;
+}
+
+.SingleMentor-Box-Price {
+  padding: 15px 20px;
+  position: absolute;
+  height: 14rem;
+  top: 9rem;
+  right: 5rem;
+  background: rgba(36, 78, 146, 0.6);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+.Singlementor-Row1 {
+  display: flex;
+  gap: 5rem;
+  padding: 40px;
+
+  position: relative;
+}
+.Singlementor-Row-persolaInfo {
+  display: flex;
+  gap: 5rem;
+  padding: 40px;
+
+  position: relative;
+}
+
+.Singlementor-photo {
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #555;
+  border: 2px solid #ddd;
+  object-fit: cover;
+}
+.image-container {
+  width: 220px;
+  height: 220px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 124px;
+  background: linear-gradient(135deg, #e3f2fd, #ffccbc);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.image-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: -10px;
+  right: -10px;
+  z-index: -1;
+  border: 3px dashed #8e44ad; 
+  border-radius: 20px; 
+  background-color: #f9f9f9; 
+}
+
+.image-container img {
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  border-radius: 10px; 
+}
+
+.Singlementor-rating {
+  margin-top: 15px;
+  font-size: 1.1rem;
+  color: #ffa000;
+  font-weight: bold;
+  text-align: center;
+}
+
+.Singlementor-col2 {
+  position: absolute;
+  top: 6.5rem;
+  left: 18rem;
+  width: 50%;
+}
+
+.Singlementor-name {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #f5f5f5;
+  margin-bottom: 10px;
+}
+.Singlementor-price {
+  bottom: -5px;
+  right: 156px;
+  color: white;
+}
+.Singlementor-PriceFont {
+  font-size: 3rem;
+  font-family: "lato";
+}
+
+.Singlementor-companyname {
+  font-size: 1.2rem;
+  color: #f5f5f5;
+  margin-bottom: 15px;
+  font-family: "lato";
+}
+
+.Singlementor-dec {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  text-align: justify;
+  width: 60%;
+  font-family: "lato";
+  margin-top: 1rem;
+}
+
+.Singlementor-Domain {
+  font-family: "lato";
+  font-size: x-large;
+  font-weight: 800;
+  color: #244e82;
+}
+
+.Singlementor-Row2 {
+  top: 10rem;
+  width: 35%;
+  right: 1.5rem;
+  background: #fdfdfd;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #34495e;
+  text-align: center;
+  border: 2px solid #2d549626;
+  border-radius: 20px;
+  margin-top: -5rem;
+}
+
+.Singlementor-Row3 {
+  border-radius: 20px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: #244e82;
+  width: 50rem;
+}
+
+.Singlementor-bookingContainer {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+  justify-content: space-around;
+  align-items: center;
+}
+.Singlementor-booking1 {
+  width: 100%;
+  border-radius: 10px;
+  display: flex;
+  padding: 10px 20px;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+.Singlementor-booking2 {
+  width: max-content;
+  padding: 10px 20px;
+}
+.slotOptionmetor {
+  width: 2rem;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: aliceblue;
+}
+.heightofdiv {
+  height: 3rem;
+}
+.MarginR {
+  margin-right: 8px;
+}
+.bookBtnSinglepage {
+  display: flex;
+  justify-content: flex-end;
+}
+.bottom-Margin {
+  display: flex;
+  width: 30rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.ToCurrencyDropDown {
+  right: 20px;
+  top: 15px;
+}
+.DropDownCurruncy {
+  border: 1px solid white;
+  padding: 5px;
+  border-radius: 5px;
+  font-family: "lato";
+  background: rgba(36, 78, 146, 0.6);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  color: white;
+}
+
+.Singlementor-Skills {
+  font-family: "lato";
+  font-size: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  margin-bottom: 0.5rem;
+  margin-right: 0.25rem;
+  cursor: pointer;
+  white-space: nowrap;
+  border-radius: 9999px;
+  --tw-bg-opacity: 1;
+  background-color: #244e92;
+  font-weight: 500;
+  --tw-text-opacity: 1;
+  color: rgb(246 250 252);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.SingleMentor-Skills-headline {
+  position: absolute;
+  top: 24rem;
+}
+.Singlementor-text {
+  color: #2d5496;
+  font-size: xx-large;
+  font-family: "Lato";
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.SingleMentor2Col {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  column-gap: 2rem;
+  margin: auto;
+  padding: 20px 20px;
+  width: 90%;
+}
+
+.Singlementor-headline {
+  font-size: 40px;
+  font-family: "Lato";
+  color: #222e82;
+}
+.Singlementor-headline-2 {
+  font-size: xx-large;
+  font-family: "Lato";
+  color: #222e82;
+}
+
+.main-option {
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #ffffff;
+  border: 2px solid #2d549626;
+}
+
+.SingleMentor-Radio input[type="radio"]:checked + label {
+  background-color: #244e92;
+
+  color: white;
+  border: 2px solid #244e92;
+}
+
+.react-datepicker {
+  font-family: "loto", helvetica, arial, sans-serif;
+  font-size: 20px;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #aeaeae;
+  border-radius: 0.3rem;
+  display: inline-block;
+  position: relative;
+  line-height: initial;
+  padding: 20px;
+}
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header {
+  margin-top: 0;
+  color: #000;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: "loto", helvetica, arial, sans-serif;
+}
+
+.linkedin-icon {
+  margin-left: 40px;
+}
+
+.SingleMentor-NameSize {
+  font-size: 3rem;
+  font-family: "lato";
+}
+.SingleMentor-span121 {
+  font-size: 1rem;
+}
+.SingleMentor-SkillsHeadline {
+  font-size: 2rem;
+  font-family: "lato";
+  font-weight: bolder;
+}
+.Singlementor-RatingSection {
+  border-radius: 20px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: #244e82;
+}
+
+.SkillsList {
+  display: flex;
+  width: 45rem;
+  flex-wrap: wrap;
+}
+
+.mentor-profile {
+  min-height: 100vh;
+}
+
+.mentor-profile-mainpage {
+  width: 100%;
+  position: relative;
+}
+
+.mentor-profile-ribbon {
+  background: #244e92;
+  height: 12rem;
+  width: 100%;
+  margin-top: 4rem;
+}
+
+.mentor-profile-container {
+  width: 100%;
+  max-width: 1200px;
+  transform: translateY(-5rem);
+}
+
+.mentor-profile-content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem;
+  gap: 2rem;
+  row-gap: 1rem;
+  margin-top: -5rem;
+}
+
+.mentor-profile-col1 {
+  flex: 0 0 20%;
+  min-width: 200px;
+  text-align: center;
+}
+
+.mentor-image-container {
+  width: 100%;
+  margin-bottom: 1.5rem;
+
+  overflow: hidden;
+
+  border-radius: 124px;
+  background: linear-gradient(135deg, #e3f2fd, #ffccbc);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.mentor-image {
+  width: 100%;
+  border-radius: 15px;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.mentor-description {
+  margin-top: 1rem;
+}
+
+.mentor-headline {
+  width: 95%;
+  color: #333;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.show-more-text {
+  color: #244e92;
+  cursor: pointer;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.mentor-profile-col2 {
+  flex: 1;
+  min-width: 300px;
+  padding-top: 2rem;
+}
+
+.mentor-name-section {
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: #f5f5f5;
+}
+
+.mentor-name {
+  font-weight: bold;
+  color: #f5f5f5;
+  margin-right: 1rem;
+  font-size: 2rem;
+  font-family: "lato";
+}
+
+.mentor-rating {
+  color: #f5f5f5;
+  font-size: 1rem;
+}
+
+.mentor-company {
+  font-size: medium;
+  color: #f5f5f5;
+  margin-bottom: 1rem;
+  font-family: "lato", sans-serif;
+}
+
+.linkedin-link {
+  color: #f5f5f5;
+  margin-left: 0.5rem;
+  text-decoration: none;
+}
+
+.mentor-domains {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.domain-tag {
+  font-family: "lato";
+  font-size: x-large;
+  font-weight: 800;
+  color: #244e82;
+}
+
+.mentor-skills {
+  width: 100%;
+}
+
+.skills-header {
+  margin-bottom: 1rem;
+}
+
+.skills-title {
+  font-size: 2rem;
+  font-family: "lato";
+  font-weight: bolder;
+  color: #244e92;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.MentorDashboardskill-tag {
+  font-family: "lato";
+  font-size: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  margin-bottom: 0.5rem;
+  margin-right: 0.25rem;
+  cursor: pointer;
+  white-space: nowrap;
+  border-radius: 9999px;
+  color: rgb(246 250 252);
+  background-color: #244e92;
+  font-weight: 500;
+}
+
+.MentorDashboard-RatingSection {
+  border-radius: 20px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: #244e82;
+  margin-top: 1rem;
+}
+.SingleMentorProfile-Skills {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 1024px) {
+  .mentor-profile-content {
+    padding: 1rem;
+  }
+
+  .mentor-profile-col1 {
+    flex: 0 0 30%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .mentor-profile-ribbon {
+    height: 10rem;
+  }
+
+  .mentor-profile-content {
+    margin-top: -4rem;
+    flex-direction: column;
+  }
+
+  .mentor-profile-col1 {
+    flex: 0 0 100%;
+  }
+
+  .mentor-profile-col2 {
+    padding-top: 1rem;
+  }
+
+  .mentor-name {
+    font-size: 1.5rem;
+  }
+
+  .mentor-company {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .mentor-profile-ribbon {
+    height: 8rem;
+  }
+
+  .mentor-profile-content {
+    padding: 0.5rem;
+    margin-top: -3rem;
+  }
+
+  .mentor-name-section {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .domain-tag,
+  .skill-tag {
+    font-size: 0.8rem;
+  }
+}
+
+.SingleMentorProfile-Flex {
+  display: flex;
+  margin: 0px 1rem;
+}

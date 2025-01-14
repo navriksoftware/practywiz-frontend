@@ -1,0 +1,35 @@
+.nkndk {
+  background-color: transparent;
+  mix-blend-mode: multiply;
+}
+.testsize {
+  color: #34495e;
+  margin-bottom: 8px;
+}
+.regis_background2 {
+  padding: 7rem 0px 3rem 0px !important;
+}
+.checkBoxFlex {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 12px;
+}
+.checkBoxFs {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+.aasdfasfa2 {
+  height: auto;
+}
+.googleIconBorder {
+  border: solid 3px #cf2c1f !important;
+}
+.googleIcon {
+  width: 32px !important;
+}
+.CameraModel{
+  display: flex;
+  align-items: flex-end;
+  gap: 50px;
+}

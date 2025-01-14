@@ -1,0 +1,22 @@
+.UpdateProfile-PhoneD .react-tel-input .form-control {
+  background-color: #e9ecef !important;
+}
+
+.MentorProfileWidthSize {
+  width: 90%;
+  margin: auto;
+}
+
+.save-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 3rem;
+}
+.AvailabilitySlotsWidth{
+  width: 80%;
+  margin: auto;
+}
+.MentorProfileDispalySize{
+  width: 80%;
+  margin: auto;
+}

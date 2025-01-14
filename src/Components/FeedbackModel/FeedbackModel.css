@@ -1,0 +1,122 @@
+.feedback-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.feedback-form-btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.feedback-form-btn:hover {
+  background-color: #28e9ff;
+}
+
+.feedback-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 500px;
+}
+
+.feedback-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.feedback-modal-content {
+  padding: 20px;
+}
+
+.feedback-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.feedback-close-icon {
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.feedback-close-icon:hover {
+  color: red;
+}
+
+.feedback-rating-container {
+  margin-bottom: 16px;
+}
+
+.feedback-star-rating {
+  font-size: 20px;
+}
+
+.feedback-star-icon {
+  cursor: pointer;
+  color: #ccc;
+}
+
+.feedback-star-rating .rated {
+  color: #ffc107;
+}
+
+.feedback-star-rating .unrated {
+  color: #ccc;
+}
+
+.feedback-star-rating .fa-star {
+  cursor: pointer;
+}
+
+.feedback-textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.feedback-submit-btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.feedback-submit-btn:hover {
+  background-color: #28e9ff;
+}
+
+.feedback-modal-submit {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

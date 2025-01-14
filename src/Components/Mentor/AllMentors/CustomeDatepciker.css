@@ -1,0 +1,58 @@
+.fully-booked {
+  background-color: rgb(255, 72, 72);
+  color: white;
+  border-radius: 5px;
+}
+
+.booked-slot {
+  background-color: rgb(255, 72, 72);
+  color: white;
+  border-radius: 5px;
+}
+
+.slot-item {
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  list-style-type: none;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+.grayed-out {
+  color: #ccc;
+  pointer-events: none;
+  border-radius: 5px;
+}
+
+
+
+.selected-slot {
+  color: #fff;
+  background-color: rgb(27, 99, 222);
+}
+
+.unorderlist {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  height: 12rem;
+  border: 1px solid #aeaeae;
+  border-radius: 5px;
+  padding: 2px;
+  overflow: auto;
+}
+.selected-timeslot {
+  border-color: #007bff;
+  background-color: #f2f2f2;
+  border: 1px solid #aeaeae;
+  border-radius: 5px;
+}
+.selected-timeslotP {
+  margin-bottom: 0px !important;
+  text-align: left;
+  margin-top: 1rem;
+}

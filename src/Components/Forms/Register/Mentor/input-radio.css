@@ -1,0 +1,93 @@
+
+.moideuirer_list input[type="radio"] + label {
+  display: inline-block;
+  padding: 5px 25px;
+  cursor: pointer;
+  border: 2px solid #afafaf;
+  color: #696969;
+  font-weight: 600;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.hello input[type="radio"]:checked + label {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+label:hover {
+}
+
+.country-flag {
+  width: 15rem;
+  position: absolute;
+  vertical-align: inherit;
+  padding-bottom: 5px;
+  text-align: left;
+  z-index: 2;
+}
+.dropdown {
+  position: relative;
+}
+
+.dropdown input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.dropdown-content {
+  position: absolute;
+  background-color: #f9f9f9;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #ddd;
+}
+.optionDispaly {
+  background: none;
+  border: none;
+
+  margin-left: 3px;
+}
+
+.optionbox {
+  margin-right: 5px;
+  border: 1px solid;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.OptionCross {
+  color: red;
+}
+
+.Optionshow {
+  display: flex;
+  padding: 5px;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.areaofint {
+  height: 10rem;
+  overflow-y: scroll;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  margin-left: 12px;
+}

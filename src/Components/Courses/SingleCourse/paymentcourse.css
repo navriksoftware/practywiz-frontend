@@ -1,0 +1,254 @@
+
+.khgdfyhjgdfgfhftg854 {
+  width: 100%;
+  padding: 40px 0;
+  margin-top: 80px;
+}
+
+.kgfd h4 {
+  color: rgb(47, 47, 47);
+  font-size: 26px;
+  font-weight: bold !important;
+  letter-spacing: 2px;
+}
+
+.fgjffghfg h6 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+}
+
+.nghjfbgfgf {
+  margin-bottom: 20px;
+  margin-top: 30px;
+
+}
+.nghjfbgfgf .img-btn img {
+  width: 100px;
+  height: 50px;
+}
+.nghjfbgfgf .img-btn > input {
+  display: none;
+}
+.nghjfbgfgf .img-btn > img {
+  cursor: pointer;
+  border: 1px solid rgb(227, 226, 226);
+  padding: 10px;
+}
+.nghjfbgfgf .img-btn > input:checked + img {
+  border-color: var(--main-orange-color);
+  border-radius: 4px;
+  padding: 10px;
+}
+.nghjfbgfgf .author {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: black;
+  padding: 3px;
+  border-radius: 5px;
+}
+.nghjfbgfgf .author p {
+  text-align: center;
+  padding: 5px 10px;
+  margin: 0;
+  color: white;
+  border: 2px solid lightgrey;
+  border-radius: 5px;
+}
+.nghjfbgfgf .author a {
+  color: lightgrey;
+}
+
+.nghjfbgfgf label {
+  margin-right: 10px;
+}
+
+.gfgfggf label {
+  font-size: 16px;
+  font-weight: bold;
+  color: gray;
+}
+
+.gfgfggf {
+  margin-bottom: 10px;
+}
+
+.gfgfggf .form-control {
+  border: none !important;
+  padding: 12px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px !important;
+}
+
+.hgug58g {
+  background: url("../../../Images/Courses/payment.jpg");
+  width: 100%;
+  height: 500px;
+  background-size: 100% 100%;
+  border-radius: 4px;
+}
+
+.overlay123 {
+  width: 100%;
+  height: 500px;
+  border-radius: 4px;
+  background-color: rgba(255, 119, 15, 0.6);
+}
+
+.bdsghdsfd {
+  padding: 40px 50px;
+}
+
+.nfhjgf h6 {
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0;
+  padding-bottom: 5px;
+}
+.nfhjgf h4 {
+  font-weight: 600;
+  color: white;
+}
+.nfhjgf p {
+  color: white;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.gfgfgg h4 {
+  font-size: 24px;
+  padding-bottom: 5px;
+}
+
+.hrnm28 {
+  margin-top: 0;
+}
+
+.hjcbghfg {
+  display: flex;
+}
+
+.fbghvd {
+  margin-left: 10px;
+  color: white;
+}
+.fbghvd h6 {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+.fbghvd p {
+  font-size: 16px;
+  margin-top: 0;
+}
+
+.fbghvd2 {
+  margin-left: 10px;
+  color: rgb(0, 0, 0);
+}
+.fbghvd2 h6 {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+.fbghvd2 p {
+  font-size: 16px;
+  margin-top: 0;
+}
+
+.bfghv i {
+  color: white;
+}
+
+.bfghv1 i {
+  color: rgb(0, 0, 0);
+}
+
+.hjcbghfg2 {
+  display: flex;
+  padding: 0px 10px;
+  align-items: baseline;
+  margin-bottom: -5px;
+  justify-content: space-between;
+}
+.hjcbghfg2 i {
+  color: var(--main-orange-color);
+}
+.hjcbghfg2 h6 {
+  font-size: 17px;
+  font-weight: bold;
+}
+.hjcbghfg2 p {
+  font-size: 16px;
+  font-weight: 600;
+  color: gray;
+}
+
+.btn254 {
+  border: none;
+  width: 100%;
+  height: 50px;
+  color: rgb(110, 110, 110);
+  font-size: 17px;
+  font-weight: 600;
+  background-color: transparent;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  border-radius: 4px;
+}
+
+.btynh58 {
+  width: 100%;
+  height: 50px;
+  border: none;
+  background-color: #fff;
+  font-weight: 600;
+  background-color: var(--main-orange-color);
+  border-radius: 4px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  color: white;
+}
+
+.dfvbdfdf {
+  margin-top: 15px;
+}
+
+.jhbfdf {
+  width: 100%;
+  height: 250px;
+}
+.jhbfdf img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
+.gnhdfgfdgf {
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
+.nfhjgf2 {
+  margin-top: 10px;
+}
+.nfhjgf2 h6 {
+  font-weight: 600;
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+  margin-bottom: 0;
+  padding-bottom: 5px;
+}
+.nfhjgf2 h4 {
+  font-weight: 600;
+  color: rgb(0, 0, 0);
+}
+.nfhjgf2 p {
+  color: rgb(1, 1, 1);
+  font-size: 16px;
+  line-height: 22px;
+  margin-bottom: 0;
+}
+

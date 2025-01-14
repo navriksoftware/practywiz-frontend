@@ -1,0 +1,69 @@
+
+.table-container {
+  padding: 20px;
+  width: 100%;
+}
+
+.mentor-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.mentor-table th,
+.mentor-table td {
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+  border-spacing: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.mentor-table th {
+  background-color: #f4f4f4;
+}
+
+.mentor-table td {
+  vertical-align: middle;
+}
+
+.status {
+  font-size: 0.9em;
+  font-weight: bold;
+  border-radius: 18px;
+  text-align: center;
+  margin: 5px 0;
+  display: block;
+}
+
+.status.invitation-sent {
+  background-color: #fcef7c;
+  text-align: center;
+  color: #000;
+}
+
+.status.rejected {
+  background-color: #ff8686;
+  text-align: center;
+
+  color: #000000;
+}
+
+.status.approved {
+  background-color: #7dff82;
+  text-align: center;
+  color: #000000;
+}
+
+.profile-button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.profile-button:hover {
+  background-color: #0056b3;
+}

@@ -1,0 +1,30 @@
+.res-errorlog {
+  padding: 10px 0 0 0 !important;
+  text-align: center !important;
+  color: #ed1c24 !important;
+  font-size: 16px !important;
+}
+#loginBg {
+  background: url("../../../Images/mentorbclk.png") no-repeat;
+  width: 100%;
+  background-size: "cover";
+  background-position: "center";
+}
+
+
+
+.d-t:focus {
+  box-shadow: none !important;
+}
+
+.span222 {
+  color: var(--main-orange-color) !important;
+}
+
+.digheirer h4:before {
+  left: 38%;
+}
+
+.digheirer h4:after {
+  right: 23%;
+}

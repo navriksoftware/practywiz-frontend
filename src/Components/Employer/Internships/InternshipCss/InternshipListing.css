@@ -1,0 +1,255 @@
+.intern-type {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.intern-clear-filters {
+  background-color: #0255ca;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  margin-top: 16px;
+  transition: background-color 0.2s;
+}
+
+.intern-clear-filters:hover {
+  background-color: #dc2626;
+}
+
+.intern-selected-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.intern-filter-tag {
+  background: #e2e8f0;
+  color: #4a5568;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.intern-remove-tag {
+  cursor: pointer;
+  color: #718096;
+  font-weight: bold;
+  padding: 0 2px;
+}
+
+.intern-remove-tag:hover {
+  color: #4a5568;
+}
+
+.intern-job-board {
+  min-height: 100vh;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.intern-outer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.intern-main-content {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 24px;
+}
+
+.intern-filters {
+  height: max-content;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.intern-filter-section {
+  margin-bottom: 20px;
+}
+
+.intern-filter-section h3 {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #4a5568;
+}
+
+.intern-filter-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.intern-rate-inputs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.intern-rate-input {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.intern-job-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.intern-job-lists::-webkit-scrollbar {
+  width: 0px;
+}
+
+.intern-main-content input:focus {
+  outline: none;
+}
+
+.intern-search-bar {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+}
+
+.intern-search-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.intern-job-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.intern-job-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.intern-job-info h2 {
+  font-size: 18px;
+  color: #2d3748;
+  margin: 0 0 4px 0;
+}
+
+.intern-job-meta {
+  font-size: 14px;
+  color: #718096;
+}
+
+.intern-job-rate {
+  text-align: right;
+}
+
+.intern-job-rate-amount {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.intern-job-rate-reply {
+  font-size: 14px;
+  color: #718096;
+}
+
+.intern-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.intern-skill-tag {
+  background: #f7fafc;
+  color: #4a5568;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.intern-status-tag {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #c6f6d5;
+  color: #2f855a;
+}
+
+.intern-apply-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.intern-apply-btn {
+  background: #0255ca;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.intern-apply-btn:hover {
+  background: #2563eb;
+}
+
+@media (max-width: 768px) {
+  .intern-main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .intern-filters {
+    order: 2;
+  }
+
+  .intern-job-listings {
+    order: 1;
+  }
+
+  .intern-job-info h2 {
+    font-size: 18px !important;
+  }
+  .intern-job-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .intern-job-rate {
+    text-align: left;
+  }
+}

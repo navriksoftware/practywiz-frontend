@@ -1,0 +1,52 @@
+.purchased-case-studies {
+  margin-top: 5rem;
+  padding: 20px 7%;
+}
+
+.purchased-case-studies h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.case-study-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.case-study-card {
+  flex: 1 1 calc(33.333% - 40px);
+  background-color: #f8f9fa;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.case-study-card h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.case-study-card p {
+  font-size: 1em;
+  margin-bottom: 15px;
+}
+
+.view-case-study-button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.view-case-study-button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .case-study-card {
+    flex: 1 1 100%;
+  }
+}

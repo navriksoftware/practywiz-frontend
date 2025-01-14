@@ -1,0 +1,94 @@
+@media screen and (max-width: 999px) {
+  .iduherr_left {
+    text-align: center;
+  }
+  .iduherr_left h1 {
+    font-size: 45px;
+  }
+  .testbackg {
+    width: 50%;
+    margin: 0 auto;
+  }
+  .banner .banner_content {
+    padding: 10rem 5rem 5rem 5rem;
+  }
+}
+@media screen and (max-width: 780px) {
+  .khjfdgdf {
+    padding: 40px !important;
+  }
+  .hjfgdfgfg {
+    margin-top: 20px;
+  }
+  .iduherr_left h1 {
+    font-size: 42px;
+  }
+  .container-homepage {
+    display: block;
+    width: 100%;
+  }
+  .px-5 {
+    padding: 0px 2rem !important;
+  }
+  .banner_content {
+    padding: 10rem 0 0 !important;
+  }
+  .testbackg {
+    width: 72%;
+    margin: 0 auto;
+    height: 400px;
+  }
+  .swiper-img-home > img {
+    height: 300px;
+    object-fit: cover;
+  }
+  .asdfasdfasdfafs {
+    padding: 1.5rem 2rem 0 2rem;
+    text-align: center;
+  }
+  .mentorDescription {
+    font-size: 14px;
+  }
+
+  .asdfasdfaqwetoui {
+    text-align: center;
+  }
+
+  .sdfalsfdjlk {
+    padding-top: 30px;
+  }
+}
+@media screen and (max-width: 580px) {
+  .banner_content {
+    padding: 7rem 0 1.5rem 0 !important;
+  }
+  .mobbtn {
+    padding: 7px 20px !important;
+    margin: 0 auto !important;
+  }
+  .testbackg {
+    width: 75%;
+    margin: 0 auto;
+    height: 330px;
+  }
+  .swiper-img-home > img {
+    height: 230px;
+    object-fit: cover;
+  }
+  h2 {
+    font-size: 2rem !important;
+  }
+  .bghfdg {
+    text-align: center;
+    padding: 20px 10px 0px 10px;
+  }
+
+  .diherrr_content h3 {
+    font-size: 1.3rem !important;
+  }
+}
+@media screen and (max-width: 380px) {
+  .banner .banner_content {
+    padding: 5rem 0px !important;
+  }
+}
