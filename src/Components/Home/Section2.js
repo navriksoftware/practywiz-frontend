@@ -18,6 +18,7 @@ const Section2 = () => {
       try {
         setLoading(true);
 
+        // Fetch data with timeout mechanism
         const response = await Promise.race([
           axios.get(`${url}api/v1/mentor/fetch-10-mentors`),
           new Promise(
@@ -26,6 +27,7 @@ const Section2 = () => {
           ),
         ]);
 
+        // Handle response
         if (response.data.success) {
           setAllMentors(response.data.success);
         } else if (response.data.error) {
@@ -33,15 +35,24 @@ const Section2 = () => {
         }
       } catch (error) {
         setAllMentors([]);
-        if (error.message === "Request timed out") {
+
+        // Handle CORS error and other errors
+        if (error.response) {
+          if (error.response.status === 403) {
+            console.log("CORS error or Unauthorized access");
+          } else {
+            console.log("An API error occurred:", error.response.data);
+          }
+        } else if (error.message === "Request timed out") {
           console.log("Request timed out. Please try again.");
         } else {
-          console.log("An error occurred. Please try again.");
+          console.log("An unknown error occurred. Please try again.");
         }
       } finally {
         setLoading(false); // Ensure loading is stopped regardless of outcome
       }
     };
+
     fetchMentors();
   }, [url]);
   return (
