@@ -412,9 +412,7 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
                         Working Professional
                       </option>
                     )}
-                    {formData.mentee_type !== "Corporate" && (
-                      <option value="Corporate">Corporate</option>
-                    )}
+                    
                     {formData.mentee_type !== "Fresher" && (
                       <option value="Fresher">Fresher</option>
                     )}

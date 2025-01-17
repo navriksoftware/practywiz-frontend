@@ -3,11 +3,12 @@ import { useFormContext } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { option_fro_timezone } from "../../../data/Timezones";
+import { toast } from "react-toastify";
 import "./MentorForm3.css";
 
 const AvailabilityForm = () => {
   const { setValue, register } = useFormContext();
-  const today = new Date();
+  const today = new Date().toISOString().split("T")[0];
 
   // Load saved data or initialize with default
   const loadSavedData = () => {
@@ -57,7 +58,7 @@ const AvailabilityForm = () => {
     "Saturday",
     "Sunday",
   ];
-  const durations = ["30", "60", "Both"];
+
   const hours = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
   const minutes = ["00", "30"];
   const periods = ["AM", "PM"];
@@ -84,65 +85,6 @@ const AvailabilityForm = () => {
     return s1 <= e2 && s2 <= e1;
   };
 
-  // Find overlapping slots
-  // const findOverlappingSlots = (currentSlot, currentIndex) => {
-  //   const currentStartTime = convertTo24Hour(
-  //     currentSlot.startHour,
-  //     currentSlot.startMinute,
-  //     currentSlot.startPeriod
-  //   );
-  //   const currentEndTime = convertTo24Hour(
-  //     currentSlot.endHour,
-  //     currentSlot.endMinute,
-  //     currentSlot.endPeriod
-  //   );
-
-  //   return slots.reduce((overlaps, slot, index) => {
-  //     if (index === currentIndex) return overlaps;
-
-  //     const startTime = convertTo24Hour(
-  //       slot.startHour,
-  //       slot.startMinute,
-  //       slot.startPeriod
-  //     );
-  //     const endTime = convertTo24Hour(
-  //       slot.endHour,
-  //       slot.endMinute,
-  //       slot.endPeriod
-  //     );
-
-  //     // Check if dates overlap
-  //     const datesOverlap = doDateRangesOverlap(
-  //       currentSlot.fromDate,
-  //       currentSlot.toDate,
-  //       slot.fromDate,
-  //       slot.toDate
-  //     );
-
-  //     // Check if times overlap
-  //     const timesOverlap = doTimesOverlap(
-  //       currentStartTime,
-  //       currentEndTime,
-  //       startTime,
-  //       endTime
-  //     );
-
-  //     // Check if there are common days between the slots
-  //     const hasCommonDays = currentSlot.days.some((day) =>
-  //       slot.days.includes(day)
-  //     );
-
-  //     if (datesOverlap && timesOverlap && hasCommonDays) {
-  //       overlaps.push({
-  //         slotIndex: index + 1,
-  //         days: slot.days.filter((day) => currentSlot.days.includes(day)),
-  //       });
-  //     }
-
-  //     return overlaps;
-  //   }, []);
-  // };
-
   // Save slots to localStorage
   const saveToLocalStorage = (updatedSlots) => {
     localStorage.setItem("slots", JSON.stringify(updatedSlots));
@@ -163,6 +105,9 @@ const AvailabilityForm = () => {
 
     setSlots(updatedSlots);
     saveToLocalStorage(updatedSlots);
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = false; // Revert the save status
+    setIsSaved(updatedSaveStatus);
   };
 
   // Handle input change for specific fields
@@ -202,6 +147,9 @@ const AvailabilityForm = () => {
       updatedSlots[index].days.length === days.length ? [] : [...days];
     setSlots(updatedSlots);
     saveToLocalStorage(updatedSlots);
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = false; // Revert the save status
+    setIsSaved(updatedSaveStatus);
   };
 
   // Select weekdays
@@ -215,6 +163,9 @@ const AvailabilityForm = () => {
       : weekdays;
     setSlots(updatedSlots);
     saveToLocalStorage(updatedSlots);
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = false; // Revert the save status
+    setIsSaved(updatedSaveStatus);
   };
 
   // Select weekends
@@ -228,6 +179,9 @@ const AvailabilityForm = () => {
       : weekends;
     setSlots(updatedSlots);
     saveToLocalStorage(updatedSlots);
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = false; // Revert the save status
+    setIsSaved(updatedSaveStatus);
   };
 
   // Remove a slot
@@ -236,6 +190,9 @@ const AvailabilityForm = () => {
     setSlots(updatedSlots);
     saveToLocalStorage(updatedSlots);
     setValue("mentorAvailability", updatedSlots);
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = false; // Revert the save status
+    setIsSaved(updatedSaveStatus);
   };
 
   // Validate slot
@@ -364,7 +321,14 @@ const AvailabilityForm = () => {
       const errorMessages = Object.entries(errors)
         .map(([key, value]) => value)
         .join("\n");
-      alert(`Error in Slot ${index + 1}:\n${errorMessages}`);
+      toast.error(`Error in Slot ${index + 1}:\n${errorMessages}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       return false;
     }
 
@@ -373,7 +337,15 @@ const AvailabilityForm = () => {
     setSlots(updatedSlots);
     saveToLocalStorage(updatedSlots);
     setValue("mentorAvailability", updatedSlots);
-    alert(`Slot ${index + 1} saved successfully!`);
+    toast.success(`Slot ${index + 1} saved successfully!`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+    // alert(`Slot ${index + 1} saved successfully!`);
     const updatedSaveStatus = [...isSaved];
     updatedSaveStatus[index] = true; // Mark the slot as saved
     setIsSaved(updatedSaveStatus);
@@ -604,15 +576,16 @@ const AvailabilityForm = () => {
                     </p>
                   )}
                 </div>
+
                 <div className="dateAvialbility">
                   <label>Start Date:</label>
-                  <DatePicker
-                    selected={slot.fromDate ? new Date(slot.fromDate) : null}
-                    onChange={(date) =>
-                      handleInputChange(index, "fromDate", date)
+                  <input
+                    type="date"
+                    value={slot.fromDate}
+                    onChange={(e) =>
+                      handleInputChange(index, "fromDate", e.target.value)
                     }
-                    dateFormat="yyyy-MM-dd"
-                    minDate={today}
+                    min={today}
                     className="date-picker"
                   />
                   {errors.fromDate && (
@@ -621,18 +594,19 @@ const AvailabilityForm = () => {
                     </p>
                   )}
                 </div>
+
                 <div className="dateAvialbility">
                   <label>End Date:</label>
-                  <DatePicker
-                    selected={slot.toDate ? new Date(slot.toDate) : null}
-                    onChange={(date) =>
-                      handleInputChange(index, "toDate", date)
+                  <input
+                    type="date"
+                    value={slot.toDate}
+                    onChange={(e) =>
+                      handleInputChange(index, "toDate", e.target.value)
                     }
-                    dateFormat="yyyy-MM-dd"
-                    minDate={today}
+                    min={today}
                     className="date-picker"
                   />
-                  {errors.toDate && (
+                {errors.toDate && (
                     <p style={{ color: "red" }} className="errorfont">
                       {errors.toDate}
                     </p>
@@ -643,6 +617,7 @@ const AvailabilityForm = () => {
                     </p>
                   )}
                 </div>
+
                 <div
                   className="availability-duration"
                   onClick={() => toggleDropdownforClose(index)}
@@ -654,11 +629,9 @@ const AvailabilityForm = () => {
                       handleInputChange(index, "duration", e.target.value)
                     }
                   >
-                    {durations.map((duration) => (
-                      <option key={duration} value={duration}>
-                        {duration}
-                      </option>
-                    ))}
+                    <option value={30}>30 min</option>
+                    <option value={60}>60 min</option>
+                    <option value={"Both"}>Both</option>
                   </select>
                 </div>
               </div>

@@ -1,7 +1,7 @@
 import Navbar from "../../../Navbar/Navbar.js";
 import "./SingleMentorPageUpdated.css";
 import React, { useEffect, useState } from "react";
-
+import { countryCurrencyMapping } from "../../../data/Currency_Convertion.js";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import MentorBookingAppointment from "./MentorBookingAppointment";
@@ -11,8 +11,7 @@ import { toast } from "react-toastify";
 import SingleMentorProfilePageSkelton from "./Skelton/SingleMentorProfilePageSkelton";
 import MentorRatingCard from "./MentorRatingCard";
 import StarRating from "../../../../Utils/StartRating";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
-import Footer from "../../../Footer/Footer.js";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const SingleMentorPageUpdated = () => {
   function toTitleCase(str) {
@@ -55,18 +54,18 @@ const SingleMentorPageUpdated = () => {
     setMentorTimeSlotDuration(e.target.value);
   };
 
-  const API_KEY = "d255e8678f5e63"; // Replace with your actual API key
+  const API_KEY = process.env.REACT_APP_API_KEY;
 
   const [DefaultCurruncyType, setDefaultCurruncyType] = useState("IN");
-  // Function to fetch the user's location data including the IP address
+
   const fetchLocationData = async () => {
     try {
       const response = await fetch(`https://ipinfo.io?token=${API_KEY}`);
       const data = await response.json();
       setDefaultCurruncyType(data.country);
-      console.log("Hello this is the api data", data.country);
+     
     } catch (error) {
-      setDefaultCurruncyType("IN");
+      // setDefaultCurruncyType("IN");
 
       console.error("Error fetching location data:", error);
     }
@@ -77,72 +76,9 @@ const SingleMentorPageUpdated = () => {
     fetchLocationData();
   }, []);
 
-  const countryCurrencyMapping = [
-    {
-      country: "United States",
-      currency: "US",
-      currencySymbol: "$",
-      conversionRate: 1, // Conversion rate relative to USD
-    },
-    {
-      country: "India",
-      currency: "IN",
-      currencySymbol: "₹",
-      conversionRate: 82.5, // 1 USD = 82.50 INR
-    },
-    {
-      country: "United Kingdom",
-      currency: "GB",
-      currencySymbol: "£",
-      conversionRate: 0.75, // 1 USD = 0.75 GBP
-    },
-    {
-      country: "Canada",
-      currency: "CA",
-      currencySymbol: "C$",
-      conversionRate: 1.36, // 1 USD = 1.36 CAD
-    },
-    {
-      country: "Eurozone",
-      currency: "EU",
-      currencySymbol: "€",
-      conversionRate: 0.92, // 1 USD = 0.92 EUR
-    },
-    {
-      country: "Australia",
-      currency: "AU",
-      currencySymbol: "A$",
-      conversionRate: 1.5, // 1 USD = 1.50 AUD
-    },
-    {
-      country: "Japan",
-      currency: "JP",
-      currencySymbol: "¥",
-      conversionRate: 130.15, // 1 USD = 130.15 JPY
-    },
-    {
-      country: "China",
-      currency: "CN",
-      currencySymbol: "¥",
-      conversionRate: 7.15, // 1 USD = 7.15 CNY
-    },
-    {
-      country: "Brazil",
-      currency: "BR",
-      currencySymbol: "R$",
-      conversionRate: 5.25, // 1 USD = 5.25 BRL
-    },
-    {
-      country: "Mexico",
-      currency: "MX",
-      currencySymbol: "MX$",
-      conversionRate: 18.45, // 1 USD = 18.45 MXN
-    },
-  ];
-
   const convertCurrency = (amount, fromCurrency, toCurrency) => {
     const FCurrency = fromCurrency.slice(0, -1);
-    // Ensure `countryCurrencyMapping` is available
+
     if (!countryCurrencyMapping || countryCurrencyMapping.length === 0) {
       console.error("Currency mapping data is not available.");
       return 0; // Return a default value
@@ -306,14 +242,18 @@ const SingleMentorPageUpdated = () => {
                         <div className="mentor-company">
                           {toTitleCase(sMentor.mentor_job_title)} @{" "}
                           {toTitleCase(sMentor.mentor_company_name)}{" "}
-                          <a
-                            href={sMentor.mentor_social_media_profile}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="linkedin-link"
-                          >
-                            <i className="fa-brands fa-linkedin fa-2xl"></i>
-                          </a>
+                          {sMentor.mentor_social_media_profile && (
+                            <>
+                              <a
+                                href={sMentor.mentor_social_media_profile}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="linkedin-link"
+                              >
+                                <i className="fa-brands fa-linkedin fa-2xl"></i>
+                              </a>
+                            </>
+                          )}
                         </div>
 
                         <div className="mentor-domains">
@@ -369,7 +309,7 @@ const SingleMentorPageUpdated = () => {
                           </div>
                         )}
 
-                      <div className="MentorDashboard-RatingSection">
+                      <div className="MentorDashboard-RatingSection Hide-elementforScreenSize1275">
                         <div>
                           {" "}
                           <span className="SingleMentor-SkillsHeadline">
@@ -392,7 +332,10 @@ const SingleMentorPageUpdated = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="Singlementor-Row2" id="targetElement1">
+                  <div
+                    className="Singlementor-Row2 Hide-elementforScreenSize1275"
+                    id="targetElement1"
+                  >
                     <div className="Singlementor-bookingContainer">
                       <div className="Singlementor-booking1">
                         <div className="Singlementor-booking2 dkjiherer moideuirer_list SingleMentor-Radio">
@@ -404,7 +347,7 @@ const SingleMentorPageUpdated = () => {
                                 type="radio"
                                 name="MentorPrice_Min"
                                 id="check_11"
-                                defaultChecked
+                                // defaultValue
                                 className="d-none"
                                 onChange={MentorTimeSlotDurationHandler}
                               />
@@ -460,6 +403,94 @@ const SingleMentorPageUpdated = () => {
                             <Link to="/login">LOGIN</Link>
                           </button>
                         )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="Singlementor-bookingContainer Hide-elementforScreenSizeFull">
+                    <div className="Singlementor-booking1">
+                      <div className="Singlementor-booking2 dkjiherer moideuirer_list SingleMentor-Radio">
+                        {" "}
+                        <ul className="ps-0 mb-0">
+                          <li>
+                            <input
+                              value={"30"}
+                              type="radio"
+                              name="MentorPrice_Min"
+                              id="check_11"
+                              defaultChecked
+                              className="d-none"
+                              onChange={MentorTimeSlotDurationHandler}
+                            />
+                            <label htmlFor="check_11">
+                              <span className="MarginR">30 Minutes</span>
+                              <span>
+                                {convertCurrencySymbol(DefaultCurruncyType)}{" "}
+                                {convertedAmount.toFixed(1) / 2}
+                              </span>
+                            </label>
+                          </li>
+
+                          <li>
+                            <input
+                              type="radio"
+                              id="check_30"
+                              name="MentorPrice_Min"
+                              value={"60"}
+                              className="d-none"
+                              onChange={MentorTimeSlotDurationHandler}
+                            />
+                            <label htmlFor="check_30">
+                              <span className="MarginR">60 Minutes</span>
+                              <span>
+                                {convertCurrencySymbol(DefaultCurruncyType)}{" "}
+                                {convertedAmount.toFixed(1)}
+                              </span>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>{" "}
+                      <CustomDatePicker
+                        mentorTimeSlotDuration={mentorTimeSlotDuration}
+                        onDateSlotSelect={handleDateSlotSelect}
+                        timeslotList={JSON.parse(sMentor.timeslot_list)}
+                        bookingDetails={JSON.parse(sMentor?.booking_dtls_list)}
+                      />
+                    </div>
+
+                    <div className="dfghjffg mt-3">
+                      {user && user?.user_type !== "mentor" && (
+                        <button
+                          className="btn btn-main"
+                          onClick={CreateBookingAppointment}
+                        >
+                          BOOK NOW
+                        </button>
+                      )}
+                      {!user && (
+                        <button className="btn btn-main">
+                          <Link to="/login">LOGIN</Link>
+                        </button>
+                      )}
+                    </div>
+                  </div>{" "}
+                  <div className="MentorDashboard-RatingSection Hide-elementforScreenSizeFull">
+                    <div>
+                      {" "}
+                      <span className="SingleMentor-SkillsHeadline">
+                        Ratings and Reviews
+                      </span>
+                    </div>
+                    <div>
+                      {" "}
+                      <div id="tab-10" className="">
+                        <div className="jfgghghhghkgkhjg">
+                          <div className="jhdfgfjgg">
+                            <MentorRatingCard
+                              feedbackCount={sMentor.feedback_count}
+                              feedback_details={sMentor.feedback_details}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

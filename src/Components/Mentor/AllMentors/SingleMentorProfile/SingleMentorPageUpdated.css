@@ -49,7 +49,6 @@
   justify-content: space-evenly;
 }
 
-
 .Singlementor-Row1 {
   display: flex;
   gap: 5rem;
@@ -100,16 +99,16 @@
   left: -10px;
   right: -10px;
   z-index: -1;
-  border: 3px dashed #8e44ad; 
-  border-radius: 20px; 
-  background-color: #f9f9f9; 
+  border: 3px dashed #8e44ad;
+  border-radius: 20px;
+  background-color: #f9f9f9;
 }
 
 .image-container img {
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-  border-radius: 10px; 
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .Singlementor-rating {
@@ -318,14 +317,35 @@
   border: 2px solid #2d549626;
 }
 
-.SingleMentor-Radio input[type="radio"]:checked + label {
+/* .SingleMentor-Radio input[type="radio"]:checked + label {
   background-color: #244e92;
 
   color: white;
   border: 2px solid #244e92;
+} */
+
+.SingleMentor-Radio label {
+  background-color: #f8f9fa;
+  color: #000;
+  border: 2px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
 
-.react-datepicker {
+.SingleMentor-Radio label:hover {
+  border-color: #244e92;
+}
+
+.SingleMentor-Radio input[type="radio"]:checked + label {
+  background-color: #244e92;
+  color: white;
+  border: 2px solid #244e92;
+}
+
+
+/* .react-datepicker {
   font-family: "loto", helvetica, arial, sans-serif;
   font-size: 20px;
   background-color: #fff;
@@ -335,7 +355,7 @@
   display: inline-block;
   position: relative;
   line-height: initial;
-  padding: 20px;
+  
 }
 .react-datepicker__current-month,
 .react-datepicker-time__header,
@@ -345,7 +365,7 @@
   font-weight: bold;
   font-size: 20px;
   font-family: "loto", helvetica, arial, sans-serif;
-}
+} */
 
 .linkedin-icon {
   margin-left: 40px;
@@ -435,6 +455,7 @@
 
 .mentor-description {
   margin-top: 1rem;
+  line-break: anywhere;
 }
 
 .mentor-headline {
@@ -555,7 +576,7 @@
   flex-wrap: wrap;
 }
 
-@media screen and (max-width: 1024px) {
+/* @media screen and (max-width: 1024px) {
   .mentor-profile-content {
     padding: 1rem;
   }
@@ -611,9 +632,40 @@
   .skill-tag {
     font-size: 0.8rem;
   }
-}
+} */
 
 .SingleMentorProfile-Flex {
   display: flex;
   margin: 0px 1rem;
 }
+.Hide-elementforScreenSizeFull{
+display: none;
+}
+
+@media screen and (max-width: 1275px) {
+  .SingleMentorProfile-Flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .Hide-elementforScreenSize1275{
+    display: none;
+  }
+  .Hide-elementforScreenSizeFull{
+    display: inline;
+    }
+}
+@media screen and (max-width: 1120px) {
+  .MentorProfile-container{
+    transform: translateY(-7rem);
+  }
+}
+@media screen and (max-width: 627px) {
+  .mentor-name{
+    color: #222e82;
+  }
+  .mentor-company{
+    color: #222e82;
+    line-height: 2rem;
+  }
+}
+

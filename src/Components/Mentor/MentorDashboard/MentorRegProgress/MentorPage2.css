@@ -69,8 +69,6 @@ textarea {
   font-family: "Lato", sans-serif;
 }
 
-
-
 .tag343 {
   border: 1px solid gray;
   border-radius: 19px;
@@ -136,8 +134,6 @@ textarea {
   color: #848484;
 }
 .MentorRegInstitutePage {
-  position: absolute;
-  top: -11rem;
   width: 100%;
   height: 11rem;
   background-color: #f9f9f9;
@@ -150,4 +146,77 @@ textarea {
 }
 .MR-positionInstitute {
   position: relative;
+}
+
+.MentorPage2-EduD-Row {
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.MentorProfile-EduD-Removebtn {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+}
+.Mentorpage2-edu-Addbtn {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+}
+
+.mentorMicroHelpIcon {
+  width: 25px;
+  /* height: 25px; */
+  color: #6f7276;
+  /* border-radius: 50%; */
+  text-align: center;
+  /* line-height: 25px; */
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+}
+.mentorMicroHelpMessageDomain {
+  position: absolute;
+  /* left: 8rem; */
+  /* top: 50%; */
+  /* transform: translateY(-50%); */
+  padding: 10px;
+  background-color: rgb(249, 249, 249);
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 5px;
+
+  z-index: 10;
+}
+.mentorMicroHelpMessageSkills {
+  position: absolute;
+  /* left: 6rem;
+  top: -19%; */
+  /* width: 50%; */
+  /* transform: translateY(-50%); */
+  padding: 10px;
+  background-color: rgb(249, 249, 249);
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 5px;
+ 
+  z-index: 10;
+}
+.mentorMicroHelpMessagePrice{
+  position: absolute;
+  padding: 10px;
+  background-color: rgb(249, 249, 249);
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 5px;
+ 
+  z-index: 10;
+}
+.Mentor-Microhelp-listFrontSize{
+  font-size: 75%;
 }

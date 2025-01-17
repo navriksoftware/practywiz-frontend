@@ -11,6 +11,11 @@ const AllMentorCard = ({ mentor }) => {
           <img
             src={mentor.mentor_profile_photo}
             alt={mentor.user_firstname + " " + mentor.user_lastname}
+            style={{
+              width: "200px",
+              height: "200px",
+              objectFit: "cover",
+            }}
           />
         </div>
         <div className="dfhjbghfjgfgh22">

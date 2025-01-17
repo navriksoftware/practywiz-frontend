@@ -14,7 +14,11 @@ const MentorUpcomingSessionCard = ({ allBookingSessions, user, token }) => {
       try {
         const response = await axios.post(
           `${url}api/v1/mentor/booking/appointment/update`,
-          { bookingId: BookingId, mentorUserDtlsId, menteeUserDtlsId }
+          {
+            bookingId: BookingId,
+            mentorUserDtlsId: user.user_id,
+            menteeUserDtlsId,
+          }
         );
         if (response.data.success) {
           toast.success("Successfully updated mentor booking session.");
@@ -42,7 +46,7 @@ const MentorUpcomingSessionCard = ({ allBookingSessions, user, token }) => {
                   <div className="col-lg-12">
                     <div className="doiejrer_left">
                       <div className="kmg">
-                        <img src={session.mentor_profile_photo} alt="" />
+                        <img src={session.mentee_profile_pic_url} alt="" />
                       </div>
                     </div>
                   </div>
@@ -51,9 +55,11 @@ const MentorUpcomingSessionCard = ({ allBookingSessions, user, token }) => {
                     <div className="doiejrer_right mt-3">
                       <div className="dfhjbghfjgfgh22">
                         <h4>
-                          {session.user_firstname + " " + session.user_lastname}
+                          {session.mentee_firstname +
+                            " " +
+                            session.mentee_lastname}
                         </h4>
-                        <h5>{session.mentor_job_title}</h5>
+                        <h5>{session.mentee_type}</h5>
                         <hr />
                         <div className="row mt-3 justify-content-center">
                           <div className="col-lg-6 mb-2">

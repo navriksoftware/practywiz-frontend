@@ -77,6 +77,10 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
       toast.error("All fields are required!");
       return false;
     }
+    if (mentee_aboutyouself.length < 100) {
+      toast.error("About Me feild Must be greater than 100 characters.");
+      return false;
+    }
     // Validate LinkedIn URL pattern
     if (!linkedInPattern.test(mentee_linkedin_link)) {
       toast.error("Please provide a valid LinkedIn profile URL!");
@@ -317,7 +321,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                     <textarea
                       name="mentee_aboutyouself"
                       className="form-control MentorProfile-BorderColor"
-                      style={{ height: "40px" }}
+                      style={{ height: "100px" }}
                       placeholder="Write something about yourself"
                       value={formData?.mentee_aboutyouself}
                       onChange={handleInputChange}

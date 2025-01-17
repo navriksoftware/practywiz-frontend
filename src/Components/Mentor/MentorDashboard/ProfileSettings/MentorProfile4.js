@@ -22,7 +22,6 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
       ...base,
       display: "flex",
       width: "100%",
-      // padding: "0.375rem 2.25rem 0.375rem 0.75rem",
       fontSize: "1rem",
       fontWeight: 400,
       lineHeight: 1.5,
@@ -60,9 +59,11 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedCurrency, setSelectedCurrency] = useState(
-    formData.mentor_currency_type
-  );
+  const [selectedCurrency, setSelectedCurrency] = useState("");
+  useEffect(() => {
+    const CurrencyType = formData.mentor_currency_type;
+    setSelectedCurrency(CurrencyType);
+  }, []);
 
   const [selectedSkills, setSelectedSkills] = useState(() => {
     try {
@@ -76,8 +77,9 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
   const [priceError, setPriceError] = useState("");
 
   // Get current currency configuration
-  const getCurrentCurrencyConfig = () =>
-    CURRENCY_CONFIG[selectedCurrency] || CURRENCY_CONFIG.USD;
+  const getCurrentCurrencyConfig = () => {
+    return CURRENCY_CONFIG?.[selectedCurrency] ?? CURRENCY_CONFIG.USD;
+  };
 
   // Handle currency change with more robust logic
   const handleCurrencyChange = (event) => {
@@ -235,6 +237,19 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
       }
     }
   };
+  const [visibleHelp, setVisibleHelp] = useState({
+    PriceHelp: false,
+    GuestLecturesHelp: false,
+    CaseStudiesHelp: false,
+  });
+
+  const handleMouseEnter = (field) => {
+    setVisibleHelp((prev) => ({ ...prev, [field]: true }));
+  };
+
+  const handleMouseLeave = (field) => {
+    setVisibleHelp((prev) => ({ ...prev, [field]: false }));
+  };
 
   return (
     <div className="doiherner_wrapper">
@@ -260,10 +275,13 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
               </label>
               <select
                 className="form-select"
-                value={selectedCurrency}
                 onChange={handleCurrencyChange}
                 disabled={!isEditing}
               >
+                {" "}
+                <option value={profiledata?.mentor_currency_type}>
+                  {profiledata?.mentor_currency_type}
+                </option>
                 {Object.keys(CURRENCY_CONFIG).map((currency) => (
                   <option key={currency} value={currency}>
                     {currency}
@@ -274,10 +292,42 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
           </div>
 
           {/* Pricing Input */}
-          <div className="col-lg-6">
+          <div
+            className="col-lg-6"
+            style={{
+              marginBottom: "20px",
+              position: "relative",
+            }}
+          >
             <div className="mb-4">
               <label className="form-label">
-                <b>Pricing</b> <span className="RedColorStarMark">*</span>
+                <b>Pricing</b> <span className="RedColorStarMark">*</span>{" "}
+                <i
+                  className="fa-solid fa-circle-info mentorMicroHelpIcon"
+                  onMouseEnter={() => handleMouseEnter("PriceHelp")}
+                  onMouseLeave={() => handleMouseLeave("PriceHelp")}
+                ></i>
+                {visibleHelp.PriceHelp && (
+                  <div className="mentorMicroHelpMessagePrice">
+                    <ul>
+                      <li className="Mentor-Microhelp-listFrontSize">
+                        Please enter the amount you will earn for a 60-minute
+                        call below. For shorter calls, the payment will be
+                        prorated. For example, a 30-minute call will earn half
+                        the total amount.
+                      </li>
+                      <li className="Mentor-Microhelp-listFrontSize">
+                        Your price will determine the amount that you will
+                        receive after deduction of convenience fee ( 5%) and
+                        bank transfer charges
+                      </li>
+                      <li className="Mentor-Microhelp-listFrontSize">
+                        We will request you to enter your bank account details
+                        in your profile after completion of registration process
+                      </li>
+                    </ul>
+                  </div>
+                )}
                 <span className="text-muted">
                   (Range: {getCurrentCurrencyConfig().symbol}
                   {getCurrentCurrencyConfig().range.min} -
@@ -294,7 +344,7 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
                 placeholder={`Enter price in ${selectedCurrency}`}
               />
               {priceError && (
-                <div className="invalid-feedback">{priceError}</div>
+                <div className="Error-meg-login-register">{priceError}</div>
               )}
             </div>
           </div>
@@ -304,8 +354,8 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
           <div className="col-lg-6">
             <div className="mb-4">
               <label className="form-label">
-                <b>Language</b>
-                <span className="RedColorStarMark"></span>(Multiple)
+                <b>Language's</b>
+                <span className="RedColorStarMark"></span>
               </label>
               <Select
                 options={LanguageMulti}
@@ -319,32 +369,34 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
             </div>
           </div>
 
-          {/* Free Sessions Dropdown */}
-          <div className="col-lg-6">
-            <div className="mb-4">
-              <label className="form-label">
-                <b>Free Sessions for Alums</b>
-                <span className="RedColorStarMark">*</span>
-              </label>
-              <select
-                className="form-select"
-                name="mentor_sessions_free_of_charge"
-                value={formData.mentor_sessions_free_of_charge}
-                onChange={handleInputChange}
-                disabled={!isEditing}
-              >
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-          </div>
-
           {/* Guest Lectures Interest */}
-          <div className="col-lg-6">
+          <div
+            className="col-lg-6"
+            style={{
+              marginBottom: "20px",
+              position: "relative",
+            }}
+          >
             <div className="mb-4">
               <label className="form-label">
-                <b>Guest Lectures Interest</b>
+                <b> Would You Be Interested in Delivering Guest Lectures? </b>
                 <span className="RedColorStarMark">*</span>
+                <i
+                  className="fa-solid fa-circle-info mentorMicroHelpIcon"
+                  onMouseEnter={() => handleMouseEnter("GuestLecturesHelp")}
+                  onMouseLeave={() => handleMouseLeave("GuestLecturesHelp")}
+                ></i>
+                {visibleHelp.GuestLecturesHelp && (
+                  <div className="mentorMicroHelpMessagePrice">
+                    <ul>
+                      <li className="Mentor-Microhelp-listFrontSize">
+                        By opting for the Guest Lecture option, your profile
+                        will be visible to institutions that are looking for
+                        part-time lecturers
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </label>
               <select
                 className="form-select"
@@ -360,16 +412,67 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
           </div>
 
           {/* Case Studies Interest */}
-          <div className="col-lg-6">
+          <div
+            className="col-lg-6"
+            style={{
+              marginBottom: "20px",
+              position: "relative",
+            }}
+          >
             <div className="mb-4">
               <label className="form-label">
-                <b>Case Studies Interest</b>
+                <b>Would You Be Interested in Curating Case Studies? </b>
                 <span className="RedColorStarMark">*</span>
+                <i
+                  className="fa-solid fa-circle-info mentorMicroHelpIcon"
+                  onMouseEnter={() => handleMouseEnter("CaseStudiesHelp")}
+                  onMouseLeave={() => handleMouseLeave("CaseStudiesHelp")}
+                ></i>
+                {visibleHelp.CaseStudiesHelp && (
+                  <div className="mentorMicroHelpMessagePrice">
+                    <ul>
+                      <li className="Mentor-Microhelp-listFrontSize">
+                        By opting for the Case Study option, you can become a
+                        case study contributor and get paid for it
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </label>
               <select
                 className="form-select"
                 name="mentor_curating_case_studies_interest"
                 value={formData.mentor_curating_case_studies_interest}
+                onChange={handleInputChange}
+                disabled={!isEditing}
+              >
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Free Sessions Dropdown */}
+          <div
+            className="col-lg-6"
+            style={{
+              marginBottom: "20px",
+              position: "relative",
+            }}
+          >
+            <div className="mb-4">
+              <label className="form-label">
+                <b>
+                  {" "}
+                  Would You Be Open to Offering Three Free Sessions For Your
+                  Alumni?{" "}
+                </b>
+                <span className="RedColorStarMark">*</span>
+              </label>
+              <select
+                className="form-select"
+                name="mentor_sessions_free_of_charge"
+                value={formData.mentor_sessions_free_of_charge}
                 onChange={handleInputChange}
                 disabled={!isEditing}
               >

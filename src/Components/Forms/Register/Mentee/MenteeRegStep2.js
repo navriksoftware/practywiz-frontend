@@ -143,7 +143,7 @@ const MenteeRegStep2 = () => {
             type="radio"
             id="rdo4"
             className="radio-input"
-            value={"student"}
+            value={"Student"}
             defaultChecked
             onClick={handleOptionTrue}
             {...register("mentee_type", {
@@ -158,7 +158,7 @@ const MenteeRegStep2 = () => {
             type="radio"
             id="rdo5"
             className="radio-input"
-            value={"workingprof"}
+            value={"Working Professional"}
             onClick={handleOptionFalse}
             {...register("mentee_type", {
               required: "Please select one of the options",
@@ -170,23 +170,9 @@ const MenteeRegStep2 = () => {
 
           <input
             type="radio"
-            id="rdo6"
-            className="radio-input"
-            value={"corporate"}
-            onClick={handleOptionFalse}
-            {...register("mentee_type", {
-              required: "Please select one of the options",
-            })}
-          />
-          <label htmlFor="rdo6" className="radio-label pe-3">
-            <span className="radio-border"></span> Corporate
-          </label>
-
-          <input
-            type="radio"
             id="rdo10"
             className="radio-input"
-            value={"fresher"}
+            value={"Fresher"}
             onClick={handleOptionFalse}
             {...register("mentee_type", {
               required: "Please select one of the options",
@@ -386,6 +372,31 @@ const MenteeRegStep2 = () => {
             placeholder="Write something about yourself"
             {...register("mentee_About", {
               required: "Write something about yourself",
+              minLength: {
+                value: 100,
+                message: "Must be greater than 100 characters.",
+              },
+              maxLength: {
+                value: 1000,
+                message: "Must be less than 1000 characters.",
+              },
+              validate: (value) => {
+                const trimmedValue = value.trim();
+                // Check if the input contains at least 3 alphanumeric characters
+                const hasEnoughAlphanumeric =
+                  (trimmedValue.match(/[a-zA-Z0-9]/g) || []).length >= 3;
+                // Check if more than 3 consecutive spaces exist
+                const hasTooManySpaces = /\s{4,}/.test(value);
+
+                if (!hasEnoughAlphanumeric) {
+                  return "Must contain at least 3 alphanumeric characters.";
+                }
+                if (hasTooManySpaces) {
+                  return "Must not contain more than 3 consecutive spaces.";
+                }
+
+                return true;
+              },
             })}
             onChange={() => clearErrors("mentee_About")} // Clear errors when user types
           ></textarea>

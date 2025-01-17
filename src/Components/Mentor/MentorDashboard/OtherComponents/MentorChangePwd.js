@@ -100,12 +100,12 @@ const MentorChangePwd = ({ user, token }) => {
                   className="password-toggle"
                   onClick={() => setShowNewPassword(!showNewPassword)}
                 >
-                  {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                  {showNewPassword ? <FaEye /> : <FaEyeSlash />}
                 </button>
-                {errors.newPassword && (
-                  <p className="text-danger">{errors.newPassword.message}</p>
-                )}
               </div>
+              {errors.newPassword && (
+                <p className="text-danger">{errors.newPassword.message}</p>
+              )}
               <div className="mb-3 position-relative">
                 <label className="label-control">Confirm New Password</label>
                 <input
@@ -126,14 +126,14 @@ const MentorChangePwd = ({ user, token }) => {
                     setShowConfirmNewPassword(!showConfirmNewPassword)
                   }
                 >
-                  {showConfirmNewPassword ? <FaEyeSlash /> : <FaEye />}
+                  {showConfirmNewPassword ? <FaEye /> : <FaEyeSlash />}
                 </button>
-                {errors.confirmNewPassword && (
-                  <p className="text-danger">
-                    {errors.confirmNewPassword.message}
-                  </p>
-                )}
               </div>
+              {errors.confirmNewPassword && (
+                <p className="text-danger">
+                  {errors.confirmNewPassword.message}
+                </p>
+              )}
               <button className="btn btn-main" type="submit">
                 Change Password
               </button>

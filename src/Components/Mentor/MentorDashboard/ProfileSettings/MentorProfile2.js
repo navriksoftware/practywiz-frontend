@@ -204,28 +204,21 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
     }
   }, [DomainList]);
   // ------------------------------------------------------------------------------------------
-  const [SkillsPre, setSkillsPre] = useState();
   useEffect(() => {
     if (profiledata?.mentor_area_expertise !== "undefined") {
       if (profiledata?.mentor_area_expertise !== "[]") {
         const Skills = JSON.parse(profiledata?.mentor_area_expertise);
-        setSkillsPre(Skills);
+        if (Skills && Array.isArray(Skills)) {
+          const tempList = [];
+          for (let i = 0; i < Skills.length; i++) {
+            tempList.push(Skills[i]);
+          }
+          setSkillList(tempList);
+        }
       }
     }
   }, []);
-
-  const [skillList, setSkillList] = useState([]); // For added skills
-
-  useEffect(() => {
-    if (SkillsPre && Array.isArray(SkillsPre)) {
-      const tempList = [];
-      for (let i = 0; i < SkillsPre.length; i++) {
-        tempList.push(SkillsPre[i]);
-      }
-      setSkillList(tempList);
-    }
-  }, []); // Re-run the effect when DomainPre changes
-
+  const [skillList, setSkillList] = useState([]);
   const [skills, setSkills] = useState(""); // For the input field
 
   const [suggestions, setSuggestions] = useState([]); // For suggestions
@@ -361,6 +354,22 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
     }
   };
 
+  const [visibleHelp, setVisibleHelp] = useState({
+    DomainHelp: false,
+    SkillHelp: false,
+    PriceHelp: false,
+    GuestLecturesHelp: false,
+    CaseStudiesHelp: false,
+  });
+
+  const handleMouseEnter = (field) => {
+    setVisibleHelp((prev) => ({ ...prev, [field]: true }));
+  };
+
+  const handleMouseLeave = (field) => {
+    setVisibleHelp((prev) => ({ ...prev, [field]: false }));
+  };
+
   return (
     <main>
       {!isEditing && (
@@ -423,7 +432,7 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
             </div>
             <div className="col-lg-6 mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Company</b>
+                <b>Company Name</b>
                 <span className="RedColorStarMark">*</span>
               </label>
               <input
@@ -438,10 +447,37 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
             </div>
 
             {/* Domain section */}
-            <div className="col-lg-6 mb-4">
+            <div
+              className="col-lg-6 mb-4"
+              style={{
+                marginBottom: "20px",
+                position: "relative",
+              }}
+            >
               <label htmlFor="mentorJobTitle" className="form-label">
-                <b>Domain</b>
-                <span className="RedColorStarMark">*</span>(Multiple)
+                <b>Domain's</b>
+                <span className="RedColorStarMark">*</span>{" "}
+                <i
+                  className="fa-solid fa-circle-info mentorMicroHelpIcon"
+                  onMouseEnter={() => handleMouseEnter("DomainHelp")}
+                  onMouseLeave={() => handleMouseLeave("DomainHelp")}
+                ></i>
+                {visibleHelp.DomainHelp && (
+                  <div className="mentorMicroHelpMessageDomain">
+                    <ul>
+                      <li className="Mentor-Microhelp-listFrontSize">
+                        {" "}
+                        Select or enter the fields where you specialize (e.g.,
+                        Technology, Education, Healthcare).
+                      </li>
+                      <li className="Mentor-Microhelp-listFrontSize">
+                        {" "}
+                        Note: You can add multiple domains to represent your
+                        areas of expertise.
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </label>
               <div className="input-wrapper">
                 <Controller
@@ -520,12 +556,36 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
           <div className="row ">
             <div className="col-lg-12"></div>
             {/* skill section */}
-            <div className="col-lg-12 mb-4">
+            <div className="col-lg-12 mb-4"  style={{
+               
+                position: "relative",
+              }}>
               <label htmlFor="mentorJobTitle" className="form-label">
                 <b>
-                  Skills
+                  Skill's
                   {/* <span className="RedColorStarMark">*</span> */}
-                </b>(Multiple)
+                </b>
+                <i
+                  className="fa-solid fa-circle-info mentorMicroHelpIcon"
+                  onMouseEnter={() => handleMouseEnter("SkillHelp")}
+                  onMouseLeave={() => handleMouseLeave("SkillHelp")}
+                ></i>
+                {visibleHelp.SkillHelp && (
+                  <div className="mentorMicroHelpMessageSkills">
+                    <ul>
+                      <li className="Mentor-Microhelp-listFrontSize">
+                        {" "}
+                        List the key skills you specialize in within your
+                        domains (e.g., Python,Data Analysis,Public Speaking).
+                      </li>
+                      <li className="Mentor-Microhelp-listFrontSize">
+                        Why This Matters: Your skills help mentees understand
+                        your expertise and choose you as their mentor for
+                        relevant guidance.
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </label>
               <div className="input-wrapper">
                 <input

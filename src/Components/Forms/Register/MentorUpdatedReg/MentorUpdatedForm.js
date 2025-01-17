@@ -12,6 +12,7 @@ import {
   showLoadingHandler,
 } from "../../../../Redux/loadingRedux";
 import axios from "axios";
+import "./MentroTest.css"
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../../../Redux/userRedux";
@@ -239,7 +240,7 @@ const MentorUpdatedForm = () => {
                     type="text"
                     className="form-control"
                     id="contacPersonFirstName"
-                    placeholder="Enter your first name....."
+                    placeholder="Enter your first name"
                     {...register("mentor_firstname", {
                       required: "First Name is required",
                       pattern: {
@@ -267,7 +268,7 @@ const MentorUpdatedForm = () => {
                     type="text"
                     className="form-control"
                     id="contacPersonLastName"
-                    placeholder="Enter your last name....."
+                    placeholder="Enter your last name"
                     {...register("mentor_lastname", {
                       required: "Last Name is required",
                       pattern: {
@@ -294,7 +295,7 @@ const MentorUpdatedForm = () => {
                     }}
                     type="email"
                     className="form-control"
-                    placeholder="Enter your email address....."
+                    placeholder="Enter your email address"
                     aria-describedby="emailHelp"
                     {...register("mentor_email", {
                       required: "Email is required",
@@ -380,7 +381,7 @@ const MentorUpdatedForm = () => {
                     className="form-control"
                     // id="exampleInputEmail1"
                     // disabled={!inputOn}
-                    placeholder="Enter your password....."
+                    placeholder="Enter your password"
                     aria-describedby="emailHelp"
                     type={showIcons ? "text" : "password"}
                     {...register("mentor_password", {

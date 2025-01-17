@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { logOut } from "../../Redux/userRedux";
+import { ApiURL } from "../../Utils/ApiURL";
 // import Logo2 from "../../Images/logo.png";
 const Navbar = () => {
   const user = useSelector((state) => state.user?.currentUser);
   const [menutoggle, setmenutoggle] = useState(false);
   const [menuOn, setmenuOn] = useState(false);
+  const url = ApiURL();
 
   const [visible, setVisible] = useState(false);
   const toggleVisible = () => {
@@ -146,7 +148,7 @@ const Navbar = () => {
                           </Link>
                         </li>
                         <li>
-                          <Link to={`${user.user_type}/dashboard`}>
+                          <Link to={`/${user.user_type}/dashboard`}>
                             {user?.user_type + " Dashboard"}
                           </Link>
                         </li>
@@ -343,7 +345,7 @@ const Navbar = () => {
                           </Link>
                         </li>
                         <li>
-                          <Link to={`${user.user_type}/dashboard`}>
+                          <Link to={`/${user.user_type}/dashboard`}>
                             {user?.user_type + " Dashboard"}
                           </Link>
                         </li>
