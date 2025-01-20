@@ -175,60 +175,70 @@ export const countryCurrencyMapping = [
   {
     country: "United States",
     currency: "US",
+    currencyT: "USD",
     currencySymbol: "$",
     conversionRate: 1, // Conversion rate relative to USD
   },
   {
     country: "India",
     currency: "IN",
+    currencyT: "INR",
     currencySymbol: "₹",
     conversionRate: 82.5, // 1 USD = 82.50 INR
   },
   {
     country: "United Kingdom",
     currency: "GB",
+    currencyT: "GBP",
     currencySymbol: "£",
     conversionRate: 0.75, // 1 USD = 0.75 GBP
   },
   {
     country: "Canada",
-    currency: "CA",
+    currency: "CAD",
+    currencyT: "USD",
     currencySymbol: "C$",
     conversionRate: 1.36, // 1 USD = 1.36 CAD
   },
   {
     country: "Eurozone",
     currency: "EU",
+    currencyT: "EUR",
     currencySymbol: "€",
     conversionRate: 0.92, // 1 USD = 0.92 EUR
   },
   {
     country: "Australia",
     currency: "AU",
+    currencyT: "AUD",
     currencySymbol: "A$",
     conversionRate: 1.5, // 1 USD = 1.50 AUD
   },
   {
     country: "Japan",
     currency: "JP",
+    currencyT: "JPY",
     currencySymbol: "¥",
     conversionRate: 130.15, // 1 USD = 130.15 JPY
   },
   {
     country: "China",
     currency: "CN",
+    currencyT: "CNY",
     currencySymbol: "¥",
     conversionRate: 7.15, // 1 USD = 7.15 CNY
   },
   {
     country: "Brazil",
     currency: "BR",
+    currencyT: "BRL",
     currencySymbol: "R$",
     conversionRate: 5.25, // 1 USD = 5.25 BRL
   },
   {
     country: "Mexico",
     currency: "MX",
+    currencyT: "MXN",
     currencySymbol: "MX$",
     conversionRate: 18.45, // 1 USD = 18.45 MXN
   },

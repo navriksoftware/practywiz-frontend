@@ -85,12 +85,12 @@ const CustomDatePicker = ({
     const relevantSlots = timeslotList.filter(
       (slot) =>
         slot.mentor_timeslot_day === dayName &&
-        (slot.mentor_timeslot_duration.substring(0, 2) ===
-          mentorTimeSlotDuration.toString() ||
+        (slot.mentor_timeslot_duration === mentorTimeSlotDuration.toString() ||
           slot.mentor_timeslot_duration === "Both") &&
         new Date(slot.mentor_timeslot_rec_start_timeframe) <= date &&
         new Date(slot.mentor_timeslot_rec_end_timeframe) >= date
     );
+
     return relevantSlots.flatMap((slot) =>
       splitSlots(
         slot.mentor_timeslot_from,

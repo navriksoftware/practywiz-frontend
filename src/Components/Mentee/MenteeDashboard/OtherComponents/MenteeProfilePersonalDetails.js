@@ -278,7 +278,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                   </div>
                   <div className="ufguirniirtr position-relative col-lg-6 pb-3">
                     <label htmlFor="" className="form-label">
-                      <b>Languages</b>(Multiple)
+                      <b>language's</b>
                     </label>
                     <Select
                       isDisabled={!ifEdit}
@@ -288,24 +288,6 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       closeMenuOnSelect={false}
                       onChange={handleLanguageChange} // Handle the onChange event
                       styles={customStyles}
-                      // styles={{
-                      //   control: (base) => ({
-                      //     ...base,
-                      //     fontFamily: "Lato", // Apply Lato font to the control
-                      //   }),
-                      //   menu: (base) => ({
-                      //     ...base,
-                      //     fontFamily: "Lato", // Apply Lato font to the menu options
-                      //   }),
-                      //   option: (base, state) => ({
-                      //     ...base,
-                      //     fontFamily: "Lato", // Apply Lato font to the options
-                      //     backgroundColor: state.isFocused
-                      //       ? "#f0f0f0"
-                      //       : "white", // Optional: Add hover effect
-                      //     color: state.isSelected ? "#333" : "#000", // Optional: Add selected option color
-                      //   }),
-                      // }}
                     />
                     <div id="ypautosuggestions"></div>
                   </div>

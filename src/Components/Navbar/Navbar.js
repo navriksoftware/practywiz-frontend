@@ -4,13 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { logOut } from "../../Redux/userRedux";
-import { ApiURL } from "../../Utils/ApiURL";
 // import Logo2 from "../../Images/logo.png";
 const Navbar = () => {
   const user = useSelector((state) => state.user?.currentUser);
   const [menutoggle, setmenutoggle] = useState(false);
   const [menuOn, setmenuOn] = useState(false);
-  const url = ApiURL();
 
   const [visible, setVisible] = useState(false);
   const toggleVisible = () => {
@@ -92,11 +90,12 @@ const Navbar = () => {
         <div className="header-wrapper">
           <div className="container-fluid">
             <nav
-              className="navbar fixed-top mx-4 px-3 mt-2 navbar-expand-sm navbar-light 
+              className="navbar fixed-top mx-4 px-3 mt-2 navbar-expand-md navbar-light 
           navbarcolor
             "
             >
-              <div className="container">
+              <div className="nav-container">
+                {/* <div className="container"> */}
                 <a className="navbar-brand" href="/" id="diorjer-logo">
                   <img src={Logo} alt="Logo" id="dbgheuirbr-image-a" />
 
@@ -148,7 +147,7 @@ const Navbar = () => {
                           </Link>
                         </li>
                         <li>
-                          <Link to={`/${user.user_type}/dashboard`}>
+                          <Link to={`${user.user_type}/dashboard`}>
                             {user?.user_type + " Dashboard"}
                           </Link>
                         </li>
@@ -345,7 +344,7 @@ const Navbar = () => {
                           </Link>
                         </li>
                         <li>
-                          <Link to={`/${user.user_type}/dashboard`}>
+                          <Link to={`${user.user_type}/dashboard`}>
                             {user?.user_type + " Dashboard"}
                           </Link>
                         </li>
@@ -361,7 +360,7 @@ const Navbar = () => {
                     </div>
                   ) : (
                     <div className="udgehrr" onMouseLeave={registermenuOff}>
-                      <button className="btn fvjhdf_btn btn-main mt-0 btn-mainHome">
+                      <button className="btn btn-login fvjhdf_btn btn-main mt-0 btn-mainHome">
                         <Link to="/login">LogIn</Link>
                       </button>
                       <div>

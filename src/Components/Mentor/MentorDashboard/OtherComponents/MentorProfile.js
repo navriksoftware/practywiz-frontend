@@ -107,13 +107,16 @@ const MentorProfile = ({ data, user, token }) => {
                 {sMentor.mentor_area_expertise !== "undefined" &&
                   sMentor?.mentor_area_expertise &&
                   sMentor.mentor_area_expertise !== "[]" &&
-                  JSON.parse(sMentor?.mentor_area_expertise)?.map(
+                  <div className="MentorProfile-SkillsShow"> { JSON.parse(sMentor?.mentor_area_expertise)?.map(
                     (skill, index) => (
+                      
                       <span key={index} className="MentorDashboardskill-tag">
                         {skill}
                       </span>
                     )
                   )}
+                  </div>
+                }
               </div>
               <div className="MentorDashboard-RatingSection">
                 <div>

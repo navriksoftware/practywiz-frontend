@@ -24,6 +24,7 @@ const MentorPage2 = () => {
     clearErrors,
     formState: { errors },
   } = useFormContext();
+  
   const { fields, append, remove } = useFieldArray({
     control,
     name: "MentorEduDetails",
@@ -47,13 +48,15 @@ const MentorPage2 = () => {
     return {};
   };
 
-  const [selectedCurrency, setSelectedCurrency] = useState("");
+  const [selectedCurrency, setSelectedCurrency] = useState("INR");
+  setValue("mentor_currency_type",selectedCurrency);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
 
   const handleCurrencyChange = (event) => {
     const newCurrency = event.target.value;
 
     setSelectedCurrency(newCurrency);
+    setValue("mentor_currency_type",newCurrency);
 
     setValue("pricing", "");
 
@@ -77,11 +80,14 @@ const MentorPage2 = () => {
       // Automatically set currency and price range based on the user's country
       const countryShort = data?.country;
       if (countryCurrencyData[countryShort]) {
-        const { currency, range } = countryCurrencyData[countryShort];
+        const { currency, range, currencyT } =
+          countryCurrencyData[countryShort];
         setSelectedCurrency(currency);
         const countryName = options.find((c) => c.sortname === countryShort);
         setValue("mentor_country", countryName.country_name);
-        setValue("mentorCityName", data?.city || "");
+        setValue("mentorCityName", data?.city);
+        setValue(" mentor_currency_type", currencyT);
+       
         setPriceRange(range);
       }
     } catch (error) {
@@ -91,7 +97,7 @@ const MentorPage2 = () => {
 
       setSelectedCurrency(currency);
       setValue("mentor_country", "");
-      setValue("mentor_country", currency);
+      setValue(" mentor_currency_type","INR");
       setPriceRange(range);
       setValue("pricing", "");
     }
@@ -982,9 +988,9 @@ const MentorPage2 = () => {
                   ))}
                 </select>
 
-                {errors.mentorCurrency && (
+                {errors. mentor_currency_type && (
                   <p className="Error-meg-login-register">
-                    {errors.mentorCurrency.message}
+                    {errors.mentor_currency_type.message}
                   </p>
                 )}
               </div>

@@ -113,7 +113,7 @@ const MentorRegProgressForm = ({
               "areaofmentorship",
               data.recommendedAreaOfMentorship
             );
-            newData.append("Currency", data.mentorCurrency);
+            newData.append("Currency", data.mentor_currency_type);
             newData.append("Pricing", data.pricing);
             newData.append("guestLectures", data.guestLecturesInterest);
             newData.append("CaseStudies", data.curatingCaseStudiesInterest);

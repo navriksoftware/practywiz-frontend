@@ -1,0 +1,121 @@
+.it-training-hero-container {
+  min-height: 80vh;
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.it-training-content-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.it-training-badge-container {
+  margin-bottom: 2rem;
+}
+
+.it-training-badge {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background-color: #e5ecfe;
+  color: #2563eb;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.it-training-title {
+  font-size: 3.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #111827;
+}
+
+.it-training-highlight {
+  color: #2563eb;
+}
+
+.it-training-description {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #4b5563;
+  max-width: 800px;
+  margin: 0 auto 2.5rem auto;
+}
+
+.it-training-button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.it-training-primary-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.it-training-primary-button:hover {
+  background-color: #1d4ed8;
+}
+
+.it-training-button-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.it-training-secondary-button {
+  padding: 0.875rem 2rem;
+  background-color: transparent;
+  color: #2563eb;
+  border: 2px solid #2563eb;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.it-training-secondary-button:hover {
+  background-color: #f3f0ff;
+}
+
+@media (max-width: 768px) {
+  .it-training-title {
+    font-size: 2.5rem;
+  }
+
+  .it-training-description {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .it-training-button-group {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+
+  .it-training-primary-button,
+  .it-training-secondary-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .it-training-title {
+    font-size: 2rem;
+  }
+}

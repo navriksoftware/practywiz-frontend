@@ -14,11 +14,7 @@ const MentorUpcomingSessionCard = ({ allBookingSessions, user, token }) => {
       try {
         const response = await axios.post(
           `${url}api/v1/mentor/booking/appointment/update`,
-          {
-            bookingId: BookingId,
-            mentorUserDtlsId: user.user_id,
-            menteeUserDtlsId,
-          }
+          { bookingId: BookingId, mentorUserDtlsId, menteeUserDtlsId }
         );
         if (response.data.success) {
           toast.success("Successfully updated mentor booking session.");

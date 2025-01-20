@@ -165,6 +165,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: -1px 0px 16px 15px rgba(0, 0, 0, 0.05);
 }
 
 .details-card {
@@ -256,7 +260,6 @@ body {
 }
 
 @media (max-width: 480px) {
-  
   .menteeProfile-photoName {
     display: flex;
     gap: 2rem;

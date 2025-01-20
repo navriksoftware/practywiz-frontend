@@ -320,6 +320,17 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
   const removeSkill = (index) => {
     setSkillList(skillList.filter((_, i) => i !== index));
   };
+  const [visibleHelp, setVisibleHelp] = useState({
+    SkillHelp: false,
+  });
+
+  const handleMouseEnter = (field) => {
+    setVisibleHelp((prev) => ({ ...prev, [field]: true }));
+  };
+
+  const handleMouseLeave = (field) => {
+    setVisibleHelp((prev) => ({ ...prev, [field]: false }));
+  };
 
   const handleSavechanges = async (event) => {
     try {
@@ -412,16 +423,45 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
                         Working Professional
                       </option>
                     )}
-                    
+
                     {formData.mentee_type !== "Fresher" && (
                       <option value="Fresher">Fresher</option>
                     )}
                   </select>
                 </div>
 
-                <div className="col-lg-12 mb-4">
+                <div
+                  className="col-lg-12 mb-4"
+                  style={{
+                    marginBottom: "20px",
+                    position: "relative",
+                  }}
+                >
                   <label htmlFor="mentorJobTitle" className="form-label">
-                    <h3>Skills<span className="RedColorStarMark">*</span></h3>
+                    <h3>
+                      Skills<span className="RedColorStarMark">*</span>
+                      <i
+                        className="fa-solid fa-circle-info mentorMicroHelpIcon"
+                        onMouseEnter={() => handleMouseEnter("SkillHelp")}
+                        onMouseLeave={() => handleMouseLeave("SkillHelp")}
+                      ></i>
+                    </h3>{" "}
+                    {visibleHelp.SkillHelp && (
+                      <div className="mentorMicroHelpMessageSkills">
+                        <ul>
+                          <li className="Mentor-Microhelp-listFrontSize">
+                            Highlight the key skills you’re looking to develop
+                            or improve (e.g., Python, Data Analysis, Public
+                            Speaking).
+                          </li>
+                          <li className="Mentor-Microhelp-listFrontSize">
+                            Why This Matters: Listing your skills and interests
+                            helps your mentor provide more focused and effective
+                            guidance tailored to your needs.
+                          </li>
+                        </ul>
+                      </div>
+                    )}
                   </label>
                   <div className="input-wrapper">
                     <input
@@ -449,7 +489,9 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
                     )}
                   </div>
 
-                  {message && <span className="RedColorStarMark">{message}</span>}
+                  {message && (
+                    <span className="RedColorStarMark">{message}</span>
+                  )}
 
                   <div className="skill-list">
                     {skillList?.map((skill, index) => (
@@ -527,44 +569,7 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
                                       placeholder="Search for a college..."
                                       onChange={(e) => handleEduChange(e, i)}
                                       value={x.collage_name}
-                                      // onChange={(e) => handleSearchChange(e, i)}
-                                      // onFocus={() => setOpenDropdownIndex(i)}
-                                      // onBlur={() =>
-                                      //   setTimeout(
-                                      //     () => setOpenDropdownIndex(null),
-                                      //     100
-                                      //   )
-                                      // }
                                     />
-                                    {/* {x.collage_name && (
-                                      <button
-                                        type="button"
-                                        className="clear-button"
-                                        disabled={!ifEdit}
-                                        onClick={() => handleClearCollege(i)}
-                                      >
-                                        Clear
-                                      </button>
-                                    )}
-                                    {openDropdownIndex === i &&
-                                      filteredColleges.length > 0 && (
-                                        <div className="dropdown-content">
-                                          {filteredColleges
-                                            .slice(0, 10)
-                                            .map((college, index) => (
-                                              <div
-                                                key={index}
-                                                className="dropdown-item"
-                                                disabled={!ifEdit}
-                                                onClick={() =>
-                                                  handleOptionClick(college, i)
-                                                }
-                                              >
-                                                {college["College Name"]}
-                                              </div>
-                                            ))}
-                                        </div>
-                                      )} */}
                                   </div>
                                 </div>
                                 <div className="col-lg-6">
@@ -624,7 +629,9 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
                                         onChange={(e) => handleEduChange(e, i)}
                                       >
                                         <option value="">Select Year</option>
-                                        <option value={"Present"}>Present</option>
+                                        <option value={"Present"}>
+                                          Present
+                                        </option>
                                         {yearsForEnd.map((year) => (
                                           <option key={year} value={year}>
                                             {year}
@@ -733,7 +740,9 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
                                         onChange={(e) => handleEduChange(e, i)}
                                       >
                                         <option value="">Select Year</option>
-                                        <option value={"Present"}>Present</option>
+                                        <option value={"Present"}>
+                                          Present
+                                        </option>
                                         {yearsForEnd.map((year) => (
                                           <option key={year} value={year}>
                                             {year}

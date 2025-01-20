@@ -308,7 +308,12 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
                   onMouseLeave={() => handleMouseLeave("PriceHelp")}
                 ></i>
                 {visibleHelp.PriceHelp && (
-                  <div className="mentorMicroHelpMessagePrice">
+                  <div
+                    className="mentorMicroHelpMessagePrice"
+                    style={{
+                      width: "90%",
+                    }}
+                  >
                     <ul>
                       <li className="Mentor-Microhelp-listFrontSize">
                         Please enter the amount you will earn for a 60-minute
@@ -387,7 +392,12 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
                   onMouseLeave={() => handleMouseLeave("GuestLecturesHelp")}
                 ></i>
                 {visibleHelp.GuestLecturesHelp && (
-                  <div className="mentorMicroHelpMessagePrice">
+                  <div
+                    className="mentorMicroHelpMessagePrice"
+                    style={{
+                      width: "90%",
+                    }}
+                  >
                     <ul>
                       <li className="Mentor-Microhelp-listFrontSize">
                         By opting for the Guest Lecture option, your profile
@@ -429,7 +439,12 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
                   onMouseLeave={() => handleMouseLeave("CaseStudiesHelp")}
                 ></i>
                 {visibleHelp.CaseStudiesHelp && (
-                  <div className="mentorMicroHelpMessagePrice">
+                  <div
+                    className="mentorMicroHelpMessagePrice"
+                    style={{
+                      width: "90%",
+                    }}
+                  >
                     <ul>
                       <li className="Mentor-Microhelp-listFrontSize">
                         By opting for the Case Study option, you can become a

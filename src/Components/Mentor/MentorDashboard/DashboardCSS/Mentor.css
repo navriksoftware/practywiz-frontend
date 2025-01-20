@@ -8,7 +8,6 @@
   top: 0% !important;
 }
 .jhjhjujhhh {
-
   background: #ebf5ff;
   border-radius: 10px;
   text-align: center;
@@ -1647,12 +1646,14 @@ caption {
   .MentorProfile-name-section {
     color: #063880;
   }
- 
 }
 @media screen and (max-width: 540px) {
- 
-  .MentorProfile-span121{
+  .MentorProfile-span121 {
     display: flex;
   }
 }
 
+.MentorProfile-SkillsShow {
+  display: flex;
+  flex-wrap: wrap;
+}
