@@ -3,7 +3,7 @@ export const ApiURL = () => {
   const developmentURL =
     "https://practywiz-development-backend.azurewebsites.net/";
   const productionURL =
-    "https://practywiz-production-backend.azurewebsites.net/s";
+    "https://practywiz-production-backend.azurewebsites.net/";
   const testingURL = "https://development-testing.azurewebsites.net/";
   return productionURL;
 };
