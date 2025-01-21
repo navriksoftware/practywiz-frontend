@@ -211,9 +211,9 @@ const AllMentors = () => {
         </h4>
       </div>
 
-      <div className="kghfbgfgbhfg pb-0 " style={{ paddingTop: "2rem" }}>
+      <div className="kghfbgfgbhfg pb-0 " style={{ paddingTop: "1rem" }}>
         <div className="ighefirr bg-white py-2">
-          <p style={{ paddingLeft: "50px" }}>
+          {/* <p style={{ paddingLeft: "50px" }}>
             <Link to={"/"}>
               <i className="fa fa-home" style={{ fontSize: "14px" }}></i>
               Home
@@ -223,8 +223,8 @@ const AllMentors = () => {
               style={{ fontSize: "14px" }}
             ></i>
             Mentor Connect
-          </p>
-          <div className="container-fluid px-5">
+          </p> */}
+          <div className="container-fluid">
             <div className="uilhdier_filter_wrap d-flex slign-items-center justify-content-between">
               <div class="filter-container">
                 <div class="filter-button">
@@ -336,9 +336,9 @@ const AllMentors = () => {
         </div>
       </div>
       <div className="kjgbhdfdfgfghfghfg">
-        <div className="container-fluid px-5">
+        <div className="container-fluid">
           <div
-            className="nfhjgbgf"
+            className="AllMentor-showAllCards"
             style={{
               alignItems:
                 !loading && filteredMentors.length === 0 ? "center" : "",

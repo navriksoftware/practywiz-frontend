@@ -33,3 +33,6 @@
   align-items: flex-end;
   gap: 50px;
 }
+.step .react-tel-input .form-control {
+  background-color: #ffffff !important;
+}

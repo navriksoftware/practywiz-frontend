@@ -28,11 +28,11 @@ const MenteeProfileDashboard = ({ singleMentee, user, token }) => {
 
                         <div className="mentee-dashboardHeadline">
                           {" "}
-                          <div className="info-section">
-                            <h2 className="mentee-name">
+                          <div className="MenteeDashboard-info-section">
+                            <span className="mentee-name">
                               {mentee.mentee_firstname.toUpperCase()}{" "}
                               {mentee.mentee_lastname.toUpperCase()}
-                            </h2>
+                            </span>
                             {/* <div className="social-links">
                       <i className="fa-brands fa-linkedin-in"></i>
                       <i className="fa-brands fa-x-twitter"></i>

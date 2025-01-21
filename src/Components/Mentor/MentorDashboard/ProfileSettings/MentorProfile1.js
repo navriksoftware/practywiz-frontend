@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import CountryData from "../../../data/CountryData.json";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray, useWatch } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import collegeData from "../../../data/collegesname.json";
@@ -19,6 +19,13 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const url = ApiURL();
+  const {
+    setValue,
+    register,
+    control,
+    trigger,
+    formState: { errors },
+  } = useForm();
 
   const [formData, setFormData] = useState({
     mentor_firstname: profiledata?.mentor_firstname,
@@ -31,43 +38,67 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
     mentor_institute: profiledata.mentor_institute,
     mentor_academic_qualification: profiledata?.mentor_academic_qualification,
   });
-  const edulevel = formData.mentor_academic_qualification;
-  const {
-    setValue,
-    formState: { errors },
-  } = useForm();
 
-  const [searchTerm, setSearchTerm] = useState(formData.mentor_institute);
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "MentorEduDetails",
+  });
+  // Initialize form data
+  useEffect(() => {
+    if (profiledata?.mentor_institute) {
+      try {
+        const parsedData = JSON.parse(profiledata.mentor_institute);
+        setValue("MentorEduDetails", parsedData);
+      } catch (error) {
+        console.error("Error parsing mentor institute data:", error);
+        setValue("MentorEduDetails", []);
+      }
+    }
+  }, [profiledata, setValue]);
+  const formValues = useWatch({
+    control,
+    name: "MentorEduDetails",
+  });
 
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [selectedCollege, setSelectedCollege] = useState(null); // Store selected college
-
-  // Function to handle input change
-  const handleInputChange1 = (e) => {
-    // const value = e.target.value;
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-    setSearchTerm(value);
-    setValue("mentor_InstituteName", value);
-    setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
-  };
-
-  // Filter colleges based on the search term
-  const filteredColleges = collegeData.filter((item) =>
-    item["College Name"]?.toLowerCase().includes(searchTerm?.toLowerCase())
+  // Maintain separate state for each field
+  const [searchStates, setSearchStates] = useState(
+    fields.map(() => ({
+      searchTerm: "",
+      dropdownVisible: false,
+    }))
   );
 
-  // Function to handle dropdown option click
-  const handleOptionClick = (college) => {
-    setSelectedCollege(college); // Set selected college
-    setSearchTerm(college["College Name"]); // Update input with selected college name
-    setDropdownVisible(false); // Hide dropdown after selection
-    setValue("mentor_InstituteName", college["College Name"]);
-    formData.mentor_institute = college["College Name"];
+  const handleInputCollegeName = (e, index) => {
+    const value = e.target.value;
+    setSearchStates((prev) => {
+      const newStates = [...prev];
+      if (!newStates[index]) {
+        newStates[index] = { searchTerm: "", dropdownVisible: false };
+      }
+      newStates[index] = {
+        ...newStates[index],
+        searchTerm: value,
+        dropdownVisible: value !== "",
+      };
+      return newStates;
+    });
+    setValue(`MentorEduDetails.${index}.Institute`, value);
   };
+
+  const handleOptionClick = (college, index) => {
+    setSearchStates((prev) => {
+      const newStates = [...prev];
+      newStates[index] = {
+        searchTerm: college["College Name"],
+        dropdownVisible: false,
+      };
+      return newStates;
+    });
+    setValue(`MentorEduDetails.${index}.Institute`, college["College Name"]);
+  };
+  const edulevel = formData.mentor_academic_qualification;
+
+ 
   const [options, setOptions] = useState([]);
   useEffect(() => {
     setOptions(CountryData);
@@ -107,7 +138,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
     if (
       !social_media_profile?.trim() ||
       !mentor_country?.trim() ||
-      !mentor_institute?.trim() ||
+      // !mentor_institute?.trim() ||
       !mentor_country?.trim() ||
       !mentor_city?.trim()
     ) {
@@ -120,6 +151,12 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
       toast.error("Please provide a valid LinkedIn profile URL!");
       return false;
     }
+    if(Object.keys(errors).length){
+
+       toast.error("Please remove all error before saving the data ");
+      return false;
+
+    }
 
     return true;
   };
@@ -127,6 +164,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
   // Handle form submit
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log(formValues);
     if (validateForm()) {
       try {
         dispatch(showLoadingHandler());
@@ -135,6 +173,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
             `${url}api/v1/mentor/dashboard/update/profile-1`,
             {
               formData,
+              formValues,
               mentorUserDtlsId: user.user_id,
               mentor_email: profiledata?.mentor_email,
               mentorPhoneNumber: profiledata?.mentor_phone_number,
@@ -170,6 +209,8 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
     }
   };
 
+
+  
   return (
     <main>
       {!isEditing && (
@@ -184,7 +225,7 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
           </button>
         </div>
       )}
-      <div className="doiherner_wrapper">
+      <div className="doiherner_wrapper Mentor_Profile1">
         <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
           <div className="row">
             <div className="col-lg-6">
@@ -257,6 +298,24 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
               </div>
             </div>
 
+            <div className="col-lg-6">
+              <div className="csfvgdtrfs mb-4 position-relative">
+                <label className="form-label">
+                  <b>Linkedin Social Media Profile</b>
+                  <span className="RedColorStarMark">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="social_media_profile"
+                  className="form-control"
+                  placeholder="Linkedin Social Media Profile link"
+                  value={formData.social_media_profile}
+                  onChange={handleInputChange}
+                  disabled={!isEditing}
+                  pattern="/^https?:\/\/(www\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?$/"
+                />
+              </div>
+            </div>
             <div className="col-lg-6 mb-4">
               <label htmlFor="exampleInputEmail1" className="form-label mb-0">
                 <b>Academic Qualification</b>
@@ -309,87 +368,190 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
                 </ul>
               </div>
             </div>
+          </div>
+          <>
+            {fields.map((field, index) => {
+              const currentSearchState = searchStates[index] || {
+                searchTerm: "",
+                dropdownVisible: false,
+              };
+              const filteredColleges = collegeData.filter((item) =>
+                item["College Name"]
+                  .toLowerCase()
+                  .includes(currentSearchState.searchTerm.toLowerCase())
+              );
 
-            <div className=" col-lg-6 ">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                <b>Institute/College name</b>
-                <span className="RedColorStarMark">*</span>
-              </label>
-              <div className="dkjiherer moideuirer_list hello">
-                <div className="dropdown">
-                  <input
-                    type="text"
-                    name="mentor_institute"
-                    className="form-control"
-                    placeholder="Search for a college..."
-                    disabled={!isEditing}
-                    value={searchTerm} // Ensure input value is controlled
-                    onChange={handleInputChange1}
-                    onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
-                  />
-                  {dropdownVisible && filteredColleges.length > 0 && (
-                    <div className="dropdown-content">
-                      {filteredColleges.slice(0, 10).map(
-                        (
-                          college,
-                          index // Limit to 10 results
-                        ) => (
-                          <div
-                            key={index}
-                            className="dropdown-item"
-                            onClick={() => handleOptionClick(college)}
-                          >
-                            {college["College Name"]}
-                          </div>
-                        )
-                      )}
+              return (
+                <div className="row" key={field.id}>
+                  {fields.length > 1 && (
+                    <div className="MentorProfile-EduD-Removebtn">
+                      <i
+                        className="fa-solid fa-xmark"
+                        onClick={() => remove(index)}
+                      ></i>
                     </div>
                   )}
+
+                  <div className="col-lg-6">
+                    <div className="mb-4">
+                      <label className="form-label">
+                        <b>
+                          Institute Name:
+                          <span className="RedColorStarMark">*</span>
+                        </b>
+                      </label>
+
+                      <div className="MR-positionInstitute">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Choose/Search for a college"
+                          // value={currentSearchState.searchTerm}
+                          {...register(`MentorEduDetails.${index}.Institute`, {
+                            required: "Institute name is required",
+                          })}
+                          onChange={(e) => handleInputCollegeName(e, index)}
+                          onKeyUp={() =>
+                            trigger(`MentorEduDetails.${index}.Institute`)
+                          }
+                          disabled={!isEditing}
+                          onBlur={() => {
+                            setTimeout(() => {
+                              setSearchStates((prev) => {
+                                const newStates = [...prev];
+                                if (newStates[index]) {
+                                  newStates[index] = {
+                                    ...newStates[index],
+                                    dropdownVisible: false,
+                                  };
+                                }
+                                return newStates;
+                              });
+                            }, 200);
+                          }}
+                        />
+                        {currentSearchState.dropdownVisible &&
+                          filteredColleges.length > 0 && (
+                            <div className="MentorRegInstitutePage">
+                              {filteredColleges
+                                .slice(0, 50)
+                                .map((college, collegeIndex) => (
+                                  <div
+                                    key={`${index}-${collegeIndex}`}
+                                    className="dropdown-item"
+                                    onClick={() =>
+                                      handleOptionClick(college, index)
+                                    }
+                                  >
+                                    {college["College Name"]}
+                                  </div>
+                                ))}
+                            </div>
+                          )}
+                      </div>
+
+                      {errors.MentorEduDetails?.[index]?.Institute && (
+                        <span style={{ color: "red", fontSize: "12px" }}>
+                          {errors.MentorEduDetails[index].Institute.message}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="col-lg-6 MentorProfile1MentorEdu-Flex ">
+                    <div className="MentorProfile1-eduDetails-boxsize">
+                      <div className="mb-4">
+                        <label className="form-label">
+                          <b>
+                            Degree Name
+                            <span className="RedColorStarMark">*</span>
+                          </b>
+                        </label>
+                        <input
+                          className="form-control"
+                          {...register(`MentorEduDetails.${index}.Degree`, {
+                            required: "Degree Name is required",
+                          })}
+                          placeholder="Enter Degree"
+                          onKeyUp={() =>
+                            trigger(`MentorEduDetails.${index}.Degree`)
+                          }
+                          disabled={!isEditing}
+                        />
+                        {errors.MentorEduDetails?.[index]?.Degree && (
+                          <span style={{ color: "red", fontSize: "12px" }}>
+                            {errors.MentorEduDetails[index].Degree.message}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="MentorProfile1-eduDetails-boxsize">
+                      <div className="mb-4">
+                        <label className="form-label">
+                          <b>
+                            Year of completion:
+                            <span className="RedColorStarMark">*</span>
+                          </b>
+                        </label>
+                        <input
+                          className="form-control"
+                          {...register(
+                            `MentorEduDetails.${index}.YearCompletion`,
+                            {
+                              required: "Year of completion is required",
+                              pattern: {
+                                value: /^\d{4}$/, // Ensures exactly 4 digits
+                                message: "Year must be exactly 4 digits",
+                              },
+                              validate: (value) =>
+                                value.length === 4 || "Year must be exactly 4 characters long",
+                            }
+                          )}
+                          
+                          placeholder="Enter Year of completion"
+                          onKeyUp={() =>
+                            trigger(`MentorEduDetails.${index}.YearCompletion`)
+                          }
+                          disabled={!isEditing}
+                        />
+                        {errors.MentorEduDetails?.[index]?.YearCompletion && (
+                          <span style={{ color: "red", fontSize: "12px" }}>
+                            {
+                              errors.MentorEduDetails[index].YearCompletion
+                                .message
+                            }
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              );
+            })}
 
-            <div className="col-lg-6">
-              <div className="csfvgdtrfs mb-4 position-relative">
-                <label className="form-label">
-                  <b>Linkedin Social Media Profile</b>
-                  <span className="RedColorStarMark">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="social_media_profile"
-                  className="form-control"
-                  placeholder="Linkedin Social Media Profile link"
-                  value={formData.social_media_profile}
-                  onChange={handleInputChange}
-                  disabled={!isEditing}
-                  pattern="/^https?:\/\/(www\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?$/"
-                />
-              </div>
-            </div>
-
-            <div className="col-lg-6">
-              <div className="mb-4">
-                <label className="form-label">
-                  <b>Which Country do You Live in?</b>
-                  <span className="RedColorStarMark">*</span>
-                </label>
-                <select
-                  className=" form-select"
-                  name="mentor_country"
-                  value={formData.mentor_country}
-                  onChange={handleInputChange}
-                  disabled={!isEditing}
+            {fields.length < 3 && (
+              <div className="Mentorpage2-edu-Addbtn">
+                <span
+                  onClick={() => {
+                    append({
+                      Degree: "",
+                      Institute: "",
+                      YearCompletion: "",
+                    });
+                    setSearchStates((prev) => [
+                      ...prev,
+                      { searchTerm: "", dropdownVisible: false },
+                    ]);
+                  }}
                 >
-                  <option value="">{profiledata.mentor_country}</option>
-                  {options.map((option) => (
-                    <option key={option.country_id} value={option.country_name}>
-                      {option.country_name}
-                    </option>
-                  ))}
-                </select>
+                  <i className="fa-regular fa-plus"></i>
+                  Add More
+                </span>
               </div>
-            </div>
+            )}
+          </>
+          <div className="row">
             <div className="col-lg-6">
               <div className="csfvgdtrfs mb-4 position-relative">
                 <label
@@ -411,6 +573,29 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
                 />
 
                 <i className="fa-solid fa-map-location-dot position-absolute"></i>
+              </div>
+            </div>
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label className="form-label">
+                  <b>Which Country Do You Live in?</b>
+                  <span className="RedColorStarMark">*</span>
+                </label>
+                <select
+                  className=" form-select"
+                  name="mentor_country"
+                  value={formData.mentor_country}
+                  onChange={handleInputChange}
+                  disabled={!isEditing}
+                >
+                  <option value="">Please select your Country name</option>
+                  {/* <option value="">{profiledata.mentor_country}</option> */}
+                  {options.map((option) => (
+                    <option key={option.country_id} value={option.country_name}>
+                      {option.country_name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>

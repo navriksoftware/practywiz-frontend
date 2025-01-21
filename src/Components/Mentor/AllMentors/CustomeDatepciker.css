@@ -34,16 +34,19 @@
 
 .unorderlist {
   align-items: center;
-  display: flex;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
-  flex-wrap: wrap;
-  height: 12rem;
-  border: 1px solid #aeaeae;
-  border-radius: 5px;
-  padding: 2px;
-  overflow: auto;
+    display: flex
+;
+    /* justify-content: center; */
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+    height: 8rem;
+    border: 1px solid #aeaeae;
+    border-radius: 5px;
+    padding: 2px;
+    overflow: auto;
+    align-content: flex-start;
+    width: 23rem;
 }
 .selected-timeslot {
   border-color: #007bff;

@@ -18,8 +18,8 @@
 }
 .jhjhjujhhh h5 {
   color: #063880;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 500;
   line-height: 1.5;
 }
 .sdfasdfasdfasdf {
@@ -1462,6 +1462,13 @@ caption {
   width: 100%;
   position: relative;
 }
+.MentorProfile-linkedin-Icon {
+  padding: 2rem 2.5rem;
+  display: flex;
+  color: white;
+  justify-content: flex-end;
+  font-size: 1.3rem;
+}
 
 .Dashoboard-mentor-profile-ribbon {
   background: #244e92;
@@ -1469,11 +1476,11 @@ caption {
   width: 100%;
 }
 
-.mentor-profile-container {
+.MentorProfile-container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  transform: translateY(-5rem);
+  transform: translateY(-6rem);
 }
 
 .mentor-profile-content {
@@ -1509,6 +1516,7 @@ caption {
 
 .mentor-description {
   margin-top: 1rem;
+  line-break: anywhere;
 }
 
 .mentor-headline {
@@ -1524,20 +1532,20 @@ caption {
   margin-left: 0.5rem;
 }
 
-.mentor-profile-col2 {
+.MentorProfile-mentor-profile-col2 {
   flex: 1;
   min-width: 300px;
   padding-top: 2rem;
 }
 
-.mentor-name-section {
+.MentorProfile-name-section {
   margin-bottom: 1rem;
-  font-size: 1.8rem;
+  /* font-size: 1.8rem; */
   font-weight: bold;
   color: #f5f5f5;
 }
 
-.mentor-name {
+.MentorProfile-mentor-name {
   font-weight: bold;
   color: #f5f5f5;
   margin-right: 1rem;
@@ -1550,7 +1558,7 @@ caption {
   font-size: 1rem;
 }
 
-.mentor-company {
+.MentorProfile-mentor-company {
   font-size: 1.2rem;
   color: #f5f5f5;
   margin-bottom: 1rem;
@@ -1624,60 +1632,28 @@ caption {
   color: #244e82;
 }
 
-@media screen and (max-width: 1024px) {
-  .mentor-profile-content {
-    padding: 1rem;
+@media screen and (max-width: 910px) {
+  .MentorProfile-mentor-profile-col2 {
+    flex: auto;
+    padding-top: 0px;
   }
-
-  .mentor-profile-col1 {
-    flex: 0 0 30%;
+  .MentorProfile-mentor-name {
+    color: #063880;
+  }
+  .MentorProfile-mentor-company {
+    color: #063880;
+  }
+  .MentorProfile-name-section {
+    color: #063880;
+  }
+}
+@media screen and (max-width: 540px) {
+  .MentorProfile-span121 {
+    display: flex;
   }
 }
 
-@media screen and (max-width: 768px) {
-  .mentor-profile-ribbon {
-    height: 10rem;
-  }
-
-  .mentor-profile-content {
-    margin-top: -4rem;
-    flex-direction: column;
-  }
-
-  .mentor-profile-col1 {
-    flex: 0 0 100%;
-  }
-
-  .mentor-profile-col2 {
-    padding-top: 1rem;
-  }
-
-  .mentor-name {
-    font-size: 1.5rem;
-  }
-
-  .mentor-company {
-    font-size: 1rem;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .mentor-profile-ribbon {
-    height: 8rem;
-  }
-
-  .mentor-profile-content {
-    padding: 0.5rem;
-    margin-top: -3rem;
-  }
-
-  .mentor-name-section {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .domain-tag,
-  .skill-tag {
-    font-size: 0.8rem;
-  }
+.MentorProfile-SkillsShow {
+  display: flex;
+  flex-wrap: wrap;
 }

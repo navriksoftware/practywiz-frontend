@@ -119,9 +119,9 @@ const FeedbackModel = ({ user, showFeedbackModelHandler }) => {
     <div className="feedback-form-container">
       <Backdrop>
         <Modal>
-          <CloseButtonDiv onClick={showFeedbackModelHandler}>
+          {/* <CloseButtonDiv onClick={showFeedbackModelHandler}>
             <i className="fa-solid fa-close"></i>
-          </CloseButtonDiv>
+          </CloseButtonDiv> */}
           <div className="feedback-modal-content">
             <div className="feedback-rating-container">
               <h4>Leave Your Feedback</h4>

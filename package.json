@@ -1,7 +1,7 @@
 {
   "name": "practiwiz-v2.0",
   "version": "0.1.0",
-  "homepage": "https://gentle-water-00d68890f.5.azurestaticapps.net/",
+  "homepage": "https://zealous-meadow-007aa1300.4.azurestaticapps.net/",
   "private": true,
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
@@ -73,5 +73,6 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
-  }
+  },
+  "proxy": "https://development-practywiz-backend.azurewebsites.net"
 }

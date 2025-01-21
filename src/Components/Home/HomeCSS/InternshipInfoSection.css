@@ -1,0 +1,221 @@
+.internship-secton-hero-section {
+  background: linear-gradient(90deg, #e0e7ff 1.52%, #f7f7f7 99.87%);
+  display: flex;
+  align-items: center;
+  padding: 3rem 2rem;
+  position: relative;
+}
+
+.internship-secton-hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 150px;
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+  z-index: 0;
+  background-image: url("../images/creative-team-img.svg");
+}
+
+.internship-secton-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.internship-secton-content-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.internship-secton-badge {
+  display: inline-flex;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  background-color: #dedcff;
+  color: #4f46e5;
+  font-size: 0.875rem;
+  margin-bottom: 3rem;
+}
+
+.internship-secton-title {
+  font-size: 3.3rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.internship-secton-highlight {
+  color: #2563eb;
+}
+
+.internship-secton-description {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.internship-secton-button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
+.internship-secton-primary-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #2563eb;
+  color: white;
+  padding: 0.875rem 2rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-weight: 500;
+}
+
+.internship-secton-primary-button:hover {
+  background-color: #1d4ed8;
+}
+
+.internship-secton-badges-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.internship-secton-feature-badge {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.badge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+}
+
+.badge-icon i {
+  font-size: 1.25rem;
+}
+
+.internship-secton-feature-badge:first-child .badge-icon {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.internship-secton-feature-badge:last-child .badge-icon {
+  background-color: #f3e8ff;
+  color: #7e22ce;
+}
+
+.badge-content h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.badge-content p {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.internship-secton-preview-image {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 2rem;
+}
+
+.internship-secton-image-column {
+  display: none;
+}
+
+.internship-secton-image-column-mobile {
+  display: flex;
+}
+
+@media (min-width: 768px) {
+  .internship-secton-hero-section {
+    padding: 3rem 5rem;
+    height: 95vh;
+  }
+  .internship-secton-button-group {
+    justify-content: center;
+  }
+
+  .internship-secton-image-column-mobile {
+    justify-content: center;
+  }
+}
+@media (min-width: 1024px) {
+  .internship-secton-hero-section {
+    padding: 5rem 7rem;
+  }
+  .internship-secton-grid {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .internship-secton-content-column {
+    grid-column: span 6;
+  }
+
+  .internship-secton-button-group {
+    justify-content: flex-start;
+  }
+
+  .internship-secton-image-column-mobile {
+    display: none;
+  }
+
+  .internship-secton-image-column {
+    grid-column: span 6;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .internship-secton-badges-container {
+    width: 100%;
+    max-width: 500px;
+  }
+  .internship-secton-hero-section::before {
+    top: 0;
+    bottom: 0;
+    left: 40%;
+    width: 230px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .internship-secton-title {
+    font-size: 2.5rem;
+  }
+
+  .internship-secton-image-column {
+    order: -1;
+  }
+
+  .internship-secton-preview-image {
+    margin: 0 auto;
+  }
+}

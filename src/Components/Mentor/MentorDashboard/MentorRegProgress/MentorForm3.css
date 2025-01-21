@@ -16,9 +16,8 @@
 }
 .slot-container1 {
   display: flex;
-  gap: 40px;
-  height: 5rem;
-  width: 7rem;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 .slot-container2 {
   display: flex;
@@ -44,14 +43,13 @@
 
 .availability-saveDiv {
   display: flex;
-
   bottom: 10px;
   right: 10px;
-
   justify-content: space-between;
   align-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 .save-btn {
@@ -89,19 +87,18 @@
 
 .add-slot-btn {
   font-family: "lato";
-  background-color: #0255ca; 
-  color: #fff; 
-  border: none; 
-  border-radius: 5px; 
+  background-color: #0255ca;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
   padding: 10px 20px;
-  font-size: 16px; 
+  font-size: 16px;
   font-weight: bold;
-  cursor: pointer; 
+  cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 10px; 
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+  margin-top: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
-
 
 .add-slot-btn:hover {
   background-color: #0147a8;
@@ -109,17 +106,15 @@
   transform: translateY(-2px);
 }
 
-
 .add-slot-btn:active {
   background-color: #013a87;
   transform: translateY(1px);
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-
 .add-slot-btn:disabled {
-  background-color: #b8d4f7; 
-  color: #6c757d; 
+  background-color: #b8d4f7;
+  color: #6c757d;
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -128,7 +123,6 @@
   justify-content: center;
   margin-bottom: 20px;
 }
-
 
 .cross-btn:hover {
   color: #c9302c;
@@ -173,10 +167,8 @@
 }
 
 .react-datepicker__input-container input {
-
-  width: 70%;
+  width: 100%;
 }
-
 
 .react-datepicker-wrapper {
   width: 130px;
@@ -196,4 +188,7 @@
 }
 .dropdown-header {
   width: 100%;
+}
+.date-picker{
+  width: 7rem;
 }

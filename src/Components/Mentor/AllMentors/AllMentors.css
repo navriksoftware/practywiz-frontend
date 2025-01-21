@@ -27,6 +27,7 @@
   position: absolute;
   top: 14px;
   margin-left: 5px;
+ 
 }
 
 .ColSize {
@@ -44,4 +45,13 @@
 }
 .MarginR {
   margin-right: 8px;
+}
+
+.AllMentor-showAllCards{
+  margin-top: 1rem;
+  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 0fr));
+  grid-auto-rows: auto;
+  gap: 10px;
 }

@@ -1,3 +1,16 @@
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 5rem;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
 .regmenu {
   position: absolute;
 }
@@ -111,6 +124,16 @@
   display: flex;
 }
 
+.btn-login {
+  background: white !important;
+  color: #2dbedb !important;
+  border-color: #2dbedb !important;
+}
+.btn-login:hover {
+  background: #2dbedb !important;
+  color: white !important;
+}
+
 .btn-mainHome:hover {
   color: blue;
   background-color: white;
@@ -145,8 +168,6 @@
   margin-left: 4px;
 }
 
-
-
 .regmenuR {
   position: relative;
 }
@@ -170,7 +191,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
-  justify-content: space-evenly;
+  justify-content: space-evenly; /* More even spacing */
 }
 
 .MenuBox-item2 {
@@ -178,21 +199,21 @@
   display: block;
   padding: 10px 10px 0px 10px;
   cursor: pointer;
-  white-space: normal; 
+  white-space: normal; /* Allow wrapping */
   border: 1px solid white;
   border-radius: 5px;
-  overflow-wrap: break-word; 
+  overflow-wrap: break-word; /* Break long words */
   text-transform: capitalize !important;
   border-bottom: 1px solid #1111;
 }
 
 .MenuBox-item2:hover {
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0; /* Light gray hover color */
 }
 
 .MenuBox-item2 h6 {
   font-family: var(--font-family-lato);
-  font-size: 0.9rem;
+  font-size: 0.9rem; /* Adjust font size for better fitting */
   text-transform: uppercase !important;
   font-weight: 600;
   color: #404040;
@@ -206,5 +227,14 @@
   }
   .menubarUsersIcons {
     margin-right: 5px;
+  }
+}
+
+@media (max-width: 1124px) {
+  .nav-container {
+    padding: 0.7rem 2rem;
+  }
+  .nav-link {
+    margin: 0 !important;
   }
 }

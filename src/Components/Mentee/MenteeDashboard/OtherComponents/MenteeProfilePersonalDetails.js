@@ -77,6 +77,10 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
       toast.error("All fields are required!");
       return false;
     }
+    if (mentee_aboutyouself.length < 100) {
+      toast.error("About Me feild Must be greater than 100 characters.");
+      return false;
+    }
     // Validate LinkedIn URL pattern
     if (!linkedInPattern.test(mentee_linkedin_link)) {
       toast.error("Please provide a valid LinkedIn profile URL!");
@@ -274,7 +278,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                   </div>
                   <div className="ufguirniirtr position-relative col-lg-6 pb-3">
                     <label htmlFor="" className="form-label">
-                      <b>Languages</b>(Multiple)
+                      <b>language's</b>
                     </label>
                     <Select
                       isDisabled={!ifEdit}
@@ -284,24 +288,6 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       closeMenuOnSelect={false}
                       onChange={handleLanguageChange} // Handle the onChange event
                       styles={customStyles}
-                      // styles={{
-                      //   control: (base) => ({
-                      //     ...base,
-                      //     fontFamily: "Lato", // Apply Lato font to the control
-                      //   }),
-                      //   menu: (base) => ({
-                      //     ...base,
-                      //     fontFamily: "Lato", // Apply Lato font to the menu options
-                      //   }),
-                      //   option: (base, state) => ({
-                      //     ...base,
-                      //     fontFamily: "Lato", // Apply Lato font to the options
-                      //     backgroundColor: state.isFocused
-                      //       ? "#f0f0f0"
-                      //       : "white", // Optional: Add hover effect
-                      //     color: state.isSelected ? "#333" : "#000", // Optional: Add selected option color
-                      //   }),
-                      // }}
                     />
                     <div id="ypautosuggestions"></div>
                   </div>
@@ -317,7 +303,7 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                     <textarea
                       name="mentee_aboutyouself"
                       className="form-control MentorProfile-BorderColor"
-                      style={{ height: "40px" }}
+                      style={{ height: "100px" }}
                       placeholder="Write something about yourself"
                       value={formData?.mentee_aboutyouself}
                       onChange={handleInputChange}

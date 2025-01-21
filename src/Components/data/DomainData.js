@@ -68,13 +68,13 @@ export const options = [
 
 export const experienceOptions = [
   { value: "5-8", label: "5-8 years" },
-  { value: "8-11", label: "8-11 years" },
-  { value: "11-14", label: "11-14 years" },
-  { value: "14-17", label: "14-17 years" },
-  { value: "17-20", label: "17-20 years" },
-  { value: "20-23", label: "20-23 years" },
-  { value: "23-26", label: "23-26 years" },
-  { value: "26-29", label: "26-29 years" },
+  { value: "9-11", label: "9-11 years" },
+  { value: "12-14", label: "12-14 years" },
+  { value: "15-17", label: "15-17 years" },
+  { value: "18-20", label: "18-20 years" },
+  { value: "21-23", label: "21-23 years" },
+  { value: "24-26", label: "24-26 years" },
+  { value: "27-29", label: "27-29 years" },
   { value: "30+", label: "30+ years" },
 ];
 

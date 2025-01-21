@@ -134,7 +134,6 @@ const TextArea = styled.textarea`
   }
 `;
 const MentorBookingAppointment = (props) => {
-  console.log(props);
   const url = ApiURL();
   const {
     register,
@@ -174,6 +173,7 @@ const MentorBookingAppointment = (props) => {
             dispatch(hideLoadingHandler())
           );
         }
+        console.log(result)
         const { amount, id: order_id, currency } = result?.data.success;
         const {
           data: { key: razorpayKey },

@@ -26,6 +26,8 @@ const Navabar2 = ({ user, token }) => {
               <span id="bar-icon" className="navbar-toggler-icon"></span>
               <i id="close-mark-icon" className="fa-solid fa-xmark d-none"></i>
             </button>
+
+            
             <div
               className="navbarmenucollapse navbar-collapse"
               id="navbarSupportedContent"

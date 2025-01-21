@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
-import "./MentorProfileSet.css"
+import "./MentorProfileSet.css";
 import {
   hideLoadingHandler,
   showLoadingHandler,
@@ -17,8 +17,8 @@ import {
 const MentorProfile4 = ({ profiledata, user, token }) => {
   const dispatch = useDispatch();
   const url = ApiURL();
-  const { setValue, register } = useForm();
-  const today = new Date(); // Get today's date
+
+  const today = new Date().toISOString().split("T")[0];
   // Load saved data or initialize with default
   const loadSavedData = () => {
     const savedData = profiledata?.mentor_timeslots_json;
@@ -67,7 +67,7 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
     "Saturday",
     "Sunday",
   ];
-  const durations = ["30", "60", "Both"];
+
   const hours = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
   const minutes = ["00", "30"];
   const periods = ["AM", "PM"];
@@ -96,15 +96,13 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
   const handleSave = async () => {
     const dataGroup = JSON.stringify(slots);
     console.log(dataGroup);
-console.log(user)
+    console.log(user);
     try {
       dispatch(showLoadingHandler());
       const res = await Promise.race([
         axios.post(
           `${url}api/v1/mentor/dashboard/update/profile-3`,
-          {dataGroup,
-            userDtlsId: user.user_id,
-          formData},
+          { dataGroup, userDtlsId: user.user_id, formData },
 
           {
             headers: { authorization: "Bearer " + token },
@@ -143,70 +141,6 @@ console.log(user)
     }));
   };
 
-  // Find overlapping slots
-  // const findOverlappingSlots = (currentSlot, currentIndex) => {
-  //   const currentStartTime = convertTo24Hour(
-  //     currentSlot.startHour,
-  //     currentSlot.startMinute,
-  //     currentSlot.startPeriod
-  //   );
-  //   const currentEndTime = convertTo24Hour(
-  //     currentSlot.endHour,
-  //     currentSlot.endMinute,
-  //     currentSlot.endPeriod
-  //   );
-
-  //   return slots.reduce((overlaps, slot, index) => {
-  //     if (index === currentIndex) return overlaps;
-
-  //     const startTime = convertTo24Hour(
-  //       slot.startHour,
-  //       slot.startMinute,
-  //       slot.startPeriod
-  //     );
-  //     const endTime = convertTo24Hour(
-  //       slot.endHour,
-  //       slot.endMinute,
-  //       slot.endPeriod
-  //     );
-
-  //     // Check if dates overlap
-  //     const datesOverlap = doDateRangesOverlap(
-  //       currentSlot.fromDate,
-  //       currentSlot.toDate,
-  //       slot.fromDate,
-  //       slot.toDate
-  //     );
-
-  //     // Check if times overlap
-  //     const timesOverlap = doTimesOverlap(
-  //       currentStartTime,
-  //       currentEndTime,
-  //       startTime,
-  //       endTime
-  //     );
-
-  //     // Check if there are common days between the slots
-  //     const hasCommonDays = currentSlot.days.some((day) =>
-  //       slot.days.includes(day)
-  //     );
-
-  //     if (datesOverlap && timesOverlap && hasCommonDays) {
-  //       overlaps.push({
-  //         slotIndex: index + 1,
-  //         days: slot.days.filter((day) => currentSlot.days.includes(day)),
-  //       });
-  //     }
-
-  //     return overlaps;
-  //   }, []);
-  // };
-
-  // Save slots to localStorage
-  const saveToLocalStorage = (updatedSlots) => {
-    localStorage.setItem("slots", JSON.stringify(updatedSlots));
-  };
-
   // Handle day selection logic
   const handleDayChange = (index, day) => {
     const updatedSlots = [...slots];
@@ -221,7 +155,9 @@ console.log(user)
     }
 
     setSlots(updatedSlots);
-    saveToLocalStorage(updatedSlots);
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = false; // Revert the save status
+    setIsSaved(updatedSaveStatus);
   };
 
   // Handle input change for specific fields
@@ -229,7 +165,7 @@ console.log(user)
     const updatedSlots = [...slots];
     updatedSlots[index][field] = value;
     setSlots(updatedSlots);
-    saveToLocalStorage(updatedSlots);
+
     const updatedSaveStatus = [...isSaved];
     updatedSaveStatus[index] = false; // Revert the save status
     setIsSaved(updatedSaveStatus);
@@ -251,7 +187,6 @@ console.log(user)
     };
     const updatedSlots = [...slots, newSlot];
     setSlots(updatedSlots);
-    saveToLocalStorage(updatedSlots);
   };
 
   // Select all days
@@ -260,7 +195,9 @@ console.log(user)
     updatedSlots[index].days =
       updatedSlots[index].days.length === days.length ? [] : [...days];
     setSlots(updatedSlots);
-    saveToLocalStorage(updatedSlots);
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = false; // Revert the save status
+    setIsSaved(updatedSaveStatus);
   };
 
   // Select weekdays
@@ -273,7 +210,9 @@ console.log(user)
       ? []
       : weekdays;
     setSlots(updatedSlots);
-    saveToLocalStorage(updatedSlots);
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = false; // Revert the save status
+    setIsSaved(updatedSaveStatus);
   };
 
   // Select weekends
@@ -286,15 +225,19 @@ console.log(user)
       ? []
       : weekends;
     setSlots(updatedSlots);
-    saveToLocalStorage(updatedSlots);
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = false; // Revert the save status
+    setIsSaved(updatedSaveStatus);
   };
 
   // Remove a slot
   const removeSlot = (index) => {
     const updatedSlots = slots.filter((_, slotIndex) => slotIndex !== index);
     setSlots(updatedSlots);
-    saveToLocalStorage(updatedSlots);
-    setValue("mentorAvailability", updatedSlots);
+
+    const updatedSaveStatus = [...isSaved];
+    updatedSaveStatus[index] = false; // Revert the save status
+    setIsSaved(updatedSaveStatus);
   };
 
   // Validate slot
@@ -423,33 +366,35 @@ console.log(user)
       const errorMessages = Object.entries(errors)
         .map(([key, value]) => value)
         .join("\n");
-      alert(`Error in Slot ${index + 1}:\n${errorMessages}`);
+      toast.error(`Error in Slot ${index + 1}:\n${errorMessages}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       return false;
     }
 
     const updatedSlots = [...slots];
     updatedSlots[index] = slot;
     setSlots(updatedSlots);
-    saveToLocalStorage(updatedSlots);
-    setValue("mentorAvailability", updatedSlots);
-    alert(`Slot ${index + 1} saved successfully!`);
+
+    // setValue("mentorAvailability", updatedSlots);
+    toast.success(`Slot ${index + 1} saved successfully!`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
     const updatedSaveStatus = [...isSaved];
     updatedSaveStatus[index] = true; // Mark the slot as saved
     setIsSaved(updatedSaveStatus);
     return true;
   };
-
-  // useEffect(() => {
-  //   const savedSlots = localStorage.getItem("slots");
-  //   if (savedSlots) {
-  //     try {
-  //       const parsedData = JSON.parse(savedSlots);
-  //       setValue("mentorAvailability", parsedData);
-  //     } catch (error) {
-  //       console.error("Error parsing saved slots:", error);
-  //     }
-  //   }
-  // }, []);
 
   return (
     <div className="MentorProfileDispalySize">
@@ -668,13 +613,13 @@ console.log(user)
                 </div>
                 <div className="dateAvialbility">
                   <label>Start Date:</label>
-                  <DatePicker
-                    selected={slot.fromDate ? new Date(slot.fromDate) : null}
-                    onChange={(date) =>
-                      handleInputChange(index, "fromDate", date)
+                  <input
+                    type="date"
+                    value={slot.fromDate}
+                    onChange={(e) =>
+                      handleInputChange(index, "fromDate", e.target.value)
                     }
-                    dateFormat="yyyy-MM-dd"
-                    minDate={today}
+                    min={today}
                     className="date-picker"
                   />
                   {errors.fromDate && (
@@ -683,15 +628,16 @@ console.log(user)
                     </p>
                   )}
                 </div>
+
                 <div className="dateAvialbility">
                   <label>End Date:</label>
-                  <DatePicker
-                    selected={slot.toDate ? new Date(slot.toDate) : null}
-                    onChange={(date) =>
-                      handleInputChange(index, "toDate", date)
+                  <input
+                    type="date"
+                    value={slot.toDate}
+                    onChange={(e) =>
+                      handleInputChange(index, "toDate", e.target.value)
                     }
-                    dateFormat="yyyy-MM-dd"
-                    minDate={today}
+                    min={today}
                     className="date-picker"
                   />
                   {errors.toDate && (
@@ -716,11 +662,14 @@ console.log(user)
                       handleInputChange(index, "duration", e.target.value)
                     }
                   >
-                    {durations.map((duration) => (
+                    <option value={30}>30 min</option>
+                    <option value={60}>60 min</option>
+                    <option value={"Both"}>Both</option>
+                    {/* {durations.map((duration) => (
                       <option key={duration} value={duration}>
                         {duration}
                       </option>
-                    ))}
+                    ))} */}
                   </select>
                 </div>
               </div>
@@ -768,8 +717,8 @@ console.log(user)
           </button>
         </div>
       </div>
-        {/* Save Button at the Bottom */}
-        <div className="save-button-container">
+      {/* Save Button at the Bottom */}
+      <div className="save-button-container">
         <button
           type="button"
           onClick={handleSave}
@@ -779,7 +728,6 @@ console.log(user)
         </button>
       </div>
     </div>
-
   );
 };
 

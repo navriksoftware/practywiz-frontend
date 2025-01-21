@@ -99,8 +99,8 @@ const Section2 = () => {
                     allMentors.length > 0 &&
                     allMentors?.map((mentor, index) => {
                       return (
-                        <SwiperSlide key={mentor.user_dtls_id}>
-                          <div className="item">
+                        <SwiperSlide>
+                          <div className="item" key={index}>
                             <div className="iheroijr_inner bg-white text-center overflow-hidden position-relative">
                               <div className="diegrher overflow-hidden">
                                 <img

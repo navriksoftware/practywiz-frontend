@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useFormContext, Controller } from "react-hook-form";
+import { useFormContext, Controller, useFieldArray } from "react-hook-form";
 import GoToTop from "../../../../Utils/GoToTop";
+import options from "../../../data/CountryData.json";
 import {
   countryCurrencyData,
   allCurrencies,
@@ -13,28 +14,51 @@ import { allDomain } from "../../../data/DomainData.js";
 import "./MentorPage2.css";
 
 const MentorPage2 = () => {
+  const API_KEY = process.env.REACT_APP_API_KEY;
   const {
     register,
     control,
     setValue,
     getValues,
-    watch,
     trigger,
     clearErrors,
     formState: { errors },
   } = useFormContext();
-  // setValue("mentorCountryName", "");
-  // ---------------------------------------------------------------------------------------
-  // State for country, selected currency, price range, and user price
-  const [country, setCountry] = useState("");
-  const [selectedCurrency, setSelectedCurrency] = useState("");
+  
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "MentorEduDetails",
+  });
+
+  useEffect(() => {
+    if (fields.length === 0) {
+      append({ Institute: "", Degree: "", YearCompletion: "" });
+    }
+  }, [fields, append]);
+
+  const loadStoredData = () => {
+    const storedData = localStorage.getItem("formData1");
+    if (storedData) {
+      try {
+        return JSON.parse(storedData);
+      } catch (error) {
+        console.error("Error parsing stored data:", error);
+      }
+    }
+    return {};
+  };
+
+  const [selectedCurrency, setSelectedCurrency] = useState("INR");
+  setValue("mentor_currency_type",selectedCurrency);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
-  const [userPrice, setUserPrice] = useState("");
 
   const handleCurrencyChange = (event) => {
     const newCurrency = event.target.value;
+
     setSelectedCurrency(newCurrency);
-    setValue("mentorCurrency", newCurrency);
+    setValue("mentor_currency_type",newCurrency);
+
+    setValue("pricing", "");
 
     // Dynamically update price range based on new currency
     const currencyRange = Object.values(countryCurrencyData).find(
@@ -46,44 +70,36 @@ const MentorPage2 = () => {
     } else {
       setPriceRange({ min: 0, max: 0 }); // Default if currency not found
     }
-    setUserPrice(""); // Reset user price on currency change
   };
-
-  const API_KEY = "d255e8678f5e63"; // Replace with your actual API key
 
   // Function to fetch the user's location data including the IP address
   const fetchLocationData = async () => {
     try {
       const response = await fetch(`https://ipinfo.io?token=${API_KEY}`);
       const data = await response?.json();
-
-      setCountry(data?.country);
-
       // Automatically set currency and price range based on the user's country
       const countryShort = data?.country;
       if (countryCurrencyData[countryShort]) {
-        const { currency, range } = countryCurrencyData[countryShort];
+        const { currency, range, currencyT } =
+          countryCurrencyData[countryShort];
         setSelectedCurrency(currency);
-
-        setValue("mentorCurrency", currency || "");
-        // setValue("mentorCountryName", countryShort);
-        setValue("mentorCityName", data?.city || "");
+        const countryName = options.find((c) => c.sortname === countryShort);
+        setValue("mentor_country", countryName.country_name);
+        setValue("mentorCityName", data?.city);
+        setValue(" mentor_currency_type", currencyT);
+       
         setPriceRange(range);
       }
     } catch (error) {
       console.error("Error fetching location data:", error);
       const countryShort = "IN";
       const { currency, range } = countryCurrencyData[countryShort];
-      setSelectedCurrency(currency);
-      setValue("mentorCurrency", currency);
-      setPriceRange(range);
 
-      // if (countryCurrencyData[countryShort]) {
-      //   const { currency, range } = countryCurrencyData[countryShort];
-      //   setSelectedCurrency(currency);
-      //   setValue("mentorCurrency", currency);
-      //   setPriceRange(range);
-      // }
+      setSelectedCurrency(currency);
+      setValue("mentor_country", "");
+      setValue(" mentor_currency_type","INR");
+      setPriceRange(range);
+      setValue("pricing", "");
     }
   };
 
@@ -91,34 +107,45 @@ const MentorPage2 = () => {
   useEffect(() => {
     fetchLocationData();
   }, []);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [selectedCollege, setSelectedCollege] = useState(null); // Store selected college
-  // ______________________________________________________________________________________________
 
-  const handleInputCollagename = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    setValue("mentorInstituteName", value);
-    setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
-  };
-  // Filter colleges based on the search term
-  const filteredColleges = collegeData.filter((item) =>
-    item["College Name"].toLowerCase().includes(searchTerm.toLowerCase())
+  // Maintain separate state for each field
+  const [searchStates, setSearchStates] = useState(
+    fields.map(() => ({
+      searchTerm: "",
+      dropdownVisible: false,
+    }))
   );
 
-  // Function to handle dropdown option click
-  const handleOptionClick = (college) => {
-    setSelectedCollege(college); // Set selected college
-    setSearchTerm(college["College Name"]); // Update input with selected college name
-    setDropdownVisible(false); // Hide dropdown after selection
-    setValue("mentorInstituteName", college["College Name"]);
+  const handleInputCollegeName = (e, index) => {
+    const value = e.target.value;
+    setSearchStates((prev) => {
+      const newStates = [...prev];
+      if (!newStates[index]) {
+        newStates[index] = { searchTerm: "", dropdownVisible: false };
+      }
+      newStates[index] = {
+        ...newStates[index],
+        searchTerm: value,
+        dropdownVisible: value !== "",
+      };
+      return newStates;
+    });
+    setValue(`MentorEduDetails.${index}.Institute`, value);
   };
 
-  // Filter colleges based on the search term
+  const handleOptionClick = (college, index) => {
+    setSearchStates((prev) => {
+      const newStates = [...prev];
+      newStates[index] = {
+        searchTerm: college["College Name"],
+        dropdownVisible: false,
+      };
+      return newStates;
+    });
+    setValue(`MentorEduDetails.${index}.Institute`, college["College Name"]);
+  };
 
-  // -------------------------------------------------------------------------------------------
-
+  // Skill Search
   const [skills, setSkills] = useState(""); // For the input field
   const [skillList, setSkillList] = useState([]); // For added skills
   const [suggestions, setSuggestions] = useState([]); // For suggestions
@@ -129,7 +156,6 @@ const MentorPage2 = () => {
     setSkills(input);
 
     if (input.length > 3) {
-      // Suggest the input and filter suggestions from `allSkills`
       setSuggestions([
         input,
         ...allSkills.filter(
@@ -176,6 +202,7 @@ const MentorPage2 = () => {
 
     if (!exists) {
       setSkillList([...(skillList || []), trimmedSkill]); // Use fallback to avoid undefined
+      setValue("mentorSkill", [...(skillList || []), trimmedSkill]);
       setMessage(""); // Clear any previous message
     } else {
       setMessage("Skill already added");
@@ -204,12 +231,25 @@ const MentorPage2 = () => {
     }
   }, [skillList]);
 
+  useEffect(() => {
+    const storedData = loadStoredData();
+
+    if (storedData) {
+      Object.keys(storedData).forEach((key) => {
+        setValue(key, storedData[key]);
+        setSkillList(storedData.mentorSkill || []);
+      });
+    }
+  }, [setValue]);
+
+  // Domain search
   const [Domain, setDomain] = useState(""); // For the input field
   const [DomainList, setDomainList] = useState([]); // For added skills
   const [Domainsuggestions, setDomainSuggestions] = useState([]); // For suggestions
   const [messageDomain, setMessageDomain] = useState(""); // For displaying messages
 
   const handleDomainInputChange = (e) => {
+    trigger("mentorDomain");
     const input = e.target.value.trimStart(); // Trim leading spaces
     setDomain(input);
 
@@ -261,7 +301,9 @@ const MentorPage2 = () => {
 
     if (!exists) {
       setDomainList([...(DomainList || []), trimmedSkill]); // Use fallback to avoid undefined
+      setValue("mentorDomain", [...(DomainList || []), trimmedSkill]); // Update the form field immediately
       setMessageDomain(""); // Clear any previous message
+      clearErrors("mentorDomain");
     } else {
       setMessageDomain("Skill already added");
       setTimeout(() => setMessageDomain(""), 2000);
@@ -271,19 +313,11 @@ const MentorPage2 = () => {
     setDomainSuggestions([]); // Clear suggestions
   };
 
-  const handleDomainKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleAddDomain(Domain);
-    }
-  };
-
   const removeDomain = (index) => {
     const updatedDomainList = DomainList.filter((_, i) => i !== index);
     setDomainList(updatedDomainList); // Update the state
     setValue("mentorDomain", updatedDomainList); // Update the form field immediately
   };
-
-  // No need for `useEffect` now, as `mentorDomain` is directly updated in `removeDomain`
 
   useEffect(() => {
     if (DomainList?.length > 0) {
@@ -293,51 +327,39 @@ const MentorPage2 = () => {
 
   const formValues = getValues();
 
-  const loadStoredData = () => {
-    const storedData = localStorage.getItem("formData1");
+  useEffect(() => {
+    const storedData = loadStoredData();
     if (storedData) {
-      try {
-        return JSON.parse(storedData);
-      } catch (error) {
-        console.error("Error parsing stored data:", error);
-      }
+      Object.keys(storedData).forEach((key) => {
+        setValue(key, storedData[key]);
+        setDomainList(storedData.mentorDomain || []);
+      });
     }
-    return {};
-  };
+  }, [setValue]);
 
   const saveDataToStorage = (formValues) => {
     localStorage.setItem("formData1", JSON.stringify(formValues));
-    localStorage.setItem("formData1", JSON.stringify(watch()));
   };
-
-  const [update, setupdate] = useState({});
-  useEffect(() => {
-    const storedData = loadStoredData();
-    if (storedData) {
-      Object.keys(storedData).forEach((key) => {
-        setValue(key, storedData[key]);
-        setSkillList(storedData.mentorSkill);
-      });
-      setupdate([]);
-    }
-  }, [setValue]);
-  useEffect(() => {
-    const storedData = loadStoredData();
-    if (storedData) {
-      Object.keys(storedData).forEach((key) => {
-        setValue(key, storedData[key]);
-        setDomainList(storedData.mentorDomain);
-      });
-      setupdate([]);
-    }
-  }, [setValue]);
 
   useEffect(() => {
     saveDataToStorage(formValues);
   }, [formValues, register]);
 
-  const showInstituteInput = getValues("sessionsFreeOfCharge");
-  //
+  const [visibleHelp, setVisibleHelp] = useState({
+    DomainHelp: false,
+    SkillHelp: false,
+    PriceHelp: false,
+    GuestLecturesHelp: false,
+    CaseStudiesHelp: false,
+  });
+
+  const handleMouseEnter = (field) => {
+    setVisibleHelp((prev) => ({ ...prev, [field]: true }));
+  };
+
+  const handleMouseLeave = (field) => {
+    setVisibleHelp((prev) => ({ ...prev, [field]: false }));
+  };
 
   return (
     <>
@@ -345,7 +367,7 @@ const MentorPage2 = () => {
         <div className="ihduwfr_form_wrapper p-0" style={{ height: "auto" }}>
           <div className="row tageye">
             <div className="col-lg-12">
-              <label className="taglabel">About your Profession</label>
+              <label className="taglabel">About Your Profession</label>
             </div>
             <div className="col-lg-6 mb-4">
               <label htmlFor="mentorJobTitle" className="form-label">
@@ -359,7 +381,7 @@ const MentorPage2 = () => {
                 }}
                 type="text"
                 className="form-control"
-                placeholder="Type Your Job Title....."
+                placeholder="Type Your Job Title"
                 {...register("mentorJobTitle", {
                   required: "Job title is required",
                   validate: (value) => {
@@ -416,7 +438,7 @@ const MentorPage2 = () => {
             <div className="col-lg-6 mb-4">
               <label htmlFor="mentorCompanyName" className="form-label">
                 <b>
-                  Company <span className="RedColorStarMark">*</span>
+                  Company Name<span className="RedColorStarMark">*</span>
                 </b>
               </label>
               <input
@@ -424,12 +446,12 @@ const MentorPage2 = () => {
                   trigger("mentorCompanyName");
                 }}
                 type="text"
+                spellCheck={true} // Enables browser spell check
                 className="form-control"
                 placeholder="Type Your Company/Freelancer Name"
                 {...register("mentorCompanyName", {
                   required: "Company name is required",
                   validate: (value) => {
-                    // Check if the trimmed value is not empty (i.e., the input is not only spaces)
                     if (!value.trim()) {
                       return "Company name cannot be only spaces.";
                     }
@@ -444,28 +466,52 @@ const MentorPage2 = () => {
               )}
             </div>
             {/* Domain section */}
-            <div className="col-lg-6 mb-4">
+            <div
+              className="col-lg-6 mb-4"
+              style={{
+                marginBottom: "20px",
+                position: "relative",
+              }}
+            >
               <label htmlFor="mentorJobTitle" className="form-label">
                 <b>
-                  Domain<span className="RedColorStarMark">*</span>(Multiple)
+                  Domain's <span className="RedColorStarMark">*</span>
+                  <i
+                    className="fa-solid fa-circle-info mentorMicroHelpIcon"
+                    onMouseEnter={() => handleMouseEnter("DomainHelp")}
+                    onMouseLeave={() => handleMouseLeave("DomainHelp")}
+                  ></i>
+                  {visibleHelp.DomainHelp && (
+                    <div className="mentorMicroHelpMessageDomain">
+                      <ul>
+                        <li className="Mentor-Microhelp-listFrontSize">
+                          {" "}
+                          Select or enter the fields where you specialize (e.g.,
+                          Technology, Education, Healthcare).
+                        </li>
+                        <li className="Mentor-Microhelp-listFrontSize">
+                          {" "}
+                          Note: You can add multiple domains to represent your
+                          areas of expertise.
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                 </b>
               </label>
               <div className="input-wrapper">
                 <Controller
-                  
                   name="mentorDomain" // The name you want to use in form data
                   control={control}
                   rules={{ required: "Domain is required" }}
                   render={({ field }) => (
                     <input
-                    onKeyUp={() => {
-                      trigger("mentorDomain");
-                    }}
                       type="text"
                       placeholder="Type your Domain and press Enter"
                       value={Domain}
+                      spellCheck={true} // Enables browser spell check
                       onChange={(e) => {
-                        field.onChange(e); // Update value in react-hook-form
+                        // field.onChange(e); // Update value in react-hook-form
                         handleDomainInputChange(e); // Handle input change for suggestions
                       }}
                       onKeyDown={(e) => {
@@ -479,7 +525,7 @@ const MentorPage2 = () => {
                 />
 
                 {/* Suggestions Dropdown */}
-                {Domainsuggestions.length > 0 && (
+                {Domainsuggestions?.length > 0 && (
                   <ul className="suggestions-dropdown">
                     {Domainsuggestions.map((suggestion, index) => {
                       return (
@@ -497,13 +543,15 @@ const MentorPage2 = () => {
               </div>
 
               {/* Display message */}
-              {messageDomain && <div className="RedColorStarMark">{messageDomain}</div>}
+              {messageDomain && (
+                <div className="RedColorStarMark">{messageDomain}</div>
+              )}
 
               <div className="skill-list">
                 {DomainList?.map((Domains, index) => {
                   return (
                     <span key={index} className="skill-tag">
-                      {Domains}{" "}
+                      {Domains}
                       <button
                         onClick={() => removeDomain(index)}
                         className="remove-skill-btn"
@@ -514,24 +562,16 @@ const MentorPage2 = () => {
                   );
                 })}
               </div>
-              {/* {DomainList && (
+
+              {DomainList.length === 0 && (
                 <>
-                  {DomainList === 0 && (
-                    <>
-                      {errors.mentorDomain && (
-                        <p className="Error-meg-login-register">
-                          {errors.mentorDomain.message}
-                        </p>
-                      )}
-                    </>
+                  {errors.mentorDomain && (
+                    <p className="Error-meg-login-register">
+                      {errors.mentorDomain.message}
+                    </p>
                   )}
                 </>
-              )} */}
-              {errors.mentorDomain && (
-                        <p className="Error-meg-login-register">
-                          {errors.mentorDomain.message}
-                        </p>
-                      )}
+              )}
             </div>
           </div>
           <div className="row tageye">
@@ -539,12 +579,39 @@ const MentorPage2 = () => {
               <label className="taglabel">Your Skills</label>
             </div>
             {/* skill section */}
-            <div className="col-lg-12 mb-4">
+            <div
+              className="col-lg-12 mb-4"
+              style={{
+                marginBottom: "20px",
+                position: "relative",
+              }}
+            >
               <label htmlFor="mentorJobTitle" className="form-label">
                 <b>
-                  Skills
+                  Skill's
                   {/* <span className="RedColorStarMark">*</span> */}
-                </b>(Multiple)
+                </b>{" "}
+                <i
+                  className="fa-solid fa-circle-info mentorMicroHelpIcon"
+                  onMouseEnter={() => handleMouseEnter("SkillHelp")}
+                  onMouseLeave={() => handleMouseLeave("SkillHelp")}
+                ></i>
+                {visibleHelp.SkillHelp && (
+                  <div className="mentorMicroHelpMessageSkills">
+                    <ul>
+                      <li className="Mentor-Microhelp-listFrontSize">
+                        {" "}
+                        List the key skills you specialize in within your
+                        domains (e.g., Python,Data Analysis,Public Speaking).
+                      </li>
+                      <li className="Mentor-Microhelp-listFrontSize">
+                        Why This Matters: Your skills help mentees understand
+                        your expertise and choose you as their mentor for
+                        relevant guidance.
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </label>
               <div className="input-wrapper">
                 <input
@@ -665,7 +732,7 @@ const MentorPage2 = () => {
                 aria-describedby="emailHelp"
                 {...register("recommendedAreaOfMentorship", {
                   minLength: {
-                    value: 50,
+                    value: 10,
                     message: "Must be greater than 50 characters.",
                   },
                   maxLength: {
@@ -681,9 +748,225 @@ const MentorPage2 = () => {
               )}
             </div>
           </div>
-          <div className="row tageye">
+          {/* edu details */}
+          <div className=" tageye">
             <div className="col-lg-12">
-              <label className="taglabel">Pricing</label>
+              <label className="taglabel">Education Details</label>
+            </div>
+
+            {fields.map((field, index) => {
+              const currentSearchState = searchStates[index] || {
+                searchTerm: "",
+                dropdownVisible: false,
+              };
+              const filteredColleges = collegeData.filter((item) =>
+                item["College Name"]
+                  .toLowerCase()
+                  .includes(currentSearchState.searchTerm.toLowerCase())
+              );
+
+              return (
+                <div className="row" key={field.id}>
+                  {fields.length > 1 && (
+                    <div className="MentorProfile-EduD-Removebtn">
+                      <i
+                        className="fa-solid fa-xmark"
+                        onClick={() => remove(index)}
+                      ></i>
+                    </div>
+                  )}
+
+                  <div className="col-lg-6">
+                    <div className="mb-4">
+                      <label className="form-label">
+                        <b>
+                          Institute Name:
+                          <span className="RedColorStarMark">*</span>
+                        </b>
+                      </label>
+                      <div className="dkjiherer moideuirer_list hello">
+                        <div className="MR-positionInstitute">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Choose/Search for a college"
+                            // value={currentSearchState.searchTerm}
+
+                            {...register(
+                              `MentorEduDetails.${index}.Institute`,
+                              {
+                                required: "Institute name is required",
+                              }
+                            )}
+                            onChange={(e) => handleInputCollegeName(e, index)}
+                            onKeyUp={() =>
+                              trigger(`MentorEduDetails.${index}.Institute`)
+                            }
+                            onBlur={() => {
+                              setTimeout(() => {
+                                setSearchStates((prev) => {
+                                  const newStates = [...prev];
+                                  if (newStates[index]) {
+                                    newStates[index] = {
+                                      ...newStates[index],
+                                      dropdownVisible: false,
+                                    };
+                                  }
+                                  return newStates;
+                                });
+                              }, 200);
+                            }}
+                          />
+                          {currentSearchState.dropdownVisible &&
+                            filteredColleges.length > 0 && (
+                              <div className="MentorRegInstitutePage">
+                                {filteredColleges
+                                  .slice(0, 50)
+                                  .map((college, collegeIndex) => (
+                                    <div
+                                      key={`${index}-${collegeIndex}`}
+                                      className="dropdown-item"
+                                      onClick={() =>
+                                        handleOptionClick(college, index)
+                                      }
+                                    >
+                                      {college["College Name"]}
+                                    </div>
+                                  ))}
+                              </div>
+                            )}
+                        </div>
+                      </div>
+                      {errors.MentorEduDetails?.[index]?.Institute && (
+                        <span style={{ color: "red", fontSize: "12px" }}>
+                          {errors.MentorEduDetails[index].Institute.message}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="col-lg-6 row">
+                    <div className="col-lg-6">
+                      <div className="mb-4">
+                        <label className="form-label">
+                          <b>
+                            Degree Name
+                            <span className="RedColorStarMark">*</span>
+                          </b>
+                        </label>
+                        <input
+                          className="form-control"
+                          {...register(`MentorEduDetails.${index}.Degree`, {
+                            required: "Degree Name is required",
+                          })}
+                          placeholder="Enter Degree"
+                          onKeyUp={() =>
+                            trigger(`MentorEduDetails.${index}.Degree`)
+                          }
+                        />
+                        {errors.MentorEduDetails?.[index]?.Degree && (
+                          <span style={{ color: "red", fontSize: "12px" }}>
+                            {errors.MentorEduDetails[index].Degree.message}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="mb-4">
+                        <label className="form-label">
+                          <b>
+                            Year of Completion:
+                            <span className="RedColorStarMark">*</span>
+                          </b>
+                        </label>
+                        <input
+                          type="number"
+                          onWheel={(e) => e.currentTarget.blur()}
+                          className="form-control"
+                          {...register(
+                            `MentorEduDetails.${index}.YearCompletion`,
+                            {
+                              required: "Year of completion is required",
+                              pattern: {
+                                value: /^\d{4}$/, // Ensures exactly 4 digits
+                                message: "Year must be exactly 4 digits",
+                              },
+                              validate: (value) =>
+                                value.length === 4 ||
+                                "Year must be exactly 4 characters long",
+                            }
+                          )}
+                          placeholder="Enter Year of completion"
+                          onKeyUp={() =>
+                            trigger(`MentorEduDetails.${index}.YearCompletion`)
+                          }
+                        />
+                        {errors.MentorEduDetails?.[index]?.YearCompletion && (
+                          <span style={{ color: "red", fontSize: "12px" }}>
+                            {
+                              errors.MentorEduDetails[index].YearCompletion
+                                .message
+                            }
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+
+            <div className="Mentorpage2-edu-Addbtn">
+              <span
+                onClick={() => {
+                  append({ Degree: "", Institute: "", YearCompletion: "" });
+                  setSearchStates((prev) => [
+                    ...prev,
+                    { searchTerm: "", dropdownVisible: false },
+                  ]);
+                }}
+              >
+                <i className="fa-regular fa-plus"></i>
+                Add More
+              </span>
+            </div>
+          </div>
+          <div className="row tageye">
+            <div
+              className="col-lg-12"
+              style={{
+                // marginBottom: "20px",
+                position: "relative",
+              }}
+            >
+              <label className="taglabel">Pricing</label>{" "}
+              <i
+                className="fa-solid fa-circle-info mentorMicroHelpIcon"
+                onMouseEnter={() => handleMouseEnter("PriceHelp")}
+                onMouseLeave={() => handleMouseLeave("PriceHelp")}
+              ></i>
+              {visibleHelp.PriceHelp && (
+                <div className="mentorMicroHelpMessagePrice">
+                  <ul>
+                    <li className="Mentor-Microhelp-listFrontSize">
+                      Please enter the amount you will earn for a 60-minute call
+                      below. For shorter calls, the payment will be prorated.
+                      For example, a 30-minute call will earn half the total
+                      amount.
+                    </li>
+                    <li className="Mentor-Microhelp-listFrontSize">
+                      Your price will determine the amount that you will receive
+                      after deduction of convenience fee ( 5%) and bank transfer
+                      charges
+                    </li>
+                    <li className="Mentor-Microhelp-listFrontSize">
+                      We will request you to enter your bank account details in
+                      your profile after completion of registration process
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
             <div className="col-lg-6">
               <div className="mb-4">
@@ -705,9 +988,9 @@ const MentorPage2 = () => {
                   ))}
                 </select>
 
-                {errors.mentorCurrency && (
+                {errors. mentor_currency_type && (
                   <p className="Error-meg-login-register">
-                    {errors.mentorCurrency.message}
+                    {errors.mentor_currency_type.message}
                   </p>
                 )}
               </div>
@@ -768,6 +1051,22 @@ const MentorPage2 = () => {
                 <label htmlFor="exampleInputEmail1" className="form-label">
                   <b>
                     Would You Be Interested in Delivering Guest Lectures?{" "}
+                    <i
+                      className="fa-solid fa-circle-info mentorMicroHelpIcon"
+                      onMouseEnter={() => handleMouseEnter("GuestLecturesHelp")}
+                      onMouseLeave={() => handleMouseLeave("GuestLecturesHelp")}
+                    ></i>
+                    {visibleHelp.GuestLecturesHelp && (
+                      <div className="mentorMicroHelpMessagePrice">
+                        <ul>
+                          <li className="Mentor-Microhelp-listFrontSize">
+                            By opting for the Guest Lecture option, your profile
+                            will be visible to institutions that are looking for
+                            part-time lecturers
+                          </li>
+                        </ul>
+                      </div>
+                    )}
                     <span className="RedColorStarMark">*</span>
                   </b>
                 </label>
@@ -799,6 +1098,21 @@ const MentorPage2 = () => {
                 <label htmlFor="exampleInputEmail1" className="form-label">
                   <b>
                     Would You Be Interested in Curating Case Studies?{" "}
+                    <i
+                      className="fa-solid fa-circle-info mentorMicroHelpIcon"
+                      onMouseEnter={() => handleMouseEnter("CaseStudiesHelp")}
+                      onMouseLeave={() => handleMouseLeave("CaseStudiesHelp")}
+                    ></i>
+                    {visibleHelp.CaseStudiesHelp && (
+                      <div className="mentorMicroHelpMessagePrice">
+                        <ul>
+                          <li className="Mentor-Microhelp-listFrontSize">
+                            By opting for the Case Study option, you can become
+                            a case study contributor and get paid for it
+                          </li>
+                        </ul>
+                      </div>
+                    )}
                     <span className="RedColorStarMark">*</span>
                   </b>
                 </label>
@@ -813,8 +1127,8 @@ const MentorPage2 = () => {
                   }}
                 >
                   <option value="">Choose An Option</option>
-                  <option>Yes</option>
-                  <option>No</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
                 </select>{" "}
                 {errors.curatingCaseStudiesInterest && (
                   <p className="Error-meg-login-register">
@@ -827,8 +1141,8 @@ const MentorPage2 = () => {
               <div className="mb-4">
                 <label htmlFor="sessionsFreeOfCharge" className="form-label">
                   <b>
-                    Would You Be Fine to Do Sessions Free of Charge?{" "}
-                    <span className="RedColorStarMark">*</span>
+                    Would You Be Open to Offering Three Free Sessions For Your
+                    Alumni? <span className="RedColorStarMark">*</span>
                   </b>
                 </label>
                 <select
@@ -843,8 +1157,8 @@ const MentorPage2 = () => {
                   }}
                 >
                   <option value="">Choose An Option</option>
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
                 </select>
 
                 {errors.sessionsFreeOfCharge && (
@@ -854,58 +1168,67 @@ const MentorPage2 = () => {
                 )}
               </div>
             </div>
-            {showInstituteInput === "yes" && (
-              <div className=" col-lg-6 ">
+          </div>
+          <div className="row tageye">
+            <div className="col-lg-12">
+              <label className="taglabel">Location</label>
+            </div>
+            <div className="col-lg-6">
+              <div className="mb-4">
                 <label htmlFor="exampleInputEmail1" className="form-label">
                   <b>
-                    Institute/College name{" "}
-                    <span className="RedColorStarMark">*</span>
+                    City <span className="RedColorStarMark">*</span>
                   </b>
                 </label>
-                <div className="dkjiherer moideuirer_list hello">
-                  <div className="MR-positionInstitute">
-                    <input
-                      onKeyUp={() => {
-                        trigger("mentorInstituteName");
-                      }}
-                      type="text"
-                      className="form-control"
-                      placeholder="Choose/Search for a college..."
-                      // value={searchTerm} // Ensure input value is controlled
-                      {...register("mentorInstituteName", {
-                        required: "College or Institute Name is required",
-                      })}
-                      onChange={handleInputCollagename}
-                      onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
-                    />
-                    {dropdownVisible && filteredColleges.length > 0 && (
-                      <div className="MentorRegInstitutePage ">
-                        {filteredColleges.slice(0, 50).map(
-                          (
-                            college,
-                            index // Limit to 10 results
-                          ) => (
-                            <div
-                              key={index}
-                              className="dropdown-item"
-                              onClick={() => handleOptionClick(college)}
-                            >
-                              {college["College Name"]}
-                            </div>
-                          )
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
+                <input
+                  onKeyUp={() => {
+                    trigger("mentorCityName");
+                  }}
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter City name"
+                  {...register("mentorCityName", {
+                    required: "Please enter the City name",
+                  })}
+                />
 
-                {errors.mentorInstituteName && (
+                {errors.mentorCityName && (
                   <p className="Error-meg-login-register">
-                    {errors.mentorInstituteName.message}
+                    {errors.mentorCityName.message}
                   </p>
                 )}
               </div>
-            )}
+            </div>
+            <div className="col-lg-6">
+              <div className="mb-4">
+                <label className="form-label">
+                  <b>Which Country Do You Live in?</b>
+                  <span className="RedColorStarMark">*</span>
+                </label>
+                <select
+                  onKeyUp={() => {
+                    trigger("mentor_country");
+                  }}
+                  className=" form-select"
+                  name="mentor_country"
+                  {...register("mentor_country", {
+                    required: "Please enter the country name",
+                  })}
+                >
+                  <option value="">Please select your Country name</option>
+                  {options.map((option) => (
+                    <option key={option.country_id} value={option.country_name}>
+                      {option.country_name}
+                    </option>
+                  ))}
+                </select>
+                {errors.mentor_country && (
+                  <p className="Error-meg-login-register">
+                    {errors.mentor_country.message}
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
         <GoToTop />

@@ -113,15 +113,16 @@ const MentorRegProgressForm = ({
               "areaofmentorship",
               data.recommendedAreaOfMentorship
             );
-            newData.append("Currency", data.mentorCurrency);
+            newData.append("Currency", data.mentor_currency_type);
             newData.append("Pricing", data.pricing);
             newData.append("guestLectures", data.guestLecturesInterest);
             newData.append("CaseStudies", data.curatingCaseStudiesInterest);
             newData.append("sessionsFreeOfCharge", data.sessionsFreeOfCharge);
-            newData.append("InstituteName", data.mentorInstituteName);
-            newData.append("CountryName", data.mentorCountryName);
+            // newData.append("InstituteName", data.mentorInstituteName);
+            newData.append("CountryName", data.mentor_country);
             newData.append("CityName", data.mentorCityName);
             newData.append("Timezone", data.mentorTimezone);
+            newData.append("mentorEducationDetails",JSON.stringify(data.MentorEduDetails));
             newData.append(
               "Availability",
               JSON.stringify(data.mentorAvailability)
@@ -148,7 +149,9 @@ const MentorRegProgressForm = ({
                 toast.success(
                   "Thank you for applying for the mentor application."
                 ),
-                showFeedbackModelHandler()
+                showFeedbackModelHandler(),
+                localStorage.removeItem("formData1"),
+                localStorage.removeItem("slots")
               );
             } else if (res.data.error) {
               toast.error(
@@ -163,13 +166,13 @@ const MentorRegProgressForm = ({
                 "There is some error while applying for the mentor application. We will get back to you via email."
               );
             }
-          } finally {
-            dispatch(hideLoadingHandler());
-            localStorage.removeItem("formData1");
-            localStorage.removeItem("slots");
           }
-          localStorage.removeItem("formData1");
-          localStorage.removeItem("slots");
+           finally {
+            dispatch(hideLoadingHandler());
+            // localStorage.removeItem("formData1");
+            // localStorage.removeItem("slots");
+          }
+         
         }
       } else {
         setPage((currPage) => currPage - 1);

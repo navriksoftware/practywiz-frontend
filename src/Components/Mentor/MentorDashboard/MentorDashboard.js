@@ -731,18 +731,23 @@ const MentorDashboard = ({ user, token }) => {
                         <span className="mentorNameSpan">
                           {" " + user?.user_firstname}
                         </span>
-                        , Let's Get finished your mentor application. It Will
-                        Take Approx. 4 Mins For Completing Profile
+                        , Welcome To The Mentor Application Form. It Will Take
+                        Approx. 4 Mins To Completing Of Profile. Thanks For Your
+                        Co-operation.
+                        
                       </h5>
+                     
+                   
                     </div>
                     <p className="errorNoteText">
-                      (A minimum of 80% is needed to approve the mentor
+                      (80% completion is needed to approve your mentor
                       application!)
                     </p>
                     <ProgressBar progress={mentorTotalProgress} />
+                   
                   </>
                 )}
-              {singleMentor[0]?.mentor_approved_status === "Yes" &&
+              {/* {singleMentor[0]?.mentor_approved_status === "Yes" &&
                 mentorTotalProgress > 80 && (
                   <>
                     <div
@@ -763,7 +768,7 @@ const MentorDashboard = ({ user, token }) => {
                       </h5>
                     </div>
                   </>
-                )}
+                )} */}
               {singleMentor[0]?.mentor_approved_status === "No" &&
                 mentorTotalProgress === 80 && (
                   <>

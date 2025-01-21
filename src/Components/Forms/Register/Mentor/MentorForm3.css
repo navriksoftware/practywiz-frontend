@@ -261,9 +261,9 @@ input:checked + .slider:before {
     align-items: flex-start;
   }
 
-  .datePicker {
+  /* .datePicker {
     width: 100%;
-  }
+  } */
 
   .okButton {
     width: 100%;

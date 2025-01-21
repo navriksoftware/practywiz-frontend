@@ -1,0 +1,284 @@
+.practy_journey_container {
+  background: white;
+  padding: 5rem 7rem;
+  border-radius: 1rem;
+}
+
+.practy_journey_content {
+  padding: 3rem;
+  padding-bottom: 5rem;
+  border-radius: 2rem;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    90deg,
+    #c8f2ff 0%,
+
+    #c8f2ff 30%,
+    rgba(237, 240, 251, 0.732) 100%
+  );
+}
+
+.practy_journey_title {
+  font-size: 3rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.practy_journey_highlight {
+  color: #2563eb;
+}
+
+.practy_journey_cards_container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  justify-content: space-around;
+}
+
+.practy_journey_cards_container::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: -20px;
+  right: -150px;
+  width: 200px;
+  height: 200px;
+  background-image: url(../images/girl-vactor.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.practy_journey_card {
+  position: relative;
+}
+
+.practy_journey_card_content {
+  border-radius: 1.5rem;
+  padding: 2rem 1.5rem;
+  height: 12rem;
+  width: 16rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.practy_journey_blue_bg {
+  background-color: #396ce0;
+}
+
+.practy_journey_navy_bg {
+  background-color: #1a365d;
+}
+
+.practy_journey_card_text {
+  text-align: center;
+}
+
+.practy_journey_card_text h3 {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.practy_journey_subtitle {
+  color: rgb(255, 255, 255);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.practy_journey_description {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+}
+
+.practy_journey_learn_more {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.practy_journey_learn_more:hover {
+  color: white;
+}
+
+.practy_journey_arrow {
+  position: absolute;
+  top: 50%;
+  right: -2.3rem;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+
+@media (max-width: 1200px) {
+  .practy_journey_cards_container {
+    gap: 1rem;
+  }
+
+  .practy_journey_card_content {
+    width: 14rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .practy_journey_container {
+    padding: 3rem 5rem;
+  }
+}
+@media (max-width: 768px) {
+  .practy_journey_container {
+    padding: 1.5rem;
+  }
+
+  .practy_journey_cards_container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .practy_journey_card {
+    margin-bottom: 1.5rem;
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .practy_journey_arrow {
+    display: none;
+  }
+
+  .practy_journey_card_content {
+    width: 100%;
+    min-width: 16rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .practy_journey_title {
+    font-size: 1.5rem;
+  }
+
+  .practy_journey_card_content {
+    min-width: auto;
+  }
+}
+
+.practy_journey_modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.practy_journey_modal {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.practy_journey_close_button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.practy_journey_modal_title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #111;
+}
+
+.practy_journey_modal_description {
+  color: #444;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.practy_journey_features_section {
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.practy_journey_features_title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.practy_journey_features_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.practy_journey_feature_item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.practy_journey_feature_bullet {
+  width: 8px;
+  height: 8px;
+  background-color: #2563eb;
+  border-radius: 50%;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.practy_journey_modal_footer {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.practy_journey_close_modal_button {
+  background-color: #e5e7eb;
+  color: #374151;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.practy_journey_close_modal_button:hover {
+  background-color: #d1d5db;
+}
+
+@media (max-width: 640px) {
+  .practy_journey_modal {
+    padding: 16px;
+    margin: 16px;
+  }
+
+  .practy_journey_modal_title {
+    font-size: 20px;
+  }
+}
