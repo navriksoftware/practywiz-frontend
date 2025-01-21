@@ -1,8 +1,9 @@
 export const ApiURL = () => {
   const localURL = "http://localhost:1337/";
   const developmentURL =
-    "https://development-practywiz-backend.azurewebsites.net/";
-  const productionURL ="https://production-practywiz-backend.azurewebsites.net/";
+    "https://practywiz-development-backend.azurewebsites.net/";
+  const productionURL =
+    "https://practywiz-production-backend.azurewebsites.net/s";
   const testingURL = "https://development-testing.azurewebsites.net/";
   return productionURL;
 };
