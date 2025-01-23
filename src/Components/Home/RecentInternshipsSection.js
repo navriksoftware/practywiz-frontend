@@ -3,6 +3,7 @@ import "./HomeCSS/RecentInternshipsSection.css";
 import axios from "axios";
 import { ApiURL } from "../../Utils/ApiURL";
 import SkeletonOfSection2 from "./SkeletonOfSection2";
+import { Link } from "react-router-dom";
 
 const RecentInternshipsSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -53,7 +54,10 @@ const RecentInternshipsSection = () => {
   useEffect(() => {
     fetchInternshipListings();
   }, []);
-  console.log(internships);
+
+  const handleApply = (internshipId) => {
+    window.open(`/internship-listing/${internshipId}`, "_blank");
+  };
 
   useEffect(() => {
     const maxSlides = getMaxSlides();
@@ -197,7 +201,10 @@ const RecentInternshipsSection = () => {
                 className="recent_internships_card"
                 style={{ flex: `0 0 ${getSlideWidth()}%` }}
               >
-                <div className="recent_internships_card_inner">
+                <Link
+                  className="recent_internships_card_inner"
+                  to={`/internship-listing/${internship.employer_internship_post_dtls_id}`}
+                >
                   <div className="recent_internships_card_header">
                     <div className="recent_internships_supervision_type">
                       {internship.employer_internship_post_supervision_type}
@@ -230,10 +237,15 @@ const RecentInternshipsSection = () => {
                     </div>
                   </div>
 
-                  <button className="recent_internships_view_details">
+                  <button
+                    onClick={() =>
+                      handleApply(internship.employer_internship_post_dtls_id)
+                    }
+                    className="recent_internships_view_details"
+                  >
                     View details →
                   </button>
-                </div>
+                </Link>
               </div>
             ))}
           </div>

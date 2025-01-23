@@ -91,11 +91,13 @@ const FeaturedMentorSection = () => {
           <p className="featured-mentor-position">{mentor.mentor_job_title}</p>
           {mentor.mentor_domain && (
             <div className="featured-mentor-skills">
-              {JSON.parse(mentor.mentor_domain).map((domain, index) => (
-                <span key={index} className="featured-mentor-skill-tag">
-                  {domain}
-                </span>
-              ))}
+              {JSON.parse(mentor.mentor_domain)
+                .slice(0, 3)
+                .map((domain, index) => (
+                  <span key={index} className="featured-mentor-skill-tag">
+                    {domain}
+                  </span>
+                ))}
             </div>
           )}
         </div>

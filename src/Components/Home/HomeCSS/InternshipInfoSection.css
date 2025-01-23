@@ -81,6 +81,7 @@
   cursor: pointer;
   transition: background-color 0.2s;
   font-weight: 500;
+  z-index: 1;
 }
 
 .internship-secton-primary-button:hover {
@@ -104,7 +105,7 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.badge-icon {
+.internship-secton-badge-icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -113,16 +114,16 @@
   border-radius: 0.75rem;
 }
 
-.badge-icon i {
+.internship-secton-badge-icon i {
   font-size: 1.25rem;
 }
 
-.internship-secton-feature-badge:first-child .badge-icon {
+.internship-secton-feature-badge:first-child .internship-secton-badge-icon {
   background-color: #e8f5e9;
   color: #2e7d32;
 }
 
-.internship-secton-feature-badge:last-child .badge-icon {
+.internship-secton-feature-badge:last-child .internship-secton-badge-icon {
   background-color: #f3e8ff;
   color: #7e22ce;
 }

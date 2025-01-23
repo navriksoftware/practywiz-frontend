@@ -23,7 +23,7 @@ const InternshipInfoSection = () => {
               <div className="internship-secton-image-column-mobile">
                 <div className="internship-secton-badges-container">
                   <div className="internship-secton-feature-badge">
-                    <div className="badge-icon">
+                    <div className="internship-secton-badge-icon">
                       <i className="fa-solid fa-graduation-cap"></i>
                     </div>
                     <div className="badge-content">
@@ -32,7 +32,7 @@ const InternshipInfoSection = () => {
                     </div>
                   </div>
                   <div className="internship-secton-feature-badge">
-                    <div className="badge-icon">
+                    <div className="internship-secton-badge-icon">
                       <i className="fa-solid fa-bullseye"></i>
                     </div>
                     <div className="badge-content">
@@ -60,7 +60,7 @@ const InternshipInfoSection = () => {
           <div className="internship-secton-image-column">
             <div className="internship-secton-badges-container">
               <div className="internship-secton-feature-badge">
-                <div className="badge-icon">
+                <div className="internship-secton-badge-icon">
                   <i className="fa-solid fa-graduation-cap"></i>
                 </div>
                 <div className="badge-content">
@@ -69,7 +69,7 @@ const InternshipInfoSection = () => {
                 </div>
               </div>
               <div className="internship-secton-feature-badge">
-                <div className="badge-icon">
+                <div className="internship-secton-badge-icon">
                   <i className="fa-solid fa-bullseye"></i>
                 </div>
                 <div className="badge-content">

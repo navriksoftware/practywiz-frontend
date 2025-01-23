@@ -9,7 +9,7 @@
   font-size: 3rem;
   z-index: 1200000000;
   cursor: pointer;
-  color: red;
+  color: #0dcaf0a1;
 }
 @keyframes spinner {
   0% {
@@ -65,7 +65,7 @@
 }
 .error-box-green {
   background-color: #ccffcc;
-  color: #ff6600; 
+  color: #ff6600;
   border: 1px solid #00cc00;
   padding: 8px 20px;
   text-align: center;

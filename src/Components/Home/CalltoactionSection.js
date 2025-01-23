@@ -110,6 +110,7 @@ const RoleSelectorCustom = () => {
                   onClick={() => (window.location.href = `${role.path}`)}
                 >
                   {role.buttonText}
+                  <i className="fa-solid fa-arrow-right"></i>
                 </button>
               </div>
             ))}

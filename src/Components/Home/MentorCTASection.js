@@ -3,7 +3,6 @@ import "./Home.css";
 import "./HomeCSS/MentorCTASection.css";
 import Csdfsfgdf from "../../Images/Home/csdfsfgdf.png";
 import Mkwef from "../../Images/Home/mkwef.png";
-import Archt from "../../Images/architecture-independence-palace-ho-chi-minh-city.jpg";
 import { Link } from "react-router-dom";
 import GoToTop from "../../Utils/GoToTop";
 
@@ -36,7 +35,7 @@ const MentorCTASection = () => {
                 <div className="mentor-cta-right-content">
                   <div className="mentor-cta-card">
                     <h2 className="mentor-cta-card-title">Be a Mentor</h2>
-                    <div className="card-content">
+                    <div className="mentor-cta-card-content">
                       <div className="mentor-cta-card-feature">
                         <span className="mentor-cta-card-icon">
                           <i class="fa-solid fa-share-nodes"></i>
@@ -72,7 +71,7 @@ const MentorCTASection = () => {
 
                   <div className="mentor-cta-card">
                     <h2 className="mentor-cta-card-title">Find a Mentor</h2>
-                    <div className="card-content">
+                    <div className="mentor-cta-card-content">
                       <div className="mentor-cta-card-feature">
                         <span className="mentor-cta-card-icon">
                           <i class="fa-solid fa-users"></i>
