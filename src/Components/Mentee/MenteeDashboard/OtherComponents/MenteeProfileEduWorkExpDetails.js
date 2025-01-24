@@ -1044,7 +1044,7 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
                             name="additionalHeadline"
                             disabled={!ifEdit}
                             className="form-control MentorProfile-BorderColor"
-                            placeholder="Add Headline"
+                            placeholder="Add Title"
                             onChange={(e) => handleadditionlTextChange(e, i)}
                           />
 
@@ -1053,7 +1053,7 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
                             value={x.additionalDec}
                             className="form-control mt-2 MentorProfile-BorderColor"
                             style={{ height: "150px" }}
-                            placeholder="Write something about the related to headline"
+                            placeholder="Write something about the related to title"
                             onChange={(e) => handleadditionlTextChange(e, i)}
                             disabled={!ifEdit}
                           ></textarea>

@@ -65,7 +65,7 @@ const SingleMentorPageUpdated = () => {
       setDefaultCurruncyType(data.country);
      
     } catch (error) {
-      // setDefaultCurruncyType("IN");
+      setDefaultCurruncyType("IN");
 
       console.error("Error fetching location data:", error);
     }

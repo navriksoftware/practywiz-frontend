@@ -101,6 +101,11 @@ const MenteeStepForm = () => {
       setStep(step + 1);
     }
   };
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default action (form submission)
+    }
+  };
 
   return (
     <>
@@ -179,7 +184,7 @@ const MenteeStepForm = () => {
                     <>
                       {" "}
                       <FormProvider {...methods}>
-                        <form onSubmit={methods.handleSubmit(onSubmit)}>
+                        <form onSubmit={methods.handleSubmit(onSubmit)} onKeyDown={handleKeyDown}>
                           {renderStep()}
                           <div className="d-flex justify-content-between">
                             {step === 1 ? (

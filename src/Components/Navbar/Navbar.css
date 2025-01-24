@@ -175,7 +175,7 @@
 .PositionAB {
   position: absolute;
   top: 3rem;
-  right: 15rem;
+  /* right: 15rem; */
   width: 33%;
   background-color: white;
   border: 1px solid #ccc;

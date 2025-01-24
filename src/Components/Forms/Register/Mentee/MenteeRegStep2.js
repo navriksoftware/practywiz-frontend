@@ -61,6 +61,8 @@ const MenteeRegStep2 = () => {
     }
   };
 
+  
+
   const handleAddSkill = (newSkill) => {
     const trimmedSkill = newSkill.trim();
 
@@ -79,6 +81,7 @@ const MenteeRegStep2 = () => {
 
     if (!exists) {
       setSkillList([...(skillList || []), trimmedSkill]); // Use fallback to avoid undefined
+      setValue("mentee_Skills", [...(skillList || []), trimmedSkill]);
       setMessage(""); // Clear any previous message
     } else {
       setMessage("Skill already added");
