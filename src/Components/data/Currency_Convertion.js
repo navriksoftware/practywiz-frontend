@@ -195,8 +195,8 @@ export const countryCurrencyMapping = [
   },
   {
     country: "Canada",
-    currency: "CAD",
-    currencyT: "USD",
+    currency: "CA",
+    currencyT: "CAD",
     currencySymbol: "C$",
     conversionRate: 1.36, // 1 USD = 1.36 CAD
   },
