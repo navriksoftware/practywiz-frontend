@@ -105,7 +105,6 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
       clearErrors("internshipStart");
     }
   };
-
   const onSubmit = async (data) => {
     const payload = {
       ...data,
