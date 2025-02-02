@@ -365,7 +365,7 @@ export default function InternshipJobBoard({
                       )}
                       <button
                         className={`intern-apply-btn ${
-                          appliedInternshipsID.includes(
+                          (appliedInternshipsID || []).includes(
                             job.employer_internship_post_dtls_id
                           )
                             ? "intern-apply-btn-applied"
@@ -375,7 +375,7 @@ export default function InternshipJobBoard({
                           handleApply(job.employer_internship_post_dtls_id)
                         }
                       >
-                        {appliedInternshipsID.includes(
+                        {(appliedInternshipsID || []).includes(
                           job.employer_internship_post_dtls_id
                         )
                           ? "Applied"

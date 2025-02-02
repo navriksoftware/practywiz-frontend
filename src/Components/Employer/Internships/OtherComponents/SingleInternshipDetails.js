@@ -13,13 +13,6 @@ const InternshipDetail = () => {
   const internshipPostId = window.location.pathname.split("/").pop();
   const { internshipId, appliedInternshipsID = [] } = location.state || {};
 
-  console.log(
-    "internshippostid",
-    internshipPostId,
-    "appliedid:",
-    appliedInternshipsID
-  );
-  console.log("check:", appliedInternshipsID.includes(internshipId));
   const [loading, setLoading] = useState(false);
   const [singleInternshipPost, setSingleInternshipPost] = useState([]);
   const [jobDetails, setJobDetails] = useState(null);
