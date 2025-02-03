@@ -27,7 +27,7 @@
   border-bottom: 2px solid #eaeaea;
 }
 
-.case-study-content {
+.case-study-container > .case-study-content {
   font-size: 1rem;
   line-height: 1;
   color: #444;
