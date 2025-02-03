@@ -1,0 +1,135 @@
+.mentee-int-profile-overview-container {
+  padding: 2rem;
+  background-color: rgb(255, 255, 255);
+  min-height: 100vh;
+}
+.mentee-int-prof-profile-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.mentee-int-prof-profile-title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.mentee-int-profile-overview-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.mentee-int-profile-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  border: 1px solid rgb(204, 204, 204);
+  padding: 2rem;
+}
+.mentee-int-profile-header {
+  display: flex;
+  align-items: start;
+  gap: 2rem;
+}
+.mentee-int-profile-picture {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  border: 2px solid #e2e8f0;
+}
+.mentee-int-profile-info {
+  flex: 1;
+}
+.mentee-int-profile-name {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+.mentee-int-profile-location {
+  color: #6b7280;
+}
+.mentee-int-profile-description {
+  margin-top: 0.5rem;
+  color: #374151;
+}
+.mentee-int-profile-links {
+  display: flex;
+}
+.mentee-int-icon {
+  color: rgb(38, 108, 246);
+  font-size: 1.5rem;
+}
+.mentee-int-profile-section {
+  margin-top: 2rem;
+}
+.mentee-int-section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+.mentee-int-section-list {
+  margin-top: 0.5rem;
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  color: #374151;
+}
+.mentee-int-experience-item {
+  margin-top: 1.5rem;
+}
+.mentee-int-experience-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #374151;
+}
+.mentee-int-experience-company {
+  color: #6b7280;
+}
+.mentee-int-experience-list {
+  margin-top: 0.5rem;
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  color: #374151;
+}
+.mentee-int-prof-profile-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+.mentee-int-prof-btn-outline {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  background: transparent;
+  border-radius: 0.375rem;
+  color: #374151;
+  transition: all 0.3s;
+}
+.mentee-int-prof-btn-outline:hover {
+  background: #f3f4f6;
+}
+.mentee-int-btn-default {
+  padding: 0.5rem 1rem;
+  background: #1d4ed8;
+  border: none;
+  border-radius: 0.375rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.mentee-int-btn-default:hover {
+  background: #2563eb;
+}
+@media (max-width: 768px) {
+  .mentee-int-profile-overview-container {
+    padding: 0;
+  }
+  .mentee-int-profile-header {
+    flex-direction: column;
+    align-items: center;
+  }
+  .mentee-int-profile-info {
+    text-align: center;
+  }
+  .mentee-int-profile-card {
+    padding: 1rem;
+  }
+}

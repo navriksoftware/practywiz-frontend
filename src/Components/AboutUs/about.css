@@ -1,4 +1,4 @@
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
@@ -213,4 +213,552 @@
 }
 .fjgkfhg button {
   margin-top: -15px;
+} */
+
+.practywiz-about-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.practywiz-about-hero {
+  position: relative;
+  height: 450px;
+  background: linear-gradient(to right, #1e3a8a, #1e40af, #1d4ed8);
+}
+
+.practywiz-about-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.practywiz-about-hero-content {
+  position: relative;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.practywiz-about-hero-text h1 {
+  font-size: 3.75rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+}
+
+.practywiz-about-hero-text h2 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: #bfdbfe;
+  margin-bottom: 1rem;
+}
+
+.practywiz-about-hero-text p {
+  font-size: 1.25rem;
+  color: #e5e7eb;
+  max-width: 36rem;
+}
+
+.practywiz-about-section-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.practywiz-about-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.practywiz-about-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.practywiz-about-card {
+  background-color: #eff6ff;
+  padding: 2rem;
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+}
+
+.practywiz-about-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.practywiz-about-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.practywiz-about-icon-container {
+  background-color: #dbeafe;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  display: inline-flex;
+}
+
+.practywiz-about-icon {
+  font-size: 1.6rem;
+  text-align: center;
+  color: #2563eb;
+}
+
+.practywiz-about-icon-circle {
+  background-color: #eff6ff;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.practywiz-about-check-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #2563eb;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.practywiz-about-solutions {
+  background-color: #f9fafb;
+  padding: 4rem 0;
+}
+
+.practywiz-about-section-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  text-align: center;
+  color: #111827;
+  margin-bottom: 3rem;
+}
+
+.practywiz-about-solutions-group {
+  margin-bottom: 4rem;
+}
+
+.practywiz-about-solutions-group h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2563eb;
+  margin-bottom: 2rem;
+}
+
+.practywiz-about-solution-card {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.practywiz-about-solution-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.practywiz-about-solution-card h4 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.practywiz-about-solution-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.practywiz-about-solution-card li {
+  display: flex;
+  align-items: center;
+  color: #4b5563;
+  margin-bottom: 0.75rem;
+}
+
+.practywiz-about-unique {
+  background-color: #ffffff;
+}
+
+.practywiz-about-unique-content {
+  background-color: #eff6ff;
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+.practywiz-about-unique-header h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.practywiz-about-unique-text {
+  color: #4b5563;
+  line-height: 1.75;
+}
+
+.practywiz-about-unique-text p {
+  margin-bottom: 1rem;
+}
+
+.practywiz-about-founder {
+  background-color: #f9fafb;
+}
+
+.practywiz-about-founder-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2563eb;
+  margin-bottom: 0.5rem;
+}
+
+.practywiz-about-founder-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.practywiz-about-founder-text h3 {
+  font-size: 2.25rem;
+  font-weight: bold;
+  color: #111827;
+  margin-bottom: 1.5rem;
+}
+
+.practywiz-about-founder-quote {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.practywiz-about-founder-quote::before {
+  content: '"';
+  position: absolute;
+  left: -2rem;
+  top: 0;
+  font-size: 4rem;
+  color: #2563eb;
+  opacity: 0.5;
+  line-height: 1;
+}
+
+.practywiz-about-founder-quote p {
+  font-size: 1.25rem;
+  color: #4b5563;
+  line-height: 1.75;
+}
+
+.practywiz-about-founder-description p {
+  color: #4b5563;
+  margin-bottom: 1rem;
+  line-height: 1.75;
+}
+
+.practywiz-about-founder-image {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.practywiz-about-founder-image-container {
+  position: relative;
+  max-width: 400px;
+}
+
+.practywiz-about-founder-image-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #2563eb;
+  border-radius: 1rem;
+  transform: rotate(6deg);
+}
+
+.practywiz-about-founder-image-container img {
+  position: relative;
+  z-index: 1;
+  border-radius: 1rem;
+  width: 100%;
+  height: auto;
+  transform: rotate(-3deg);
+  transition: transform 0.3s ease;
+}
+
+.practywiz-about-founder-image-container:hover img {
+  transform: rotate(0);
+}
+
+.practywiz-about-unique-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.practywiz-about-unique-text-content {
+  flex: 1;
+}
+
+.practywiz-about-unique-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.practywiz-about-unique-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.practywiz-about-offer-grid-our-offer {
+  padding: 64px 0;
+  background-color: #ffffff;
+}
+
+.practywiz-about-offer-grid-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.practywiz-about-offer-grid-section-title {
+  text-align: center;
+  color: #1e40af;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 32px;
+}
+
+.practywiz-about-offer-grid-main-title {
+  color: #2563eb;
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.practywiz-about-offer-grid-subtitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.practywiz-about-offer-grid-description {
+  font-size: 18px;
+  color: #6b7280;
+  margin-bottom: 32px;
+}
+
+.practywiz-about-offer-grid-grid-top,
+.practywiz-about-offer-grid-grid-bottom {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.practywiz-about-offer-grid-grid-top {
+  grid-template-columns: 58.33% 41.67%;
+}
+
+.practywiz-about-offer-grid-grid-bottom {
+  grid-template-columns: 75% 25%;
+}
+
+.practywiz-about-offer-grid-section {
+  padding: 24px;
+  border-radius: 8px;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.practywiz-about-offer-grid-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.practywiz-about-offer-grid-section h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 16px;
+}
+
+.practywiz-about-offer-grid-mentors {
+  background-color: #eff6ff;
+}
+
+.practywiz-about-offer-grid-students {
+  background-color: #f0fdf4;
+}
+
+.practywiz-about-offer-grid-institutes {
+  background-color: #fefce8;
+}
+
+.practywiz-about-offer-grid-forall {
+  background-color: #f5f3ff;
+}
+
+.practywiz-about-offer-grid-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.practywiz-about-offer-grid-section li {
+  display: flex;
+  align-items: center;
+  color: #4b5563;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.practywiz-about-offer-grid-section li::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.practywiz-about-offer-grid-mentors li::before {
+  background-color: #2563eb;
+}
+
+.practywiz-about-offer-grid-students li::before {
+  background-color: #22c55e;
+}
+
+.practywiz-about-offer-grid-institutes li::before {
+  background-color: #eab308;
+}
+
+.practywiz-about-offer-grid-forall li::before {
+  background-color: #7c3aed;
+}
+
+.practywiz-about-offer-grid-two-cols {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+/* Responsive Design Updates */
+@media (max-width: 768px) {
+  .practywiz-about-unique-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .practywiz-about-unique-image {
+    order: -1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .practywiz-about-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .practywiz-about-hero-text h1 {
+    font-size: 3rem;
+  }
+
+  .practywiz-about-hero-text h2 {
+    font-size: 1.5rem;
+  }
+
+  .practywiz-about-grid-2,
+  .practywiz-about-grid-3,
+  .practywiz-about-founder-content {
+    grid-template-columns: 1fr;
+  }
+
+  .practywiz-about-section-container {
+    padding: 3rem 2rem;
+  }
+  .practywiz-about-offer-grid-grid-top,
+  .practywiz-about-offer-grid-grid-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .practywiz-about-offer-grid-two-cols {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .practywiz-about-offer-grid-main-title {
+    font-size: 32px;
+  }
+
+  .practywiz-about-offer-grid-subtitle {
+    font-size: 20px;
+  }
+
+  .practywiz-about-offer-grid-section {
+    margin-bottom: 16px;
+    padding: 3rem 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .practywiz-about-hero-text h1 {
+    font-size: 2.5rem;
+  }
+
+  .practywiz-about-hero-text h2 {
+    font-size: 1.25rem;
+  }
+
+  .practywiz-about-hero-text p {
+    font-size: 1rem;
+  }
+
+  .practywiz-about-card,
+  .practywiz-about-solution-card {
+    padding: 1.5rem;
+  }
+
+  .practywiz-about-founder-quote::before {
+    left: -1rem;
+    font-size: 3rem;
+  }
+  .practywiz-about-offer-grid-container {
+    padding: 0 16px;
+  }
+
+  .practywiz-about-offer-grid-section {
+    padding: 20px;
+  }
+
+  .practywiz-about-offer-grid-main-title {
+    font-size: 28px;
+  }
+
+  .practywiz-about-offer-grid-subtitle {
+    font-size: 18px;
+  }
 }

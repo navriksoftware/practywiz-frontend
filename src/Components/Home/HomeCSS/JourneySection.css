@@ -118,13 +118,16 @@
   color: #9ca3af;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1350px) {
   .practy_journey_cards_container {
     gap: 1rem;
   }
 
   .practy_journey_card_content {
     width: 14rem;
+  }
+  .practy_journey_arrow {
+    display: none;
   }
 }
 

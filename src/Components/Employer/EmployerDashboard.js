@@ -49,7 +49,8 @@ const EmployerDashboard = ({ user, token }) => {
   const [internPostData, setInternPostData] = useState(null); // try to use another method to get the data in future
 
   const [currentPage, setCurrentPage] = useState(() => {
-    return localStorage.getItem("currentPage") || "dashboard";
+    const savedPage = localStorage.getItem("currentPage");
+    return savedPage || "dashboard";
   }); //to save current page on refresh
 
   const toggleNoProfile = () => {
@@ -68,6 +69,13 @@ const EmployerDashboard = ({ user, token }) => {
   useEffect(() => {
     localStorage.setItem("currentPage", currentPage);
   }, [currentPage]);
+
+  useEffect(() => {
+    return () => {
+      // Cleanup localStorage when component unmounts
+      localStorage.removeItem("currentPage");
+    };
+  }, []);
   //
   const HandleInternshipDashBoardProfile = () => {
     if (!showInternshipDashboad) {
@@ -249,6 +257,7 @@ const EmployerDashboard = ({ user, token }) => {
   const navigate = useNavigate();
   const url = ApiURL();
   const userLogoutHandler = () => {
+    localStorage.removeItem("currentPage");
     return dispatch(logOut()), navigate("/login");
   };
 
@@ -327,6 +336,10 @@ const EmployerDashboard = ({ user, token }) => {
 
   useEffect(() => {
     const savedPage = localStorage.getItem("currentPage");
+    if (!savedPage) {
+      return HandleInternshipDashBoardProfile();
+    }
+    // if (employerDetails.length > 0) {
     switch (savedPage) {
       case "dashboard":
         HandleInternshipDashBoardProfile();
@@ -355,6 +368,7 @@ const EmployerDashboard = ({ user, token }) => {
       default:
         HandleInternshipDashBoardProfile();
     }
+    // }
   }, []);
   return (
     <>

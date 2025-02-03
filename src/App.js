@@ -71,14 +71,15 @@ import MenteeInternshipApplyPage from "./Components/Employer/Internships/OtherCo
 import ApplicationsReceivedPage from "./Pages/InternshipPages/ApplicationsReceivedPage";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 import SingleInternshipDetailsPage from "./Pages/InternshipPages/SingleInternshipDetailsPage";
-import PersonalDetailsforInternship from "./Components/Employer/Internships/MenteeApplyInternship/PersonalDetailsforInternship";
-import EduWorkDetailsForinternship from "./Components/Employer/Internships/MenteeApplyInternship/EduWorkDetailsForinternship";
+// import PersonalDetailsforInternship from "./Components/Employer/Internships/MenteeApplyInternship/PersonalDetailsforInternship";
+// import EduWorkDetailsForinternship from "./Components/Employer/Internships/MenteeApplyInternship/EduWorkDetailsForinternship";
 import EmployerDashboardPage from "./Pages/EmployerPages/EmployerDashboardPage";
 import PurchasedCaseStudiesPage from "./Pages/CaseStudyPages/PurchasedCaseStudiesPage";
 import CaseStudyDetailPage from "./Pages/CaseStudyPages/CaseStudyDetailPage";
 import SimulationPage from "./Pages/CaseStudyPages/SimulationPage";
 import ResultPage from "./Pages/CaseStudyPages/ResultPage";
 import FAQPage from "./Pages/FAQPage/FAQPage";
+import InternshipApplication from "./Components/Mentee/MenteeDashboard/MenteeInternship/InternshipApply";
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
   const isLoading = useSelector((state) => state.loading.isLoading);
@@ -270,17 +271,21 @@ function App() {
             element={<SingleInternshipDetailsPage />}
           />
           <Route
+            path="/internship/apply"
+            element={<InternshipApplication user={user} token={token} />}
+          />
+          {/* <Route
             path="/showmenteepersonaldetails"
-            element={<PersonalDetailsforInternship />}
+            element={<PersonalDetailsforInternship user={user} token={token} />}
           />{" "}
           <Route
             path="/showmenteeedudetails"
-            element={<EduWorkDetailsForinternship />}
+            element={<EduWorkDetailsForinternship user={user} token={token} />}
           />
           <Route
             path="/MenteeApplyInternship"
-            element={<MenteeInternshipApplyPage />}
-          />{" "}
+            element={<MenteeInternshipApplyPage user={user} token={token} />}
+          />{" "} */}
           <Route path="/orgInternship" element={<Orginternship />} />
           {/* <Route
             path="/SinglePageInternApplicaion"
@@ -291,7 +296,7 @@ function App() {
             element={<ApplicantProfile />}
           />
           <Route
-            path="/internships/:id/applicants"
+            path="/internships/:profile/:id/applicants"
             element={<ApplicationsReceivedPage />}
           />
           {/* internship end */}
