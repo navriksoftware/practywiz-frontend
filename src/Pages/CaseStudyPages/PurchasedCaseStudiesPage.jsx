@@ -18,8 +18,8 @@ function PurchasedCaseStudiesPage() {
     axios
       .get(`${URL}api/v1/case-studies/purchased-case-studies`)
       .then((response) => {
-        setCaseStudies(response.data);
-        console.log(response.data);
+        setCaseStudies(response.data.data);
+        console.log(response.data.data);
       })
       .catch((error) => {
         console.error("Error fetching purchased case studies:", error);
@@ -41,11 +41,11 @@ function PurchasedCaseStudiesPage() {
         <h1>Purchased Case Studies</h1>
         <div className="case-study-list">
           {caseStudies.map((caseStudy) => (
-            <div key={caseStudy.id} className="case-study-card">
-              <h2>{caseStudy.title}</h2>
-              <p>{caseStudy.content.substring(0, 150)}...</p>
+            <div key={caseStudy.case_study_id} className="case-study-card">
+              <h2>{caseStudy.case_study_title}</h2>
+              <p>{caseStudy.case_study_content.substring(0, 90)}...</p>
               <button
-                onClick={() => handleViewCaseStudy(caseStudy.id)}
+                onClick={() => handleViewCaseStudy(caseStudy.case_study_id)}
                 className="view-case-study-button"
               >
                 View Case Study

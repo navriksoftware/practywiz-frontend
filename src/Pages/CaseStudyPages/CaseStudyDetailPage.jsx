@@ -18,7 +18,7 @@ function CaseStudyDetailPage() {
     axios
       .get(`${URL}api/v1/case-studies/purchased-case-studies/${id}`)
       .then((response) => {
-        setCaseStudy(response.data);
+        setCaseStudy(response.data.data);
       })
       .catch((error) => {
         console.error("Error fetching purchased case studies:", error);
@@ -43,8 +43,21 @@ function CaseStudyDetailPage() {
     <>
       <Navbar></Navbar>
       <div className="case-study-page-container">
-        <h1 className="case-study-page-title">{caseStudy.title}</h1>
-        <p className="case-study-page-content">{caseStudy.content}</p>
+        {/* <h1 className="case-study-page-title">{caseStudy.case_study_title}</h1>
+        <p className="case-study-page-content">
+          {caseStudy.case_study_content}
+        </p>/ */}
+
+        <h1 className="case-study-page-title">{caseStudy.case_study_title}</h1>
+        <div className="case-study-page-content">
+          {/* Split content by new lines and wrap each part in a <p> */}
+          {caseStudy.case_study_content
+            .split("\n")
+            .map((line, index) =>
+              line.trim() ? <p key={index}>{line}</p> : <br key={index} />
+            )}
+        </div>
+
         <div className="case-study-page-button-group">
           <button
             onClick={handleStartSimulation}
