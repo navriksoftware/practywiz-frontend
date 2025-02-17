@@ -221,13 +221,17 @@ const CaseStudy = ({ user, token }) => {
               <div className="case-study-content">
                 <div className="case-study-text">
                   <p>
-                    <strong>Lesson:</strong> {caseStudy.lession}
+                    <strong>Lesson:</strong> {caseStudy.lesson}
                   </p>
                   <p>
-                    <strong>Future Skills:</strong> {caseStudy.fututreSkils}
+                    <strong>Future Skills:</strong> {caseStudy.futureSkills}
                   </p>
                   <p>
                     <strong>Challenge:</strong> {caseStudy.challenge}
+                  </p>
+                  <p>
+                    <strong>Author Designation:</strong>{" "}
+                    {caseStudy.authorDesignation}
                   </p>
                   <p>
                     <strong>Price: </strong> ₹ {caseStudy.price}
@@ -236,6 +240,15 @@ const CaseStudy = ({ user, token }) => {
                     <strong>Rating: </strong> {renderStars(caseStudy.rating)}
                   </p>
                   <div className="case-btn-container">
+                    <Link
+                      target="_blank"
+                      to={`/case-studies/view-case-study/${caseStudy.caseTopic
+                        .replace(" ", "-")
+                        .toLowerCase()}/${caseStudy.id} `}
+                    >
+                      <button className="buy-now">View case study</button>
+                    </Link>
+                    {/* <div className="case-btn-container">
                     {isItemInCart(caseStudy) ? (
                       <button
                         className="go-to-cart"
@@ -258,12 +271,14 @@ const CaseStudy = ({ user, token }) => {
                     >
                       {isPurchased ? "You have already purchased" : "Buy Now"}
                     </button>
+                  </div> */}
                   </div>
                 </div>
                 <div className="case-study-video">
-                  <video controls controlsList="nodownload" src={video}>
+                  {/* <video controls controlsList="nodownload" src={video}>
                     Your browser does not support the video tag.
-                  </video>
+                  </video> */}
+                  <img src={caseStudy.imageLink} alt="" />
                 </div>
               </div>
             </div>

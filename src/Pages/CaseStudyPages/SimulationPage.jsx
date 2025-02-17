@@ -234,7 +234,7 @@ function SimulationPage() {
             {caseStudy?.case_study_content
               .split("\n")
               .map((line, index) =>
-                line.trim() ? <p key={index}>{line}</p> : <br key={index} />
+                line.trim() ? <p key={index}>{line}</p> : ""
               )}
           </div>
         </div>
