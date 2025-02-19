@@ -10,7 +10,7 @@ const MentorCTASection = () => {
   return (
     <>
       <div className="mentor-cta-section">
-        <div className="diuehrr_wrapper">
+        <div className="diuehrr_wrapper mentor-cta-container">
           <div className="row align-items-center">
             <div className="col-lg-6 mb-3">
               <div className="mentor-cta-left-content">
@@ -38,13 +38,13 @@ const MentorCTASection = () => {
                     <div className="mentor-cta-card-content">
                       <div className="mentor-cta-card-feature">
                         <span className="mentor-cta-card-icon">
-                          <i class="fa-solid fa-share-nodes"></i>
+                          <i className="fa-solid fa-share-nodes"></i>
                         </span>
                         <p>Share your expertise and shape future leaders</p>
                       </div>
                       <div className="mentor-cta-card-feature">
                         <span className="mentor-cta-card-icon">
-                          <i class="fa-solid fa-award"></i>
+                          <i className="fa-solid fa-award"></i>
                         </span>
                         <p>
                           Contribute to case studies and Contribute to growth
@@ -52,7 +52,7 @@ const MentorCTASection = () => {
                       </div>
                       <div className="mentor-cta-card-feature">
                         <span className="mentor-cta-card-icon">
-                          <i class="fa-regular fa-calendar"></i>
+                          <i className="fa-regular fa-calendar"></i>
                         </span>
                         <p>
                           Get opportunity become a Guest Lecturer in Colleges
@@ -74,19 +74,19 @@ const MentorCTASection = () => {
                     <div className="mentor-cta-card-content">
                       <div className="mentor-cta-card-feature">
                         <span className="mentor-cta-card-icon">
-                          <i class="fa-solid fa-users"></i>
+                          <i className="fa-solid fa-users"></i>
                         </span>
                         <p>Learn from industry veterans & experts</p>
                       </div>
                       <div className="mentor-cta-card-feature">
                         <span className="mentor-cta-card-icon">
-                          <i class="fa-solid fa-bullseye"></i>
+                          <i className="fa-solid fa-bullseye"></i>
                         </span>
                         <p>Get personalized guidance for your career</p>
                       </div>
                       <div className="mentor-cta-card-feature">
                         <span className="mentor-cta-card-icon">
-                          <i class="fa-solid fa-sitemap"></i>
+                          <i className="fa-solid fa-sitemap"></i>
                         </span>
                         <p>Access a diverse network of professionals</p>
                       </div>

@@ -1,10 +1,12 @@
 .practy_journey_container {
   background: white;
-  padding: 5rem 7rem;
+  padding: 5rem 24px;
   border-radius: 1rem;
 }
 
 .practy_journey_content {
+  max-width: 1300px;
+  margin: auto;
   padding: 3rem;
   padding-bottom: 5rem;
   border-radius: 2rem;
@@ -118,7 +120,7 @@
   color: #9ca3af;
 }
 
-@media (max-width: 1350px) {
+@media (max-width: 1300px) {
   .practy_journey_cards_container {
     gap: 1rem;
   }
@@ -131,11 +133,6 @@
   }
 }
 
-@media (max-width: 1024px) {
-  .practy_journey_container {
-    padding: 3rem 5rem;
-  }
-}
 @media (max-width: 768px) {
   .practy_journey_container {
     padding: 1.5rem;
@@ -183,7 +180,7 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
-  z-index: 1000;
+  z-index: 9999999;
 }
 
 .practy_journey_modal {
@@ -191,7 +188,7 @@
   border-radius: 8px;
   padding: 24px;
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   position: relative;
   max-height: 90vh;
   overflow-y: auto;

@@ -1,8 +1,10 @@
 .practywiz-CTA-container-outer {
-  padding: 3rem 7rem;
+  padding: 3rem 24px;
 }
 
 .practywiz-CTA-container {
+  max-width: 1300px;
+  margin: 0 auto;
   background-color: #172554;
   color: white;
   padding: 2rem;
@@ -127,10 +129,6 @@
 }
 
 @media (max-width: 1024px) {
-  .practywiz-CTA-container-outer {
-    padding: 2rem 4rem;
-  }
-
   .practywiz-CTA-title {
     font-size: 2rem;
   }
@@ -160,7 +158,7 @@
 
   .practywiz-CTA-tab {
     padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 
   .practywiz-CTA-title {

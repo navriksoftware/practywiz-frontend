@@ -13,7 +13,7 @@ const InternshipOverview = ({ singleMentee }) => {
       </div>
 
       {singleMentee?.map((mentee, index) => (
-        <div className="mentee-int-profile-overview-wrapper">
+        <div key={index} className="mentee-int-profile-overview-wrapper">
           <div className="mentee-int-profile-card">
             <div className="mentee-int-profile-header">
               <img
@@ -80,7 +80,7 @@ const InternshipOverview = ({ singleMentee }) => {
                           {edu?.schoolStartYear} - {edu?.schoolEndYear})
                           <div className="Internapplypage-row">
                             <p> {edu?.schoolBoard}</p>
-                            <p>Percentage: {edu?.school_Percentage}%</p>
+                            <p>Percentage: {edu?.school_location}%</p>
                           </div>
                         </>
                       )}

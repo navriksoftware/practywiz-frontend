@@ -1,8 +1,13 @@
-.partner_slider-container {
+.partner_slider-section {
   width: 100%;
   background-color: white;
-  padding: 5rem 7rem;
+  padding: 3rem 24px;
   overflow: hidden;
+}
+
+.partner_slider-container {
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
 .partner_slider-title {
@@ -101,10 +106,6 @@
 }
 
 @media (max-width: 1024px) {
-  .partner_slider-container {
-    padding: 3rem 5rem;
-  }
-
   .partner_slider-track {
     gap: 2rem;
   }
@@ -128,10 +129,6 @@
 }
 
 @media (max-width: 768px) {
-  .partner_slider-container {
-    padding: 3rem 2rem;
-  }
-
   .partner_slider-title {
     text-align: center;
     margin-bottom: 30px;
@@ -160,10 +157,6 @@
 }
 
 @media (max-width: 480px) {
-  .partner_slider-container {
-    padding: 30px 0;
-  }
-
   .partner_slider-title {
     font-size: 24px;
     margin-bottom: 20px;

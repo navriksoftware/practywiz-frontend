@@ -171,7 +171,9 @@
 
 @media (min-width: 1024px) {
   .recent_internships_container {
-    padding: 5rem 7rem;
+    padding: 5rem 24px;
+    max-width: 1300px;
+    margin: auto;
   }
 
   .recent_internships_header h2 {

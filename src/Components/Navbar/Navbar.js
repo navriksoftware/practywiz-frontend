@@ -99,12 +99,12 @@ const Navbar = () => {
                 <a className="navbar-brand" href="/" id="diorjer-logo">
                   <img src={Logo} alt="Logo" id="dbgheuirbr-image-a" />
 
-                  <img
+                  {/* <img
                     src="images/image - 2024-04-22T201352.571.png"
                     className="d-none"
                     alt=""
                     id="dbgheuirbr-image-b"
-                  />
+                  /> */}
                 </a>
                 {user ? (
                   <div className="udgehrr position-relative ps-3 menubarUserIconDnone">
@@ -257,7 +257,7 @@ const Navbar = () => {
                         ></i>
                       </a>
                     </li>
-                   {/* {menutoggle && (
+                    {/* {menutoggle && (
                       <div className="PositionAB">
                         <div className="menushowbox">
                           {technologyOptions?.map((option, index) => {
@@ -276,7 +276,7 @@ const Navbar = () => {
                         </div>
                       </div>
                     )} */}
-                   
+
                     <li className="nav-item">
                       <a
                         className="nav-link"
@@ -297,8 +297,6 @@ const Navbar = () => {
                         Internships
                       </a>
                     </li>
-
-                   
                   </ul>
                   {user ? (
                     <div className="udgehrr position-relative ps-3">
@@ -392,7 +390,7 @@ const Navbar = () => {
                                   className="inOneLine"
                                   href="/employer-registration"
                                 >
-                                 <i class="fa-solid fa-briefcase"></i>
+                                  <i className="fa-solid fa-briefcase"></i>
                                   <h5>Employer</h5>
                                 </a>
                               </button>
@@ -402,8 +400,6 @@ const Navbar = () => {
                       </div>
                     </div>
                   )}
-
-                 
                 </div>
               </div>
             </nav>

@@ -35,7 +35,7 @@ const RoleSelectorCustom = () => {
       path: "/institute-registration",
     },
     {
-      type: "EMPLOYER",
+      type: "CORPORATE",
       title: "Build Better Teams",
       subtitle: "Hire Top Talent",
       description:

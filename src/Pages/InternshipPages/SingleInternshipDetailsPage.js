@@ -3,11 +3,11 @@ import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
 import SingleInternshipDetails from "../../Components/Employer/Internships/OtherComponents/SingleInternshipDetails";
 
-const InternshipListingPage = () => {
+const InternshipListingPage = ({ user, token }) => {
   return (
     <>
       <Navbar />
-      <SingleInternshipDetails />
+      <SingleInternshipDetails user={user} token={token} />
       <Footer />
     </>
   );

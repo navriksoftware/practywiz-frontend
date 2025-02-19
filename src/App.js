@@ -80,6 +80,10 @@ import SimulationPage from "./Pages/CaseStudyPages/SimulationPage";
 import ResultPage from "./Pages/CaseStudyPages/ResultPage";
 import FAQPage from "./Pages/FAQPage/FAQPage";
 import InternshipApplication from "./Components/Mentee/MenteeDashboard/MenteeInternship/InternshipApply";
+
+import TermsConditionsPage from "./Pages/LegalPages/TermsConditionsPage";
+import PrivacyPolicyPage from "./Pages/LegalPages/PrivacyPolicyPage";
+
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
   const isLoading = useSelector((state) => state.loading.isLoading);
@@ -268,7 +272,7 @@ function App() {
           <Route path="/internships" element={<InternshipListingPage />} />
           <Route
             path="/internship-listing/:id"
-            element={<SingleInternshipDetailsPage />}
+            element={<SingleInternshipDetailsPage user={user} token={token} />}
           />
           <Route
             path="/internship/apply"
@@ -300,6 +304,9 @@ function App() {
             element={<ApplicationsReceivedPage />}
           />
           {/* internship end */}
+
+          <Route path="/legal/terms" element={<TermsConditionsPage />} />
+          <Route path="/legal/privacy-policy" element={<PrivacyPolicyPage />} />
         </Routes>
       </Router>
       <ScrollButton />

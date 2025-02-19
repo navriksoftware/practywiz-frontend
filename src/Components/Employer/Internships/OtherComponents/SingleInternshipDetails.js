@@ -5,8 +5,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import DOMPurify from "dompurify";
+import { toast } from "react-toastify";
 
-const InternshipDetail = () => {
+const InternshipDetail = ({ user, token }) => {
   const url = ApiURL();
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,9 +18,10 @@ const InternshipDetail = () => {
   const [singleInternshipPost, setSingleInternshipPost] = useState([]);
   const [jobDetails, setJobDetails] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isUserMentee, setUserMentee] = useState(false);
 
   useEffect(() => {
-    const fetchSingleMentors = async () => {
+    const fetchSingleInternship = async () => {
       setLoading(true);
       try {
         const response = await axios.post(
@@ -37,7 +39,7 @@ const InternshipDetail = () => {
       }
       setLoading(false);
     };
-    fetchSingleMentors();
+    fetchSingleInternship();
   }, [internshipPostId, url]);
 
   useEffect(() => {
@@ -45,12 +47,24 @@ const InternshipDetail = () => {
       const token = localStorage.getItem("token");
       setIsLoggedIn(!!token);
     };
+
+    const checkUserType = () => {
+      const userType = user?.user_type;
+      if (userType === "mentee") {
+        setUserMentee(true);
+      }
+    };
     checkLoginStatus();
+    checkUserType();
   }, []);
 
   const handleApply = () => {
     if (!isLoggedIn) {
       return navigate("/login");
+    }
+    if (!isUserMentee) {
+      toast.error("Only mentees can apply for internships");
+      return navigate("/");
     }
     navigate(`/internship/apply?internshipId=${internshipPostId}`);
   };
@@ -62,12 +76,12 @@ const InternshipDetail = () => {
   return (
     <div className="col-lg-10 ps-0">
       <div className="gtyfdgfgf">
-        {singleInternshipPost?.map((internship) => {
+        {singleInternshipPost?.map((internship, index) => {
           const isApplied = appliedInternshipsID.includes(internshipId);
           return (
-            <div className="single-intern-container">
+            <div key={index} className="single-intern-container">
               <button onClick={handleBack} className="single-intern-back-btn">
-                <i class="fa-solid fa-arrow-left"></i>
+                <i className="fa-solid fa-arrow-left"></i>
               </button>
 
               <div className="single-intern-header">
@@ -112,7 +126,6 @@ const InternshipDetail = () => {
                   onClick={handleApply}
                   disabled={isApplied}
                 >
-                  {/* {appliedInternshipsID.includes() ? "Applied" : "Apply"} */}
                   {isApplied ? "Applied" : "Apply Now"}
                 </button>
               </div>

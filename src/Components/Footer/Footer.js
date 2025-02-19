@@ -249,7 +249,7 @@ const Footer = () => {
 
                 <button className="position-relative me-lg-2">
                   <a
-                    href="https://www.instagram.com/practiwiz?igsh=b3VicXZwNGlrdnpo"
+                    href="https://www.instagram.com/practywiz"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -259,7 +259,7 @@ const Footer = () => {
 
                 <button className="position-relative me-lg-2">
                   <a
-                    href="https://www.youtube.com/@navriksoftwaresolutions9922"
+                    href="https://www.youtube.com/@Practiwiz-bs9ww"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -277,7 +277,7 @@ const Footer = () => {
                   </a>
                 </button>
 
-                <button className="position-relative me-lg-2">
+                {/* <button className="position-relative me-lg-2">
                   <a
                     href="https://x.com/practiwiz"
                     target="_blank"
@@ -285,7 +285,7 @@ const Footer = () => {
                   >
                     <i className="fa-brands position-absolute fa-x-twitter"></i>
                   </a>
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
@@ -307,7 +307,7 @@ const Footer = () => {
                   <a href="/internships">Internships</a>
                 </li>
                 <li>
-                  <a href="/jobs">Jobs</a>
+                  <a href="/courses">Courses</a>
                 </li>
               </ul>
             </div>
@@ -320,6 +320,9 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="/contact">Contact Us</a>
+                </li>
+                <li>
+                  <a href="/faq">FAQ</a>
                 </li>
               </ul>
             </div>
@@ -398,13 +401,15 @@ const Footer = () => {
           <div className="footer-bottom-content">
             <p className="copyright">
               <span>All rights reserved.</span>
-              <a className="company-tc" href="#">
+              <a className="company-tc" href="/legal/terms">
                 Terms & Conditions
               </a>
               <span className="separator">•</span>
-              <a href="#">Privacy Policy</a>
+              <a href="/legal/privacy-policy">Privacy Policy</a>
             </p>
-            <p className="company-copyright">&copy; 2022 PractyWiz</p>
+            <p className="company-copyright">
+              &copy; {new Date().getFullYear()} PractyWiz
+            </p>
           </div>
         </div>
       </div>

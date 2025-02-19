@@ -24,7 +24,7 @@ const ItTrainingSection = () => {
           </p>
 
           <div className="it-training-button-group">
-            <button
+            {/* <button
               onClick={() =>
                 (window.location.href = "https://elevation5137.ongraphy.com")
               }
@@ -32,12 +32,9 @@ const ItTrainingSection = () => {
             >
               Start Learning
               <i className="fa-solid fa-arrow-right"></i>
-            </button>
+            </button> */}
             <button
-              onClick={() =>
-                (window.location.href =
-                  "https://elevation5137.ongraphy.com/courses")
-              }
+              onClick={() => (window.location.href = "/courses")}
               className="it-training-secondary-button"
             >
               Explore Our Courses
