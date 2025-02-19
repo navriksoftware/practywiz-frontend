@@ -42,7 +42,6 @@ const MenteeStepForm = () => {
   const methods = useForm({});
   const { reset } = useForm();
   const [step, setStep] = React.useState(1);
-  const { trigger } = methods;
 
   const cleanPhoneNumber = (phone) => {
     return phone.replace(/\D/g, "");
@@ -69,7 +68,7 @@ const MenteeStepForm = () => {
       }
       if (res.data.error) {
         dispatch(hideLoadingHandler());
-         toast.error(res.data.error);
+        toast.error(res.data.error);
       }
     } catch (error) {
       dispatch(hideLoadingHandler());
@@ -96,13 +95,23 @@ const MenteeStepForm = () => {
   };
 
   const nextStep = async () => {
-    const result = await trigger();
-    if (result) {
+    const isFormValid = await methods.trigger(); // Validate the entire form
+    const isValidOTP = methods.getValues("mentee_OTPValid"); // Get OTP value
+
+    console.log("OTP Value:", isValidOTP); // Debugging
+
+    if (isFormValid && isValidOTP) {
+      // Check if the form is valid and OTP is true
       setStep(step + 1);
+    } else if (!isFormValid) {
+      toast.error("Please fill the form correctly.");
+    } else if (!isValidOTP) {
+      toast.error("Please verify your phone number.");
     }
   };
+
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault(); // Prevent the default action (form submission)
     }
   };
@@ -184,7 +193,10 @@ const MenteeStepForm = () => {
                     <>
                       {" "}
                       <FormProvider {...methods}>
-                        <form onSubmit={methods.handleSubmit(onSubmit)} onKeyDown={handleKeyDown}>
+                        <form
+                          onSubmit={methods.handleSubmit(onSubmit)}
+                          onKeyDown={handleKeyDown}
+                        >
                           {renderStep()}
                           <div className="d-flex justify-content-between">
                             {step === 1 ? (

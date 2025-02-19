@@ -5,12 +5,11 @@ const MentorCardSkelton = () => {
     <>
       <div className="mentorDiv " style={{ width: "250px" }}>
         <div className="mentorDownDiv">
-          <img
-            className="mentorImage skeleton"
-            style={{ width: "50%", marginTop: "12px" }}
-            src=""
-            alt=""
-          />
+          <div className="mentorImage skeleton"
+          style={{ width: "50%", marginTop: "12px" }}>
+            
+            
+            </div>
           <h3
             className="mentorName skeleton"
             style={{ width: "50%", margin: "10px auto" }}

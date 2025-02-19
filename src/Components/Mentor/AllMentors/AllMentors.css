@@ -7,12 +7,14 @@
 #disabledButton {
   cursor: not-allowed;
 }
+
 .noReviewsFound {
   color: #111;
   margin: auto;
   text-align: center;
   padding: 10px 20px;
 }
+
 .mt-6 {
   margin-top: 5rem;
 }
@@ -21,37 +23,241 @@
   text-align: center;
   position: relative;
 }
+
 .fgtrbdhefg {
   color: rgb(27, 99, 222);
   font-size: 30px;
   position: absolute;
   top: 14px;
   margin-left: 5px;
- 
+
 }
 
 .ColSize {
   width: 480px;
 }
+
 .slotOptionmetor {
   width: 2rem;
   border: 1px solid gray;
   border-radius: 5px;
   background-color: aliceblue;
 }
+
 .heightofdiv {
   height: 3rem;
   margin-left: 20px;
 }
+
 .MarginR {
   margin-right: 8px;
 }
 
-.AllMentor-showAllCards{
-  margin-top: 1rem;
+.AllMentor-showAllCards {
+  margin-top: 2rem;
   justify-content: center;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 0fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 0fr));
   grid-auto-rows: auto;
-  gap: 10px;
+  row-gap: 3rem;
+  column-gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.AllMentorCard-profile-card {
+  max-width: 24rem;
+  background-color: #f3f4f642;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #80808030;
+  box-shadow: 0 1px 9px 3px rgba(0, 0, 0, 0.05);
+  position: relative;
+  transition: transform 0.5s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  cursor: pointer;
+
+}
+
+.AllMentorCard-profile-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.AllMentorCard-image-container {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.AllMentorCard-rating {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  font-size: 0.875rem;
+  box-shadow: 2.5px 3.5px 13.5px -5.5px #dddddd;
+  color: #4b5563;
+  background: white;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.AllMentorCard-photo-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 0.5rem;
+  object-position: top;
+  object-fit: cover;
+}
+
+.AllmentorCard-price-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  background-color: #244E8A;
+  border-radius: 4px;
+  font-size: 15px;
+  color: #ffffff;
+  position: absolute;
+  top: -15px;
+  right: 15px;
+}
+
+.AllmentorCard-skill-item {
+  white-space: nowrap;
+  background: #ffffff8f;
+  padding: 4px 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-size: 12px;
+  color: #000000bf;
+  font-weight: 700;
+}
+
+.AllMentorCard-reaction-buttons {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.AllMentorCard-react-btn {
+  background-color: #e5e7eb;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+  border: none;
+  cursor: pointer;
+}
+
+.AllMentorCard-react-btn:hover {
+  background-color: #d1d5db;
+}
+
+.AllMentorCard-profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.AllMentorCard-user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.50rem;
+}
+
+.AllMentorCard-name-location {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #696a6cfc;
+}
+
+.AllMentorCard-name-location h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.AllMentorCard-location {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.AllMentorCard-job-title,
+.AllMentorCard-company {
+  font-size: 0.875rem;
+  color: #696a6cfc;
+}
+
+.AllMentorCard-tags {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.AllMentorCard-language-tag {
+  background-color: #e5e7eb;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  color: #696a6cfc;
+}
+
+.AllMentorCard-circular-tag {
+  width: 2rem;
+  height: 2rem;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+}
+
+.AllMentorCard-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 0.5rem;
+}
+
+.AllMentorCard-footer-itemDomain {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.AllMentorCard-footer-itemExp {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.AllMentorCard-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #696a6cfc;
+}
+
+.AllMentorCard-value {
+  font-size: 0.875rem;
+  color: #696a6cfc;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.IconestyleBrifcase {
+  font-weight: 600;
+  font-size: 16px;
+  color: #696a6cfc;
+}
+
+.AttherateIcone {
+  color: #696a6cfc;
+}
+
+.AllMentorCardInline {
+  display: inline-flex;
+  gap: 5px;
 }

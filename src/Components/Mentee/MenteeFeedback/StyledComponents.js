@@ -5,7 +5,7 @@ export const Backdrop = styled.div`
   left: 0;
   width: 100%;
   height: 100vh;
-  z-index: 12000000000;
+  z-index: 1200;
   background-color: rgba(0, 0, 0, 0.75);
 `;
 export const Modal = styled.div`
@@ -19,7 +19,7 @@ export const Modal = styled.div`
   padding: 1rem;
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  z-index: 100000;
+  z-index: 1000;
   animation: slide-down 300ms ease-out forwards;
   @media (min-width: 768px) {
     width: 40rem;

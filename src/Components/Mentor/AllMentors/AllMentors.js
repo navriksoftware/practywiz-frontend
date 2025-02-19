@@ -6,6 +6,7 @@ import MentorCardSkelton from "../SkeltonLoaders/MentorCardSkelton";
 import "./AllMentors.css";
 import "./Dropdown.css";
 import { Link } from "react-router-dom";
+import Spinner from "../../../Utils/Spinner";
 const AllMentors = () => {
   const url = ApiURL();
   const [loading, setLoading] = useState(false);
@@ -49,13 +50,13 @@ const AllMentors = () => {
   };
   const experienceOptions = [
     { value: "5-8", label: "5-8 years" },
-    { value: "8-11", label: "8-11 years" },
-    { value: "11-14", label: "11-14 years" },
-    { value: "14-17", label: "14-17 years" },
-    { value: "17-20", label: "17-20 years" },
-    { value: "20-23", label: "20-23 years" },
-    { value: "23-26", label: "23-26 years" },
-    { value: "26-29", label: "26-29 years" },
+    { value: "9-11", label: "9-11 years" },
+    { value: "12-14", label: "12-14 years" },
+    { value: "15-17", label: "15-17 years" },
+    { value: "18-20", label: "18-20 years" },
+    { value: "21-23", label: "21-23 years" },
+    { value: "24-26", label: "24-26 years" },
+    { value: "27-29", label: "27-29 years" },
     { value: "30+", label: "30+ years" },
   ];
   const ratingOptions = [
@@ -119,20 +120,20 @@ const AllMentors = () => {
           const experience = parseInt(mentor.mentor_years_of_experience, 10);
           if (filters.experience === "5-8") {
             return experience >= 5 && experience <= 8;
-          } else if (filters.experience === "8-11") {
-            return experience > 8 && experience <= 11;
-          } else if (filters.experience === "11-14") {
-            return experience > 11 && experience <= 14;
-          } else if (filters.experience === "14-17") {
-            return experience > 14 && experience <= 17;
-          } else if (filters.experience === "17-20") {
-            return experience > 17 && experience <= 20;
-          } else if (filters.experience === "20-23") {
-            return experience > 20 && experience <= 23;
-          } else if (filters.experience === "23-26") {
-            return experience > 23 && experience <= 26;
-          } else if (filters.experience === "26-29") {
-            return experience > 26 && experience <= 29;
+          } else if (filters.experience === "9-11") {
+            return experience >= 9 && experience <= 11;
+          } else if (filters.experience === "12-14") {
+            return experience >= 12 && experience <= 14;
+          } else if (filters.experience === "15-17") {
+            return experience >= 15 && experience <= 17;
+          } else if (filters.experience === "18-20") {
+            return experience >= 18 && experience <= 20;
+          } else if (filters.experience === "21-23") {
+            return experience >= 21 && experience <= 23;
+          } else if (filters.experience === "24-26") {
+            return experience >= 24 && experience <= 26;
+          } else if (filters.experience === "27-29") {
+            return experience >= 27 && experience <= 29;
           } else if (filters.experience === "30+") {
             return experience >= 30;
           }
@@ -196,6 +197,9 @@ const AllMentors = () => {
       [filterType]: filterType === "priceRange" ? { min: "", max: "" } : "",
     }));
   };
+
+
+  
   return (
     <>
       <div className="adadadad mt-8">
@@ -232,6 +236,7 @@ const AllMentors = () => {
                   <span class="filter-text">Mentor Availability</span>
                   <select
                     class="filter-dropdown"
+                    value={filters.availability}
                     onChange={(e) =>
                       handleFilterChange("availability", e.target.value)
                     }
@@ -244,12 +249,13 @@ const AllMentors = () => {
                     <option value="100">100 Days</option>
                   </select>
                   {filters.availability && (
-                    <button
-                      className="btn-clear-availability-unique"
-                      onClick={() => clearFilters("availability")}
-                    >
-                      Clear
-                    </button>
+                    // <button
+                    //   className="btn-clear-availability-unique"
+                    //   onClick={() => clearFilters("availability")}
+                    // >
+                    //  <i class="fa-solid fa-xmark"></i>
+                    // </button>
+                    <i onClick={() => clearFilters("availability")} class="fa-solid fa-xmark"></i>
                   )}
                 </div>
 
@@ -258,6 +264,7 @@ const AllMentors = () => {
                   <span class="filter-text">Experience</span>
                   <select
                     class="filter-dropdown"
+                    value={filters.experience}
                     onChange={(e) =>
                       handleFilterChange("experience", e.target.value)
                     }
@@ -272,12 +279,13 @@ const AllMentors = () => {
                     })}
                   </select>
                   {filters.experience && (
-                    <button
-                      className="btn-clear-availability-unique"
-                      onClick={() => clearFilters("experience")}
-                    >
-                      Clear
-                    </button>
+                    // <button
+                    //   className="btn-clear-availability-unique"
+                    //   onClick={() => clearFilters("experience")}
+                    // >
+                   
+                    // </button>
+                      <i  onClick={() => clearFilters("experience")} class="fa-solid fa-xmark"></i>
                   )}
                 </div>
 
@@ -286,6 +294,7 @@ const AllMentors = () => {
                   <span class="filter-text">Price Range (₹)</span>
                   <select
                     class="filter-dropdown"
+                    value={filters.pricing}
                     onChange={(e) =>
                       handleFilterChange("pricing", e.target.value)
                     }
@@ -296,12 +305,12 @@ const AllMentors = () => {
                     })}
                   </select>
                   {filters.pricing && (
-                    <button
-                      className="btn-clear-availability-unique"
-                      onClick={() => clearFilters("pricing")}
-                    >
-                      Clear
-                    </button>
+                    // <button
+                    //   className="btn-clear-availability-unique"
+                    //   onClick={() => clearFilters("pricing")}
+                    // >
+                    // </button>
+                     <i   onClick={() => clearFilters("pricing")} class="fa-solid fa-xmark"></i>
                   )}
                 </div>
 
@@ -310,6 +319,7 @@ const AllMentors = () => {
                   <span class="filter-text">Rating</span>
                   <select
                     class="filter-dropdown"
+                    value={filters.rating}
                     onChange={(e) =>
                       handleFilterChange("rating", e.target.value)
                     }
@@ -322,12 +332,13 @@ const AllMentors = () => {
                     })}
                   </select>
                   {filters.rating && (
-                    <button
-                      className="btn-clear-availability-unique"
-                      onClick={() => clearFilters("rating")}
-                    >
-                      Clear
-                    </button>
+                    // <button
+                    //   className="btn-clear-availability-unique"
+                    //   onClick={() => clearFilters("rating")}
+                    // >
+                     
+                    // </button>
+                    <i   onClick={() => clearFilters("rating")} class="fa-solid fa-xmark"></i>
                   )}
                 </div>
               </div>
@@ -348,6 +359,7 @@ const AllMentors = () => {
           >
             {loading ? (
               <>
+                {/* <MentorCardSkelton />
                 <MentorCardSkelton />
                 <MentorCardSkelton />
                 <MentorCardSkelton />
@@ -356,8 +368,8 @@ const AllMentors = () => {
                 <MentorCardSkelton />
                 <MentorCardSkelton />
                 <MentorCardSkelton />
-                <MentorCardSkelton />
-                <MentorCardSkelton />
+                <MentorCardSkelton /> */}
+                <Spinner />
               </>
             ) : (
               <>
@@ -375,7 +387,7 @@ const AllMentors = () => {
                   </div>
                 )}
               </>
-            )}
+           )}
           </div>
         </div>
       </div>

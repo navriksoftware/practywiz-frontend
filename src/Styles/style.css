@@ -2143,7 +2143,7 @@ header .suggestion:hover {
 
 .md-header header {
   position: relative;
-  z-index: 99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999;
+  z-index: 9;
 }
 
 .md-header header nav {
@@ -4010,7 +4010,7 @@ caption {
   overflow-y: auto;
   top: 35%;
   background: #fff !important;
-  z-index: 9999999;
+  z-index: 999;
   border-radius: 10px 10px 0 0;
   transition: 0.3s ease-in-out;
   padding-top: 4rem !important;
@@ -4072,7 +4072,7 @@ caption {
 .mbpm #modalbackdrop.modal_bck_drop {
   opacity: 1 !important;
   transition: 0.3s ease-in-out;
-  z-index: 999999;
+  z-index: 999;
 }
 
 .mbpm .djoier_bck_drp {
@@ -4444,7 +4444,7 @@ caption {
 
 .ighefirr.sticky-top {
   top: 11%;
-  z-index: 9999;
+  z-index: 999;
 }
 
 .oikahdbaed_filter .select-selected:before {

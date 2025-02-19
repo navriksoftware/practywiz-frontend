@@ -86,7 +86,7 @@ function App() {
   return (
     <>
       {isLoading && <Spinner />}
-      <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" hideProgressBar />
       <Router>
         <Routes>
           <Route path="/image/test" element={<Test />} />

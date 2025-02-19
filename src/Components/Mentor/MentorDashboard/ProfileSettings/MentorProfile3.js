@@ -93,41 +93,61 @@ const MentorProfile4 = ({ profiledata, user, token }) => {
     const e2 = new Date(end2);
     return s1 <= e2 && s2 <= e1;
   };
+  const validateAvailabilityStep = () => {
+    const values = slots; // Get the form values for availability
+
+    // Check if there are slots and validate that each slot has at least one day selected
+    if (Array.isArray(values) && values.length > 0) {
+      for (let slot of values) {
+        // Ensure slot has a 'days' array and it contains at least one day
+        if (Array.isArray(slot.days) && slot.days.length > 0) {
+          return true; // Valid if at least one slot has non-empty 'days'
+        }
+      }
+    }
+
+    return false; // Invalid if no slot has at least one day selected
+  };
   const handleSave = async () => {
     const dataGroup = JSON.stringify(slots);
-    console.log(dataGroup);
-    console.log(user);
-    try {
-      dispatch(showLoadingHandler());
-      const res = await Promise.race([
-        axios.post(
-          `${url}api/v1/mentor/dashboard/update/profile-3`,
-          { dataGroup, userDtlsId: user.user_id, formData },
+    const isValid = await validateAvailabilityStep();
+    if (!isValid) {
+      toast.error("Please add at least one time slot before proceeding.", {
+        position: "top-right",
+      });
+    } else {
+      try {
+        dispatch(showLoadingHandler());
+        const res = await Promise.race([
+          axios.post(
+            `${url}api/v1/mentor/dashboard/update/profile-3`,
+            { dataGroup, userDtlsId: user.user_id, formData },
 
-          {
-            headers: { authorization: "Bearer " + token },
-          }
-        ),
-        new Promise(
-          (_, reject) =>
-            setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
-        ),
-      ]);
-      if (res.data.success) {
-        toast.success("Time slots Details updated successfully");
-      } else if (res.data.error) {
-        toast.error(res.data.error);
+            {
+              headers: { authorization: "Bearer " + token },
+            }
+          ),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+        if (res.data.success) {
+          toast.success("Time slots Details updated successfully");
+        } else if (res.data.error) {
+          toast.error(res.data.error);
+        }
+      } catch (error) {
+        if (error.message === "Request timed out") {
+          toast.error("Update failed due to a timeout. Please try again.");
+        } else {
+          toast.error(
+            "Error in updating the Time slots details, please try again!"
+          );
+        }
+      } finally {
+        dispatch(hideLoadingHandler());
       }
-    } catch (error) {
-      if (error.message === "Request timed out") {
-        toast.error("Update failed due to a timeout. Please try again.");
-      } else {
-        toast.error(
-          "Error in updating the Time slots details, please try again!"
-        );
-      }
-    } finally {
-      dispatch(hideLoadingHandler());
     }
   };
   const [formData, setFormData] = useState({

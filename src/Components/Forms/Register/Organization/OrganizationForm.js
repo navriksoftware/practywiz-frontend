@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
 import { useDispatch } from "react-redux";
@@ -19,6 +19,7 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
     watch,
     control,
     trigger,
+    setValue,
     reset,
     formState: { errors },
   } = useForm();
@@ -51,45 +52,192 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
       return null;
     }
   };
+  const phone = watch("employer_phone");
+
+  useEffect(() => {
+    setSendotp(false);
+    setValue("mentee_OTPValid", "false");
+    setButtonState("send");
+    setIsLoading(false);
+    setVerifyState("Verify");
+    setIsLoadingVerify(false);
+    setResendAvailable(false);
+  }, [phone]);
+  const [otp, setOtp] = useState("");
+  const [Sendotp, setSendotp] = useState(false);
+  const [buttonState, setButtonState] = useState("send");
+  const [isLoading, setIsLoading] = useState(false);
+  const [VerifyState, setVerifyState] = useState("Verify");
+  const [isLoadingVerify, setIsLoadingVerify] = useState(false);
+  const [resendAvailable, setResendAvailable] = useState(false);
+
+  function validatePhoneNumber(phone) {
+    const regex = /^[+]?[0-9\s-]{10,17}$/;
+    return regex.test(phone);
+  }
+
+  const handleSendOtp = async () => {
+    setButtonState("send");
+    setIsLoading(true);
+    console.log("Phone:", phone);
+    if (validatePhoneNumber(phone)) {
+      try {
+        // Make Axios POST request to send OTP
+        const response = await axios.post(
+          `${url}api/v1/otpvarification/request-otp`,
+          { phone }
+        );
+
+        if (response.data.success) {
+          setButtonState("sended");
+          setSendotp(true);
+          setResendAvailable(true);
+
+          // Enable resend after 1 minute
+          setTimeout(() => {
+            setResendAvailable(false);
+          }, 60000); // 1 minute timeout
+        } else {
+          setButtonState("send");
+          alert(response.data.message || "Failed to send OTP");
+        }
+      } catch (error) {
+        console.error("Error sending OTP:", error);
+        setButtonState("send");
+        alert(
+          error.response?.data?.message || "An error occurred while sending OTP"
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setIsLoading(false);
+      toast.error("Please Enter Valid Phone Number");
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    setVerifyState("Verify");
+    setIsLoadingVerify(true);
+    if (otp.length === 6) {
+      try {
+        // Make Axios POST request to verify OTP
+        const response = await axios.post(
+          `${url}api/v1/otpvarification/validate-otp`,
+          {
+            phone,
+            otp,
+          }
+        );
+
+        if (response.data.success) {
+          setVerifyState("Verified");
+          alert("OTP Verified Successfully!");
+          setValue("mentee_OTPValid", "true");
+        } else {
+          setVerifyState("Verify");
+
+          alert(response.data.message || "OTP Verification Failed");
+        }
+      } catch (error) {
+        console.error("Error verifying OTP:", error);
+        setVerifyState("Verify");
+        alert(
+          error.response?.data?.message ||
+            "An error occurred while verifying OTP"
+        );
+      } finally {
+        setIsLoadingVerify(false);
+      }
+    } else {
+      setIsLoadingVerify(false);
+      toast.error("Please Enter Valid OTP");
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (resendAvailable) {
+      alert("You can resend OTP after 1 minute.");
+      return;
+    }
+
+    setButtonState("send");
+    setIsLoading(true);
+
+    try {
+      // Make Axios POST request to resend OTP
+      const response = await axios.post(
+        `${url}api/v1/otpvarification/resend-otp`,
+        { phone }
+      );
+
+      if (response.data.success) {
+        setButtonState("sended");
+        setSendotp(true);
+        setResendAvailable(true);
+
+        // Enable resend after 1 minute
+        setTimeout(() => {
+          setResendAvailable(false);
+        }, 60000); // 1 minute timeout
+      } else {
+        setButtonState("send");
+        alert(response.data.message || "Failed to resend OTP");
+      }
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+      setButtonState("send");
+      alert(
+        error.response?.data?.message || "An error occurred while resending OTP"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const onSubmit = async (data) => {
     const cleanedData = {
       ...data,
       employer_phone: cleanPhoneNumber(data.employer_phone),
     };
-    try {
-      dispatch(showLoadingHandler());
-      const res = await Promise.race([
-        axios.post(`${url}api/v1/employer/register`, cleanedData),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("Request timed out")), 45000)
-        ),
-      ]);
-      dispatch(hideLoadingHandler());
-      if (res.data.success) {
-        reset();
-        const token = res.data.token;
-        const accessToken = res.data.accessToken;
-        const userData = parseJwt(token);
-        localStorage.setItem("token", JSON.stringify(token));
-        localStorage.setItem("accessToken", JSON.stringify(accessToken));
-        return (
-          toast.success(
-            "Account created successfully, Redirecting to the Dashboard"
+    if (VerifyState === "Verified") {
+      try {
+        dispatch(showLoadingHandler());
+        const res = await Promise.race([
+          axios.post(`${url}api/v1/employer/register`, cleanedData),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Request timed out")), 45000)
           ),
-          dispatch(loginSuccess(userData)),
-          navigate(`/redirect`)
-        );
-      } else if (res.data.error) {
-        toast.error("There is some error while registering as a employer.");
+        ]);
+        dispatch(hideLoadingHandler());
+        if (res.data.success) {
+          reset();
+          const token = res.data.token;
+          const accessToken = res.data.accessToken;
+          const userData = parseJwt(token);
+          localStorage.setItem("token", JSON.stringify(token));
+          localStorage.setItem("accessToken", JSON.stringify(accessToken));
+          return (
+            toast.success(
+              "Account created successfully, Redirecting to the Dashboard"
+            ),
+            dispatch(loginSuccess(userData)),
+            navigate(`/redirect`)
+          );
+        } else if (res.data.error) {
+          toast.error("There is some error while registering as a employer.");
+        }
+      } catch (error) {
+        if (error.message === "Request timed out") {
+          toast.error("Request timed out. Please try again.");
+        } else {
+          toast.error("There is some error while signing as a employer.");
+        }
+      } finally {
+        dispatch(hideLoadingHandler());
       }
-    } catch (error) {
-      if (error.message === "Request timed out") {
-        toast.error("Request timed out. Please try again.");
-      } else {
-        toast.error("There is some error while signing as a employer.");
-      }
-    } finally {
-      dispatch(hideLoadingHandler());
+    } else {
+      toast.error("please verify your phone number first");
     }
   };
 
@@ -204,11 +352,11 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
 
             <div className="col-lg-12">
               <div className="mb-3">
-                <label htmlFor="phone" className="form-label">
-                  Mobile Number
-                </label>
                 <div className="h-25">
                   <Controller
+                    onKeyUp={() => {
+                      trigger("employer_phone");
+                    }}
                     name="employer_phone"
                     control={control}
                     defaultValue=""
@@ -216,7 +364,7 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
                       required: "Phone number is required",
                       validate: {
                         minLength: (value) =>
-                          value.replace(/\D/g, "").length >= 12 ||
+                          value.replace(/\D/g, "").length >= 10 ||
                           "Enter a valid phone number",
                       },
                     }}
@@ -224,24 +372,101 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
                       field: { name, value, onChange, onBlur, ref },
                     }) => (
                       <div>
-                        <PhoneInput
-                          value={value}
-                          country="in"
-                          countryCodeEditable={false}
-                          onChange={(value, country, event, formattedValue) => {
-                            onChange(formattedValue);
-                            trigger("employer_phone");
-                          }}
-                          onBlur={onBlur}
-                          inputProps={{
-                            name,
-                            ref,
-                          }}
-                        />
-                        {errors.employer_phone && (
-                          <div className="Error-meg-login-register">
-                            {errors.employer_phone.message}
+                        <label htmlFor="phone" className="form-label">
+                          Phone Number{" "}
+                          <span className="RedColorStarMark">*</span>
+                        </label>
+
+                        <div className="d-flex">
+                          <PhoneInput
+                            value={value}
+                            country="in"
+                            countryCodeEditable={false}
+                            onChange={(
+                              value,
+                              country,
+                              event,
+                              formattedValue
+                            ) => {
+                              onChange(formattedValue);
+                            }}
+                            onBlur={onBlur}
+                            inputProps={{
+                              autoFocus: false,
+                              name,
+                              ref,
+                            }}
+                          />{" "}
+                          <button
+                            type="button"
+                            onClick={handleSendOtp}
+                            disabled={isLoading}
+                            className={`otp-button ${
+                              isLoading ? "loading" : ""
+                            } ${buttonState}`}
+                          >
+                            {isLoading ? (
+                              <div className="button-content">
+                                <div className="spinner"></div>Loading
+                              </div>
+                            ) : buttonState === "send" ? (
+                              "Send OTP"
+                            ) : (
+                              "OTP Sended"
+                            )}
+                          </button>
+                        </div>
+                        <div className="aftersendOTP">
+                            {" "}
+                            {Sendotp && (
+                              <>
+                                <input
+                                  type="number"
+                                  placeholder="Enter OTP"
+                                  className="PhoneNoOtpInput"
+                                  onChange={(e) => setOtp(e.target.value)}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={handleVerifyOtp}
+                                  disabled={isLoadingVerify}
+                                  style={{fontSize:"11px"}}
+                                  className={`otp-buttonVerify ${
+                                    isLoadingVerify ? "loadingVerify" : ""
+                                  } ${VerifyState}`}
+                                >
+                                  {isLoadingVerify ? (
+                                    <div className="button-contentVerify">
+                                      <div className="spinnerVerifyOTP"></div>
+                                      Loading
+                                    </div>
+                                  ) : VerifyState === "Verify" ? (
+                                    "Verify OTP"
+                                  ) : (
+                                    "OTP Verified"
+                                  )}
+                                </button>
+                              </>
+                            )}
+                            {buttonState === "sended" && (
+                              
+                                <button
+                                  type="button"
+                                  onClick={handleResendOtp}
+                                  disabled={resendAvailable}
+                                  className="resendOtpBtn"
+                                >
+                                  {resendAvailable
+                                    ? "Resend OTP Available in one min"
+                                    : "Resend OTP"}
+                                </button>
+                              
+                            )}
                           </div>
+                        {errors.employer_phone && (
+                          <p className="Error-meg-login-register">
+                            {errors.employer_phone.message}
+                          </p>
                         )}
                       </div>
                     )}

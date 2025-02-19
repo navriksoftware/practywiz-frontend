@@ -95,6 +95,7 @@ const MentorRegProgressForm = ({
             const newData = new FormData();
 
             newData.append("mentorEmail", singleMentor[0].mentor_email);
+            newData.append("mentorPhoneNumber", singleMentor[0].mentor_phone_number);
             newData.append(
               "mentorName",
               singleMentor[0].mentor_firstname +

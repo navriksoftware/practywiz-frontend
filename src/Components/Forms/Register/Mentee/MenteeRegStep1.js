@@ -1,11 +1,13 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import GoToTop from "../../../../Utils/GoToTop";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "./Phone-input-style.css";
 import "./MenteeReg.css";
+import { ApiURL } from "../../../../Utils/ApiURL";
+import axios from "axios";
+import { toast } from "react-toastify";
 const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
@@ -14,9 +16,157 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
     watch,
     control,
     trigger,
+    setValue,
     formState: { errors },
   } = useFormContext();
   const password = watch("mentee_password");
+  const phone = watch("mentee_phone");
+  const url = ApiURL();
+  
+  useEffect(() => {
+    setSendotp(false);
+    setValue("mentee_OTPValid", false);
+    setButtonState("send");
+    setIsLoading(false);
+    setVerifyState("Verify");
+    setIsLoadingVerify(false);
+    setResendAvailable(false);
+  }, [phone]);
+  const [otp, setOtp] = useState("");
+  const [Sendotp, setSendotp] = useState(false);
+  const [buttonState, setButtonState] = useState("send");
+  const [isLoading, setIsLoading] = useState(false);
+  const [VerifyState, setVerifyState] = useState("Verify");
+  const [isLoadingVerify, setIsLoadingVerify] = useState(false);
+
+  const [resendAvailable, setResendAvailable] = useState(false);
+
+  function validatePhoneNumber(phone) {
+    const regex = /^[+]?[0-9\s-]{10,17}$/;
+    return regex.test(phone);
+  }
+  
+  const handleSendOtp = async () => {
+    setButtonState("send");
+    setIsLoading(true);
+    console.log("Phone:", phone);
+    if (validatePhoneNumber(phone)) {
+      try {
+        // Make Axios POST request to send OTP
+        const response = await axios.post(
+          `${url}api/v1/otpvarification/request-otp`,
+          { phone }
+        );
+
+        if (response.data.success) {
+          setButtonState("sended");
+          setSendotp(true);
+          setResendAvailable(true);
+
+          // Enable resend after 1 minute
+          setTimeout(() => {
+            setResendAvailable(false);
+          }, 60000); // 1 minute timeout
+        } else {
+          setButtonState("send");
+          alert(response.data.message || "Failed to send OTP");
+        }
+      } catch (error) {
+        console.error("Error sending OTP:", error);
+        setButtonState("send");
+        alert(
+          error.response?.data?.message || "An error occurred while sending OTP"
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    else{
+      setIsLoading(false);
+      toast.error("Please Enter Valid Phone Number");
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    setVerifyState("Verify");
+    setIsLoadingVerify(true);
+    if (otp.length === 6) {
+      try {
+        // Make Axios POST request to verify OTP
+        const response = await axios.post(
+          `${url}api/v1/otpvarification/validate-otp`,
+          {
+            phone,
+            otp,
+          }
+        );
+
+        if (response.data.success) {
+          setVerifyState("Verified");
+          setValue("mentee_OTPValid", true); // Store as boolean ✅
+          alert("OTP Verified Successfully!");
+        } else {
+          setVerifyState("Verify");
+          alert(response.data.message || "OTP Verification Failed");
+        }
+        
+      } catch (error) {
+        console.error("Error verifying OTP:", error);
+        setVerifyState("Verify");
+        alert(
+          error.response?.data?.message ||
+            "An error occurred while verifying OTP"
+        );
+      } finally {
+        setIsLoadingVerify(false);
+      }
+    }
+    else{
+      setIsLoadingVerify(false);
+      toast.error("Please Enter Valid OTP");
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (resendAvailable) {
+      alert("You can resend OTP after 1 minute.");
+      return;
+    }
+
+    setButtonState("send");
+    setIsLoading(true);
+
+    try {
+      // Make Axios POST request to resend OTP
+      const response = await axios.post(
+        `${url}api/v1/otpvarification/resend-otp`,
+        { phone }
+      );
+
+      if (response.data.success) {
+        setButtonState("sended");
+        setSendotp(true);
+        setResendAvailable(true);
+
+        // Enable resend after 1 minute
+        setTimeout(() => {
+          setResendAvailable(false);
+        }, 60000); // 1 minute timeout
+        
+      } else {
+        setButtonState("send");
+        alert(response.data.message || "Failed to resend OTP");
+      }
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+      setButtonState("send");
+      alert(
+        error.response?.data?.message || "An error occurred while resending OTP"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -152,51 +302,123 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
               </div>
             </div>
           </div>
-          <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              Phone Number <span className="RedColorStarMark">*</span>
-            </label>
-            <div className="h-25">
-              <Controller
-                name="mentee_phone"
-                control={control}
-                defaultValue=""
-                rules={{
-                  required: "Phone number is required",
-                  validate: {
-                    minLength: (value) =>
-                      value.replace(/\D/g, "").length >= 12 ||
-                      "Enter a valid phone number",
-                  },
-                }}
-                render={({ field: { name, value, onChange, onBlur, ref } }) => (
-                  <div>
-                    <PhoneInput
-                      value={value}
-                      country="in"
-                      countryCodeEditable={false}
-                      onChange={(value, country, event, formattedValue) => {
-                        onChange(formattedValue); // Update the phone value
-                        trigger("mentee_phone"); // Trigger validation dynamically
-                      }}
-                      onBlur={onBlur}
-                      inputProps={{
-                        name,
-                        ref,
-                      }}
-                    />
-                  
-                  </div>
-                )}
-              />
-                {errors.mentee_phone && (
-                      <div
-                        className="Error-meg-login-register"
-                        style={{ display: "block" }}
-                      >
-                        {errors.mentee_phone.message}
+          <div className="col-lg-12">
+            <div className="mb-3">
+              <div className="h-25">
+                <Controller
+                  onKeyUp={() => {
+                    trigger("mentee_phone");
+                  }}
+                  name="mentee_phone"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    required: "Phone number is required",
+                    validate: {
+                      minLength: (value) =>
+                        value.replace(/\D/g, "").length >= 10 ||
+                        "Enter a valid phone number",
+                    },
+                  }}
+                  render={({
+                    field: { name, value, onChange, onBlur, ref },
+                  }) => (
+                    <div>
+                      <label htmlFor="phone" className="form-label">
+                        Phone Number <span className="RedColorStarMark">*</span>
+                      </label>
+
+                      <div className="d-flex">
+                        <PhoneInput
+                          value={value}
+                          country="in"
+                          countryCodeEditable={false}
+                          onChange={(value, country, event, formattedValue) => {
+                            onChange(formattedValue);
+                          }}
+                          onBlur={onBlur}
+                          inputProps={{
+                            autoFocus: false,
+                            name,
+                            ref,
+                          }}
+                        />{" "}
+                        <button
+                          type="button"
+                          onClick={handleSendOtp}
+                          disabled={isLoading}
+                          className={`otp-button ${
+                            isLoading ? "loading" : ""
+                          } ${buttonState}`}
+                        >
+                          {isLoading ? (
+                            <div className="button-content">
+                              <div className="spinner"></div>Loading
+                            </div>
+                          ) : buttonState === "send" ? (
+                            "Send OTP"
+                          ) : (
+                            "OTP Sended"
+                          )}
+                        </button>
                       </div>
-                    )}
+                      <div className="aftersendOTP">
+                            {" "}
+                            {Sendotp && (
+                              <>
+                                <input
+                                  type="number"
+                                  placeholder="Enter OTP"
+                                  className="PhoneNoOtpInput"
+                                  onChange={(e) => setOtp(e.target.value)}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={handleVerifyOtp}
+                                  disabled={isLoadingVerify}
+                                  style={{fontSize:"11px"}}
+                                  className={`otp-buttonVerify ${
+                                    isLoadingVerify ? "loadingVerify" : ""
+                                  } ${VerifyState}`}
+                                >
+                                  {isLoadingVerify ? (
+                                    <div className="button-contentVerify">
+                                      <div className="spinnerVerifyOTP"></div>
+                                      Loading
+                                    </div>
+                                  ) : VerifyState === "Verify" ? (
+                                    "Verify OTP"
+                                  ) : (
+                                    "OTP Verified"
+                                  )}
+                                </button>
+                              </>
+                            )}
+                            {buttonState === "sended" && (
+                              
+                                <button
+                                  type="button"
+                                  onClick={handleResendOtp}
+                                  disabled={resendAvailable}
+                                  className="resendOtpBtn"
+                                >
+                                  {resendAvailable
+                                    ? "Resend OTP Available in one min"
+                                    : "Resend OTP"}
+                                </button>
+                              
+                            )}
+                          </div>
+
+                      {errors.mentee_phone && (
+                        <p className="Error-meg-login-register">
+                          {errors.mentee_phone.message}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                />
+              </div>
             </div>
           </div>
 
@@ -243,7 +465,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                 required: "Password is Required",
                 pattern: {
                   value:
-                          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
                   message:
                     "Password must be at least 8 characters long and include at least one letter, one number, and one special character (e.g., @, #, $, etc.)",
                 },

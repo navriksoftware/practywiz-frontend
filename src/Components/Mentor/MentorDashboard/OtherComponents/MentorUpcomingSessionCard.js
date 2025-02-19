@@ -33,7 +33,7 @@ const MentorUpcomingSessionCard = ({ allBookingSessions, user, token }) => {
   };
   return (
     <>
-      {allBookingSessions?.map((session) => {
+      {allBookingSessions?.slice(0).reverse().map((session) => {
         return (
           <div className="col-lg-3 mb-3">
             <div className="ghfghgfhg iuhuh__enruiere mb-0">

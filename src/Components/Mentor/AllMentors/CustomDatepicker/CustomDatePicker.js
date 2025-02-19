@@ -32,7 +32,7 @@ const CustomDatePicker = ({
 
     if (date < today) return false;
 
-    return timeslotList.some((slot) => {
+    return timeslotList?.some((slot) => {
       const slotDay = getDayIndex(slot.mentor_timeslot_day);
       const startDate = new Date(slot.mentor_timeslot_rec_start_timeframe);
       const endDate = new Date(slot.mentor_timeslot_rec_end_timeframe);

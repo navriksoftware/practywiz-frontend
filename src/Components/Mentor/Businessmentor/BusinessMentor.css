@@ -13,7 +13,7 @@
 
 header {
   position: relative;
-  z-index: 99999;
+  z-index: 999;
 }
 
 header nav {
@@ -349,7 +349,7 @@ footer.mt-5 {
   overflow-y: auto;
   top: 35%;
   background: #fff !important;
-  z-index: 9999999;
+  z-index: 999;
   border-radius: 10px 10px 0 0;
   transition: 0.3s ease-in-out;
   padding-top: 4rem !important;
@@ -411,7 +411,7 @@ footer.mt-5 {
 .mbpm #modalbackdrop.modal_bck_drop {
   opacity: 1 !important;
   transition: 0.3s ease-in-out;
-  z-index: 999999;
+  z-index: 999;
 }
 
 .mbpm .djoier_bck_drp {
@@ -782,7 +782,7 @@ footer.mt-5 {
 
 .ighefirr.sticky-top {
   top: 11%;
-  z-index: 9999;
+  z-index: 999;
 }
 
 .oikahdbaed_filter .select-selected:before {

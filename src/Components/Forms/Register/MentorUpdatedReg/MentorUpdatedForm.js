@@ -7,28 +7,29 @@ import "../Mentee/Phone-input-style.css";
 import { useNavigate } from "react-router-dom";
 import LnIcon from "../Mentor/deeteewe.png";
 import { toast } from "react-toastify";
+import "./PhoneNumberOTP.css";
 import {
   hideLoadingHandler,
   showLoadingHandler,
 } from "../../../../Redux/loadingRedux";
 import axios from "axios";
-import "./MentroTest.css"
+import "./MentroTest.css";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../../../Redux/userRedux";
 import web96 from "../../../../Images/icons8-account-96.webp";
-import GoogleIcon from "../../../../Images/googlelog.webp";
-import {
-  GoogleOAuthProvider,
-  GoogleLogin,
-  useGoogleLogin,
-} from "@react-oauth/google";
+// import GoogleIcon from "../../../../Images/googlelog.webp";
+// import {
+//   GoogleOAuthProvider,
+//   GoogleLogin,
+//   useGoogleLogin,
+// } from "@react-oauth/google";
 
-const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-const STATE = process.env.REACT_APP_STATE;
-const SCOPE = process.env.REACT_APP_SCOPE;
-const REACT_APP_GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+// const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+// const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+// const STATE = process.env.REACT_APP_STATE;
+// const SCOPE = process.env.REACT_APP_SCOPE;
+// const REACT_APP_GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const MentorUpdatedForm = () => {
   const {
@@ -38,6 +39,7 @@ const MentorUpdatedForm = () => {
     reset,
     control,
     setValue,
+    getValues,
     trigger,
     formState: { errors },
   } = useForm();
@@ -58,6 +60,15 @@ const MentorUpdatedForm = () => {
       });
     }
   }, [setValue]);
+  const phone = getValues("mentor_phone_number");
+  useEffect(() => {
+    setSendotp(false);
+    setButtonState("send");
+    setIsLoading(false);
+    setVerifyState("Verify");
+    setIsLoadingVerify(false);
+    setResendAvailable(false);
+  }, [phone]);
 
   // Watch all form data and save it to local storage only if the form hasn't been submitted
   const formData = watch();
@@ -95,97 +106,219 @@ const MentorUpdatedForm = () => {
     }
   };
   const UserRegisterSubmitHandler = async (data) => {
-    try {
-      const newData = new FormData();
-      newData.append("mentor_firstname", data.mentor_firstname);
-      newData.append("mentor_lastname", data.mentor_lastname);
-      newData.append("mentor_email", data.mentor_email);
-      newData.append("image", data.profile_picture[0]);
-      newData.append("user_type", "mentor");
-      newData.append("mentor_phone_number", data.mentor_phone_number);
-      newData.append("mentor_password", data.mentor_password);
-      newData.append("mentor_linkedin_url", data.mentor_linkedin_url || "");
-      newData.append(
-        "mentor_linkedin_url_check",
-        data.mentor_linkedin_url_check
-      );
-      newData.append("linkedinSign", data.linkedinSign || "not_sign_linkedin");
-      newData.append("linkedinPhotoUrl", data.linkedinPhotoUrl || "");
-      dispatch(showLoadingHandler());
-      const res = await Promise.race([
-        axios.post(`${url}api/v1/mentor/updated/registration`, newData),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("Request timed out")), 45000)
-        ),
-      ]);
-
-      dispatch(hideLoadingHandler());
-      if (res.data.success) {
-        reset();
-        localStorage.removeItem("mentorFormData");
-        setFormSubmitted(true); // Set form submission to true on success
-        const token = res.data.token;
-        const accessToken = res.data.accessToken;
-        const userData = parseJwt(token);
-        localStorage.setItem("token", JSON.stringify(token));
-        localStorage.setItem("accessToken", JSON.stringify(accessToken));
-        return (
-          toast.success(
-            "Account created successfully, Redirecting to the Dashboard"
-          ),
-          dispatch(loginSuccess(userData)),
-          navigate(`/redirect`)
+    if (VerifyState === "Verified") {
+      try {
+        const newData = new FormData();
+        newData.append("mentor_firstname", data.mentor_firstname);
+        newData.append("mentor_lastname", data.mentor_lastname);
+        newData.append("mentor_email", data.mentor_email);
+        newData.append("image", data.profile_picture[0]);
+        newData.append("user_type", "mentor");
+        newData.append("mentor_phone_number", data.mentor_phone_number);
+        newData.append("mentor_password", data.mentor_password);
+        newData.append("mentor_linkedin_url", data.mentor_linkedin_url || "");
+        newData.append(
+          "mentor_linkedin_url_check",
+          data.mentor_linkedin_url_check
         );
-      } else if (res.data.error) {
-        toast.error(res.data.error);
+        newData.append(
+          "linkedinSign",
+          data.linkedinSign || "not_sign_linkedin"
+        );
+        newData.append("linkedinPhotoUrl", data.linkedinPhotoUrl || "");
+        dispatch(showLoadingHandler());
+        const res = await Promise.race([
+          axios.post(`${url}api/v1/mentor/updated/registration`, newData),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Request timed out")), 45000)
+          ),
+        ]);
+
+        dispatch(hideLoadingHandler());
+        if (res.data.success) {
+          reset();
+          localStorage.removeItem("mentorFormData");
+          setFormSubmitted(true); // Set form submission to true on success
+          const token = res.data.token;
+          const accessToken = res.data.accessToken;
+          const userData = parseJwt(token);
+          localStorage.setItem("token", JSON.stringify(token));
+          localStorage.setItem("accessToken", JSON.stringify(accessToken));
+          return (
+            toast.success(
+              "Account created successfully, Redirecting to the Dashboard"
+            ),
+            dispatch(loginSuccess(userData)),
+            navigate(`/redirect`)
+          );
+        } else if (res.data.error) {
+          toast.error(res.data.error);
+        }
+      } catch (error) {
+        if (error.message === "Request timed out") {
+          toast.error("Request timed out. Please try again.");
+        } else {
+          toast.error(
+            "There is some error while applying for the mentor application. We will get back to you via email."
+          );
+        }
+      } finally {
+        dispatch(hideLoadingHandler());
+      }
+    } else {
+      toast.error("please verify your phone number first");
+    }
+  };
+
+  // const onSuccess = async (credentialResponse) => {};
+  // const onFailure = (error) => {
+  //   return (
+  //     dispatch(hideLoadingHandler()),
+  //     toast.error(
+  //       "Login failed, please try again!, sign in using the username and password"
+  //     )
+  //   );
+  // };
+
+  // const webcamRef = useRef(null);
+  // const [isCameraOpen, setIsCameraOpen] = useState(false);
+  // const [capturedPhoto, setCapturedPhoto] = useState("");
+
+  // const capturePhoto = () => {
+  //   if (webcamRef.current) {
+  //     const photo = webcamRef.current.getScreenshot();
+  //     console.log(photo);
+  //     setCapturedPhoto(photo);
+  //   }
+  // };
+
+  // const handleOk = () => {
+  //   setValue("profile_picture", capturedPhoto);
+  //   setIsCameraOpen(false);
+  // };
+
+  // const handleRetake = () => {
+  //   setCapturedPhoto(null);
+  // };
+
+  // const handleClose = () => {
+  //   setIsCameraOpen(false);
+  //   setCapturedPhoto(null);
+  // };
+
+  const [otp, setOtp] = useState("");
+  const [Sendotp, setSendotp] = useState(false);
+  const [buttonState, setButtonState] = useState("send");
+  const [isLoading, setIsLoading] = useState(false);
+  const [VerifyState, setVerifyState] = useState("Verify");
+  const [isLoadingVerify, setIsLoadingVerify] = useState(false);
+
+  const [resendAvailable, setResendAvailable] = useState(false);
+
+  const handleSendOtp = async () => {
+    setButtonState("send");
+    setIsLoading(true);
+
+    try {
+      // Make Axios POST request to send OTP
+      const response = await axios.post(
+        `${url}api/v1/otpvarification/request-otp`,
+        { phone }
+      );
+
+      if (response.data.success) {
+        setButtonState("sended");
+        setSendotp(true);
+        setResendAvailable(true);
+
+        // Enable resend after 1 minute
+        setTimeout(() => {
+          setResendAvailable(false);
+        }, 60000); // 1 minute timeout
+      } else {
+        setButtonState("send");
+        alert(response.data.message || "Failed to send OTP");
       }
     } catch (error) {
-      if (error.message === "Request timed out") {
-        toast.error("Request timed out. Please try again.");
-      } else {
-        toast.error(
-          "There is some error while applying for the mentor application. We will get back to you via email."
-        );
-      }
+      console.error("Error sending OTP:", error);
+      setButtonState("send");
+      alert(
+        error.response?.data?.message || "An error occurred while sending OTP"
+      );
     } finally {
-      dispatch(hideLoadingHandler());
-    }
-  };
-  const onSuccess = async (credentialResponse) => {};
-  const onFailure = (error) => {
-    return (
-      dispatch(hideLoadingHandler()),
-      toast.error(
-        "Login failed, please try again!, sign in using the username and password"
-      )
-    );
-  };
-
-  const webcamRef = useRef(null);
-  const [isCameraOpen, setIsCameraOpen] = useState(false);
-  const [capturedPhoto, setCapturedPhoto] = useState("");
-
-  const capturePhoto = () => {
-    if (webcamRef.current) {
-      const photo = webcamRef.current.getScreenshot();
-      console.log(photo)
-      setCapturedPhoto(photo);
-
+      setIsLoading(false);
     }
   };
 
-  const handleOk = () => {
-    setValue("profile_picture", capturedPhoto);
-    setIsCameraOpen(false);
+  const handleVerifyOtp = async () => {
+    setVerifyState("Verify");
+    setIsLoadingVerify(true);
+    try {
+      // Make Axios POST request to verify OTP
+      const response = await axios.post(
+        `${url}api/v1/otpvarification/validate-otp`,
+        {
+          phone,
+          otp,
+        }
+      );
+
+      if (response.data.success) {
+        setVerifyState("Verified");
+        alert("OTP Verified Successfully!");
+      } else {
+        setVerifyState("Verify");
+        alert(response.data.message || "OTP Verification Failed");
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+      setVerifyState("Verify");
+      alert(
+        error.response?.data?.message || "An error occurred while verifying OTP"
+      );
+    } finally {
+      setIsLoadingVerify(false);
+    }
   };
 
-  const handleRetake = () => {
-    setCapturedPhoto(null);
-  };
+  const handleResendOtp = async () => {
+    if (resendAvailable) {
+      alert("You can resend OTP after 1 minute.");
+      return;
+    }
 
-  const handleClose = () => {
-    setIsCameraOpen(false);
-    setCapturedPhoto(null);
+    setButtonState("send");
+    setIsLoading(true);
+
+    try {
+      // Make Axios POST request to resend OTP
+      const response = await axios.post(
+        `${url}api/v1/otpvarification/resend-otp`,
+        { phone }
+      );
+
+      if (response.data.success) {
+        setButtonState("sended");
+        setSendotp(true);
+        setResendAvailable(true);
+
+        // Enable resend after 1 minute
+        setTimeout(() => {
+          setResendAvailable(false);
+        }, 60000); // 1 minute timeout
+      } else {
+        setButtonState("send");
+        alert(response.data.message || "Failed to resend OTP");
+      }
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+      setButtonState("send");
+      alert(
+        error.response?.data?.message || "An error occurred while resending OTP"
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -339,25 +472,94 @@ const MentorUpdatedForm = () => {
                             Phone Number{" "}
                             <span className="RedColorStarMark">*</span>
                           </label>
-                          <PhoneInput
-                            value={value}
-                            country="in"
-                            countryCodeEditable={false}
-                            onChange={(
-                              value,
-                              country,
-                              event,
-                              formattedValue
-                            ) => {
-                              onChange(formattedValue);
-                            }}
-                            onBlur={onBlur}
-                            inputProps={{
-                              autoFocus: false,
-                              name,
-                              ref,
-                            }}
-                          />
+
+                          <div className="d-flex">
+                            <PhoneInput
+                              value={value}
+                              country="in"
+                              countryCodeEditable={false}
+                              onChange={(
+                                value,
+                                country,
+                                event,
+                                formattedValue
+                              ) => {
+                                onChange(formattedValue);
+                              }}
+                              onBlur={onBlur}
+                              inputProps={{
+                                autoFocus: false,
+                                name,
+                                ref,
+                              }}
+                            />{" "}
+                            <button
+                              type="button"
+                              onClick={handleSendOtp}
+                              disabled={isLoading}
+                              className={`otp-button ${
+                                isLoading ? "loading" : ""
+                              } ${buttonState}`}
+                            >
+                              {isLoading ? (
+                                <div className="button-content">
+                                  <div className="spinner"></div>Loading
+                                </div>
+                              ) : buttonState === "send" ? (
+                                "Send OTP"
+                              ) : (
+                                "OTP Sended"
+                              )}
+                            </button>
+                          </div>
+                          <div className="aftersendOTP">
+                            {" "}
+                            {Sendotp && (
+                              <>
+                                <input
+                                  type="number"
+                                  placeholder="Enter OTP"
+                                  className="PhoneNoOtpInput"
+                                  onChange={(e) => setOtp(e.target.value)}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={handleVerifyOtp}
+                                  disabled={isLoadingVerify}
+                                  style={{fontSize:"11px"}}
+                                  className={`otp-buttonVerify ${
+                                    isLoadingVerify ? "loadingVerify" : ""
+                                  } ${VerifyState}`}
+                                >
+                                  {isLoadingVerify ? (
+                                    <div className="button-contentVerify">
+                                      <div className="spinnerVerifyOTP"></div>
+                                      Loading
+                                    </div>
+                                  ) : VerifyState === "Verify" ? (
+                                    "Verify OTP"
+                                  ) : (
+                                    "OTP Verified"
+                                  )}
+                                </button>
+                              </>
+                            )}
+                            {buttonState === "sended" && (
+                              
+                                <button
+                                  type="button"
+                                  onClick={handleResendOtp}
+                                  disabled={resendAvailable}
+                                  className="resendOtpBtn"
+                                >
+                                  {resendAvailable
+                                    ? "Resend OTP Available in one min"
+                                    : "Resend OTP"}
+                                </button>
+                              
+                            )}
+                          </div>
+
                           {errors.mentor_phone_number && (
                             <p className="Error-meg-login-register">
                               {errors.mentor_phone_number.message}
@@ -501,9 +703,7 @@ const MentorUpdatedForm = () => {
               {!isLinkedInChecked && (
                 <>
                   <div className="row" style={{ alignItems: "flex-end" }}>
-                    <div
-                      className="csfvgdtrfs position-relative"
-                    >
+                    <div className="csfvgdtrfs position-relative">
                       <label className="form-label">
                         <b>
                           Profile Picture{" "}

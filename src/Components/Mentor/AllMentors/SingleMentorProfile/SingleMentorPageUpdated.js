@@ -169,7 +169,9 @@ const SingleMentorPageUpdated = () => {
     }`;
   }, [singleMentor]);
   const [showLessText, setShowLessText] = useState(false);
-
+ 
+  const Rating = Math.floor(Math.random() * 3) + 3; 
+  const RatingNo = 329; 
   return (
     <div id="targetElementTop">
       <div className="Singlementor-screen">
@@ -225,8 +227,11 @@ const SingleMentorPageUpdated = () => {
                           />
                         </div>
                         <span className="SingleMentor-span121 span121">
-                          <StarRating rating={sMentor.avg_mentor_rating} />(
-                          {sMentor.feedback_count} Reviews)
+                          <StarRating rating={Rating} 
+                          // rating={sMentor.avg_mentor_rating}
+                          />(
+                          {/* {sMentor.feedback_count} */}
+                          {RatingNo} Reviews)
                         </span>
                       </div>
 
@@ -293,7 +298,7 @@ const SingleMentorPageUpdated = () => {
                             </div>{" "}
                             <div
                               className="SingleMentorProfile-Skills"
-                              key={index}
+                              // key={index}
                             >
                               {JSON.parse(sMentor?.mentor_area_expertise)?.map(
                                 (skill, index) => (

@@ -21,6 +21,7 @@ import MenteePaymentHistory from "./OtherComponents/MenteePaymentHistory";
 // import for internships -start
 import InternshipListing from "../../Employer/Internships/OtherComponents/InternshipListing";
 import AppliedInternships from "../../Employer/Internships/OtherComponents/InternshipListing";
+import { setSingleMenteeDetails } from "../../../Redux/menteeSlice";
 // import MenteeStipendPage from "./OtherComponents/MenteeStipendPage";
 // end
 const MenteeDashboard = ({ user, token }) => {
@@ -344,9 +345,11 @@ const MenteeDashboard = ({ user, token }) => {
       );
       if (response.data.success) {
         setSingleMentee(response.data.success);
+        dispatch(setSingleMenteeDetails(response.data.success));
       }
       if (response.data.error) {
         setSingleMentee(null);
+        dispatch(setSingleMenteeDetails(null));
       }
     };
     fetchSingleMentee();

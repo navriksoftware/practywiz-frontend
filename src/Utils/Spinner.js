@@ -1,15 +1,16 @@
-import React from "react";
-
-const Spinner = () => {
+import "./Spinner.css"; // Import CSS for styling
+import logo from "../Images/logoSpinner/logo.svg"; // Import logo image
+const Loader = () => {
   return (
-    <div className="loadingBackdrop">
-      <div>
-        <div className="spinner-container">
-          <div className="loading-spinner"></div>
-        </div>
+    <div className={`loader-container`}>
+      <img src={logo} alt="Logo" className="loader-logo" />
+      <div className="dots-container">
+        <span className="dot"></span>
+        <span className="dot"></span>
+        <span className="dot"></span>
       </div>
     </div>
   );
 };
 
-export default Spinner;
+export default Loader;
