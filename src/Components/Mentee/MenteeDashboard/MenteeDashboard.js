@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { setSingleMenteeDetails } from "../../../Redux/menteeSlice";
 import Logo from "../../../Images/logo.png";
 import MenteeCompletedCourses from "./OtherComponents/MenteeCompletedCourses";
 import MenteeNotifications from "./OtherComponents/MenteeNotifications";
@@ -21,11 +22,12 @@ import MenteePaymentHistory from "./OtherComponents/MenteePaymentHistory";
 // import for internships -start
 import InternshipListing from "../../Employer/Internships/OtherComponents/InternshipListing";
 import AppliedInternships from "../../Employer/Internships/OtherComponents/InternshipListing";
-import { setSingleMenteeDetails } from "../../../Redux/menteeSlice";
-// import MenteeStipendPage from "./OtherComponents/MenteeStipendPage";
+import InternshipProfileMain from "./MenteeInternship/InternshipProfileMain";
+// import MenteeMenteeInternshipPage from "./OtherComponents/MenteeMenteeInternshipPage";
 // end
 const MenteeDashboard = ({ user, token }) => {
   const url = ApiURL();
+  const dispatch = useDispatch();
   const [showNotification, setShowNotification] = useState(false);
   const [showChangePwd, setShowChangePwd] = useState(false);
   const [showMenteePsettings, setShowMenteePsettings] = useState(false);
@@ -44,12 +46,13 @@ const MenteeDashboard = ({ user, token }) => {
   const [Sessionmenu, setSessionmenu] = useState(false);
   const [Coursemenu, setCoursemenu] = useState(false);
   const [singleMentee, setSingleMentee] = useState([]);
+  const [appliedInternships, setAppliedInternships] = useState([]);
   const [showMenteePaymentHistory, setShowMenteePaymentHistory] =
     useState(false);
 
   const [internshipMenu, setinternshipMenu] = useState(false);
   const [AppliedInternship, setAppliedInternship] = useState(false);
-  const [StipendPage, setStipendPage] = useState(false);
+  const [MenteeInternshipPage, setMenteeInternshipPage] = useState(false);
 
   const [mobMenu, setMobMenu] = useState(false);
   const [mobProfileSubMenu, setMobProfileSubMenu] = useState(false);
@@ -72,7 +75,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setStipendPage(false)
+      setMenteeInternshipPage(false)
     );
   };
 
@@ -93,7 +96,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeProfile(false),
       setShowMenteePaymentHistory(false),
       setAppliedInternship(false),
-      setStipendPage(false)
+      setMenteeInternshipPage(false)
     );
   };
   const HandleAppliedInternshipmenu = () => {
@@ -113,12 +116,12 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeProfile(false),
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
-      setStipendPage(false)
+      setMenteeInternshipPage(false)
     );
   };
-  const HandleStipendInternshipmenu = () => {
-    if (!StipendPage) {
-      setStipendPage(true);
+  const HandleMenteeInternshipPageHandler = () => {
+    if (!MenteeInternshipPage) {
+      setMenteeInternshipPage(true);
     }
     return (
       setShowNotification(false),
@@ -153,7 +156,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setStipendPage(false)
+      setMenteeInternshipPage(false)
     );
   };
   const MenteeSavedJobsHandler = () => {
@@ -173,7 +176,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setStipendPage(false)
+      setMenteeInternshipPage(false)
     );
   };
   const MenteeCourseProgressHandler = () => {
@@ -193,7 +196,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setStipendPage(false)
+      setMenteeInternshipPage(false)
     );
   };
   const MenteeCompCourseHandler = () => {
@@ -213,7 +216,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setStipendPage(false)
+      setMenteeInternshipPage(false)
     );
   };
   const MenteePsettingsHandler = () => {
@@ -233,7 +236,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setStipendPage(false)
+      setMenteeInternshipPage(false)
     );
   };
   const MenteeMessageHandler = () => {
@@ -253,7 +256,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setStipendPage(false)
+      setMenteeInternshipPage(false)
     );
   };
   const ShowMenteeProfileHandler = () => {
@@ -273,7 +276,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setStipendPage(false)
+      setMenteeInternshipPage(false)
     );
   };
   const ShowMenteeUpcomingHandler = () => {
@@ -293,7 +296,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setStipendPage(false)
+      setMenteeInternshipPage(false)
     );
   };
   const ShowMenteeCompletedHandler = () => {
@@ -313,7 +316,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setStipendPage(false)
+      setMenteeInternshipPage(false)
     );
   };
   const ShowMenteePaymentHistoryHandler = () => {
@@ -333,7 +336,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeProfile(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setStipendPage(false)
+      setMenteeInternshipPage(false)
     );
   };
   const menteeDtlsId = user?.user_id;
@@ -354,6 +357,22 @@ const MenteeDashboard = ({ user, token }) => {
     };
     fetchSingleMentee();
   }, [menteeDtlsId, url]);
+
+  useEffect(() => {
+    const fetchAppliedInternships = async () => {
+      try {
+        const response = await axios.post(
+          `${url}api/v1/mentee/dashboard/applied-internships`,
+          { menteeId: menteeDtlsId }
+        );
+        setAppliedInternships(response.data.success);
+      } catch (err) {
+        setAppliedInternships([]);
+        console.error("Error fetching applied internships:", err);
+      }
+    };
+    fetchAppliedInternships();
+  }, [singleMentee, url]);
 
   useEffect(() => {
     const notifications = singleMentee?.map((item) => {
@@ -395,7 +414,6 @@ const MenteeDashboard = ({ user, token }) => {
     setCoursemenu(false);
   };
 
-  const dispatch = useDispatch();
   const LogoutHandler = () => {
     dispatch(logOut());
   };
@@ -778,6 +796,43 @@ const MenteeDashboard = ({ user, token }) => {
 
                 <h5>Saved Jobs</h5>
               </button> */}
+            <div className="Baseposition" onMouseLeave={toggleOffCourse}>
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                // onMouseOver={toggleNoCourse}
+                onClick={HandleMenteeInternshipPageHandler}
+              >
+                <span className="d-block bg-white position-relative m-auto ">
+                  <i className="fa-solid fa-briefcase"></i>
+                </span>
+                <h5>
+                  Internship
+                  {/* <i className="fa-solid fa-chevron-down downarrowsize"></i> */}
+                </h5>
+              </button>
+              {/* {Coursemenu && (
+                <div className="submenu1">
+                  <button
+                    className="submenu-item1"
+                    onClick={HandleInternshipmenu}
+                  >
+                    <h5> Apply for Internship</h5>
+                  </button>
+                  <button
+                    className="submenu-item1"
+                    onClick={HandleAppliedInternshipmenu}
+                  >
+                    <h5>Applied Internship</h5>
+                  </button>
+                  <button
+                    className="submenu-item1"
+                    onClick={HandleMenteeInternshipPageHandler}
+                  >
+                    <h5>Stipend Info</h5>
+                  </button>
+                </div>
+              )} */}
+            </div>
             <button
               className="btn btn-transparent text-center py-3 seeeett"
               onClick={MenteeNotificationHandler}
@@ -802,7 +857,7 @@ const MenteeDashboard = ({ user, token }) => {
               <h5>Notifications</h5>
             </button>
 
-            <div className="Baseposition" onMouseLeave={toggleOffCourse}>
+            {/* <div className="Baseposition" onMouseLeave={toggleOffCourse}>
               <button
                 className="btn btn-transparent text-center py-3 seeeett"
                 onMouseOver={toggleNoCourse}
@@ -831,13 +886,13 @@ const MenteeDashboard = ({ user, token }) => {
                   </button>
                   <button
                     className="submenu-item1"
-                    onClick={HandleStipendInternshipmenu}
+                    onClick={HandleMenteeInternshipPageHandler}
                   >
                     <h5>Stipend Info</h5>
                   </button>
                 </div>
               )}
-            </div>
+            </div> */}
 
             {/* </div> */}
           </div>
@@ -935,13 +990,14 @@ const MenteeDashboard = ({ user, token }) => {
               token={token}
             />
           )}
-          {/* {StipendPage && (
-            <MenteeStipendPage
+          {MenteeInternshipPage && (
+            <InternshipProfileMain
               singleMentee={singleMentee}
+              appliedInternships={appliedInternships}
               user={user}
               token={token}
             />
-          )} */}
+          )}
         </div>
       </div>
     </>

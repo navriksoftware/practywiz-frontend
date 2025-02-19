@@ -1,139 +1,52 @@
 //date 14-11-2024
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../InternshipCss/InternshipProfile.css";
 
 const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
-  const initialInternships = [
-    {
-      id: 1,
-      profile: "Software Development Engineering (Web)",
-      company: "TechCorp Inc.",
-      status: "Active",
-      supervisionType: "Guided",
-      location: "Remote",
-      duration: "6 months",
-      applicants: 50,
-    },
-    {
-      id: 2,
-      profile: "Data Science Intern",
-      company: "Analytics Pro",
-      status: "Active",
-      supervisionType: "Guided",
-      location: "New York",
-      duration: "3 months",
-      applicants: 34,
-    },
-    {
-      id: 3,
-      profile: "UX/UI Design Intern",
-      company: "Creative Solutions",
-      status: "Closed",
-      supervisionType: "Unsupervised",
-      location: "San Francisco",
-      duration: "4 months",
-      applicants: 21,
-    },
-    {
-      id: 4,
-      profile: "Mobile App Development",
-      company: "AppWorks",
-      status: "Closed",
-      supervisionType: "Unsupervised",
-      location: "Austin",
-      duration: "6 months",
-      applicants: 40,
-    },
-    {
-      id: 5,
-      profile: "DevOps Engineering Intern",
-      company: "CloudTech",
-      status: "Active",
-      supervisionType: "Guided",
-      location: "Remote",
-      duration: "5 months",
-      applicants: 29,
-    },
-    {
-      id: 6,
-      profile: "Software Development Engineering (Web)",
-      company: "TechCorp Inc.",
-      status: "Active",
-      supervisionType: "Guided",
-      location: "Remote",
-      duration: "6 months",
-      applicants: 50,
-    },
-    {
-      id: 7,
-      profile: "Data Science Intern",
-      company: "Analytics Pro",
-      status: "Active",
-      supervisionType: "Guided",
-      location: "New York",
-      duration: "3 months",
-      applicants: 34,
-    },
-    {
-      id: 8,
-      profile: "UX/UI Design Intern",
-      company: "Creative Solutions",
-      status: "Closed",
-      supervisionType: "Unsupervised",
-      location: "San Francisco",
-      duration: "4 months",
-      applicants: 21,
-    },
-    {
-      id: 9,
-      profile: "Mobile App Development",
-      company: "AppWorks",
-      status: "Closed",
-      supervisionType: "Unsupervised",
-      location: "Austin",
-      duration: "6 months",
-      applicants: 40,
-    },
-    {
-      id: 10,
-      profile: "DevOps Engineering Intern",
-      company: "CloudTech",
-      status: "Active",
-      supervisionType: "Guided",
-      location: "Remote",
-      duration: "5 months",
-      applicants: 29,
-    },
-  ];
+  const [internshipList, setInternshipList] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredInternships, setFilteredInternships] = useState([]);
+
+  useEffect(() => {
+    if (data[0]?.internship_post_list) {
+      const datamain = JSON.parse(data[0]?.internship_post_list);
+      const extractedData = datamain.map((item) => ({
+        id: item.employer_internship_post_dtls_id,
+        profile: item.employer_internship_post_position,
+        status: item.employer_internship_post_status,
+        supervisionType:
+          item.employer_internship_post_supervision_type.toUpperCase(),
+      }));
+      setInternshipList(extractedData);
+      setFilteredInternships(extractedData);
+    }
+  }, [data]);
 
   const navigate = useNavigate();
-  const [internships, setInternships] = useState(initialInternships);
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [internships, setInternships] = useState(initialInternships);
+  // const [searchQuery, setSearchQuery] = useState("");
 
-  const handleApplicants = (id) => {
-    window.open(`/internships/${id}/applicants`, "_blank");
+  const handleApplicants = (id, profile) => {
+    window.open(`/internships/${profile}/${id}/applicants`, "_blank");
+    // navigate(`/internships/${profile}/${id}/applicants`, {
+    //   state: { roleProfile: profile, id: id },
+    // });
   };
 
-  const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
-
-    if (query.trim() === "") {
-      setInternships(initialInternships);
-    } else {
-      const filtered = initialInternships.filter(
-        (internship) =>
-          internship.profile.toLowerCase().includes(query) ||
-          internship.company.toLowerCase().includes(query) ||
-          internship.location.toLowerCase().includes(query)
-      );
-      setInternships(filtered);
+  useEffect(() => {
+    let result = internshipList;
+    if (searchQuery) {
+      result = result.filter((internship) => {
+        const searchString = searchQuery.toLowerCase();
+        return internship.profile.toLowerCase().includes(searchString);
+      });
     }
-  };
+    setFilteredInternships(result);
+  }, [internshipList, searchQuery]);
 
   const handleStatusChange = (id, newStatus) => {
-    setInternships((prevInternships) =>
+    setInternshipList((prevInternships) =>
       prevInternships.map((internship) =>
         internship.id === id ? { ...internship, status: newStatus } : internship
       )
@@ -156,7 +69,7 @@ const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
                 className="internship_profile_search_input"
                 placeholder="Search internships..."
                 value={searchQuery}
-                onChange={handleSearch}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <button className="internship_profile_search_btn">Search</button>
             </div>
@@ -165,10 +78,10 @@ const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
           {/* Listings */}
 
           <div className="internship_profile_listings_container">
-            {data[0].internship_post_list === "[]" && (
+            {internshipList.length === 0 && (
               <p>Currently, You have not posted any internships posts</p>
             )}
-            {JSON.parse(data[0]?.internship_post_list)
+            {filteredInternships
               .slice()
               .reverse()
               .map((internship) => (
@@ -177,7 +90,7 @@ const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
                     {/* Left section */}
                     <div className="internship_profile_info_section">
                       <h3 className="internship_profile_info_title">
-                        {internship.employer_internship_post_position}
+                        {internship.profile}
                       </h3>
                     </div>
 
@@ -185,25 +98,21 @@ const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
                     <div className="internship_profile_status_section">
                       <p
                         className={`internship_profile_status_select ${
-                          internship.employer_internship_post_status === "open"
-                            ? "active"
-                            : "closed"
+                          internship.status === "open" ? "active" : "closed"
                         }`}
                       >
-                        {internship.employer_internship_post_status}
+                        {internship.status}
                       </p>
                     </div>
                     <div className={`internship_profile_supervision_label `}>
                       <span
                         className={`internship_profile_supervision_label_text ${
-                          internship.employer_internship_post_supervision_type ===
-                          "Self Manage"
+                          internship.supervisionType === "Self Manage"
                             ? " guided"
                             : " unsupervised"
                         }`}
                       >
-                        {internship.employer_internship_post_supervision_type ===
-                        "Self Manage"
+                        {internship.supervisionType === "Self Manage"
                           ? "Guided"
                           : "Unsupervised"}
                       </span>
@@ -213,16 +122,14 @@ const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
                     <div className="internship_profile_action_section">
                       <button
                         className="internship_profile_applicants_btn"
-                        onClick={() => handleApplicants(1)}
+                        onClick={() => {
+                          handleApplicants(internship.id, internship.profile);
+                        }}
                       >
                         Applicants:
                       </button>
                       <button
-                        onClick={() =>
-                          onEditInternshipPost(
-                            internship.employer_internship_post_dtls_id
-                          )
-                        }
+                        onClick={() => onEditInternshipPost(internship.id)}
                         className="internship_profile_edit_btn"
                       >
                         View

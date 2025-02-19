@@ -1,0 +1,166 @@
+.mim-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.mim-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+
+.mim-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.mim-card.active {
+  border-color: #3b82f6;
+}
+
+.mim-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mim-card-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.mim-company {
+  color: #6b7280;
+}
+
+.mim-status {
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 14px;
+}
+
+.mim-status-progress {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.mim-status-completed {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+
+.mim-tabs {
+  margin-top: 24px;
+}
+
+.mim-tab-list {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 16px;
+}
+
+.mim-tab {
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.mim-tab.active {
+  color: #3b82f6;
+  border-bottom: 2px solid #3b82f6;
+}
+
+.mim-content {
+  padding: 16px;
+}
+
+.mim-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.mim-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mim-button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.mim-button:hover {
+  background: #2563eb;
+}
+
+.mim-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  max-width: 425px;
+  width: 100%;
+  z-index: 50;
+}
+
+.mim-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+}
+
+.mim-textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  min-height: 100px;
+}
+
+.mim-report-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.mim-report-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.mim-payment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}

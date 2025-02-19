@@ -1,0 +1,187 @@
+/* mentee-InternshipApplication.css */
+.mentee-intern-apply-card {
+  max-width: 1200px;
+  margin: 2rem auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.mentee-intern-apply-header {
+  margin-bottom: 1.5rem;
+}
+
+.mentee-intern-apply-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.mentee-intern-apply-header p {
+  margin: 0.5rem 0 0;
+  color: #666;
+}
+
+.mentee-intern-apply-content {
+  padding: 0.5rem 0;
+}
+
+.mentee-intern-apply-section {
+  margin-bottom: 2rem;
+  flex-direction: column;
+}
+
+.mentee-intern-apply-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.mentee-intern-apply-overview {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.mentee-intern-apply-overview p {
+  margin: 0;
+  line-height: 1.5;
+  color: #555;
+}
+
+.mentee-intern-apply-resume-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mentee-intern-apply-resume-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  align-items: center;
+  border-radius: 6px;
+  transition: border-color 0.2s;
+}
+
+.mentee-intern-apply-resume-item:hover {
+  border-color: #007bff;
+}
+
+.mentee-intern-apply-radio {
+  margin-top: 0.25rem;
+  margin-right: 0.75rem;
+}
+
+.mentee-intern-apply-resume-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  cursor: pointer;
+}
+
+.mentee-intern-apply-file-icon {
+  font-size: 1.25rem;
+}
+
+.mentee-intern-apply-resume-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.mentee-intern-apply-resume-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.mentee-intern-apply-resume-date {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.mentee-intern-apply-button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.mentee-intern-apply-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.mentee-intern-apply-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mentee-intern-apply-btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.mentee-intern-apply-btn-primary:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.mentee-intern-apply-btn-secondary {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.mentee-intern-apply-btn-secondary:hover {
+  background: #e9ecef;
+}
+
+.mentee-intern-apply-success {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.mentee-intern-apply-success-icon {
+  width: 48px;
+  height: 48px;
+  background: #28a745;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 1rem;
+}
+
+.mentee-intern-apply-success h2 {
+  color: #28a745;
+  margin-bottom: 0.5rem;
+}
+
+.mentee-intern-apply-success p {
+  color: #666;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .mentee-intern-apply-card {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .mentee-intern-apply-button-group {
+    flex-direction: column-reverse;
+  }
+
+  .mentee-intern-apply-btn {
+    width: 100%;
+  }
+}
