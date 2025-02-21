@@ -64,14 +64,15 @@ const About = () => {
       <section className="practywiz-about-hero-section">
         <div className="practywiz-about-hero-container">
           <div className="practywiz-about-hero-content">
-            <h2 className="practywiz-about-hero-subtitle">About us</h2>
+            <h2 className="practywiz-about-hero-subtitle">Who Are We?</h2>
             <h1 className="practywiz-about-hero-title">PractyWiz</h1>
             <h3 className="practywiz-about-hero-tagline">
               Bridge to Greatness
             </h3>
             <p className="practywiz-about-hero-text">
-              We are a bridge between the corporate sector and academia to
-              create mutually beneficial opportunities.
+              We bridge the gap between academia and the corporate world,
+              forging powerful collaborations that drive innovation and unlock
+              new opportunities for both.
             </p>
           </div>
           <div className="practywiz-about-hero-image">
@@ -98,9 +99,7 @@ const About = () => {
               <h2 className="practywiz-about-vn-title">Our Vision</h2>
               <p className="practywiz-about-vn-text">
                 Create PractyWizards by Bridging the Gap Between Academic
-                Organizations and Corporates. To keep pace with the changing
-                need of corporates, it’s an imperative that students and
-                professionals keep acquiring practical skills.
+                Organizations & Corporates.
               </p>
             </div>
           </div>
@@ -171,7 +170,7 @@ const About = () => {
           <div className="practywiz-about-offer-grid-grid-bottom">
             <div className="practywiz-about-offer-grid-col-9">
               <div className="practywiz-about-offer-grid-section practywiz-about-offer-grid-institutes">
-                <h3>For Institutes & Corporates</h3>
+                <h3>For Institutes</h3>
                 <div className="practywiz-about-offer-grid-two-cols">
                   <ul>
                     <li>Industry Connect Programs</li>
@@ -179,21 +178,18 @@ const About = () => {
                     <li>Provide students with AI case studies</li>
                     <li>Invite top experts for guest lectures</li>
                   </ul>
-                  <ul>
-                    <li>Mentorship Programs for Employees</li>
-                    <li>Intern from selective top colleges</li>
-                    <li>Caselet Contribution & Access</li>
-                    <li>Corporate Trainings</li>
-                  </ul>
                 </div>
               </div>
             </div>
 
             <div className="practywiz-about-offer-grid-col-3">
               <div className="practywiz-about-offer-grid-section practywiz-about-offer-grid-forall">
-                <h3>For All</h3>
+                <h3>For Corporates</h3>
                 <ul>
-                  <li>Get 100% in-house training tailored for our team</li>
+                  <li>Mentorship Programs for Employees</li>
+                  <li>Intern from selective top colleges</li>
+                  <li>Caselet Contribution & Access</li>
+                  <li>Corporate Trainings</li>
                 </ul>
               </div>
             </div>
@@ -214,8 +210,9 @@ const About = () => {
                     <i class="fa-solid fa-code practywiz-about-icon"></i>
                   </div>
                   <div>
-                    <h3>A Soft-Edtech Approach</h3>
+                    {/* <h3>A Soft-Edtech Approach</h3>
                     <div className="practywiz-about-unique-text">
+                      <h4></h4>
                       <p>
                         Practywiz is not just an Edtech platform—we are a
                         Soft-Edtech, a technology-driven ecosystem that
@@ -236,6 +233,44 @@ const About = () => {
                         merge the strengths of Edtech and software solutions,
                         delivering innovative, tech-integrated education that
                         adds value for colleges and corporates alike.
+                      </p>
+                    </div> */}
+
+                    <div className="practywiz-about-unique-text">
+                      <h4>Bridging the Gap</h4>
+                      <p>
+                        We serve as a bridge between educational institutions
+                        and corporations, ensuring that students gain practical
+                        skills that align with industry demands.
+                      </p>
+                    </div>
+
+                    <div className="practywiz-about-unique-text">
+                      <h4>A Single, Unified Platform</h4>
+                      <p>
+                        Practywiz offers a comprehensive ecosystem that caters
+                        to institutes, corporations, students, and
+                        professionals, making learning, mentorship, and career
+                        progression seamless.
+                      </p>
+                    </div>
+
+                    <div className="practywiz-about-unique-text">
+                      <h4>AI Capabilities</h4>
+                      <p>
+                        AI capabilities are deeply embedded across Practywiz’s
+                        modules, enhancing learning efficiency, performance
+                        tracking, and personalized guidance.
+                      </p>
+                    </div>
+
+                    <div className="practywiz-about-unique-text">
+                      <h4>The Power of Practywiz & Navrik</h4>
+                      <p>
+                        As a collaboration between an Edtech platform and a
+                        software solutions company, we bring unparalleled value
+                        to colleges and corporates—offering tailored solutions
+                        that integrate learning with cutting-edge technology.
                       </p>
                     </div>
                   </div>

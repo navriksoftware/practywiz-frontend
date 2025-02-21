@@ -15,6 +15,7 @@
   padding: 0.75rem;
   border-radius: 0.75rem;
   display: inline-flex;
+  margin-bottom: 1rem;
 }
 
 .practywiz-about-icon {
@@ -107,7 +108,7 @@
 
 .practywiz-about-vn-illustration {
   flex: 1;
-  max-width: 50%;
+  max-width: 40%;
 }
 
 .practywiz-about-vn-image {
@@ -326,7 +327,7 @@
 }
 
 .practywiz-about-offer-grid-grid-bottom {
-  grid-template-columns: 75% 25%;
+  grid-template-columns: 55% 45%;
 }
 
 .practywiz-about-offer-grid-section {
