@@ -61,15 +61,15 @@ const AllCourse = () => {
   }, [debouncedSearch]);
 
   return (
-    <div className="yewaale-container">
-      <div className="yewaale-header">
-        <h1>Edu Future Courses</h1>
+    <div className="practywiz-training-container">
+      <div className="practywiz-training-header">
+        <h1>PractyWiz Training</h1>
         <p>We found {filteredCourses.length} courses for you</p>
       </div>
 
-      <div className="yewaale-layout">
-        <aside className="yewaale-sidebar">
-          <div className="yewaale-search">
+      <div className="practywiz-training-layout">
+        <aside className="practywiz-training-sidebar">
+          <div className="practywiz-training-search">
             <input
               type="text"
               placeholder="Search Courses..."
@@ -78,7 +78,7 @@ const AllCourse = () => {
             <button onClick={() => setSearchTerm("")}>Search</button>
           </div>
 
-          <div className="yewaale-categories">
+          <div className="practywiz-training-categories">
             <h2>Course Categories</h2>
             <ul>
               <li
@@ -100,8 +100,8 @@ const AllCourse = () => {
           </div>
         </aside>
 
-        <main className="yewaale-main">
-          <div className="yewaale-grid">
+        <main className="practywiz-training-main">
+          <div className="practywiz-training-grid">
             {filteredCourses.map((course) => (
               <CourseCard key={course.id} course={course} />
             ))}

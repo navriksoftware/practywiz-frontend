@@ -6,10 +6,10 @@ const InternshipOverview = ({ singleMentee }) => {
     <div className="mentee-int-profile-overview-container">
       <div className="mentee-int-prof-profile-section-header">
         <h2 className="mentee-int-prof-profile-title">Profile Overview</h2>
-        <div className="mentee-int-prof-profile-actions">
+        {/* <div className="mentee-int-prof-profile-actions">
           <button className="mentee-int-prof-btn-outline">Edit Profile</button>
           <button className="mentee-int-btn-default">Download</button>
-        </div>
+        </div> */}
       </div>
 
       {singleMentee?.map((mentee, index) => (
@@ -40,7 +40,7 @@ const InternshipOverview = ({ singleMentee }) => {
                   rel="noopener noreferrer"
                   className="mentee-int-icon-link"
                 >
-                  <i class="fa-brands fa-linkedin mentee-int-icon"></i>
+                  <i className="fa-brands fa-linkedin mentee-int-icon"></i>
                 </a>
               </div>
             </div>

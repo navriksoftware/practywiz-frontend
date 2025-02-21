@@ -50,7 +50,13 @@ const InternshipProfileMain = ({
           />
         );
       case "Resume":
-        return <InternshipResume />;
+        return (
+          <InternshipResume
+            singleMentee={singleMentee}
+            user={user}
+            token={token}
+          />
+        );
       case "Internships":
         return <MenteeInternshipManagement />;
       case "Apply":

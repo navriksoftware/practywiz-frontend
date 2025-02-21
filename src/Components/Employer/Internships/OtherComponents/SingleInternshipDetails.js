@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "../InternshipCss/SingleInternshipDetails.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import DOMPurify from "dompurify";
@@ -10,12 +11,16 @@ import { toast } from "react-toastify";
 const InternshipDetail = ({ user, token }) => {
   const url = ApiURL();
   const navigate = useNavigate();
+  const singleMentee = useSelector((state) => state.mentee.singleMentee);
   const location = useLocation();
-  const internshipPostId = window.location.pathname.split("/").pop();
+  const internshipPostId = Number(location.pathname.split("/").pop()) || null;
+  const appliedInternships = singleMentee?.[0]?.applied_internships || [];
+
   const { internshipId, appliedInternshipsID = [] } = location.state || {};
 
   const [loading, setLoading] = useState(false);
   const [singleInternshipPost, setSingleInternshipPost] = useState([]);
+  const [appliedInternshipsId, setAppliedInternshipsId] = useState([]);
   const [jobDetails, setJobDetails] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isUserMentee, setUserMentee] = useState(false);
@@ -58,6 +63,17 @@ const InternshipDetail = ({ user, token }) => {
     checkUserType();
   }, []);
 
+  useEffect(() => {
+    if (appliedInternships?.length > 0) {
+      const internshipIDs = [
+        ...new Set(
+          appliedInternships.map((item) => item.internship_post_dtls_id)
+        ),
+      ];
+      setAppliedInternshipsId(internshipIDs);
+    }
+  }, [appliedInternships]);
+
   const handleApply = () => {
     if (!isLoggedIn) {
       return navigate("/login");
@@ -77,7 +93,11 @@ const InternshipDetail = ({ user, token }) => {
     <div className="col-lg-10 ps-0">
       <div className="gtyfdgfgf">
         {singleInternshipPost?.map((internship, index) => {
-          const isApplied = appliedInternshipsID.includes(internshipId);
+          const isApplied = [
+            ...(appliedInternshipsId || []),
+            ...(appliedInternshipsID || []),
+          ].includes(internshipPostId);
+
           return (
             <div key={index} className="single-intern-container">
               <button onClick={handleBack} className="single-intern-back-btn">

@@ -23,7 +23,6 @@ const InternshipApplication = ({ user, token }) => {
   const queryParams = new URLSearchParams(location.search);
   const internship_post_dtls_id = queryParams.get("internshipId");
   const singleMentee = useSelector((state) => state.mentee.singleMentee);
-  console.log("singleMentee", singleMentee);
   const mentee_dtls_id = singleMentee[0].mentee_dtls_id;
   const mentee_user_dtls_id = singleMentee[0].mentee_user_dtls_id;
   const [selectedResume, setSelectedResume] = useState("");
@@ -41,7 +40,6 @@ const InternshipApplication = ({ user, token }) => {
       lastModified: "2024-01-25",
     },
   ];
-  console.log("singleMentee", singleMentee);
   const handleSubmit = async (e) => {
     e.preventDefault();
     // if (selectedResume) {

@@ -365,7 +365,14 @@ const MenteeDashboard = ({ user, token }) => {
           `${url}api/v1/mentee/dashboard/applied-internships`,
           { menteeId: menteeDtlsId }
         );
-        setAppliedInternships(response.data.success);
+        if (response.data.success) {
+          setAppliedInternships(response.data.success);
+          const updateMentee = {
+            ...singleMentee[0],
+            applied_internships: response.data.success,
+          };
+          dispatch(setSingleMenteeDetails([updateMentee]));
+        }
       } catch (err) {
         setAppliedInternships([]);
         console.error("Error fetching applied internships:", err);
@@ -416,6 +423,7 @@ const MenteeDashboard = ({ user, token }) => {
 
   const LogoutHandler = () => {
     dispatch(logOut());
+    dispatch(setSingleMenteeDetails(null));
   };
   return (
     <>
@@ -469,11 +477,11 @@ const MenteeDashboard = ({ user, token }) => {
                         <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
                           <li>Account Settings</li>
 
-                          <li>
+                          {/* <li>
                             <Link to="/mentee/view-profile/mahesh">
                               View Public Profile
                             </Link>
-                          </li>
+                          </li> */}
                           {user?.user_role === 1 && (
                             <li>
                               <Link
@@ -507,11 +515,11 @@ const MenteeDashboard = ({ user, token }) => {
                             Account Settings
                           </li>
 
-                          <li>
+                          {/* <li>
                             <Link to="/mentee/view-profile/mahesh">
                               View Public Profile
                             </Link>
-                          </li>
+                          </li> */}
                           {user?.user_role === 1 && (
                             <li>
                               <Link
@@ -625,6 +633,16 @@ const MenteeDashboard = ({ user, token }) => {
                                   </li>
                                 </ul>
                               )}
+                            </li>
+
+                            <li
+                              className="menu-items"
+                              onClick={HandleMenteeInternshipPageHandler}
+                            >
+                              <span>
+                                <i className="fa-solid fa-briefcase"> </i>
+                              </span>
+                              <span>Internship</span>
                             </li>
 
                             <li

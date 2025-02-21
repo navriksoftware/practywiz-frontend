@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { logOut } from "./userRedux";
 
 const menteeSlice = createSlice({
   name: "mentee",
@@ -9,6 +10,11 @@ const menteeSlice = createSlice({
     setSingleMenteeDetails: (state, action) => {
       state.singleMentee = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(logOut, (state) => {
+      state.singleMentee = null;
+    });
   },
 });
 

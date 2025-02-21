@@ -266,7 +266,7 @@ const About = () => {
                 <p>
                   Tarun Gautam is an IIM Lucknow alumnus and after a successful
                   career of over 20 years in the IT industry, he founded two
-                  start-up brands – Navrik Software Solutions and Practiwiz.
+                  start-up brands – Navrik Software Solutions and PractyWiz.
                 </p>
               </div>
               <div className="practywiz-about-founder-description">
@@ -276,7 +276,7 @@ const About = () => {
                   Automation solutions.
                 </p>
                 <p>
-                  Practiwiz is an innovative platform that provides practical
+                  PractyWiz is an innovative platform that provides practical
                   training. The mentorship platform provides sessions from
                   Industry experts.
                 </p>

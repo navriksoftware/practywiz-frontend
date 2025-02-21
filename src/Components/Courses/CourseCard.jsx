@@ -17,26 +17,26 @@ const CourseCard = ({ course }) => {
   } = course;
 
   return (
-    <div key={course.id} className="yewaale-card">
-      <div className="yewaale-card-image">
+    <div key={course.id} className="practywiz-training-card">
+      <div className="practywiz-training-card-image">
         <img
           // src={image || '/placeholder.svg'}
           src={altImg}
           alt={title}
           width={300}
           height={200}
-          className="yewaale-img"
+          className="practywiz-training-img"
         />
-        <span className="yewaale-duration">{duration}</span>
+        <span className="practywiz-training-duration">{duration}</span>
       </div>
-      <div className="yewaale-card-content">
-        <div className="yewaale-card-body">
-          <div className="yewaale-card-category">{category}</div>
+      <div className="practywiz-training-card-content">
+        <div className="practywiz-training-card-body">
+          <div className="practywiz-training-card-category">{category}</div>
           <h3>{title}</h3>
           <p>{description}</p>
 
-          <div className="yewaale-instructor">
-            {/* <div className="yewaale-instructor-avatar">
+          <div className="practywiz-training-instructor">
+            {/* <div className="practywiz-training-instructor-avatar">
               <img
                 src="/placeholder.svg?height=40&width=40"
                 alt={instructor}
@@ -44,21 +44,21 @@ const CourseCard = ({ course }) => {
                 height={40}
               />
             </div> */}
-            <div className="yewaale-instructor-info">
+            {/* <div className="practywiz-training-instructor-info">
               <strong>{instructor}</strong>
               <span>{instructorRole}</span>
-            </div>
+            </div> */}
           </div>
         </div>
-        <div className="yewaale-card-footer">
-          <div className="yewaale-rating">
-            <div className="yewaale-stars">
+        <div className="practywiz-training-card-footer">
+          <div className="practywiz-training-rating">
+            <div className="practywiz-training-stars">
               <i className="fa-star fa-solid text-primary"></i>
             </div>
             <span>{rating}</span>
           </div>
-          <div className="yewaale-students">{students}</div>
-          <div className="yewaale-price">{price}</div>
+          <div className="practywiz-training-students">{students}</div>
+          <div className="practywiz-training-price">{price}</div>
         </div>
       </div>
     </div>

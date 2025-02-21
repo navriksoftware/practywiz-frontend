@@ -5,7 +5,6 @@ const EmployerProfile = ({ data, employerDtlsId }) => {
   return (
     <>
       {data?.map((employer) => {
-        console.log("This is emp data:", employer);
         return (
           <>
             <div className="emp-profile" key={employer.employer_user_dtls_id}>
