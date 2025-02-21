@@ -13,8 +13,7 @@ const ItTrainingSection = () => {
           <h2 className="it-training-title">
             Learn Through{" "}
             <span className="it-training-highlight">Real Problems</span>
-            <br />
-            Not Just Theory
+            <br /> Not Just Theory
           </h2>
 
           <p className="it-training-description">

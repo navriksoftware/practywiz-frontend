@@ -17,7 +17,7 @@ function ContactUs() {
                   </p>
                 </div>
                 <div className="hgjfgbfg">
-                  <div className="dnghjfgdf">
+                  {/* <div className="dnghjfgdf">
                     <div className="kjnghdfg2">
                       <i className="fa-solid fa-map-location-dot"></i>
                     </div>
@@ -27,13 +27,13 @@ function ContactUs() {
                         Pin-110029
                       </p>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="dnghjfgdf">
                     <div className="kjnghdfg2">
                       <i className="fa-solid fa-envelope-open"></i>
                     </div>
                     <div className="kjnghdfg mt-1">
-                      <p>wearepracktiwiz@gmail.com</p>
+                      <p>wecare@practywiz.com</p>
                     </div>
                   </div>
                   <div className="dnghjfgdf mt-3">
@@ -41,7 +41,7 @@ function ContactUs() {
                       <i className="fa-solid fa-phone-volume"></i>
                     </div>
                     <div className="kjnghdfg mt-1">
-                      <p>+(0238)8976546</p>
+                      <p>+91 92201 73130</p>
                     </div>
                   </div>
                 </div>
@@ -159,4 +159,4 @@ function Section7() {
   );
 }
 
-export { ContactUs, GoogleMap, Section7 };
+export { ContactUs, Section7 };

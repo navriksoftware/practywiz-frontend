@@ -932,9 +932,9 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
                                 onChange={(e) => handleCertificateChange(e, i)}
                                 disabled={!ifEdit}
 
-                                // onChange={(e) =>
-                                //   handleInputChangeForCertificate(index, e)
-                                // }
+                              // onChange={(e) =>
+                              //   handleInputChangeForCertificate(index, e)
+                              // }
                               >
                                 <option value="">Select Level</option>
                                 <option value="Entry-Level">Entry-Level</option>

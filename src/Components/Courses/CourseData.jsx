@@ -7,7 +7,7 @@ export const coursesData = [
     image: "/placeholder.svg?height=200&width=300",
     instructor: "Gagan Verma",
     instructorRole: "Senior Business Analyst",
-    students: "50+ Students",
+    students: "350+ Students",
     rating: 4.8,
     price: "₹299",
     duration: "10+ Lessons",
@@ -20,7 +20,7 @@ export const coursesData = [
     image: "/placeholder.svg?height=200&width=300",
     instructor: "Sarah",
     instructorRole: "Business Development Manager",
-    students: "45+ Students",
+    students: "145+ Students",
     rating: 4.7,
     price: "₹249",
     duration: "8+ Lessons",
@@ -36,7 +36,7 @@ export const coursesData = [
     students: "40+ Students",
     rating: 4.9,
     price: "₹349",
-    duration: "12+ Lessons",
+    duration: "212+ Lessons",
     category: "Consulting",
   },
   {
@@ -49,7 +49,7 @@ export const coursesData = [
     students: "35+ Students",
     rating: 4.6,
     price: "₹399",
-    duration: "15+ Lessons",
+    duration: "115+ Lessons",
     category: "Technology",
   },
   {
@@ -63,7 +63,7 @@ export const coursesData = [
     students: "60+ Students",
     rating: 4.9,
     price: "₹499",
-    duration: "20+ Lessons",
+    duration: "120+ Lessons",
     category: "Technology",
   },
   {
@@ -76,7 +76,7 @@ export const coursesData = [
     students: "55+ Students",
     rating: 4.8,
     price: "₹299",
-    duration: "12+ Lessons",
+    duration: "212+ Lessons",
     category: "Management",
   },
 ];

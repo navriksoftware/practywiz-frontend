@@ -134,7 +134,10 @@ const Navbar = () => {
                             </span>
                           </Link>
                         </li>
-                        <li>
+                        <li className="nav-item">
+                          <Link to="/internships">Internships</Link>
+                        </li>
+                        {/* <li>
                           <Link
                             target="_blanks"
                             to={`/mentor-club/mentor-profile/${
@@ -145,7 +148,7 @@ const Navbar = () => {
                           >
                             View Public Profile
                           </Link>
-                        </li>
+                        </li> */}
                         <li>
                           <Link to={`/${user.user_type}/dashboard`}>
                             {user?.user_type + " Dashboard"}
@@ -201,6 +204,9 @@ const Navbar = () => {
                             </span>
                           </Link>
                         </li>
+                        <li className="nav-item">
+                          <Link to="/internships">Internships</Link>
+                        </li>
                         <li>
                           <Link to={"/login"}>Login</Link>
                         </li>
@@ -225,6 +231,12 @@ const Navbar = () => {
                               <Link to="/institute-registration">
                                 <i className="fa-solid fa-building-columns menubarUsersIcons"></i>{" "}
                                 Institute
+                              </Link>
+                            </li>
+                            <li className="djgjefgndke">
+                              <Link to="/employer-registration">
+                                <i className="fa-solid fa-briefcase menubarUsersIcons"></i>{" "}
+                                Employer
                               </Link>
                             </li>
                           </>
@@ -304,7 +316,7 @@ const Navbar = () => {
                         <i className="fa-solid ps-0 fa-user"></i>
                       </button>
                       <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
-                        <li>
+                        {/* <li>
                           <Link
                             target="_blanks"
                             to={`/mentor-club/mentor-profile/${
@@ -315,7 +327,7 @@ const Navbar = () => {
                           >
                             View Public Profile
                           </Link>
-                        </li>
+                        </li> */}
                         <li>
                           <Link to={`/${user.user_type}/dashboard`}>
                             {user?.user_type + " Dashboard"}

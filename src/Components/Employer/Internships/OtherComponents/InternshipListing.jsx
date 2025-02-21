@@ -161,7 +161,6 @@ export default function InternshipJobBoard({
       internshipId: jobId,
       appliedInternshipsID,
     };
-    console.log("navigationState", navigationState);
 
     navigate(`/internship-listing/${jobId}`, {
       state: navigationState,
