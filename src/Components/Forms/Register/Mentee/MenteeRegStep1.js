@@ -8,6 +8,7 @@ import "./MenteeReg.css";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import axios from "axios";
 import { toast } from "react-toastify";
+import web96 from "../../../../Images/icons8-account-96.webp";
 const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
@@ -171,13 +172,13 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
   return (
     <>
       <div className="step active" id="step1">
-        <h4 className="text-center">
-          <img src="images/icons8-account-96.webp" alt="" className="me-1" />
-          Step 1: Account Information
-        </h4>
+      <h4 className="text-center">
+            <img src={web96} alt="" className="me-1" />
+            Mentee Registration
+          </h4>
 
         <div className="ihduwfr_form_wrapper mt-4">
-          <div className="csfvgdtrfs cihseriniewr mb-3 position-relative">
+          {/* <div className="csfvgdtrfs cihseriniewr mb-3 position-relative">
             <label htmlFor="exampleInputEmail1" className="form-label">
               I Want To Register As
             </label>
@@ -199,7 +200,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
               ></i>
               Mentee
             </label>
-            {/* <input
+            <input
               type="radio"
               id="rdo3"
               className="radio-input"
@@ -215,7 +216,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                 style={{ color: "#1B759A" }}
               ></i>
               Job Seeker
-            </label> */}
+            </label>
             <input
               type="radio"
               id="rdo4"
@@ -233,7 +234,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
               ></i>
               Institute
             </label>
-          </div>
+          </div> */}
 
           <div className="row">
             <div className="col-lg-6">

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../Mentee/menteeregistration.css";
 import "../Mentee/MenteeReg.css";
-import mimgRemovebg from "../../../../Images/Mentors/mimgRemovebg.png";
+import mimgRemovebg from "../../../../Images/Mentors/Seminar-pana.svg";
 import "./MentroTest.css";
 import MentorUpdatedForm from "./MentorUpdatedForm";
 
@@ -18,12 +18,12 @@ const MentorRegFrom = () => {
               <div className="col-lg-6 mb-4 doneed">
                 <div className="iuhieiuihaw_left sticky-top">
                   <img
-                    style={{ width: "-webkit-fill-available" }}
+                    style={{ width: "30rem" }}
                     src={mimgRemovebg}
                     alt=""
                   />
                   <h4 className="mt-4 testsize">
-                    Benefit of becoming a Mentor
+                    Register as a Mentor to start your Practywizard journey
                   </h4>
 
                   <ul className="ps-0 mt-3">
@@ -31,7 +31,7 @@ const MentorRegFrom = () => {
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
 
-                        <p className="mb-0"> Helping Mentees is fulfilling</p>
+                        <p className="mb-0"> Share your knowledge and experience</p>
                       </div>
                     </li>
 
@@ -39,7 +39,7 @@ const MentorRegFrom = () => {
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
 
-                        <p className="mb-0"> Get paid for your time</p>
+                        <p className="mb-0"> Provide your convenient time for Mentees appointments</p>
                       </div>
                     </li>
 
@@ -48,7 +48,7 @@ const MentorRegFrom = () => {
                         <i className="fa-solid fa-circle-check"></i>
 
                         <p className="mb-0">
-                          Curate case studies and get paid
+                          Author case studies and get paid
                         </p>
                       </div>
                     </li>
@@ -57,14 +57,7 @@ const MentorRegFrom = () => {
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
 
-                        <p className="mb-0">Become a guest lecturer</p>
-                      </div>
-                    </li>
-                    <li className="mb-3">
-                      <div className="d-flex align-items-center">
-                        <i className="fa-solid fa-circle-check"></i>
-
-                        <p className="mb-0">Access to jobs and gigs</p>
+                        <p className="mb-0">Access guest lecturer opportunities</p>
                       </div>
                     </li>
                   </ul>
@@ -73,9 +66,9 @@ const MentorRegFrom = () => {
 
               <div className="col-lg-6">
                 <div className="iuhieiuihaw_right bg-white p-3">
-                  <div className="uherrr_text text-center">
+                  {/* <div className="uherrr_text text-center">
                     <h4>Sign up</h4>
-                  </div>
+                  </div> */}
 
                   <MentorUpdatedForm />
                 </div>

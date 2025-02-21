@@ -13,6 +13,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
+import web96 from "../../../../Images/icons8-account-96.webp";
 
 const InstituteForm = ({ InstitutePreviousHandler }) => {
   const {
@@ -220,10 +221,10 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="step" id="instituteInputFields">
-        <h4 className="text-center">
-          <img src="images/icons8-account-96.webp" alt="" className="me-1" />
-          Registration For Institutions
-        </h4>
+      <h4 className="text-center">
+            <img src={web96} alt="" className="me-1" />
+            Institution Registration
+          </h4>
 
         <div className="ihduwfr_form_wrapper mt-3">
           <div className="row">
@@ -569,15 +570,18 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
             </div>
           </div>
         </div>
+        <div className="d-flex justify-content-between pt-3">
+          <div className="uherrr_text text-center">
+            <p className="mb-0">
+              Already Have An Account? <a href="/login">Log In</a>
+            </p>
+          </div>
+        </div>
 
         <div className="d-flex justify-content-between pt-3">
-          <input
-            type="button"
-            className="btn dgheuih_btn_prev btn-main"
-            onClick={(event) => InstitutePreviousHandler(event, "institute")}
-            value="Previous"
-            name="Previous"
-          />
+        
+
+          
 
           <button type="submit" className="btn dgheuih_btn_next btn-main">
             Create Account

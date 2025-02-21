@@ -30,6 +30,16 @@ const EmployerDashboard = ({ user, token }) => {
   const [ShowPostInternship, setShowPostInternship] = useState(false);
   const [ShowPostedInternship, setShowPostedInternship] = useState(false);
   const [InternshipApplicationR, setInternshipApplicationR] = useState(false);
+
+
+  const [mobMenu, setMobMenu] = useState(false);
+  const [mobProfileSubMenu, setMobProfileSubMenu] = useState(false);
+
+
+
+
+
+
   const [InternshipProfileSetting, setInternshipProfileSetting] =
     useState(false);
   const [InternshipChangePassword, setInternshipChangePassword] =
@@ -417,7 +427,7 @@ const EmployerDashboard = ({ user, token }) => {
                       </button>
 
                       <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
-                        <li>
+                        {/* <li>
                           <Link
                             target="_blanks"
                             to={`/mentor-club/mentor-profile/${
@@ -428,7 +438,7 @@ const EmployerDashboard = ({ user, token }) => {
                           >
                             View Public Profile
                           </Link>
-                        </li>
+                        </li> */}
                         {user?.user_role === 1 && (
                           <li>
                             <Link target="_blanks" to={`/user/admin/dashboard`}>
@@ -440,6 +450,176 @@ const EmployerDashboard = ({ user, token }) => {
                       </ul>
                     </div>
                   </form>
+
+                </div>
+                <div className="odejr_res d-none">
+                  <div className="d-flex align-items-center">
+
+                    {/* Employer dashboard modile view menu  */}
+                    <div className="udgehrr position-relative me-3 ps-3">
+                      <div
+                        className="dashboard-side-bar"
+                        id="responsive-side-bar"
+                      >
+                        <i class="fa-solid fa-bars" style={{ fontSize: "1.5rem" }}
+                         onClick={() => {
+                          setMobMenu(true);
+                        }}
+                        ></i>
+
+                        {/* Menu Items */}
+                        {mobMenu && (
+                          <ul className="djioerr_dpdwn w15r bg-white position-absolute d-none p-3 ">
+                            <li className="mob-close-menu-container">
+                              <i
+                                className="fa-solid fa-x mob-close-menu"
+                                onClick={() => {
+                                  setMobMenu(false);
+                                  setMobProfileSubMenu(false);
+
+                                }}
+                              ></i>
+                            </li>
+                            <li
+                              className="menu-items"
+                              onClick={HandleInternshipDashBoardProfile}
+                            >
+                              <span>
+                                <i className=" fa-solid fa-user"> </i>
+                              </span>
+                              <span>Dashboard</span>
+                            </li>
+                            {user?.user_role === 1 && (
+                              <li>
+                                <Link
+                                  target="_blanks"
+                                  to={`/user/admin/dashboard`}
+                                >
+                                  Admin Dashboard
+                                </Link>
+                              </li>
+                            )}
+
+                            <li
+                              onClick={() => {
+                                setMobProfileSubMenu(!mobProfileSubMenu);
+                                // setMySessionInfo(false);
+                              }}
+                            >
+                              <div className="menu-items">
+                                <span>
+                                  <i className="fa-solid fa-bars"></i>
+                                </span>
+                                <span>
+                                  Profile Settings
+                                  <span>
+                                    <i className="fa-solid fa-chevron-down downarrowsize">
+                                      {" "}
+                                    </i>
+                                  </span>
+                                </span>
+                              </div>
+                              <span>
+                                {mobProfileSubMenu && (
+                                  <ul>
+                                    <li
+                                    onClick={HandleInternshipProfileSetting}
+                                    >
+                                      Profile Change
+                                    </li>
+                                    <li
+                                    onClick={HandleChangePwd}
+                                    >
+                                      Change Password
+                                    </li>
+                                  </ul>
+                                )}
+                              </span>
+                            </li>
+
+                            {/* <li
+                              onClick={() => {
+                                // setMySessionInfo(!mySessionInfo);
+                                setMobProfileSubMenu(false);
+                              }}
+                            >
+                              <div className="menu-items">
+                                <span>
+                                  <i className="fa-solid fa-tv"></i>
+                                </span>
+                                <span>
+                                  Session Info
+                                  <span>
+                                    <i className="fa-solid fa-chevron-down downarrowsize">
+                                      {" "}
+                                    </i>
+                                  </span>
+                                </span>
+                              </div>
+
+                              {mySessionInfo && (
+                                <ul>
+                                  <li
+                                  //  onClick={ShowMenteeUpcomingHandler}
+                                  >
+                                    Upcomig Session
+                                  </li>
+                                  <li 
+                                  // onClick={ShowMenteeCompletedHandler}
+                                  >
+                                    Completed Session
+                                  </li>
+                                </ul>
+                              )}
+                            </li> */}
+
+                            <li
+                              className="menu-items"
+                            onClick={HandlePostedInternship}
+                            >
+                              <span>
+                                <i className=" fa-solid fa-userfa-solid fa-clock-rotate-left">
+                                  {" "}
+                                </i>
+                              </span>
+                              <span>Posted Internship</span>
+                            </li>
+                            <li
+                              className="menu-items"
+                            onClick={HandlePostInternship}
+                            >
+                              <span>
+                                <i className=" fa-solid fa-userfa-solid fa-clock-rotate-left">
+                                  {" "}
+                                </i>
+                              </span>
+                              <span>Post Internship</span>
+                            </li>
+
+                            <li
+                              className="menu-items"
+                            onClick={HandleShowInternshipNotification}
+                            >
+                              <span>
+                                <i className="fa-solid fa-bell"> </i>
+                              </span>
+                              <span>Notifications </span>
+                            </li>
+                            <li onClick={userLogoutHandler} className="menu-items">
+                              <span><i class="fa-solid fa-right-from-bracket"></i></span>
+                              <span>Log Out</span>
+                            </li>
+                            <li></li>
+                          </ul>
+                        )}
+
+
+                      </div>
+                    </div>
+
+
+
+                  </div>
                 </div>
               </div>
             </nav>
@@ -535,7 +715,7 @@ const EmployerDashboard = ({ user, token }) => {
                     onClick={HandlePostedInternship}
                   >
                     <span className="d-block bg-white position-relative m-auto">
-                      <i className="fa-solid fa-share-from-square"></i>
+                    <i class="fa-solid fa-folder-open"></i>
                     </span>
 
                     <h5>Posted Internships</h5>
@@ -545,7 +725,7 @@ const EmployerDashboard = ({ user, token }) => {
                     onClick={HandlePostInternship}
                   >
                     <span className="d-block bg-white position-relative m-auto">
-                      <i className="fa-solid fa-share-from-square"></i>
+                    <i class="fa-solid fa-pen-to-square"></i>
                     </span>
 
                     <h5>Post Internship</h5>
@@ -561,7 +741,9 @@ const EmployerDashboard = ({ user, token }) => {
 
                   <h5>Applications received</h5>
                 </button> */}
-                  <button
+
+                  {/* handleInternManagement */}
+                  {/* <button
                     className="btn btn-transparent text-center py-3 seeeett"
                     onClick={handleInternManagement}
                   >
@@ -569,7 +751,7 @@ const EmployerDashboard = ({ user, token }) => {
                       <i className="fa-solid fa-folder"></i>
                     </span>
                     <h5>Intern Management</h5>
-                  </button>
+                  </button> */}
                   <button
                     className="btn btn-transparent text-center py-3 seeeett"
                     onClick={HandleShowInternshipNotification}

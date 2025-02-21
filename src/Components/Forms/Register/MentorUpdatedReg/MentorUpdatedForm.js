@@ -331,36 +331,7 @@ const MentorUpdatedForm = () => {
           </h4>
           <div className="ihduwfr_form_wrapper aasdfasfa2 mt-3">
             <div className="row">
-              <div className="row">
-                <div className="csfvgdtrfs cihseriniewr mb-4 position-relative">
-                  {/* <div className="col-lg-12 mt-2">
-                    <p className="mb-0 d-flex align-items-center">
-                      <b>Register Using :</b>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          toast.error(
-                            "We were working on this register using Linkedin. In the meantime, You can sign up as a Mentor using the following form."
-                          );
-                        }}
-                        className="btn vcetgvfeeeee ms-2 d-flex align-items-center btn-primary"
-                      >
-                        <img src={LnIcon} className="me-2" alt="deeteewe" />
-                        LinkedIn
-                      </button>
-
-                      <div className="btn vcetgvfeeeee ms-2 d-flex align-items-center btn-primary googleIconBorder">
-                        <img
-                          className="me-1 googleIcon"
-                          src={GoogleIcon}
-                          alt=""
-                        />
-                        Google
-                      </div>
-                    </p>
-                  </div> */}
-                </div>
-              </div>
+            
               <div className="col-lg-12">
                 <div className="mb-3">
                   <label htmlFor="contacPersonFirstName" className="form-label">
@@ -821,6 +792,13 @@ const MentorUpdatedForm = () => {
               )}
             </div>
           </div>
+          <div className="d-flex justify-content-between pt-3">
+          <div className="uherrr_text text-center">
+            <p className="mb-0">
+              Already Have An Account? <a href="/login">Log In</a>
+            </p>
+          </div>
+        </div>
 
           <div className="d-flex justify-content-between pt-3">
             <button type="submit" className="btn dgheuih_btn_next btn-main">

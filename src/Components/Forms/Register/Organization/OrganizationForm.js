@@ -11,6 +11,7 @@ import {
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { loginSuccess } from "../../../../Redux/userRedux";
 import { useNavigate } from "react-router-dom";
+import web96 from "../../../../Images/icons8-account-96.webp";
 
 const OrganizationForm = ({ OrganizationPreviousHandler }) => {
   const {
@@ -244,18 +245,11 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="step" id="employerInputFields">
-        <h4 className="text-center">
-          <img src="images/icons8-account-96.webp" alt="" className="me-1" />
-          Employer Registration
-        </h4>
+      <h4 className="text-center">
+            <img src={web96} alt="" className="me-1" />
+            Employer Registration
+          </h4>
 
-        <div className="d-flex justify-content-center pt-3">
-          <div className="uherrr_text text-center">
-            <p className="mb-0">
-              Already Have An Account? <a href="/login">Log In</a>
-            </p>
-          </div>
-        </div>
 
         <div className="form_wrapper mt-3">
           <div className="row">
@@ -552,7 +546,13 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
             </div>
           </div>
         </div>
-
+        <div className="d-flex justify-content-between pt-3">
+          <div className="uherrr_text text-center">
+            <p className="mb-0">
+              Already Have An Account? <a href="/login">Log In</a>
+            </p>
+          </div>
+        </div>
         <div className="d-flex justify-content-between pt-3">
           {/* <input
             type="button"

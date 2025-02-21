@@ -448,6 +448,7 @@ const MenteeDashboard = ({ user, token }) => {
                     className="fa-solid fa-xmark d-none"
                   ></i>
                 </button>
+
                 <div
                   className="navbarmenucollapse navbar-collapse"
                   id="navbarSupportedContent"
@@ -501,7 +502,7 @@ const MenteeDashboard = ({ user, token }) => {
 
                 <div className="odejr_res d-none">
                   <div className="d-flex align-items-center">
-                    <div className="udgehrr position-relative me-3 ps-3">
+                    {/* <div className="udgehrr position-relative me-3 ps-3">
                       <div
                         // className="dashboard-side-bar"
                         id="responsive-side-bar"
@@ -533,7 +534,7 @@ const MenteeDashboard = ({ user, token }) => {
                           <li onClick={LogoutHandler}>Log Out</li>
                         </ul>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Menu for mobile coded by aman */}
                     <div className="udgehrr position-relative me-3 ps-3">
@@ -541,12 +542,10 @@ const MenteeDashboard = ({ user, token }) => {
                         className="dashboard-side-bar"
                         id="responsive-side-bar"
                       >
-                        <i
-                          className="fa-solid fa-2x fa-bars-staggered"
-                          onClick={() => {
-                            setMobMenu(true);
-                          }}
-                        ></i>
+                        <i class="fa-solid fa-bars" style={{ fontSize: "1.5rem" }} onClick={() => {
+                          setMobMenu(true);
+                        }}></i>
+
                         {/* Menu Items */}
                         {mobMenu && (
                           <ul className="djioerr_dpdwn w15r bg-white position-absolute d-none p-3 ">
@@ -569,6 +568,16 @@ const MenteeDashboard = ({ user, token }) => {
                               </span>
                               <span>Dashboard</span>
                             </li>
+                            {user?.user_role === 1 && (
+                              <li>
+                                <Link
+                                  target="_blanks"
+                                  to={`/user/admin/dashboard`}
+                                >
+                                  Admin Dashboard
+                                </Link>
+                              </li>
+                            )}
 
                             <li
                               onClick={() => {
@@ -666,13 +675,20 @@ const MenteeDashboard = ({ user, token }) => {
                               </span>
                               <span>Notifications </span>
                             </li>
+                            <li onClick={LogoutHandler} className="menu-items">
+                              <span><i class="fa-solid fa-right-from-bracket"></i></span>
+                              <span>Log Out</span>
+                            </li>
                             <li></li>
                           </ul>
                         )}
 
-                        {/* <i className="fa-solid fa-2x fa-bars-staggered"></i> */}
+
                       </div>
                     </div>
+
+
+                    
                   </div>
                 </div>
               </div>

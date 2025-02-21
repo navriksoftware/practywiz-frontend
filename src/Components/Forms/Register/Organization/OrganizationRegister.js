@@ -1,6 +1,6 @@
 import React from "react";
 import OrganizationForm from "./OrganizationForm";
-
+import menteeRegPage from "../../../../Images/Employer/Resume-amico.svg";
 const OrganizationRegister = () => {
   return (
     <>
@@ -10,7 +10,13 @@ const OrganizationRegister = () => {
             <div className="row">
               <div className="col-lg-6 mb-4 doneed">
                 <div className="iuhieiuihaw_left sticky-top">
-                  <h3>
+
+                <img
+                    style={{ width: "25rem" }}
+                    src={menteeRegPage}
+                    alt="img"
+                  />
+                  {/* <h3>
                     Get Access to Interns from
                     <span className="span222">Top Colleges</span>
                   </h3>
@@ -22,24 +28,24 @@ const OrganizationRegister = () => {
                     and bring fresh ideas, skills, and innovation into your team
                     from the next generation of professionals. Sign up to unlock
                     talent from premier institutions!
-                  </p>
+                  </p> */}
 
-                  <h5 className="mt-4">
-                    Benefits of Recruiting Through Our Platform:
+                  <h5 className="mt-4 testsize">
+                  Get Access to PractyWizards
                   </h5>
 
                   <ul className="ps-0 mt-3">
                     <li className="mb-3">
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
-                        <p className="mb-0">Talent from leading universities</p>
+                        <p className="mb-0">Hire Interns who will deliver results not just add numbers</p>
                       </div>
                     </li>
 
                     <li className="mb-3">
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
-                        <p className="mb-0">Streamlined application process</p>
+                        <p className="mb-0">Practywiz will manage the entire internship process</p>
                       </div>
                     </li>
 
@@ -47,7 +53,7 @@ const OrganizationRegister = () => {
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
                         <p className="mb-0">
-                          Tailored for diverse skills and industries
+                        Post your annual internship requirements
                         </p>
                       </div>
                     </li>
@@ -56,11 +62,11 @@ const OrganizationRegister = () => {
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
                         <p className="mb-0">
-                          Engage top talent with minimal effort
+                        Take your corporate case study to millions
                         </p>
                       </div>
                     </li>
-
+{/* 
                     <li className="mb-3">
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
@@ -68,7 +74,7 @@ const OrganizationRegister = () => {
                           <a href="/">Sign Up Now!</a>
                         </p>
                       </div>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
@@ -76,7 +82,7 @@ const OrganizationRegister = () => {
               <div className="col-lg-6">
                 <div className="iuhieiuihaw_right bg-white p-3">
                   <div className="uherrr_text text-center">
-                    <h4>Sign Up</h4>
+                    {/* <h4>Sign Up</h4> */}
                   </div>
                   <OrganizationForm />
                 </div>
