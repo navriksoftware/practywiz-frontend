@@ -1,7 +1,7 @@
 // DetailedCaseStudy.jsx
 import React from "react";
 import { useParams } from "react-router-dom";
-import { CaseStudiesData as CaseStudies } from "../../data/CaseStudiesData";
+import { CaseStudies } from "../../data/CaseStudiesData";
 import "./SingleCaseStudy.css";
 
 const DetailItem = ({ label, children }) => (
@@ -77,24 +77,24 @@ function DetailedCaseStudy() {
         <div className="dcs-content">
           <div className="dcs-details">
             <div className="dcs-details-card">
-              <DetailItem label="Lesson">
+              {/* <DetailItem label="Lesson">
                 <p className="dcs-text">{caseStudy.lesson}</p>
               </DetailItem>
 
               <DetailItem label="Future Skills">
                 <p className="dcs-text">{caseStudy.futureSkills}</p>
-              </DetailItem>
+              </DetailItem> */}
 
-              <DetailItem label="Number of Characters">
+              {/* <DetailItem label="Number of Characters">
                 <div className="dcs-character-count">
                   <span className="dcs-count-number">
                     {caseStudy.characters}
                   </span>
                   <span className="dcs-count-label">Characters</span>
                 </div>
-              </DetailItem>
+              </DetailItem> */}
 
-              <DetailItem label="Roles">
+              {/* <DetailItem label="Roles">
                 <ul className="dcs-roles-list">
                   {Object.entries(caseStudy.roles[0]).map(([key, value]) => (
                     <li key={key} className="dcs-role-item">
@@ -103,18 +103,37 @@ function DetailedCaseStudy() {
                     </li>
                   ))}
                 </ul>
-              </DetailItem>
+              </DetailItem> */}
 
-              <DetailItem label="Main Character Role">
+              {/* <DetailItem label="Main Character Role">
                 <p className="dcs-text">{caseStudy.roleOfMainCharacter}</p>
               </DetailItem>
 
               <DetailItem label="Challenge">
                 <p className="dcs-text">{caseStudy.challenge}</p>
-              </DetailItem>
+              </DetailItem> */}
 
               <DetailItem label="Author Designation">
-                <p className="dcs-text">{caseStudy.authorDesignation}</p>
+                <p className="dcs-text">{caseStudy.caseAuthorDesignation}</p>
+              </DetailItem>
+
+              <DetailItem label="Case Location">
+                <p className="dcs-text">{caseStudy.caseLocation}</p>
+              </DetailItem>
+
+              <DetailItem label="Language">
+                <p className="dcs-text">{caseStudy.language}</p>
+              </DetailItem>
+
+              <DetailItem label="Tags">
+                <ul className="dcs-roles-list">
+                  {Object.entries(caseStudy.tags).map(([key, value]) => (
+                    <li key={key} className="dcs-role-item">
+                      <span className="dcs-role-bullet"></span>
+                      <span className="dcs-role-text">{value}</span>
+                    </li>
+                  ))}
+                </ul>
               </DetailItem>
             </div>
           </div>
@@ -134,6 +153,11 @@ function DetailedCaseStudy() {
                 <div className="dcs-image-overlay">
                   <h3 className="dcs-overlay-title">{caseStudy.caseTopic}</h3>
                 </div>
+              </div>
+              <div className="dcs-image-description">
+                <DetailItem label="Extract">
+                  <p className="dcs-text">{caseStudy.extract}</p>
+                </DetailItem>
               </div>
             </div>
           </div>

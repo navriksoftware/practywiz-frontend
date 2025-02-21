@@ -288,6 +288,13 @@
   transform: translateY(-2px);
 }
 
+.dcs-image-description {
+  font-size: 1.1rem;
+  color: var(--dcs-text-secondary);
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
 @keyframes dcs-spin {
   to {
     transform: rotate(360deg);

@@ -239,7 +239,7 @@ function App() {
             element={<CaseStudyPage user={user} token={token} />}
           />
           <Route
-            path="/case-studies/view-case-study/:topic/:id"
+            path="/case-studies/view-case-study/:id"
             element={<SingleCaseStudyPage user={user} token={token} />}
           />
           <Route

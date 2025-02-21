@@ -1,4 +1,4 @@
-.head-clr {
+/* .head-clr {
   color: transparent;
   background: linear-gradient(45deg, #0074d9, #00aeef);
   background-clip: text;
@@ -136,4 +136,59 @@
 .star-icon {
   margin-right: 2px;
   font-size: 1rem;
+} */
+
+.app-container {
+  font-family: "Lato", sans-serif;
+  background: #f5f5f5;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.case-study-grid {
+  display: grid;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 24px;
+  padding: 20px 20px;
+}
+
+/* Mobile first approach */
+/* For mobile phones */
+@media (max-width: 767px) {
+  .case-study-grid {
+    grid-template-columns: 1fr;
+    padding: 0 16px;
+  }
+}
+
+/* For tablets */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .case-study-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* For laptops and smaller desktops */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .case-study-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* For 1080p and larger screens */
+@media (min-width: 1280px) {
+  .case-study-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1200px; /* Fixed width for 1080p */
+  }
+}
+
+/* For extra large screens */
+@media (min-width: 1536px) {
+  .case-study-grid {
+    grid-template-columns: repeat(4, 1fr);
+
+    max-width: 1400px; /* Slightly larger max-width for bigger screens */
+  }
 }

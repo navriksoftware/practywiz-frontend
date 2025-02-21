@@ -16,6 +16,7 @@ import {
 } from "../../Redux/loadingRedux";
 import { toast } from "react-toastify";
 import { setPurchasedItems } from "../../Redux/purchasedSlice";
+import CaseStudyCard from "./CaseStudyCard";
 
 const CaseStudy = ({ user, token }) => {
   const dispatch = useDispatch();
@@ -200,12 +201,13 @@ const CaseStudy = ({ user, token }) => {
       fetchPurchasedItems(user?.user_id, dispatch);
     }
   }, [user, dispatch]);
+
   return (
     <>
       <CaseNavBar />
-      <div className="case-study-display-container">
-        {/* <div className="case-fillter">Add fillter</div> */}
-        {allCaseStudiesData.map((caseStudy) => {
+      {/* <div className="case-study-display-container"> */}
+      {/* <div className="case-fillter">Add fillter</div> */}
+      {/* {allCaseStudiesData.map((caseStudy) => {
           const isPurchased = purchasedItems.includes(caseStudy.id);
           return (
             <div key={caseStudy.id} className="case-study-card bright-border">
@@ -272,18 +274,26 @@ const CaseStudy = ({ user, token }) => {
                       {isPurchased ? "You have already purchased" : "Buy Now"}
                     </button>
                   </div> */}
-                  </div>
-                </div>
-                <div className="case-study-video">
+      {/* </div> */}
+      {/* </div> */}
+      {/* <div className="case-study-video">
                   {/* <video controls controlsList="nodownload" src={video}>
                     Your browser does not support the video tag.
                   </video> */}
-                  <img src={caseStudy.imageLink} alt="" />
-                </div>
-              </div>
-            </div>
-          );
-        })}
+      {/* <img src={caseStudy.imageLink} alt="" /> */}
+      {/* </div> */}
+      {/* // </div> */}
+      {/* // </div> */}
+      {/* // ); */}
+      {/* // })} */}
+      {/* // </div> */}
+
+      <div className="app-container">
+        <div className="case-study-grid">
+          {allCaseStudiesData.map((caseStudy) => (
+            <CaseStudyCard key={caseStudy.id} data={caseStudy} />
+          ))}
+        </div>
       </div>
     </>
   );
