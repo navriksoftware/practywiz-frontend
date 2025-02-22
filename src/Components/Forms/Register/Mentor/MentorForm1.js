@@ -47,7 +47,7 @@ const MentorForm1 = (props) => {
     setValue("mentor_InstituteName", value);
     setDropdownVisible(value !== ""); // Only show dropdown when input is not empty
   };
-  // console.log(profileData.picture);
+
   useEffect(() => {
     if (profileData !== null) {
       setSignedUsingLinkedin(true);

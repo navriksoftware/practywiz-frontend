@@ -1,6 +1,6 @@
 import React from "react";
 import InstituteForm from "./InstituteForm";
-
+import institute from "../../../../Images/Institute/college class-amico.svg";
 const InstituteRegister = () => {
   return (
     <>
@@ -10,30 +10,20 @@ const InstituteRegister = () => {
             <div className="row">
               <div className="col-lg-6 mb-4 doneed">
                 <div className="iuhieiuihaw_left sticky-top">
-                  <h3>
-                    Grow Your Professional Career with
-                    <span className="span222">Top-Rated</span> Mentors
-                  </h3>
+                  <img
+                    style={{ width: "25rem" }}
+                    src={institute}
+                    alt="img"
+                  />
 
-                  <p>
-                    Join us to upgrade your professional career with our
-                    mentor’s guidance. We provide a personalised training
-                    approach to improve your project management skills. Master
-                    the skill to work under pressure on various projects within
-                    tight deadlines. At Practiwiz we have courses for working
-                    professionals, MBA students, and aspiring IT business
-                    analysts. Hurry up and reserve your mentorship className
-                    today.
-                  </p>
-
-                  <h5 className="mt-4">Benefits of Our Mentorship Course:</h5>
+                  <h5 className="mt-4 testsize">Register your Institute to develop your students into Practywizards</h5>
 
                   <ul className="ps-0 mt-3">
                     <li className="mb-3">
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
 
-                        <p className="mb-0">Self-paced training</p>
+                        <p className="mb-0">Access to thousands of Industry Mentors</p>
                       </div>
                     </li>
 
@@ -41,7 +31,7 @@ const InstituteRegister = () => {
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
 
-                        <p className="mb-0">Flexible timing and scheduling</p>
+                        <p className="mb-0">Internships with Corporates</p>
                       </div>
                     </li>
 
@@ -50,7 +40,7 @@ const InstituteRegister = () => {
                         <i className="fa-solid fa-circle-check"></i>
 
                         <p className="mb-0">
-                          Career guidance from experienced mentors
+                          Case Studies
                         </p>
                       </div>
                     </li>
@@ -59,7 +49,7 @@ const InstituteRegister = () => {
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
 
-                        <p className="mb-0">Expert advice and guidance</p>
+                        <p className="mb-0">Access to Avega, AI based Case assessment tool</p>
                       </div>
                     </li>
 
@@ -68,7 +58,7 @@ const InstituteRegister = () => {
                         <i className="fa-solid fa-circle-check"></i>
 
                         <p className="mb-0">
-                          <a href="/">Sign Up Now!</a>
+                          <p>Practical Experiential Training Programs</p>
                         </p>
                       </div>
                     </li>
@@ -78,9 +68,9 @@ const InstituteRegister = () => {
 
               <div className="col-lg-6">
                 <div className="iuhieiuihaw_right bg-white p-3">
-                  <div className="uherrr_text text-center">
+                  {/* <div className="uherrr_text text-center">
                     <h4>Sign up</h4>
-                  </div>
+                  </div> */}
                   <InstituteForm />
                 </div>
               </div>

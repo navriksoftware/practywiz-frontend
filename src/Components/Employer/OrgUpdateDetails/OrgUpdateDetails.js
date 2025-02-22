@@ -21,41 +21,94 @@ const OrgUpdateDetails = ({ employerUserDtlsId }) => {
   const url = ApiURL();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // const onSubmit = async (data) => {
+  //   console.log(data.organization_logo[0]);
+  //   try {
+  //     dispatch(showLoadingHandler());
+  //     const res = await Promise.race([
+  //       axios.post(`${url}api/v1/employer/organization-details`, {
+  //         data: data,
+  //         employerUserDtlsId: employerUserDtlsId,
+  //       }),
+  //       new Promise((_, reject) =>
+  //         setTimeout(() => reject(new Error("Request timed out")), 45000)
+  //       ),
+  //     ]);
+  //     dispatch(hideLoadingHandler());
+  //     if (res.data.success) {
+  //       reset();
+  //       return (
+  //         toast.success(
+  //           "Account created successfully, Redirecting to the Dashboard"
+  //         ),
+  //         navigate(`/redirect`)
+  //       );
+  //     } else if (res.data.error) {
+  //       toast.error("There is some error while registering as a employer.");
+  //     }
+  //   } catch (error) {
+  //     if (error.message === "Request timed out") {
+  //       toast.error("Request timed out. Please try again.");
+  //     } else {
+  //       toast.error("There is some error while signing as a employer.");
+  //     }
+  //   } finally {
+  //     dispatch(hideLoadingHandler());
+  //   }
+  // };
+
   const onSubmit = async (data) => {
     try {
       dispatch(showLoadingHandler());
-      const res = await Promise.race([
-        axios.post(`${url}api/v1/employer/organization-details`, {
-          data: data,
-          employerUserDtlsId: employerUserDtlsId,
-        }),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("Request timed out")), 45000)
-        ),
-      ]);
-      dispatch(hideLoadingHandler());
+
+      // Create FormData
+      const formData = new FormData();
+
+      // Add file directly
+      formData.append("image", data.organization_logo[0]);
+
+      // Add other fields directly
+      formData.append("organization_name", data.organization_name);
+      formData.append(
+        "organization_description",
+        data.organization_description
+      );
+      formData.append("industry", data.industry);
+      formData.append("organization_location", data.organization_location);
+      formData.append("company_size", data.company_size);
+      formData.append("organization_website", data.organization_website);
+      formData.append("organization_linkedin", data.organization_linkedin);
+      formData.append(
+        "organization_employee_designation",
+        data.organization_employee_designation
+      );
+      formData.append("organization_address", data.organization_address);
+      formData.append("employerUserDtlsId", employerUserDtlsId);
+
+      const res = await axios.post(
+        `${url}api/v1/employer/organization-details`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
       if (res.data.success) {
-        reset();
-        return (
-          toast.success(
-            "Account created successfully, Redirecting to the Dashboard"
-          ),
-          navigate(`/redirect`)
+        toast.success(
+          "Account created successfully, Redirecting to the Dashboard"
         );
-      } else if (res.data.error) {
-        toast.error("There is some error while registering as a employer.");
+        reset();
+        navigate("/redirect");
+      } else {
+        toast.error("Error while registering as employer");
       }
     } catch (error) {
-      if (error.message === "Request timed out") {
-        toast.error("Request timed out. Please try again.");
-      } else {
-        toast.error("There is some error while signing as a employer.");
-      }
+      toast.error("Error submitting form. Please try again.");
+      console.error(error);
     } finally {
       dispatch(hideLoadingHandler());
     }
   };
-
   return (
     <div className="" id="menteeRegBackground">
       <div
@@ -327,7 +380,7 @@ const OrgUpdateDetails = ({ employerUserDtlsId }) => {
                   </div>
                 </div>
 
-                {/* <div className="col-lg-12">
+                <div className="col-lg-12">
                   <div className="mb-3">
                     <label htmlFor="organizationLogo" className="form-label">
                       Organization Logo
@@ -336,31 +389,10 @@ const OrgUpdateDetails = ({ employerUserDtlsId }) => {
                       type="file"
                       onKeyUp={() => trigger("organization_logo")}
                       className="form-control"
+                      accept=".jpg ,.jpeg,.png"
                       id="organizationLogo"
                       {...register("organization_logo", {
                         required: "Organization logo is required",
-                        validate: {
-                          fileSize: (file) =>
-                            file[0].size <= 1048576 ||
-                            "File size must be less than 1MB",
-                          fileResolution: (file) => {
-                            const img = new Image();
-                            img.src = URL.createObjectURL(file[0]);
-                            return (
-                              (img.width <= 500 && img.height <= 500) ||
-                              "Image resolution must be less than 500x500 pixels"
-                            );
-                          },
-                          fileType: (file) =>
-                            [
-                              "image/jpeg",
-                              "image/jpg",
-                              "image/png",
-                              "image/gif",
-                              "image/bmp",
-                            ].includes(file[0].type) ||
-                            "File type must be JPEG, JPG, PNG, GIF, or BMP",
-                        },
                       })}
                     />
                     {errors.organization_logo && (
@@ -369,7 +401,7 @@ const OrgUpdateDetails = ({ employerUserDtlsId }) => {
                       </p>
                     )}
                   </div>
-                </div> */}
+                </div>
               </div>
             </div>
 

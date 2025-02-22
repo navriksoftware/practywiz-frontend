@@ -99,12 +99,12 @@ const Navbar = () => {
                 <a className="navbar-brand" href="/" id="diorjer-logo">
                   <img src={Logo} alt="Logo" id="dbgheuirbr-image-a" />
 
-                  <img
+                  {/* <img
                     src="images/image - 2024-04-22T201352.571.png"
                     className="d-none"
                     alt=""
                     id="dbgheuirbr-image-b"
-                  />
+                  /> */}
                 </a>
                 {user ? (
                   <div className="udgehrr position-relative ps-3 menubarUserIconDnone">
@@ -134,7 +134,10 @@ const Navbar = () => {
                             </span>
                           </Link>
                         </li>
-                        <li>
+                        <li className="nav-item">
+                          <Link to="/internships">Internships</Link>
+                        </li>
+                        {/* <li>
                           <Link
                             target="_blanks"
                             to={`/mentor-club/mentor-profile/${
@@ -145,9 +148,9 @@ const Navbar = () => {
                           >
                             View Public Profile
                           </Link>
-                        </li>
+                        </li> */}
                         <li>
-                          <Link to={`${user.user_type}/dashboard`}>
+                          <Link to={`/${user.user_type}/dashboard`}>
                             {user?.user_type + " Dashboard"}
                           </Link>
                         </li>
@@ -201,6 +204,9 @@ const Navbar = () => {
                             </span>
                           </Link>
                         </li>
+                        <li className="nav-item">
+                          <Link to="/internships">Internships</Link>
+                        </li>
                         <li>
                           <Link to={"/login"}>Login</Link>
                         </li>
@@ -227,6 +233,12 @@ const Navbar = () => {
                                 Institute
                               </Link>
                             </li>
+                            <li className="djgjefgndke">
+                              <Link to="/employer-registration">
+                                <i className="fa-solid fa-briefcase menubarUsersIcons"></i>{" "}
+                                Employer
+                              </Link>
+                            </li>
                           </>
                         )}
                       </ul>
@@ -239,15 +251,15 @@ const Navbar = () => {
                 >
                   <ul
                     className="navbar-nav "
-                    onMouseLeave={() => {
-                      setmenutoggle(false);
-                    }}
+                    // onMouseLeave={() => {
+                    //   setmenutoggle(false);
+                    // }}
                   >
                     <li
                       className="nav-item regmenuR"
-                      onMouseOver={() => {
-                        setmenutoggle(true);
-                      }}
+                      // onMouseOver={() => {
+                      //   setmenutoggle(true);
+                      // }}
                     >
                       <a className="nav-link" href="/mentor-club">
                         Mentor Connect
@@ -257,7 +269,7 @@ const Navbar = () => {
                         ></i>
                       </a>
                     </li>
-                    {menutoggle && (
+                    {/* {menutoggle && (
                       <div className="PositionAB">
                         <div className="menushowbox">
                           {technologyOptions?.map((option, index) => {
@@ -275,23 +287,8 @@ const Navbar = () => {
                           })}
                         </div>
                       </div>
-                    )}
-                    {/* <li className="nav-item">
-                      <svg
-                        width="17"
-                        height="16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M9.166 1.333 3.23 8.458c-.233.28-.35.42-.351.537-.002.102.044.2.124.264.091.074.273.074.636.074H8.5l-.667 5.334L13.77 7.54c.232-.279.348-.418.35-.536a.333.333 0 0 0-.124-.264c-.091-.074-.273-.074-.636-.074H8.5l.666-5.334Z"
-                          fill="currentColor"
-                        ></path>
-                      </svg>
-                      <a className="nav-link" href="/case-studies">
-                        Case Studies
-                      </a>
-                    </li> */}
+                    )} */}
+
                     <li className="nav-item">
                       <a
                         className="nav-link"
@@ -312,18 +309,6 @@ const Navbar = () => {
                         Internships
                       </a>
                     </li>
-
-                    {/* <li className="nav-item">
-                      <a className="nav-link" href="/aboutus">
-                        About Us
-                      </a>
-                    </li>
-
-                    <li className="nav-item">
-                      <a className="nav-link" href="/contact">
-                        Contact Us
-                      </a>
-                    </li> */}
                   </ul>
                   {user ? (
                     <div className="udgehrr position-relative ps-3">
@@ -331,7 +316,7 @@ const Navbar = () => {
                         <i className="fa-solid ps-0 fa-user"></i>
                       </button>
                       <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
-                        <li>
+                        {/* <li>
                           <Link
                             target="_blanks"
                             to={`/mentor-club/mentor-profile/${
@@ -342,9 +327,9 @@ const Navbar = () => {
                           >
                             View Public Profile
                           </Link>
-                        </li>
+                        </li> */}
                         <li>
-                          <Link to={`${user.user_type}/dashboard`}>
+                          <Link to={`/${user.user_type}/dashboard`}>
                             {user?.user_type + " Dashboard"}
                           </Link>
                         </li>
@@ -417,7 +402,7 @@ const Navbar = () => {
                                   className="inOneLine"
                                   href="/employer-registration"
                                 >
-                                  <i className="fa-solid fa-building-columns"></i>
+                                  <i className="fa-solid fa-briefcase"></i>
                                   <h5>Employer</h5>
                                 </a>
                               </button>
@@ -427,21 +412,6 @@ const Navbar = () => {
                       </div>
                     </div>
                   )}
-
-                  {/* <form className="d-flex iugeuirrr align-items-center">
-                  <div className="udgehrr pe-3">
-                    <div className="cdsfsdvnghff ijaihnifrtt position-relative">
-                        <input id="myInput" className="form-control" name="myCountry" type="text" placeholder="Discover Your Mentor...">
-
-                        <i className="fas fa-search position-absolute" id="searchIcon"></i>
-
-                        <div id="autosuggestions"></div>
-                    </div>
-                  </div>                      
-                  <div className="udgehrr ps-3">
-                    <button className="btn btn-main mt-0" type="button">Register</button>
-                  </div>                     
-                </form> */}
                 </div>
               </div>
             </nav>

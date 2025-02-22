@@ -10,8 +10,9 @@
   justify-content: space-between;
 }
 .orgImageLogo {
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
 }
 .emp-profile_header {
   margin-bottom: 5rem;
@@ -42,6 +43,20 @@
   color: #111827;
   border: 4px solid white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.emp-profile_orgLogo-fallback {
+  width: 70px;
+  height: 70px;
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  border-radius: 10px;
+  text-transform: uppercase;
 }
 
 .emp-profile_name {

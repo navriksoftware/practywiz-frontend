@@ -16,6 +16,7 @@ import {
 } from "../../Redux/loadingRedux";
 import { toast } from "react-toastify";
 import { setPurchasedItems } from "../../Redux/purchasedSlice";
+import CaseStudyCard from "./CaseStudyCard";
 
 const CaseStudy = ({ user, token }) => {
   const dispatch = useDispatch();
@@ -200,12 +201,13 @@ const CaseStudy = ({ user, token }) => {
       fetchPurchasedItems(user?.user_id, dispatch);
     }
   }, [user, dispatch]);
+
   return (
     <>
       <CaseNavBar />
-      <div className="case-study-display-container">
-        {/* <div className="case-fillter">Add fillter</div> */}
-        {allCaseStudiesData.map((caseStudy) => {
+      {/* <div className="case-study-display-container"> */}
+      {/* <div className="case-fillter">Add fillter</div> */}
+      {/* {allCaseStudiesData.map((caseStudy) => {
           const isPurchased = purchasedItems.includes(caseStudy.id);
           return (
             <div key={caseStudy.id} className="case-study-card bright-border">
@@ -221,13 +223,17 @@ const CaseStudy = ({ user, token }) => {
               <div className="case-study-content">
                 <div className="case-study-text">
                   <p>
-                    <strong>Lesson:</strong> {caseStudy.lession}
+                    <strong>Lesson:</strong> {caseStudy.lesson}
                   </p>
                   <p>
-                    <strong>Future Skills:</strong> {caseStudy.fututreSkils}
+                    <strong>Future Skills:</strong> {caseStudy.futureSkills}
                   </p>
                   <p>
                     <strong>Challenge:</strong> {caseStudy.challenge}
+                  </p>
+                  <p>
+                    <strong>Author Designation:</strong>{" "}
+                    {caseStudy.authorDesignation}
                   </p>
                   <p>
                     <strong>Price: </strong> ₹ {caseStudy.price}
@@ -236,6 +242,15 @@ const CaseStudy = ({ user, token }) => {
                     <strong>Rating: </strong> {renderStars(caseStudy.rating)}
                   </p>
                   <div className="case-btn-container">
+                    <Link
+                      target="_blank"
+                      to={`/case-studies/view-case-study/${caseStudy.caseTopic
+                        .replace(" ", "-")
+                        .toLowerCase()}/${caseStudy.id} `}
+                    >
+                      <button className="buy-now">View case study</button>
+                    </Link>
+                    {/* <div className="case-btn-container">
                     {isItemInCart(caseStudy) ? (
                       <button
                         className="go-to-cart"
@@ -258,17 +273,27 @@ const CaseStudy = ({ user, token }) => {
                     >
                       {isPurchased ? "You have already purchased" : "Buy Now"}
                     </button>
-                  </div>
-                </div>
-                <div className="case-study-video">
-                  <video controls controlsList="nodownload" src={video}>
+                  </div> */}
+      {/* </div> */}
+      {/* </div> */}
+      {/* <div className="case-study-video">
+                  {/* <video controls controlsList="nodownload" src={video}>
                     Your browser does not support the video tag.
-                  </video>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+                  </video> */}
+      {/* <img src={caseStudy.imageLink} alt="" /> */}
+      {/* </div> */}
+      {/* // </div> */}
+      {/* // </div> */}
+      {/* // ); */}
+      {/* // })} */}
+      {/* // </div> */}
+
+      <div className="app-container">
+        <div className="case-study-grid">
+          {allCaseStudiesData.map((caseStudy) => (
+            <CaseStudyCard key={caseStudy.id} data={caseStudy} />
+          ))}
+        </div>
       </div>
     </>
   );

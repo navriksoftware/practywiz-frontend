@@ -13,8 +13,7 @@ const ItTrainingSection = () => {
           <h2 className="it-training-title">
             Learn Through{" "}
             <span className="it-training-highlight">Real Problems</span>
-            <br />
-            Not Just Theory
+            <br /> Not Just Theory
           </h2>
 
           <p className="it-training-description">
@@ -24,7 +23,7 @@ const ItTrainingSection = () => {
           </p>
 
           <div className="it-training-button-group">
-            <button
+            {/* <button
               onClick={() =>
                 (window.location.href = "https://elevation5137.ongraphy.com")
               }
@@ -32,12 +31,9 @@ const ItTrainingSection = () => {
             >
               Start Learning
               <i className="fa-solid fa-arrow-right"></i>
-            </button>
+            </button> */}
             <button
-              onClick={() =>
-                (window.location.href =
-                  "https://elevation5137.ongraphy.com/courses")
-              }
+              onClick={() => (window.location.href = "/courses")}
               className="it-training-secondary-button"
             >
               Explore Our Courses

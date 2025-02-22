@@ -13,7 +13,7 @@ function ChatInterface({ messages, questionType, onAnswer, isAITyping }) {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, options]);
 
   useEffect(() => {
     if (questionType === "factBased") {
@@ -49,6 +49,9 @@ function ChatInterface({ messages, questionType, onAnswer, isAITyping }) {
     if (inputValue.trim() !== "") {
       onAnswer(inputValue.trim());
       setInputValue("");
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "50px";
+      }
     }
   };
 
@@ -128,6 +131,7 @@ function ChatInterface({ messages, questionType, onAnswer, isAITyping }) {
             ))}
           </div>
         ) : questionType === "analyzeBased" ? (
+          // Update the submit button in ChatInterface.jsx
           <div className="chat-interface-input-container">
             <textarea
               ref={textareaRef}
@@ -138,11 +142,15 @@ function ChatInterface({ messages, questionType, onAnswer, isAITyping }) {
               className="chat-interface-textarea"
               aria-label="Your answer"
               style={{ overflowY: "hidden" }}
+              disabled={isAITyping} // Disable textarea while AI is typing
             ></textarea>
             <button
               onClick={handleSubmit}
-              className="chat-interface-submit-button"
+              className={`chat-interface-submit-button ${
+                isAITyping ? "disabled" : ""
+              }`}
               aria-label="Submit your answer"
+              disabled={isAITyping || !inputValue.trim()} // Disable if AI is typing or input is empty
             >
               Submit
             </button>

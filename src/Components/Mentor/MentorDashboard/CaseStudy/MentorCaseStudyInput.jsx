@@ -19,7 +19,7 @@ function MentorCaseStudyInput({ user, token, data }) {
     setValue,
     formState: { errors },
   } = useForm();
-  console.log(data);
+ 
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [filteredCaseCategories, setFilteredCaseCategories] = useState([]);

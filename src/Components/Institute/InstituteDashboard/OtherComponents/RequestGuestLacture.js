@@ -27,7 +27,7 @@ const RequestGuestLacture = () => {
       }
     };
     fetchMentors();
-    console.log(mentors);
+    
   }, [url]);
   return (
     <div className="col-lg-10 ps-0">

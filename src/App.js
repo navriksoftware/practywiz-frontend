@@ -71,14 +71,19 @@ import MenteeInternshipApplyPage from "./Components/Employer/Internships/OtherCo
 import ApplicationsReceivedPage from "./Pages/InternshipPages/ApplicationsReceivedPage";
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 import SingleInternshipDetailsPage from "./Pages/InternshipPages/SingleInternshipDetailsPage";
-import PersonalDetailsforInternship from "./Components/Employer/Internships/MenteeApplyInternship/PersonalDetailsforInternship";
-import EduWorkDetailsForinternship from "./Components/Employer/Internships/MenteeApplyInternship/EduWorkDetailsForinternship";
+// import PersonalDetailsforInternship from "./Components/Employer/Internships/MenteeApplyInternship/PersonalDetailsforInternship";
+// import EduWorkDetailsForinternship from "./Components/Employer/Internships/MenteeApplyInternship/EduWorkDetailsForinternship";
 import EmployerDashboardPage from "./Pages/EmployerPages/EmployerDashboardPage";
 import PurchasedCaseStudiesPage from "./Pages/CaseStudyPages/PurchasedCaseStudiesPage";
 import CaseStudyDetailPage from "./Pages/CaseStudyPages/CaseStudyDetailPage";
 import SimulationPage from "./Pages/CaseStudyPages/SimulationPage";
 import ResultPage from "./Pages/CaseStudyPages/ResultPage";
 import FAQPage from "./Pages/FAQPage/FAQPage";
+import InternshipApplication from "./Components/Mentee/MenteeDashboard/MenteeInternship/InternshipApply";
+
+import TermsConditionsPage from "./Pages/LegalPages/TermsConditionsPage";
+import PrivacyPolicyPage from "./Pages/LegalPages/PrivacyPolicyPage";
+
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
   const isLoading = useSelector((state) => state.loading.isLoading);
@@ -86,7 +91,7 @@ function App() {
   return (
     <>
       {isLoading && <Spinner />}
-      <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" hideProgressBar />
       <Router>
         <Routes>
           <Route path="/image/test" element={<Test />} />
@@ -234,7 +239,7 @@ function App() {
             element={<CaseStudyPage user={user} token={token} />}
           />
           <Route
-            path="/case-studies/view-case-study/:topic/:id"
+            path="/case-studies/view-case-study/:id"
             element={<SingleCaseStudyPage user={user} token={token} />}
           />
           <Route
@@ -267,20 +272,24 @@ function App() {
           <Route path="/internships" element={<InternshipListingPage />} />
           <Route
             path="/internship-listing/:id"
-            element={<SingleInternshipDetailsPage />}
+            element={<SingleInternshipDetailsPage user={user} token={token} />}
           />
           <Route
+            path="/internship/apply"
+            element={<InternshipApplication user={user} token={token} />}
+          />
+          {/* <Route
             path="/showmenteepersonaldetails"
-            element={<PersonalDetailsforInternship />}
+            element={<PersonalDetailsforInternship user={user} token={token} />}
           />{" "}
           <Route
             path="/showmenteeedudetails"
-            element={<EduWorkDetailsForinternship />}
+            element={<EduWorkDetailsForinternship user={user} token={token} />}
           />
           <Route
             path="/MenteeApplyInternship"
-            element={<MenteeInternshipApplyPage />}
-          />{" "}
+            element={<MenteeInternshipApplyPage user={user} token={token} />}
+          />{" "} */}
           <Route path="/orgInternship" element={<Orginternship />} />
           {/* <Route
             path="/SinglePageInternApplicaion"
@@ -291,10 +300,13 @@ function App() {
             element={<ApplicantProfile />}
           />
           <Route
-            path="/internships/:id/applicants"
+            path="/internships/:profile/:id/applicants"
             element={<ApplicationsReceivedPage />}
           />
           {/* internship end */}
+
+          <Route path="/legal/terms" element={<TermsConditionsPage />} />
+          <Route path="/legal/privacy-policy" element={<PrivacyPolicyPage />} />
         </Routes>
       </Router>
       <ScrollButton />

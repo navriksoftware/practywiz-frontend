@@ -164,7 +164,6 @@ const Mentorprofile1 = ({ profiledata, user, token }) => {
   // Handle form submit
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formValues);
     if (validateForm()) {
       try {
         dispatch(showLoadingHandler());

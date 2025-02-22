@@ -4,7 +4,6 @@ import MenteeProfileEduWorkExpDetails from "./MenteeProfileEduWorkExpDetails.js"
 import Menteeprofile3 from "../ProfileSettings/MenteeProfile3.js";
 
 const MenteeProfileSettings = ({ singleMentee, user, token }) => {
-  console.log(singleMentee);
   const [page, setPage] = useState(0);
   const PageDisplay = () => {
     if (page === 0) {

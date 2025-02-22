@@ -18,7 +18,7 @@ const Backdrop = styled.div`
   left: 0;
   width: 100%;
   height: 100vh;
-  z-index: 12000000000;
+  z-index: 1200;
   background-color: rgba(0, 0, 0, 0.75);
 `;
 const Modal = styled.div`
@@ -31,7 +31,7 @@ const Modal = styled.div`
   padding: 1rem;
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  z-index: 100000;
+  z-index: 1000;
   animation: slide-down 300ms ease-out forwards;
   @media (min-width: 768px) {
     width: 40rem;
@@ -173,7 +173,6 @@ const MentorBookingAppointment = (props) => {
             dispatch(hideLoadingHandler())
           );
         }
-        console.log(result)
         const { amount, id: order_id, currency } = result?.data.success;
         const {
           data: { key: razorpayKey },
@@ -199,6 +198,7 @@ const MentorBookingAppointment = (props) => {
                 date: new Date(props.selectedDate).toLocaleDateString(),
                 userEmail: user?.user_email,
                 mentorEmail: props.singleMentor[0].user_email,
+                mentorPhoneNo: props.singleMentor[0].user_phone_number,
                 from: props.selectedSlot.from,
                 to: props.selectedSlot.to,
                 data: data,

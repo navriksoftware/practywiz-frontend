@@ -49,11 +49,24 @@ const EmployerProfile = ({ data, employerDtlsId }) => {
                       <h2 className="emp-profile_card-title">
                         {employer.employer_organization_name}
                       </h2>
-                      <img
-                        className="orgImageLogo"
-                        src="https://media.licdn.com/dms/image/v2/C560BAQHB48akFJiJuQ/company-logo_200_200/company-logo_200_200/0/1630640901564/navrik_software_solutions_logo?e=1743033600&v=beta&t=AtdbNmZlE0FfjOkJWQP1V84ctYXHU_eOCUQjC1rNLGk"
-                        alt=""
-                      />
+                      {employer.employer_organization_logo && (
+                        <img
+                          className="orgImageLogo"
+                          src={employer.employer_organization_logo}
+                          alt="company logo"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.style.display = "none";
+                          }}
+                        />
+                      )}
+                      {!employer.employer_organization_logo && (
+                        <div className="emp-profile_orgLogo-fallback">
+                          {employer.employer_organization_name
+                            ?.charAt(0)
+                            .toUpperCase()}
+                        </div>
+                      )}
                     </div>
 
                     <div className="emp-profile_card-content">

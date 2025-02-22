@@ -133,7 +133,12 @@
 
 @media (min-width: 1024px) {
   .ai-casestudy-hero-section {
-    padding: 5rem 7rem;
+    padding: 5rem 24px;
+  }
+
+  .ai-casestudy-container {
+    max-width: 1300px;
+    margin: 0 auto;
   }
 
   .ai-casestudy-grid {

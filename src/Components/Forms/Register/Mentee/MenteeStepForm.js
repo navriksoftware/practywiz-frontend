@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import menteeRegPage from "../../../../Images/Mentee/MenteeRegR.jpeg";
+import menteeRegPage from "../../../../Images/Mentee/Group video-amico.svg";
 import "./menteeregistration.css";
 import "./MenteeReg.css";
-import InstituteForm from "./InstituteForm";
 import MenteeRegStep1 from "./MenteeRegStep1";
 import MenteeRegStep2 from "./MenteeRegStep2";
 
@@ -33,16 +32,11 @@ const MenteeStepForm = () => {
       return setSelectedOption(event.target.value), setInstituteStatus(false);
     }
   };
-  const InstitutePreviousHandler = (event, option) => {
-    if (option === "institute") {
-      return setInstituteStatus(false), setSelectedOption("mentee");
-    }
-  };
+
 
   const methods = useForm({});
   const { reset } = useForm();
   const [step, setStep] = React.useState(1);
-  const { trigger } = methods;
 
   const cleanPhoneNumber = (phone) => {
     return phone.replace(/\D/g, "");
@@ -69,7 +63,7 @@ const MenteeStepForm = () => {
       }
       if (res.data.error) {
         dispatch(hideLoadingHandler());
-         toast.error(res.data.error);
+        toast.error(res.data.error);
       }
     } catch (error) {
       dispatch(hideLoadingHandler());
@@ -96,9 +90,21 @@ const MenteeStepForm = () => {
   };
 
   const nextStep = async () => {
-    const result = await trigger();
-    if (result) {
+    const isFormValid = await methods.trigger(); // Validate the entire form
+    const isValidOTP = methods.getValues("mentee_OTPValid"); // Get OTP value
+    if (isFormValid && isValidOTP) {
+      // Check if the form is valid and OTP is true
       setStep(step + 1);
+    } else if (!isFormValid) {
+      toast.error("Please fill the form correctly.");
+    } else if (!isValidOTP) {
+      toast.error("Please verify your phone number.");
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent the default action (form submission)
     }
   };
 
@@ -111,18 +117,18 @@ const MenteeStepForm = () => {
               <div className="col-lg-6 mb-4 dooneed">
                 <div className="iuhieiuihaw_left sticky-top">
                   <img
-                    style={{ width: "-webkit-fill-available" }}
+                    style={{ width: "22rem" }}
                     src={menteeRegPage}
                     alt="img"
                   />
-                  <h5 className="mt-4">Benefits of Our Mentorship Course:</h5>
+                  <h4 className="mt-4 testsize">Register as a Mentee to start your Practywizard journey</h4>
 
                   <ul className="ps-0 mt-3">
                     <li className="mb-3">
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
 
-                        <p className="mb-0">Self-paced training</p>
+                        <p className="mb-0">Access to thousands of Industry Mentors</p>
                       </div>
                     </li>
 
@@ -130,7 +136,7 @@ const MenteeStepForm = () => {
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
 
-                        <p className="mb-0">Flexible timing and scheduling</p>
+                        <p className="mb-0">Internships with Corporates</p>
                       </div>
                     </li>
 
@@ -139,7 +145,7 @@ const MenteeStepForm = () => {
                         <i className="fa-solid fa-circle-check"></i>
 
                         <p className="mb-0">
-                          Career guidance from experienced mentors
+                        Learn from real-world case studies
                         </p>
                       </div>
                     </li>
@@ -148,7 +154,7 @@ const MenteeStepForm = () => {
                       <div className="d-flex align-items-center">
                         <i className="fa-solid fa-circle-check"></i>
 
-                        <p className="mb-0">Expert advice and guidance</p>
+                        <p className="mb-0">Access to Avega, AI based Case assessment tool</p>
                       </div>
                     </li>
 
@@ -157,7 +163,7 @@ const MenteeStepForm = () => {
                         <i className="fa-solid fa-circle-check"></i>
 
                         <p className="mb-0">
-                          <a href="/">Sign Up Now!</a>
+                          <p>Hands-on Experiential Training Programs</p>
                         </p>
                       </div>
                     </li>
@@ -167,63 +173,59 @@ const MenteeStepForm = () => {
 
               <div className="col-lg-6">
                 <div className="iuhieiuihaw_right bg-white p-3">
-                  <div className="uherrr_text text-center">
+                  {/* <div className="uherrr_text text-center">
                     <h4>Sign up</h4>
-                  </div>
-
-                  {instituteStatus ? (
-                    <InstituteForm
-                      InstitutePreviousHandler={InstitutePreviousHandler}
-                    />
-                  ) : (
-                    <>
-                      {" "}
-                      <FormProvider {...methods}>
-                        <form onSubmit={methods.handleSubmit(onSubmit)}>
-                          {renderStep()}
-                          <div className="d-flex justify-content-between">
-                            {step === 1 ? (
-                              ""
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setStep(step - 1)}
-                                disabled={step === 1}
-                                className="btn dgheuih_btn_prev btn-main"
-                              >
-                                Previous
-                              </button>
-                            )}
-                            {step === 2 ? (
-                              ""
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={nextStep}
-                                disabled={step === 3}
-                                className="btn dgheuih_btn_next btn-main"
-                              >
-                                Next
-                              </button>
-                            )}
-                            {step === 2 && (
-                              // <form
-                              //   id="multi-step-form"
-                              //   onSubmit={methods.handleSubmit(onSubmit)}
-                              // >
-                              <button
-                                className="btn dgheuih_btn_next btn-main"
-                                type="submit"
-                              >
-                                Submit
-                              </button>
-                              // </form>
-                            )}
-                          </div>
-                        </form>
-                      </FormProvider>
-                    </>
-                  )}
+                  </div> */}
+                  <>
+                    {" "}
+                    <FormProvider {...methods}>
+                      <form
+                        onSubmit={methods.handleSubmit(onSubmit)}
+                        onKeyDown={handleKeyDown}
+                      >
+                        {renderStep()}
+                        <div className="d-flex justify-content-between">
+                          {step === 1 ? (
+                            ""
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => setStep(step - 1)}
+                              disabled={step === 1}
+                              className="btn dgheuih_btn_prev btn-main"
+                            >
+                              Previous
+                            </button>
+                          )}
+                          {step === 2 ? (
+                            ""
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={nextStep}
+                              disabled={step === 3}
+                              className="btn dgheuih_btn_next btn-main"
+                            >
+                              Next
+                            </button>
+                          )}
+                          {step === 2 && (
+                            // <form
+                            //   id="multi-step-form"
+                            //   onSubmit={methods.handleSubmit(onSubmit)}
+                            // >
+                            <button
+                              className="btn dgheuih_btn_next btn-main"
+                              type="submit"
+                            >
+                              Submit
+                            </button>
+                            // </form>
+                          )}
+                        </div>
+                      </form>
+                    </FormProvider>
+                  </>
                 </div>
               </div>
             </div>

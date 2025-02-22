@@ -249,7 +249,7 @@ const Footer = () => {
 
                 <button className="position-relative me-lg-2">
                   <a
-                    href="https://www.instagram.com/practiwiz?igsh=b3VicXZwNGlrdnpo"
+                    href="https://www.instagram.com/practywiz"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -259,7 +259,7 @@ const Footer = () => {
 
                 <button className="position-relative me-lg-2">
                   <a
-                    href="https://www.youtube.com/@navriksoftwaresolutions9922"
+                    href="https://www.youtube.com/@Practiwiz-bs9ww"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -277,7 +277,7 @@ const Footer = () => {
                   </a>
                 </button>
 
-                <button className="position-relative me-lg-2">
+                {/* <button className="position-relative me-lg-2">
                   <a
                     href="https://x.com/practiwiz"
                     target="_blank"
@@ -285,7 +285,7 @@ const Footer = () => {
                   >
                     <i className="fa-brands position-absolute fa-x-twitter"></i>
                   </a>
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
@@ -307,7 +307,7 @@ const Footer = () => {
                   <a href="/internships">Internships</a>
                 </li>
                 <li>
-                  <a href="/jobs">Jobs</a>
+                  <a href="/courses">Courses</a>
                 </li>
               </ul>
             </div>
@@ -320,6 +320,9 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="/contact">Contact Us</a>
+                </li>
+                <li>
+                  <a href="/faq">FAQ</a>
                 </li>
               </ul>
             </div>
@@ -362,7 +365,7 @@ const Footer = () => {
                         d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                       />
                     </svg>
-                    <span>(120) 3569310</span>
+                    <span>+91 92201 73130</span>
                   </a>
                 </li>
                 {/* <li>
@@ -398,13 +401,15 @@ const Footer = () => {
           <div className="footer-bottom-content">
             <p className="copyright">
               <span>All rights reserved.</span>
-              <a className="company-tc" href="#">
+              <a className="company-tc" href="/legal/terms">
                 Terms & Conditions
               </a>
               <span className="separator">•</span>
-              <a href="#">Privacy Policy</a>
+              <a href="/legal/privacy-policy">Privacy Policy</a>
             </p>
-            <p className="company-copyright">&copy; 2022 PractyWiz</p>
+            <p className="company-copyright">
+              &copy; {new Date().getFullYear()} PractyWiz
+            </p>
           </div>
         </div>
       </div>

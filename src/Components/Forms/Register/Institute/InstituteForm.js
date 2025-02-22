@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "../Mentee/Phone-input-style.css";
-// import "./passwordHideIcon.css";
+import "../MentorUpdatedReg/PhoneNumberOTP.css";
 import collegeData from "../../../data/collegesname.json";
 import {
   hideLoadingHandler,
@@ -13,6 +13,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
+import web96 from "../../../../Images/icons8-account-96.webp";
 
 const InstituteForm = ({ InstitutePreviousHandler }) => {
   const {
@@ -20,6 +21,7 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
     handleSubmit,
     watch,
     setValue,
+    getValues,
     trigger,
     control,
     formState: { errors },
@@ -59,43 +61,170 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
   const cleanPhoneNumber = (phone) => {
     return phone.replace(/\D/g, "");
   };
+  const phone = getValues("institute_phone");
+  useEffect(() => {
+    setSendotp(false);
+    setButtonState("send");
+    setIsLoading(false);
+    setVerifyState("Verify");
+    setIsLoadingVerify(false);
+    setResendAvailable(false);
+  }, [phone]);
+
+  const [otp, setOtp] = useState("");
+  const [Sendotp, setSendotp] = useState(false);
+  const [buttonState, setButtonState] = useState("send");
+  const [isLoading, setIsLoading] = useState(false);
+  const [VerifyState, setVerifyState] = useState("Verify");
+  const [isLoadingVerify, setIsLoadingVerify] = useState(false);
+
+  const [resendAvailable, setResendAvailable] = useState(false);
+
+  const handleSendOtp = async () => {
+    setButtonState("send");
+    setIsLoading(true);
+
+    try {
+      // Make Axios POST request to send OTP
+      const response = await axios.post(
+        `${url}api/v1/otpvarification/request-otp`,
+        { phone }
+      );
+
+      if (response.data.success) {
+        setButtonState("sended");
+        setSendotp(true);
+        setResendAvailable(true);
+
+        // Enable resend after 1 minute
+        setTimeout(() => {
+          setResendAvailable(false);
+        }, 60000); // 1 minute timeout
+      } else {
+        setButtonState("send");
+        alert(response.data.message || "Failed to send OTP");
+      }
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      setButtonState("send");
+      alert(
+        error.response?.data?.message || "An error occurred while sending OTP"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    setVerifyState("Verify");
+    setIsLoadingVerify(true);
+    try {
+      // Make Axios POST request to verify OTP
+      const response = await axios.post(
+        `${url}api/v1/otpvarification/validate-otp`,
+        {
+          phone,
+          otp,
+        }
+      );
+
+      if (response.data.success) {
+        setVerifyState("Verified");
+        alert("OTP Verified Successfully!");
+      } else {
+        setVerifyState("Verify");
+        alert(response.data.message || "OTP Verification Failed");
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+      setVerifyState("Verify");
+      alert(
+        error.response?.data?.message || "An error occurred while verifying OTP"
+      );
+    } finally {
+      setIsLoadingVerify(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (resendAvailable) {
+      alert("You can resend OTP after 1 minute.");
+      return;
+    }
+
+    setButtonState("send");
+    setIsLoading(true);
+
+    try {
+      // Make Axios POST request to resend OTP
+      const response = await axios.post(
+        `${url}api/v1/otpvarification/resend-otp`,
+        { phone }
+      );
+
+      if (response.data.success) {
+        setButtonState("sended");
+        setSendotp(true);
+        setResendAvailable(true);
+
+        // Enable resend after 1 minute
+        setTimeout(() => {
+          setResendAvailable(false);
+        }, 60000); // 1 minute timeout
+      } else {
+        setButtonState("send");
+        alert(response.data.message || "Failed to resend OTP");
+      }
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+      setButtonState("send");
+      alert(
+        error.response?.data?.message || "An error occurred while resending OTP"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const onSubmit = async (data) => {
-    console.log(data);
     const cleanedData = {
       ...data,
       institute_phone: cleanPhoneNumber(data.institute_phone), // Clean the phone number
     };
-    try {
-      dispatch(showLoadingHandler());
-      const res = await axios.post(`${url}api/v1/institute/register`, {
-        data: cleanedData,
-        userType: "institute",
-      });
-      dispatch(hideLoadingHandler());
-      if (res.data.success) {
+    if (VerifyState === "Verified") {
+      try {
+        dispatch(showLoadingHandler());
+        const res = await axios.post(`${url}api/v1/institute/register`, {
+          data: cleanedData,
+          userType: "institute",
+        });
         dispatch(hideLoadingHandler());
-        toast.success(
-          "You have been successfully register. Please login again."
-        );
-      }
-      if (res.data.error) {
+        if (res.data.success) {
+          dispatch(hideLoadingHandler());
+          toast.success(
+            "You have been successfully register. Please login again."
+          );
+        }
+        if (res.data.error) {
+          dispatch(hideLoadingHandler());
+          toast.error(res.data.error);
+        }
+      } catch (error) {
         dispatch(hideLoadingHandler());
-        toast.error(res.data.error);
+        toast.error("There is some error while register.");
       }
-    } catch (error) {
-      dispatch(hideLoadingHandler());
-      toast.error("There is some error while register.");
+    } else {
+      toast.error("please verify your phone number first");
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="step" id="instituteInputFields">
-        <h4 className="text-center">
-          <img src="images/icons8-account-96.webp" alt="" className="me-1" />
-          Registration For Institutions
-        </h4>
+      <h4 className="text-center">
+            <img src={web96} alt="" className="me-1" />
+            Institution Registration
+          </h4>
 
         <div className="ihduwfr_form_wrapper mt-3">
           <div className="row">
@@ -233,11 +362,11 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
 
             <div className="col-lg-12">
               <div className="mb-3">
-                <label htmlFor="exampleInputEmail1" className="form-label">
-                  Phone Number
-                </label>
                 <div className="h-25">
                   <Controller
+                    onKeyUp={() => {
+                      trigger("institute_phone");
+                    }}
                     name="institute_phone"
                     control={control}
                     defaultValue=""
@@ -245,7 +374,7 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
                       required: "Phone number is required",
                       validate: {
                         minLength: (value) =>
-                          value.replace(/\D/g, "").length >= 12 ||
+                          value.replace(/\D/g, "").length >= 10 ||
                           "Enter a valid phone number",
                       },
                     }}
@@ -253,27 +382,101 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
                       field: { name, value, onChange, onBlur, ref },
                     }) => (
                       <div>
-                        <PhoneInput
-                          value={value}
-                          country="in"
-                          countryCodeEditable={false}
-                          onChange={(value, country, event, formattedValue) => {
-                            onChange(formattedValue); // Update the phone value
-                            trigger("institute_phone"); // Trigger validation dynamically
-                          }}
-                          onBlur={onBlur}
-                          inputProps={{
-                            name,
-                            ref,
-                          }}
-                        />
-                        {errors.institute_phone && (
-                          <div
-                            className="Error-meg-login-register"
-                            style={{ display: "block" }}
+                        <label htmlFor="phone" className="form-label">
+                          Phone Number{" "}
+                          <span className="RedColorStarMark">*</span>
+                        </label>
+
+                        <div className="d-flex">
+                          <PhoneInput
+                            value={value}
+                            country="in"
+                            countryCodeEditable={false}
+                            onChange={(
+                              value,
+                              country,
+                              event,
+                              formattedValue
+                            ) => {
+                              onChange(formattedValue);
+                            }}
+                            onBlur={onBlur}
+                            inputProps={{
+                              autoFocus: false,
+                              name,
+                              ref,
+                            }}
+                          />{" "}
+                          <button
+                            type="button"
+                            onClick={handleSendOtp}
+                            disabled={isLoading}
+                            className={`otp-button ${
+                              isLoading ? "loading" : ""
+                            } ${buttonState}`}
                           >
-                            {errors.institute_phone.message}
+                            {isLoading ? (
+                              <div className="button-content">
+                                <div className="spinner"></div>Loading
+                              </div>
+                            ) : buttonState === "send" ? (
+                              "Send OTP"
+                            ) : (
+                              "OTP Sended"
+                            )}
+                          </button>
+                        </div>
+                        <div className="aftersendOTP">
+                            {" "}
+                            {Sendotp && (
+                              <>
+                                <input
+                                  type="number"
+                                  placeholder="Enter OTP"
+                                  className="PhoneNoOtpInput"
+                                  onChange={(e) => setOtp(e.target.value)}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={handleVerifyOtp}
+                                  disabled={isLoadingVerify}
+                                  style={{fontSize:"11px"}}
+                                  className={`otp-buttonVerify ${
+                                    isLoadingVerify ? "loadingVerify" : ""
+                                  } ${VerifyState}`}
+                                >
+                                  {isLoadingVerify ? (
+                                    <div className="button-contentVerify">
+                                      <div className="spinnerVerifyOTP"></div>
+                                      Loading
+                                    </div>
+                                  ) : VerifyState === "Verify" ? (
+                                    "Verify OTP"
+                                  ) : (
+                                    "OTP Verified"
+                                  )}
+                                </button>
+                              </>
+                            )}
+                            {buttonState === "sended" && (
+                              
+                                <button
+                                  type="button"
+                                  onClick={handleResendOtp}
+                                  disabled={resendAvailable}
+                                  className="resendOtpBtn"
+                                >
+                                  {resendAvailable
+                                    ? "Resend OTP Available in one min"
+                                    : "Resend OTP"}
+                                </button>
+                              
+                            )}
                           </div>
+                        {errors.institute_phone && (
+                          <p className="Error-meg-login-register">
+                            {errors.institute_phone.message}
+                          </p>
                         )}
                       </div>
                     )}
@@ -281,26 +484,6 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
                 </div>
               </div>
             </div>
-
-            {/* <div className="col-lg-12">
-              <div className="mb-3">
-                <label htmlFor="address" className="form-label">
-                  Address
-                </label>
-                <input
-                  className="form-control"
-                  id="address"
-                  type="text"
-                  placeholder="Address"
-                  {...register("institute_address", {
-                    required: "Address is required",
-                  })}
-                />
-                <p className="Error-meg-login-register">
-                  {errors.institute_address?.message}
-                </p>
-              </div>
-            </div> */}
 
             <div className="col-lg-12">
               <div className="mb-3 csfvgdtrfs position-relative">
@@ -387,15 +570,18 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
             </div>
           </div>
         </div>
+        <div className="d-flex justify-content-between pt-3">
+          <div className="uherrr_text text-center">
+            <p className="mb-0">
+              Already Have An Account? <a href="/login">Log In</a>
+            </p>
+          </div>
+        </div>
 
         <div className="d-flex justify-content-between pt-3">
-          <input
-            type="button"
-            className="btn dgheuih_btn_prev btn-main"
-            onClick={(event) => InstitutePreviousHandler(event, "institute")}
-            value="Previous"
-            name="Previous"
-          />
+        
+
+          
 
           <button type="submit" className="btn dgheuih_btn_next btn-main">
             Create Account

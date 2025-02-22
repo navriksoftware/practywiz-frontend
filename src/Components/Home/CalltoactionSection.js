@@ -35,7 +35,7 @@ const RoleSelectorCustom = () => {
       path: "/institute-registration",
     },
     {
-      type: "EMPLOYER",
+      type: "CORPORATE",
       title: "Build Better Teams",
       subtitle: "Hire Top Talent",
       description:
@@ -110,6 +110,7 @@ const RoleSelectorCustom = () => {
                   onClick={() => (window.location.href = `${role.path}`)}
                 >
                   {role.buttonText}
+                  <i className="fa-solid fa-arrow-right"></i>
                 </button>
               </div>
             ))}

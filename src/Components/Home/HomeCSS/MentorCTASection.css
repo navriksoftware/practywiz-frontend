@@ -1,7 +1,17 @@
 .mentor-cta-section {
   background-color: #002564;
-  padding: 5rem 7rem;
+  padding: 5rem 24px;
   position: relative;
+}
+
+.mentor-cta-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1300px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .mentor-cta-section::before {
@@ -9,6 +19,7 @@
   position: absolute;
   top: 0;
   bottom: -20px;
+  left: 60px;
   width: 230px;
   background-repeat: no-repeat;
   background-size: contain;
@@ -36,7 +47,6 @@
   display: flex;
   gap: 20px;
   justify-content: center;
-  align-items: center;
   margin: 20px;
 }
 
@@ -102,12 +112,6 @@
 
 .mentor-cta-card-btn:hover {
   background-color: #003366;
-}
-
-@media (max-width: 1024px) {
-  .mentor-cta-section {
-    padding: 3rem 5rem;
-  }
 }
 
 @media (max-width: 768px) {

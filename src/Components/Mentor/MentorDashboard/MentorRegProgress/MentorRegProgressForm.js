@@ -80,7 +80,6 @@ const MentorRegProgressForm = ({
 
   const [readyToNextPage, setreadyToNextPage] = useState("No");
   const onSubmit = async (data) => {
-    console.log("on submit", data);
 
     if (page === 1) {
       if (readyToNextPage === "Yes") {
@@ -95,6 +94,7 @@ const MentorRegProgressForm = ({
             const newData = new FormData();
 
             newData.append("mentorEmail", singleMentor[0].mentor_email);
+            newData.append("mentorPhoneNumber", singleMentor[0].mentor_phone_number);
             newData.append(
               "mentorName",
               singleMentor[0].mentor_firstname +

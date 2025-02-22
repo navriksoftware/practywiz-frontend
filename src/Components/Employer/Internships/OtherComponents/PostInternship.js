@@ -105,7 +105,6 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
       clearErrors("internshipStart");
     }
   };
-
   const onSubmit = async (data) => {
     const payload = {
       ...data,
@@ -191,7 +190,7 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                   }}
                   title="This is additional information that appears when you hover."
                 >
-                  Value added internship
+                  Guided internship
                 </div>
               </div>
             </div>

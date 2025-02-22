@@ -18,7 +18,7 @@ const MentorRatingCard = ({ feedbackCount, feedback_details }) => {
             <div className="hghgg mt-3 feedbackBorder">
               <div className="djbgdfdfgh d-flex justify-content-between align-items-center">
                 <div className="fyhugdghg d-flex justify-content-between align-items-center">
-                  <div className="kjghjfg me-2">
+                  {/* <div className="kjghjfg me-2">
                     <img
                       src={feedback.mentee_profile}
                       alt={
@@ -27,7 +27,7 @@ const MentorRatingCard = ({ feedbackCount, feedback_details }) => {
                         feedback.mentee_lastname
                       }
                     />
-                  </div>
+                  </div> */}
                   <div className="ihceuirr mt-3">
                     <h4 style={{ textTransform: "uppercase" }}>
                       {feedback.mentee_firstname +
@@ -42,7 +42,14 @@ const MentorRatingCard = ({ feedbackCount, feedback_details }) => {
                           }
                         />
                       </span>
-                      <p>
+                     
+                    </div>
+                  </div>
+                </div>
+
+                <div className="gnhjbggf">
+                  {/* <a href="/mentor-club">View Profile</a> */}
+                  <p>
                         <i
                           className="fa-solid fa-calendar-days"
                           style={{ marginRight: "10px" }}
@@ -51,12 +58,8 @@ const MentorRatingCard = ({ feedbackCount, feedback_details }) => {
                           feedback.mentor_feedback_dtls_cr_date
                         ).toDateString()}
                       </p>
-                    </div>
-                  </div>
-                </div>
 
-                <div className="gnhjbggf">
-                  <a href="/mentor-club">View Profile</a>
+
                 </div>
               </div>
               <hr />

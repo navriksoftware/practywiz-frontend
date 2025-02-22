@@ -10,7 +10,7 @@ const StarRating = ({ rating }) => {
         <i
           key={index}
           className="fa-solid fa-star"
-          style={{ color: "gold" }}
+          style={{ color: "gold", fontSize: "13px" }}
         ></i>
       ))}
 
@@ -18,7 +18,7 @@ const StarRating = ({ rating }) => {
       {halfStar && (
         <i
           className="fa-solid fa-star-half-stroke"
-          style={{ color: "gold" }}
+          style={{ color: "gold", fontSize: "13px" }}
         ></i>
       )}
 
@@ -27,7 +27,7 @@ const StarRating = ({ rating }) => {
         <i
           key={index}
           className="fa-regular fa-star"
-          style={{ color: "gray" }}
+          style={{ color: "gray", fontSize: "13px" }}
         ></i>
       ))}
     </>

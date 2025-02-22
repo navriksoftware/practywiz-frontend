@@ -1,8 +1,12 @@
 .practywiz-CTA-container-outer {
-  padding: 3rem 7rem;
+  padding: 3rem 24px;
 }
 
 .practywiz-CTA-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
   background-color: #172554;
   color: white;
   padding: 2rem;
@@ -32,6 +36,7 @@
   border-radius: 4rem;
   justify-content: center;
   justify-self: center;
+  align-self: center;
   flex-wrap: wrap;
 }
 
@@ -62,6 +67,9 @@
 
 .practywiz-CTA-content {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
   transition: all 0.5s ease;
   opacity: 0;
@@ -96,18 +104,24 @@
 }
 
 .practywiz-CTA-button {
-  background-color: #22d3ee;
-  color: rgb(255, 255, 255);
-  padding: 0.75rem 2rem;
-  border-radius: 9999px;
-  font-weight: 600;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: #2563eb;
+  color: white;
   border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
 .practywiz-CTA-button:hover {
-  background-color: #67e8f9;
+  background-color: #1d4ed8;
 }
 
 @keyframes slideIn {
@@ -121,12 +135,7 @@
   }
 }
 
-/* Media Queries */
 @media (max-width: 1024px) {
-  .practywiz-CTA-container-outer {
-    padding: 2rem 4rem;
-  }
-
   .practywiz-CTA-title {
     font-size: 2rem;
   }
@@ -156,7 +165,7 @@
 
   .practywiz-CTA-tab {
     padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 
   .practywiz-CTA-title {
@@ -192,13 +201,12 @@
   }
 
   .practywiz-CTA-tabs {
-    flex-direction: column;
     width: 100%;
     border-radius: 1rem;
   }
 
   .practywiz-CTA-tab {
-    width: 100%;
+    padding: 0.4rem;
     text-align: center;
   }
 
@@ -215,6 +223,6 @@
   }
 
   .practywiz-CTA-button {
-    width: 100%;
+    width: 70%;
   }
 }

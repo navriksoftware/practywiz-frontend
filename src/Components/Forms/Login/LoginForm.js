@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import loginImg from "../../../Images/login/Golden gate bridge-cuate.svg";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -136,69 +137,13 @@ const LoginForm = ({ user, token }) => {
           <div className="row">
             <div className="col-lg-6 mb-4 doneed">
               <div className="iuhieiuihaw_left sticky-top">
-                <h3>
-                  Grow Your Professional Career with{" "}
-                  <span className="span222">Top-Rated</span> Mentors
-                </h3>
 
-                <p>
-                  Join us to upgrade your professional career with our mentor’s
-                  guidance. We provide a personalised training approach to
-                  improve your project management skills. Master the skill to
-                  work under pressure on various projects within tight
-                  deadlines. At Practiwiz we have courses for working
-                  professionals, MBA students, and aspiring IT business
-                  analysts. Hurry up and reserve your mentorship className
-                  today.
-                </p>
+                <img
+                  style={{ width: "30rem" }}
+                  src={loginImg}
+                  alt=""
+                />
 
-                <h5 className="mt-4">Benefits of Our Mentorship Course:</h5>
-
-                <ul className="ps-0 mt-3">
-                  <li className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <i className="fa-solid fa-circle-check"></i>
-
-                      <p className="mb-0">Self-paced training</p>
-                    </div>
-                  </li>
-
-                  <li className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <i className="fa-solid fa-circle-check"></i>
-
-                      <p className="mb-0">Flexible timing and scheduling</p>
-                    </div>
-                  </li>
-
-                  <li className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <i className="fa-solid fa-circle-check"></i>
-
-                      <p className="mb-0">
-                        Career guidance from experienced mentors
-                      </p>
-                    </div>
-                  </li>
-
-                  <li className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <i className="fa-solid fa-circle-check"></i>
-
-                      <p className="mb-0">Expert advice and guidance</p>
-                    </div>
-                  </li>
-
-                  <li className="mb-3">
-                    <div className="d-flex align-items-center">
-                      <i className="fa-solid fa-circle-check"></i>
-
-                      <p className="mb-0">
-                        <a href="/mentor-registration">Sign Up Now!</a>
-                      </p>
-                    </div>
-                  </li>
-                </ul>
               </div>
             </div>
 
@@ -208,7 +153,7 @@ const LoginForm = ({ user, token }) => {
                   <h4>Log in</h4>
 
                   <p className="mb-0">
-                    Do Not Have An Account?{" "}
+                    Don't have an account?{" "}
                     <a href="/mentor-registration">Sign Up</a>
                   </p>
                 </div>

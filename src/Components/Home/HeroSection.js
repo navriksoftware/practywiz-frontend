@@ -5,12 +5,12 @@ import "./HomeCSS/HeroSection.css";
 
 const features = [
   {
-    icon: <i class="fa-regular fa-lightbulb hero-feature-card-icon"></i>,
+    icon: <i className="fa-regular fa-lightbulb hero-feature-card-icon"></i>,
     title: "A Student or Professional",
     description: "who is passionate about learning and growing in their career",
   },
   {
-    icon: <i class="fa-solid fa-share-nodes hero-feature-card-icon"></i>,
+    icon: <i className="fa-solid fa-share-nodes hero-feature-card-icon"></i>,
     title: "A Seasoned Corporate Professional",
     description:
       "who wants to share their knowledge and experience with the next generation",
@@ -29,9 +29,9 @@ const HeroSection = () => {
                 Who is a{" "}
                 <span className="hero-text-highlight">PractyWizard</span>?
               </h1>
-              <p className="hero-subtitle hero-animate-slideUp hero-delay-100">
+              {/* <p className="hero-subtitle hero-animate-slideUp hero-delay-100">
                 A community of passionate learners and industry professionals
-              </p>
+              </p> */}
             </div>
             <div className="hero-features-container">
               {features.map((feature, index) => (
@@ -46,7 +46,7 @@ const HeroSection = () => {
                       <h3>{feature.title}</h3>
                       <p>{feature.description}</p>
                     </div>
-                    <i class="fa-solid fa-arrow-right hero-arrow-icon"></i>
+                    <i className="fa-solid fa-arrow-right hero-arrow-icon"></i>
                   </div>
                 </div>
               ))}
@@ -83,15 +83,15 @@ const HeroSection = () => {
               </div>
             </div>
             <div className="hero-badge hero-top-badge">
-              <i class="fa-solid fa-trophy w-6 h-6"></i>
+              <i className="fa-solid fa-trophy w-6 h-6"></i>
               300+ Internships
             </div>
             <div className="hero-badge hero-middle-badge">
-              <i class="fa-solid fa-book-open-reader w-6 h-6"></i>
+              <i className="fa-solid fa-book-open-reader w-6 h-6"></i>
               60+ Colleges
             </div>
             <div className="hero-badge hero-bottom-badge">
-              <i class="fa-regular fa-user w-6 h-6"></i>
+              <i className="fa-regular fa-user w-6 h-6"></i>
               2000+ Students
             </div>
             <div className="hero-circle-bagde hero-bottom-circle-bagde">

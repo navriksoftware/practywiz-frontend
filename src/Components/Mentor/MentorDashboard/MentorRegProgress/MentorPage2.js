@@ -12,6 +12,7 @@ import collegeData from "../../../data/collegesname.json";
 import { allDomain } from "../../../data/DomainData.js";
 
 import "./MentorPage2.css";
+import { toast } from "react-toastify";
 
 const MentorPage2 = () => {
   const API_KEY = process.env.REACT_APP_API_KEY;
@@ -24,7 +25,10 @@ const MentorPage2 = () => {
     clearErrors,
     formState: { errors },
   } = useFormContext();
-  
+
+
+
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "MentorEduDetails",
@@ -35,6 +39,11 @@ const MentorPage2 = () => {
       append({ Institute: "", Degree: "", YearCompletion: "" });
     }
   }, [fields, append]);
+
+
+
+
+
 
   const loadStoredData = () => {
     const storedData = localStorage.getItem("formData1");
@@ -49,14 +58,14 @@ const MentorPage2 = () => {
   };
 
   const [selectedCurrency, setSelectedCurrency] = useState("INR");
-  setValue("mentor_currency_type",selectedCurrency);
+  setValue("mentor_currency_type", selectedCurrency);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
 
   const handleCurrencyChange = (event) => {
     const newCurrency = event.target.value;
 
     setSelectedCurrency(newCurrency);
-    setValue("mentor_currency_type",newCurrency);
+    setValue("mentor_currency_type", newCurrency);
 
     setValue("pricing", "");
 
@@ -87,7 +96,7 @@ const MentorPage2 = () => {
         setValue("mentor_country", countryName.country_name);
         setValue("mentorCityName", data?.city);
         setValue(" mentor_currency_type", currencyT);
-       
+
         setPriceRange(range);
       }
     } catch (error) {
@@ -97,7 +106,7 @@ const MentorPage2 = () => {
 
       setSelectedCurrency(currency);
       setValue("mentor_country", "");
-      setValue(" mentor_currency_type","INR");
+      setValue(" mentor_currency_type", "INR");
       setPriceRange(range);
       setValue("pricing", "");
     }
@@ -144,6 +153,7 @@ const MentorPage2 = () => {
     });
     setValue(`MentorEduDetails.${index}.Institute`, college["College Name"]);
   };
+
 
   // Skill Search
   const [skills, setSkills] = useState(""); // For the input field
@@ -241,7 +251,6 @@ const MentorPage2 = () => {
       });
     }
   }, [setValue]);
-
   // Domain search
   const [Domain, setDomain] = useState(""); // For the input field
   const [DomainList, setDomainList] = useState([]); // For added skills
@@ -281,36 +290,51 @@ const MentorPage2 = () => {
       // Clear suggestions if input is empty
       setDomainSuggestions([]);
     }
+
+
+
+
+
   };
 
   const handleAddDomain = (newSkill) => {
     const trimmedSkill = newSkill.trim();
+    //todo - change the domain as input field only one domain
+    if (DomainList.length === 0) {
 
-    // Prevent adding empty or duplicate skills
-    if (!trimmedSkill) {
-      setMessageDomain("Domain cannot be empty");
-      setTimeout(() => setMessageDomain(""), 2000);
-      return;
+
+      // Prevent adding empty or duplicate skills
+      if (!trimmedSkill) {
+        setMessageDomain("Domain cannot be empty");
+        setTimeout(() => setMessageDomain(""), 2000);
+        return;
+      }
+
+      // Check if the skill already exists (case-insensitive)
+      const exists = (DomainList || []).some(
+        (existingSkill) =>
+          existingSkill.toLowerCase() === trimmedSkill.toLowerCase()
+      );
+
+      if (!exists) {
+        setDomainList([...(DomainList || []), trimmedSkill]); // Use fallback to avoid undefined
+        setValue("mentorDomain", [...(DomainList || []), trimmedSkill]); // Update the form field immediately
+        setMessageDomain(""); // Clear any previous message
+        clearErrors("mentorDomain");
+      } else {
+        setMessageDomain("Skill already added");
+        setTimeout(() => setMessageDomain(""), 2000);
+      }
+
+      setDomain(""); // Clear input
+      setDomainSuggestions([]); // Clear suggestions
+
     }
-
-    // Check if the skill already exists (case-insensitive)
-    const exists = (DomainList || []).some(
-      (existingSkill) =>
-        existingSkill.toLowerCase() === trimmedSkill.toLowerCase()
-    );
-
-    if (!exists) {
-      setDomainList([...(DomainList || []), trimmedSkill]); // Use fallback to avoid undefined
-      setValue("mentorDomain", [...(DomainList || []), trimmedSkill]); // Update the form field immediately
-      setMessageDomain(""); // Clear any previous message
-      clearErrors("mentorDomain");
-    } else {
-      setMessageDomain("Skill already added");
-      setTimeout(() => setMessageDomain(""), 2000);
+    else {
+      toast.error("You can't add more than one domain")
+      setDomain(""); // Clear input
+      setDomainSuggestions([]); // Clear suggestions
     }
-
-    setDomain(""); // Clear input
-    setDomainSuggestions([]); // Clear suggestions
   };
 
   const removeDomain = (index) => {
@@ -324,7 +348,6 @@ const MentorPage2 = () => {
       setValue("mentorDomain", DomainList);
     }
   }, [DomainList]);
-
   const formValues = getValues();
 
   useEffect(() => {
@@ -748,6 +771,9 @@ const MentorPage2 = () => {
               )}
             </div>
           </div>
+
+
+
           {/* edu details */}
           <div className=" tageye">
             <div className="col-lg-12">
@@ -790,6 +816,7 @@ const MentorPage2 = () => {
                             type="text"
                             className="form-control"
                             placeholder="Choose/Search for a college"
+
                             // value={currentSearchState.searchTerm}
 
                             {...register(
@@ -932,6 +959,10 @@ const MentorPage2 = () => {
               </span>
             </div>
           </div>
+
+
+
+
           <div className="row tageye">
             <div
               className="col-lg-12"
@@ -988,7 +1019,7 @@ const MentorPage2 = () => {
                   ))}
                 </select>
 
-                {errors. mentor_currency_type && (
+                {errors.mentor_currency_type && (
                   <p className="Error-meg-login-register">
                     {errors.mentor_currency_type.message}
                   </p>

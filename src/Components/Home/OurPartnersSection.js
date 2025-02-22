@@ -29,29 +29,31 @@ const OurPartnersSection = () => {
   const duplicatedPartners = [...partners, ...partners];
 
   return (
-    <div className="partner_slider-container">
-      <h2 className="partner_slider-title">Trusted By Industry Leaders</h2>
+    <div className="partner_slider-section">
+      <div className="partner_slider-container">
+        <h2 className="partner_slider-title">Trusted By Industry Leaders</h2>
 
-      <div className="partner_slider">
-        <div className="partner_slider-track">
-          {duplicatedPartners.map((partner, index) => (
-            <div key={index} className="partner_slider-item">
-              <img
-                src={partner.logo}
-                alt={`${partner.name} logo`}
-                className="partner_slider-logo"
-              />
-            </div>
-          ))}
-          {duplicatedPartners.map((partner, index) => (
-            <div key={`${index}-dup`} className="partner_slider-item">
-              <img
-                src={partner.logo}
-                alt={`${partner.name} logo`}
-                className="partner_slider-logo"
-              />
-            </div>
-          ))}
+        <div className="partner_slider">
+          <div className="partner_slider-track">
+            {duplicatedPartners.map((partner, index) => (
+              <div key={index} className="partner_slider-item">
+                <img
+                  src={partner.logo}
+                  alt={`${partner.name} logo`}
+                  className="partner_slider-logo"
+                />
+              </div>
+            ))}
+            {duplicatedPartners.map((partner, index) => (
+              <div key={`${index}-dup`} className="partner_slider-item">
+                <img
+                  src={partner.logo}
+                  alt={`${partner.name} logo`}
+                  className="partner_slider-logo"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

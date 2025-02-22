@@ -59,7 +59,7 @@
 }
 
 .ai-casestudy-card-title {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: #1f2937;
   margin-bottom: 0.75rem;
@@ -147,13 +147,17 @@
   .ai-casestudy-featured-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .ai-casestudy-featured-section {
-    padding: 5rem 7rem;
-  }
 }
 
 @media (min-width: 1024px) {
+  .ai-casestudy-featured-section {
+    padding: 5rem 24px;
+  }
   .ai-casestudy-featured-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+  .ai-casestudy-featured-container {
+    max-width: 1300px;
+    margin: 0 auto;
   }
 }

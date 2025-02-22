@@ -1,6 +1,11 @@
 .featured-mentor-section {
   background: linear-gradient(90deg, #f3f6ff 0%, #fff 100%);
-  padding: 5rem 7rem;
+  padding: 5rem 24px;
+}
+
+.featured-mentor-container {
+  max-width: 1300px;
+  margin: auto;
 }
 
 .featured-mentor-header {
@@ -192,15 +197,6 @@
 .featured-mentor-slider {
   width: 100%;
   padding: 1rem 0;
-}
-
-@media (max-width: 1024px) {
-  .featured-mentor-section {
-    padding: 3rem 5rem;
-  }
-  .featured-mentor-header-content {
-    max-width: 550px;
-  }
 }
 
 @media (max-width: 768px) {

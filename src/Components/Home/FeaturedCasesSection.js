@@ -61,15 +61,15 @@ const FeaturedCasesSection = () => {
 
                 <div className="ai-casestudy-card-stats">
                   <div className="ai-casestudy-stat">
-                    <i class="fa-solid fa-clock ai-casestudy-stat-icon"></i>
+                    <i className="fa-solid fa-clock ai-casestudy-stat-icon"></i>
                     {study.readTime}
                   </div>
                   <div className="ai-casestudy-stat">
-                    <i class="fa-solid fa-users ai-casestudy-stat-icon"></i>
+                    <i className="fa-solid fa-users ai-casestudy-stat-icon"></i>
                     {study.participants}
                   </div>
                   <div className="ai-casestudy-stat">
-                    <i class="fa-solid fa-book-open-reader ai-casestudy-stat-icon"></i>
+                    <i className="fa-solid fa-book-open-reader ai-casestudy-stat-icon"></i>
                     Case Study
                   </div>
                 </div>
@@ -79,7 +79,7 @@ const FeaturedCasesSection = () => {
                   className="ai-casestudy-card-button"
                 >
                   View Case Study
-                  <i class="fa-solid fa-arrow-right ai-casestudy-stat-icon"></i>
+                  <i className="fa-solid fa-arrow-right ai-casestudy-stat-icon"></i>
                 </button>
               </div>
             </div>
@@ -92,7 +92,7 @@ const FeaturedCasesSection = () => {
             className="ai-casestudy-view-all"
           >
             View All Case Studies
-            <i class="fa-solid fa-arrow-right ai-casestudy-view-all-icon"></i>
+            <i className="fa-solid fa-arrow-right ai-casestudy-view-all-icon"></i>
           </button>
         </div>
       </div>

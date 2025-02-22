@@ -6,7 +6,9 @@ const InternshipListingPage = () => {
   return (
     <>
       <Navbar />
-      <InternshipListing />
+      <div className="mt-8 px-4">
+        <InternshipListing />
+      </div>
       <Footer />
     </>
   );

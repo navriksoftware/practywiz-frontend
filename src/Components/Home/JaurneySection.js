@@ -49,7 +49,7 @@ const JourneySection = () => {
       id: "mentor",
       title: "Mentor",
       subtitle: "Connect",
-      description: "To top mentor",
+      description: "Empower & Be Empowered",
       isBlue: false,
     },
     {
@@ -61,15 +61,15 @@ const JourneySection = () => {
     },
     {
       id: "guidedinternship",
-      title: "Guided Internship",
-      subtitle: "Explorer",
+      title: "Guided",
+      subtitle: "Internship",
       description: "Top Interns & Internships",
       isBlue: false,
     },
     {
       id: "curatedtraining",
-      title: "Curated Training",
-      subtitle: "Get access",
+      title: "Curated",
+      subtitle: "Training",
       description: "100% In-house Training",
       isBlue: true,
     },
@@ -77,52 +77,73 @@ const JourneySection = () => {
 
   const services = {
     mentor: {
-      title: "Top Mentor Program",
+      title: "Mentor Connect",
       features: [
         "1-on-1 mentorship with industry experts",
-        "Personalized career guidance",
-        "Weekly mentoring sessions",
-        "Resume and interview preparation",
-        "Network building opportunities",
+        "Alumni mentorship for Institutes",
+        "Mentorship platform for Corporates",
+        "Branding opportunity for Institutions",
       ],
+
+      benifits: [
+        "For Institutes: Institutions can sign up to provide their students with access to experienced mentors, including both alumni and non-alumni corporate professionals.",
+        "For Professionals: Individuals seeking guidance and career support can connect with relevant mentors.",
+        "For Corporates: Organizations can leverage the platform to run structured internal mentorship programs.",
+      ],
+
       description:
-        "Connect with top industry professionals who will guide you through your career journey. Our mentors are carefully selected based on their expertise and experience.",
+        "Mentor Connect is a dynamic platform designed to bridge the gap between experienced corporate professionals and individuals seeking guidance. Whether you are a student looking for career advice, a professional seeking industry insights, or an institution aiming to provide quality mentorship to students, Mentor Connect offers a structured and impactful solution.",
     },
+
     aicasesimulator: {
       title: "Āvega-AI Case Simulator",
       features: [
         "Real-world business scenarios",
         "Interactive problem-solving",
-        "Industry-specific cases",
+        "Mentor-Driven & Industry-specific cases",
         "Performance analytics",
-        "Feedback and recommendations",
+      ],
+
+      benifits: [
+        "For Business Schools: Seamlessly integrate Āvega into existing case study methodologies to provide students with hands-on learning experiences.",
+        "For Corporate Organizations: Upskill employees through AI-powered case studies that simulate real-world business challenges.",
+        "For Industry Professionals: Contribute as a MENTOR by publishing case studies and earning royalties as institutions and corporates purchase your content.",
       ],
       description:
-        "Experience the future of business education with Āvega, an innovative platform designed to boost learning through interactive, AI-driven case studies. Derived from the Sanskrit word meaning 'boost'. By combining advanced artificial intelligence with real-world scenarios, Āvega creates immersive simulations that enhance decision-making, critical thinking, and problem-solving skills.",
+        "Experience the future of business education with Āvega, an innovative platform designed to boost learning through interactive AI-driven case studies. Derived from the Sanskrit word meaning 'boost'. By combining advanced artificial intelligence with real-world scenarios, Āvega creates immersive simulations that enhance decision-making, critical thinking, and problem-solving skills.",
     },
     guidedinternship: {
-      title: "Guided Internship Explorer",
+      title: "Guided Internship",
       features: [
-        "Curated internship listings",
-        "Application tracking",
-        "Interview preparation",
-        "Internship reviews",
-        "Success stories and tips",
+        "Institutes can register their students for internship opportunities.",
+        "Corporates can plan their annual internship calendar.",
+        "Select candidates from specific institutes.",
+        "Seamless Management, Handle certificates, stipends, and progress tracking.",
       ],
+      benifits: [
+        "For Students: Gain structured guidance, hands-on experience, and industry exposure to enhance career readiness.",
+        "Institutions: Provide students with verified internships, track their progress, and strengthen corporate partnerships.",
+        "Corporates: Streamline internship planning, find the right talent, and ensure interns contribute meaningfully.",
+      ],
+
       description:
-        "Access top internship opportunities and get guided support throughout your application process. Connect with successful past interns and learn from their experiences.",
+        "The mission of Guided Internship is to transform the internship experience into a truly value-adding opportunity for students, educational institutions, and corporates. Currently, many internships fail to provide real value due to a disconnect between corporate expectations and intern capabilities. Guided Internship ensures that Corporates find the right candidates who align with their needs. Students gain meaningful experience and contribute effectively to organizations.",
     },
     curatedtraining: {
       title: "Curated Training Program",
       features: [
         "Custom learning paths",
         "Industry-specific modules",
-        "Hands-on projects",
         "Progress tracking",
         "Certification preparation",
       ],
+      benifits: [
+        "For Students: Access our comprehensive in-house training modules designed to build your skills from ground up. Learn at your own pace with structured content and practical exercises.",
+        "For Institutions: Enhance your curriculum with industry-specific training programs that cater to your students' unique needs.",
+        "For Corporates: Upskill your workforce with industry-specific training programs that cater to your organization's unique needs.",
+      ],
       description:
-        "Access our comprehensive in-house training modules designed to build your skills from ground up. Learn at your own pace with structured content and practical exercises.",
+        "The mission of Curated Trainings is to provide experiential learning for students and professionals, designed by experts at Navrik Software. We believe in preaching what we practice, creating content based on real-world experience in Software Development, AI, Project Management, Business Analysis, and Business Development. We have trained students from leading colleges in IT Business Analysis, Digital Consulting, AI & Robotic Process Automation, ensuring they are job-ready and industry-aligned.",
     },
   };
 
@@ -169,6 +190,15 @@ const JourneySection = () => {
               <p className="practy_journey_modal_description">
                 {services[activeModal].description}
               </p>
+
+              <h3 className="practy_journey_features_title">Benefits:</h3>
+              <ul className="practy_journey_features_lis">
+                {services[activeModal].benifits.map((benefit, index) => (
+                  <li key={index} className="">
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
 
               <div className="practy_journey_features_section">
                 <h3 className="practy_journey_features_title">Key Features:</h3>
