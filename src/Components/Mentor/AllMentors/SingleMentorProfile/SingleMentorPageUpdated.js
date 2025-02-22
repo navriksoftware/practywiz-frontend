@@ -156,7 +156,6 @@ const SingleMentorPageUpdated = () => {
     handleScroll("targetElementTop");
   }, [mentorDtlsId, url]);
   const CreateBookingAppointment = () => {
-    console.log(selectedPrice);
     if (selectedDate === null || selectedSlot === null) {
       toast.error("Please select the Date and Time slot details");
     } else {

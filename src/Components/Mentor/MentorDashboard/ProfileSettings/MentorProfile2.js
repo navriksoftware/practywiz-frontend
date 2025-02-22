@@ -159,30 +159,38 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
 
   const handleAddDomain = (newSkill) => {
     const trimmedSkill = newSkill.trim();
+    if (DomainList.length === 0) {
+      // Prevent adding empty or duplicate skills
+      if (!trimmedSkill) {
+        setMessageDomain("Domain cannot be empty");
+        setTimeout(() => setMessageDomain(""), 2000);
+        return;
+      }
 
-    // Prevent adding empty or duplicate skills
-    if (!trimmedSkill) {
-      setMessageDomain("Domain cannot be empty");
-      setTimeout(() => setMessageDomain(""), 2000);
-      return;
+      // Check if the skill already exists (case-insensitive)
+      const exists = (DomainList || []).some(
+        (existingSkill) =>
+          existingSkill.toLowerCase() === trimmedSkill.toLowerCase()
+      );
+
+      if (!exists) {
+        setDomainList([...(DomainList || []), trimmedSkill]); // Use fallback to avoid undefined
+        setMessageDomain(""); // Clear any previous message
+      } else {
+        setMessageDomain("Skill already added");
+        setTimeout(() => setMessageDomain(""), 2000);
+      }
+
+      setDomain(""); // Clear input
+      setDomainSuggestions([]); // Clear suggestions
+
+    }
+    else {
+      toast.error("You can't add more than one domain")
+      setDomain(""); // Clear input
+      setDomainSuggestions([]); // Clear suggestions
     }
 
-    // Check if the skill already exists (case-insensitive)
-    const exists = (DomainList || []).some(
-      (existingSkill) =>
-        existingSkill.toLowerCase() === trimmedSkill.toLowerCase()
-    );
-
-    if (!exists) {
-      setDomainList([...(DomainList || []), trimmedSkill]); // Use fallback to avoid undefined
-      setMessageDomain(""); // Clear any previous message
-    } else {
-      setMessageDomain("Skill already added");
-      setTimeout(() => setMessageDomain(""), 2000);
-    }
-
-    setDomain(""); // Clear input
-    setDomainSuggestions([]); // Clear suggestions
   };
 
   const handleDomainKeyPress = (e) => {
@@ -307,7 +315,6 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
     event.preventDefault();
 
     if (validateForm()) {
-      console.log(formData);
       try {
         dispatch(showLoadingHandler());
         const res = await Promise.race([
@@ -556,10 +563,10 @@ const MentorProfile2 = ({ profiledata, user, token }) => {
           <div className="row ">
             <div className="col-lg-12"></div>
             {/* skill section */}
-            <div className="col-lg-12 mb-4"  style={{
-               
-                position: "relative",
-              }}>
+            <div className="col-lg-12 mb-4" style={{
+
+              position: "relative",
+            }}>
               <label htmlFor="mentorJobTitle" className="form-label">
                 <b>
                   Skill's

@@ -139,7 +139,7 @@ const EditInternshipPost = ({
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
+   
     const payload = {
       ...data,
       supervisionType,

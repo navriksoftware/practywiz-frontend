@@ -91,7 +91,6 @@ const SingleMentorProfile = () => {
     }`;
   }, [singleMentor]);
   const [showLessText, setShowLessText] = useState(false);
-  console.log(selectedTimeSlotId);
   return (
     <>
       {loading ? (

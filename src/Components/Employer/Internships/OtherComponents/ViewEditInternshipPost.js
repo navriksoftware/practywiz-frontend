@@ -11,7 +11,7 @@ const InternshipDetail = ({
   onEditInternshipPost,
   setInternPostData,
 }) => {
-  console.log(internshipPostId);
+
   const url = ApiURL();
   const [loading, setLoading] = useState(false);
   const [singleInternshipPost, setSingleInternshipPost] = useState(null);

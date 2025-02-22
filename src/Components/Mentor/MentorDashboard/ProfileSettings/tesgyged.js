@@ -373,7 +373,7 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
           let toHours = 12;
           let toMinutes = 0;
           let toAmPm = "PM";
-          console.log(toAmPm);
+       
 
           const toTime = {
             hours: toHours.toString().padStart(2, "0"),
@@ -393,7 +393,7 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
           let toHours = 12;
           let toMinutes = 0;
           let toAmPm = "AM";
-          console.log(toAmPm);
+          
 
           const toTime = {
             hours: toHours.toString().padStart(2, "0"),
@@ -443,8 +443,7 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
     let fromMinutes = parseInt(from.minutes, 10);
     let toMinutes = parseInt(to.minutes, 10);
     if (fromHours === 11 && toHours === 12) {
-      console.log("To min", toMinutes);
-      console.log("from min", fromMinutes);
+     
       let minutesDifference = 30;
       return minutesDifference;
     } else {
@@ -460,8 +459,7 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
           : toHours === 12
           ? 0
           : toHours * 60;
-      console.log("To min", toMinutes);
-      console.log("from min", fromMinutes);
+     
 
       // Calculate the difference
       let minutesDifference = toMinutes - fromMinutes;
@@ -482,10 +480,10 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
   };
 
   const handleOkClick = (day) => {
-    console.log(timeInputs);
+    
     const { from, to, date, recurring, slotDuration } = timeInputs[day];
     if (from.hours == 0 && from.ampm == "PM") {
-      console.log("hello");
+     
       return toast.error("Please Enter valide slot.");
     }
 
@@ -563,7 +561,7 @@ const MentorProfile3 = ({ profiledata, user, token }) => {
     }
 
     try {
-      console.log(nonEmptyTimeSlots);
+     
       dispatch(showLoadingHandler());
       const res = await Promise.race([
         axios.post(

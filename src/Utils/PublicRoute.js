@@ -4,7 +4,7 @@ import { Navigate, useLocation } from "react-router-dom";
 const PublicRoute = ({ children }) => {
   const { isAuthenticated, currentUser } = useSelector((state) => state.user);
   let location = useLocation();
-  console.log(currentUser);
+ 
   if (isAuthenticated === true && currentUser) {
     return (
       <Navigate

@@ -9,7 +9,7 @@ const ReactDate = () => {
     `[{"mentor_dtls_id":14,"mentor_session_booking_date":"2024-08-19","mentor_booked_date":"2024-08-19","mentor_booking_starts_time":"04:00PM","mentor_booking_end_time":"04:30PM","mentor_booking_time":"04:00PM-04:30PM","mentor_booking_confirmed":"Yes","mentor_session_status":"upcoming"},{"mentor_dtls_id":14,"mentor_session_booking_date":"2024-08-24","mentor_booked_date":"2024-08-19","mentor_booking_starts_time":"05:00PM","mentor_booking_end_time":"05:30PM","mentor_booking_time":"05:00PM-05:30PM","mentor_booking_confirmed":"Yes","mentor_session_status":"pending"}]`
   );
   const HandleTimeSlotDetails = (data) => {
-    console.log(data)
+   
     setSlotDetails(data);
   };
   return (

@@ -332,6 +332,8 @@ const MentorPage2 = () => {
     }
     else {
       toast.error("You can't add more than one domain")
+      setDomain(""); // Clear input
+      setDomainSuggestions([]); // Clear suggestions
     }
   };
 

@@ -80,7 +80,7 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
   const handleSendOtp = async () => {
     setButtonState("send");
     setIsLoading(true);
-    console.log("Phone:", phone);
+    
     if (validatePhoneNumber(phone)) {
       try {
         // Make Axios POST request to send OTP

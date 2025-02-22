@@ -22,7 +22,7 @@ const InternshipProfileSettings = () => {
   const onSubmit = (data) => {
     console.log(data);
     // Handle form submission logic here
-    console.log("Submitted data: ", data);
+
   };
   return (
     <div>

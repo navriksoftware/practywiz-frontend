@@ -4,8 +4,7 @@ import "./AllMentorsMobile.css";
 
 const AllMentorCard = ({ mentor }) => {
   let mentorName = mentor.user_firstname + " " + mentor.user_lastname;
-  const RatingNo = 329;
-  console.log(mentor);
+ 
   function toTitleCase(str) {
     if (!str) return ""; // Handle null or undefined values
     return str

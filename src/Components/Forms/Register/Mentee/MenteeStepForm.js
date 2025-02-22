@@ -92,9 +92,6 @@ const MenteeStepForm = () => {
   const nextStep = async () => {
     const isFormValid = await methods.trigger(); // Validate the entire form
     const isValidOTP = methods.getValues("mentee_OTPValid"); // Get OTP value
-
-    console.log("OTP Value:", isValidOTP); // Debugging
-
     if (isFormValid && isValidOTP) {
       // Check if the form is valid and OTP is true
       setStep(step + 1);

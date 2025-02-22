@@ -142,7 +142,6 @@ const MentorBookingAppointment = (props) => {
     reset,
   } = useForm();
   const user = useSelector((state) => state.user.currentUser);
-  console.log("Hello i am The Data",user)
   const dispatch = useDispatch();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -174,7 +173,6 @@ const MentorBookingAppointment = (props) => {
             dispatch(hideLoadingHandler())
           );
         }
-        console.log(result)
         const { amount, id: order_id, currency } = result?.data.success;
         const {
           data: { key: razorpayKey },

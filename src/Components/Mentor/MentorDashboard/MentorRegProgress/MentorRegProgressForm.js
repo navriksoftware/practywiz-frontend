@@ -80,7 +80,6 @@ const MentorRegProgressForm = ({
 
   const [readyToNextPage, setreadyToNextPage] = useState("No");
   const onSubmit = async (data) => {
-    console.log("on submit", data);
 
     if (page === 1) {
       if (readyToNextPage === "Yes") {

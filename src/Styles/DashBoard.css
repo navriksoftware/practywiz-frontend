@@ -316,3 +316,10 @@ header .navbar-brand img {
   justify-content: space-between;
   margin: 0 40px 0 0;
 }
+.Mentee-MentorconnectNavbar{
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  font-size: 17px !important;
+  margin: 0px 10px;
+}

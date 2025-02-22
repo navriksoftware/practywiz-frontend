@@ -50,7 +50,6 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
   const handleSendOtp = async () => {
     setButtonState("send");
     setIsLoading(true);
-    console.log("Phone:", phone);
     if (validatePhoneNumber(phone)) {
       try {
         // Make Axios POST request to send OTP
