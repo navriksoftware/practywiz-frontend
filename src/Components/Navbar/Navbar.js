@@ -306,7 +306,7 @@ const Navbar = () => {
 
                     <li className="nav-item">
                       <a className="nav-link" href="/internships">
-                        Internships
+                        Internships <i className="fa-regular fa-lightbulb"  style={{ color: "#1b63de",fontSize:"large" }}></i>
                       </a>
                     </li>
                   </ul>

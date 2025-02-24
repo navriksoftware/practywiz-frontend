@@ -63,7 +63,7 @@ const SingleMentorPageUpdated = () => {
       const response = await fetch(`https://ipinfo.io?token=${API_KEY}`);
       const data = await response.json();
       setDefaultCurruncyType(data.country);
-     
+
     } catch (error) {
       setDefaultCurruncyType("IN");
 
@@ -95,8 +95,7 @@ const SingleMentorPageUpdated = () => {
     // Validate if the rates exist
     if (!fromRateEntry || !toRateEntry) {
       console.error(
-        `Conversion rate not found for ${
-          !fromRateEntry ? fromCurrency : toCurrency
+        `Conversion rate not found for ${!fromRateEntry ? fromCurrency : toCurrency
         }`
       );
       return 0; // Return a default value
@@ -163,14 +162,13 @@ const SingleMentorPageUpdated = () => {
     }
   };
   useEffect(() => {
-    document.title = `Practywiz | ${
-      singleMentor[0]?.mentor_firstname + " " + singleMentor[0]?.mentor_lastname
-    }`;
+    document.title = `Practywiz | ${singleMentor[0]?.mentor_firstname + " " + singleMentor[0]?.mentor_lastname
+      }`;
   }, [singleMentor]);
   const [showLessText, setShowLessText] = useState(false);
- 
-  const Rating = Math.floor(Math.random() * 3) + 3; 
-  const RatingNo = 329; 
+
+  const Rating = Math.floor(Math.random() * 3) + 3;
+  const RatingNo = 329;
   return (
     <div id="targetElementTop">
       <div className="Singlementor-screen">
@@ -226,7 +224,7 @@ const SingleMentorPageUpdated = () => {
                           />
                         </div>
                         <span className="SingleMentor-span121 span121">
-                          <StarRating rating={Rating} 
+                          <StarRating rating={Rating}
                           // rating={sMentor.avg_mentor_rating}
                           />(
                           {/* {sMentor.feedback_count} */}
@@ -239,25 +237,27 @@ const SingleMentorPageUpdated = () => {
                         <div className="mentor-name-section">
                           <span className="mentor-name">
                             {toTitleCase(sMentor?.mentor_firstname)}{" "}
-                            {toTitleCase(sMentor?.mentor_lastname)}
+                            {toTitleCase(sMentor?.mentor_lastname)} 
+                            
                           </span>
+                          <span className="linkedinIconMediaQ"> {sMentor.mentor_social_media_profile && (
+                              <>
+                                <a
+                                  href={sMentor.mentor_social_media_profile}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="linkedin-link"
+                                >
+                                  <i className="fa-brands fa-linkedin fa-2xl"></i>
+                                </a>
+                              </>
+                            )}</span>
                         </div>
 
                         <div className="mentor-company">
                           {toTitleCase(sMentor.mentor_job_title)} @{" "}
                           {toTitleCase(sMentor.mentor_company_name)}{" "}
-                          {sMentor.mentor_social_media_profile && (
-                            <>
-                              <a
-                                href={sMentor.mentor_social_media_profile}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="linkedin-link"
-                              >
-                                <i className="fa-brands fa-linkedin fa-2xl"></i>
-                              </a>
-                            </>
-                          )}
+
                         </div>
 
                         <div className="mentor-domains">
@@ -297,7 +297,7 @@ const SingleMentorPageUpdated = () => {
                             </div>{" "}
                             <div
                               className="SingleMentorProfile-Skills"
-                              // key={index}
+                            // key={index}
                             >
                               {JSON.parse(sMentor?.mentor_area_expertise)?.map(
                                 (skill, index) => (

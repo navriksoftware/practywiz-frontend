@@ -6,7 +6,7 @@ const MenteePaymentHistory = ({ singleMentee }) => {
       <div className="mentor_dash_msge">
         <div>
           <div className="containerOfGueste">
-            <div className="containerOfFilter">
+            {/* <div className="containerOfFilter">
               <label htmlFor="location">
                 <h6 className="inline">Payment Status</h6>
                 <select name="location" id="location">
@@ -46,13 +46,13 @@ const MenteePaymentHistory = ({ singleMentee }) => {
 
               <div></div>
               <button>Apply Filter</button>
-            </div>
+            </div> */}
             <div className="containerOfCard">
               <div className="table-container">
                 <table className="mentor-table">
                   <thead>
                     <tr>
-                      <th>Mentor Dtls Id</th>
+
                       <th>Session Date</th>
                       <th>Booked Date</th>
                       <th>Booking Time</th>
@@ -65,7 +65,7 @@ const MenteePaymentHistory = ({ singleMentee }) => {
                       (appointment) => {
                         return (
                           <tr key={appointment.mentor_booking_appt_id}>
-                            <td>{appointment.mentor_dtls_id}</td>
+
                             <td style={{ textTransform: "capitalize" }}>
                               {new Date(
                                 appointment.mentor_session_booking_date
@@ -80,7 +80,7 @@ const MenteePaymentHistory = ({ singleMentee }) => {
                             </td>
                             <td>
                               {appointment.mentor_amount_paid_status ===
-                              "Yes" ? (
+                                "Yes" ? (
                                 <>
                                   <i
                                     className="fa-solid fa-circle-check fa-lg"

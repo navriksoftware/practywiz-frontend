@@ -482,6 +482,8 @@
   margin-bottom: 1rem;
   font-weight: bold;
   color: #f5f5f5;
+  display: flex;
+
 }
 
 .mentor-name {
@@ -667,5 +669,9 @@ display: none;
     color: #222e82;
     line-height: 2rem;
   }
+  .linkedinIconMediaQ{
+    color: #222e82;
+  }
+
 }
 
