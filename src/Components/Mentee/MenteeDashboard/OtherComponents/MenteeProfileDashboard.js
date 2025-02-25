@@ -2,7 +2,7 @@
 import React from "react";
 import "./MenteeDashboardProfile.css";
 
-const MenteeProfileDashboard = ({ singleMentee, user, token }) => {
+const MenteeProfileDashboard = ({ singleMentee, user, token,MenteePsettingsHandler }) => {
   return (
     <div className="mentee-dashboard">
       {singleMentee?.map((mentee, index) => (
@@ -23,7 +23,9 @@ const MenteeProfileDashboard = ({ singleMentee, user, token }) => {
                             src={mentee?.mentee_profile_pic_url}
                             alt={mentee.mentee_firstname}
                             className="profile-imageDashBoard"
+                            onClick={MenteePsettingsHandler}
                           />
+                          <div className="update-text">Update Image</div>
                         </div>
 
                         <div className="mentee-dashboardHeadline">

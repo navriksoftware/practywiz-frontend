@@ -167,8 +167,8 @@ const SingleMentorPageUpdated = () => {
   }, [singleMentor]);
   const [showLessText, setShowLessText] = useState(false);
 
-  const Rating = Math.floor(Math.random() * 3) + 3;
-  const RatingNo = 329;
+  const Rating = Math.floor(Math.random() * 2) + 4; // Generates either 4 or 5
+  const RatingNo = Math.floor(Math.random() * 6) + 15; // Generates between 15 and 20
   return (
     <div id="targetElementTop">
       <div className="Singlementor-screen">
@@ -404,7 +404,7 @@ const SingleMentorPageUpdated = () => {
                         )}
                         {!user && (
                           <button className="btn btn-main">
-                            <Link to="/login">LOGIN</Link>
+                            <Link to="/login">BOOK NOW</Link>
                           </button>
                         )}
                       </div>

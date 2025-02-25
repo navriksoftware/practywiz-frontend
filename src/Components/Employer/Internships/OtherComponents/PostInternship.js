@@ -1,11 +1,11 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import "../InternshipCss/Postinternship.css";
 import Select from "react-select";
 import { options, skills } from "../../../data/Additionalquestion.js";
 import { option_fro_timezone } from "../../../data/Timezones.js";
-
+import { allSkills } from "../../../data/Skills.js";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
@@ -36,6 +36,96 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
   const [selected, setSelected] = useState("Pending");
 
   const [supervisionType, setSupervisionType] = useState("Self Manage");
+
+
+  //skill function
+
+  const [skillList, setSkillList] = useState([]);
+  const [skills, setSkills] = useState(""); // For the input field
+
+  const [suggestions, setSuggestions] = useState([]); // For suggestions
+  const [message, setMessage] = useState(""); // For displaying messages
+  // Example skill suggestions
+
+  const handleInputChangee = (e) => {
+    const input = e.target.value.trimStart(); // Trim leading spaces
+    setSkills(input);
+
+    if (input.length > 3) {
+      // Suggest the input and filter suggestions from `allSkills`
+      setSuggestions([
+        input,
+        ...allSkills.filter(
+          (skill) =>
+            skill.toLowerCase().includes(input.toLowerCase()) &&
+            !skillList?.some(
+              (existingSkill) =>
+                existingSkill.toLowerCase() === skill.toLowerCase()
+            )
+        ),
+      ]);
+    } else if (input) {
+      // Filter suggestions if input is not empty
+      const filteredSuggestions = allSkills.filter(
+        (skill) =>
+          skill.toLowerCase().includes(input.toLowerCase()) &&
+          !skillList?.some(
+            (existingSkill) =>
+              existingSkill.toLowerCase() === skill.toLowerCase()
+          )
+      );
+      setSuggestions(filteredSuggestions);
+    } else {
+      // Clear suggestions if input is empty
+      setSuggestions([]);
+    }
+  };
+
+  const handleAddSkill = (newSkill) => {
+    const trimmedSkill = newSkill.trim();
+
+    // Prevent adding empty or duplicate skills
+    if (!trimmedSkill) {
+      setMessage("Skill cannot be empty");
+      setTimeout(() => setMessage(""), 2000);
+      return;
+    }
+
+    // Check if the skill already exists (case-insensitive)
+    const exists = (skillList || []).some(
+      (existingSkill) =>
+        existingSkill.toLowerCase() === trimmedSkill.toLowerCase()
+    );
+
+    if (!exists) {
+      setSkillList([...(skillList || []), trimmedSkill]); // Use fallback to avoid undefined
+      setMessage(""); // Clear any previous message
+    } else {
+      setMessage("Skill already added");
+      setTimeout(() => setMessage(""), 2000);
+    }
+
+    setSkills(""); // Clear input
+    setSuggestions([]); // Clear suggestions
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleAddSkill(skills);
+    }
+  };
+
+  const removeSkill = (index) => {
+    setSkillList(skillList.filter((_, i) => i !== index));
+  };
+
+  useEffect(() => {
+    if (skillList?.length >=0 ) {
+      setValue("internshipSkills", skillList);
+    }
+  }, [skillList]);
+
+
 
   // Quill modules configuration
   const quillModules = {
@@ -106,6 +196,7 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
     }
   };
   const onSubmit = async (data) => {
+    console.log(data);
     const payload = {
       ...data,
       supervisionType,
@@ -165,9 +256,8 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
             <div className="postinternAling">
               <div className="toggle-container">
                 <div
-                  className={`toggle-button ${
-                    selected === "Pending" ? "active" : "inactive"
-                  }`}
+                  className={`toggle-button ${selected === "Pending" ? "active" : "inactive"
+                    }`}
                   onClick={() => {
                     setSelected("Pending");
                     setSupervisionType("Self Manage");
@@ -177,9 +267,8 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                   Self Manage internship
                 </div>
                 <div
-                  className={`toggle-button ${
-                    selected === "Completed" ? "active" : "inactive"
-                  }`}
+                  className={`toggle-button ${selected === "Completed" ? "active" : "inactive"
+                    }`}
                   onClick={() => {
                     setSelected("Completed");
                     setSupervisionType("Value Added");
@@ -621,7 +710,7 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                   )}
                 </div>
 
-                <div className="col-lg-12 mb-4">
+                {/* <div className="col-lg-12 mb-4">
                   <label htmlFor="exampleInputEmail1" className="form-label">
                     <b>
                       Skills Required
@@ -647,15 +736,84 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                       />
                     )}
                   />
-                  {/* Error message */}
-                  {/* {errors.internshipSkills && (
-                    <p
-                      style={{ color: "red", marginTop: "8px" }}
-                      // className="Error-meg-login-register"
-                    >
-                      {errors.internshipSkills.message}
-                    </p>
-                  )} */}
+                
+                </div> */}
+                <div className="col-lg-12 mb-4" style={{
+
+                  position: "relative",
+                }}>
+                  <label htmlFor="mentorJobTitle" className="form-label">
+                    <b>
+                      Skills Required
+                      {/* <span className="RedColorStarMark">*</span> */}
+                    </b>
+                    {/* <i
+    className="fa-solid fa-circle-info mentorMicroHelpIcon"
+    onMouseEnter={() => handleMouseEnter("SkillHelp")}
+    onMouseLeave={() => handleMouseLeave("SkillHelp")}
+  ></i>
+  {visibleHelp.SkillHelp && (
+    <div className="mentorMicroHelpMessageSkills">
+      <ul>
+        <li className="Mentor-Microhelp-listFrontSize">
+          {" "}
+          List the key skills you specialize in within your
+          domains (e.g., Python,Data Analysis,Public Speaking).
+        </li>
+        <li className="Mentor-Microhelp-listFrontSize">
+          Why This Matters: Your skills help mentees understand
+          your expertise and choose you as their mentor for
+          relevant guidance.
+        </li>
+      </ul>
+    </div>
+  )} */}
+                  </label>
+                  <div className="input-wrapper">
+                    <input
+                      type="text"
+                      placeholder="Type skills and press Enter"
+                      value={skills}
+
+                      onChange={handleInputChangee}
+                      onKeyDown={handleKeyPress}
+                      className="form-control"
+                    />
+
+                    {/* Suggestions Dropdown */}
+                    {suggestions.length > 0 && (
+                      <ul className="suggestions-dropdown">
+                        {suggestions.map((suggestion, index) => (
+                          <li
+                            key={index}
+                            onClick={() => handleAddSkill(suggestion)}
+                            className="suggestion-item"
+                          >
+                            {suggestion}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+
+                  {/* Display message */}
+                  {message && <div className="message">{message}</div>}
+
+                  <div className="skill-list">
+                    {skillList?.map((skill, index) => (
+                      <span key={index} className="skill-tag">
+                        {skill}{" "}
+                        <button
+                          type="button"
+                          onClick={() => removeSkill(index)}
+                          className="remove-skill-btn"
+                        // disabled={!isEditing}
+                        >
+                          &times;
+                        </button>
+                      </span>
+                    ))}
+                  </div>
                 </div>
                 <div className="row">
                   <div className="col-lg-6 mb-4">
@@ -1212,9 +1370,8 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                       role:
                     </label>
                     <select
-                      className={`form-select ${
-                        errors.taskCategory ? "error-input" : ""
-                      }`}
+                      className={`form-select ${errors.taskCategory ? "error-input" : ""
+                        }`}
                       {...register("taskCategory", {
                         // required: "Please select a task category",
                       })}
@@ -1239,9 +1396,8 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                       What is the expected business objective?
                     </label>
                     <select
-                      className={`form-select ${
-                        errors.businessObjective ? "error-input" : ""
-                      }`}
+                      className={`form-select ${errors.businessObjective ? "error-input" : ""
+                        }`}
                       {...register("businessObjective", {
                         // required: "Please select a business objective",
                       })}
