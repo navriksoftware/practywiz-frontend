@@ -271,7 +271,7 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                     }`}
                   onClick={() => {
                     setSelected("Completed");
-                    setSupervisionType("Value Added");
+                    setSupervisionType("Guided");
                     setValue("internshipStipendType", "Fixed");
                     setamountShow(true);
                     setperformanceBased(false);

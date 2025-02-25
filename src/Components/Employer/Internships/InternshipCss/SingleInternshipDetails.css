@@ -54,10 +54,53 @@
 }
 
 .single-intern-meta-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #6b7280;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 15px;
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.single-intern-menta-item-location {
+  background-color: #e7eff6;
+  color: #0f4c75;
+  border-color: #0f4c75;
+}
+
+.single-intern-menta-item-duration {
+  background-color: #e8f0e9;
+  color: #1b5e20;
+  border-color: #1b5e20;
+}
+
+.single-intern-menta-item-stipend.unpaid {
+  background-color: #fbe9e7;
+  color: #b71c1c;
+  border-color: #b71c1c;
+}
+
+.single-intern-menta-item-stipend.paid {
+  background-color: #fff8e1;
+  color: #795548;
+  border-color: #795548;
+}
+
+.single-intern-menta-item-supervision {
+  background-color: #f3e5f5;
+  color: #6a1b9a;
+}
+.single-intern-menta-item-supervision.self {
+  background-color: #fbe9e7;
+  color: #b71c1c;
+  border-color: #b71c1c;
+}
+
+.single-intern-menta-item-supervision.guided {
+  background-color: #f1f8e9;
+  color: #2e7d32;
+  border-color: #2e7d32;
 }
 
 .single-intern-apply-btn {
@@ -165,7 +208,7 @@
   }
 
   .single-intern-meta {
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 12px;
   }
 

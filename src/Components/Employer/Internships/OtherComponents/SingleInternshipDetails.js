@@ -113,17 +113,24 @@ const InternshipDetail = ({ user, token }) => {
                     <span>{internship.employer_organization_name}</span>
                   </div>
                   <div className="single-intern-meta">
-                    <div className="single-intern-meta-item">
+                    <div className="single-intern-meta-item single-intern-menta-item-location">
                       <span>
                         {internship.employer_internship_post_location}
                       </span>
                     </div>
-                    <div className="single-intern-meta-item">
+                    <div className="single-intern-meta-item single-intern-menta-item-duration">
                       <span>
                         {internship.employer_internship_post_duration} Months
                       </span>
                     </div>
-                    <div className="single-intern-meta-item">
+                    <div
+                      className={`single-intern-meta-item single-intern-menta-item-stipend ${
+                        internship.employer_internship_post_stipend_type ===
+                        "Unpaid"
+                          ? "unpaid"
+                          : "paid"
+                      }`}
+                    >
                       <span>
                         {internship.employer_internship_post_stipend_type ===
                         "Unpaid" ? (
@@ -137,6 +144,18 @@ const InternshipDetail = ({ user, token }) => {
                             /{internship.employer_internship_post_pay_type}
                           </span>
                         )}
+                      </span>
+                    </div>
+                    <div
+                      className={`single-intern-meta-item single-intern-menta-item-supervision ${
+                        internship.employer_internship_post_supervision_type ===
+                        "Guided"
+                          ? "guided"
+                          : "self"
+                      }`}
+                    >
+                      <span>
+                        {internship.employer_internship_post_supervision_type}
                       </span>
                     </div>
                   </div>
@@ -197,20 +216,29 @@ const InternshipDetail = ({ user, token }) => {
                   <h2 className="single-intern-section-title">
                     {internship.employer_organization_name.toUpperCase()}
                   </h2>
+
                   <p className="single-intern-text">
                     {internship.employer_organization_desc}
                   </p>
                   <div className="single-intern-company-meta">
                     <div className="single-intern-company-meta-item">
-                      <span>{internship.employer_organization_website}</span>
+                      <i className="fa-solid fa-globe"></i>
+                      <span>
+                        <a href={internship.employer_organization_website}>
+                          {internship.employer_organization_website}
+                        </a>
+                      </span>
                     </div>
                     <div className="single-intern-company-meta-item">
+                      <i className="fa-solid fa-users"></i>
                       <span>{internship.employer_organization_no_of_emp}</span>
                     </div>
                     <div className="single-intern-company-meta-item">
+                      <i className="fa-solid fa-envelope"></i>
                       <span>{internship.employer_organization_email}</span>
                     </div>
                     <div className="single-intern-company-meta-item">
+                      <i className="fa-solid fa-location-dot"></i>
                       <span>
                         {internship.employer_organization_location +
                           ", " +

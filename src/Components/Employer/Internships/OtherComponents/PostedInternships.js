@@ -107,14 +107,12 @@ const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
                     <div className={`internship_profile_supervision_label `}>
                       <span
                         className={`internship_profile_supervision_label_text ${
-                          internship.supervisionType === "Self Manage"
-                            ? " guided"
-                            : " unsupervised"
+                          internship.supervisionType === "GUIDED"
+                            ? "guided"
+                            : "self"
                         }`}
                       >
-                        {internship.supervisionType === "Self Manage"
-                          ? "Guided"
-                          : "Unsupervised"}
+                        {internship.supervisionType}
                       </span>
                     </div>
 
@@ -126,7 +124,7 @@ const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
                           handleApplicants(internship.id, internship.profile);
                         }}
                       >
-                        Applicants:
+                        Applicants
                       </button>
                       <button
                         onClick={() => onEditInternshipPost(internship.id)}
