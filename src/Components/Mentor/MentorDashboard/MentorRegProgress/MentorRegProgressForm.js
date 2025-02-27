@@ -3,7 +3,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import MentorForm1 from "./MentorPage2.js";
 import MentorForm2 from "./MentorPage3.js";
 import { ApiURL } from "../../../../Utils/ApiURL";
-import { toast } from "react-toastify";
+import { toast, Flip } from "react-toastify";
 import {
   hideLoadingHandler,
   showLoadingHandler,
@@ -87,6 +87,11 @@ const MentorRegProgressForm = ({
         if (!isValid) {
           toast.error("Please add at least one time slot before proceeding.", {
             position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            transition: Flip,
           });
           return;
         } else if (isValid) {
@@ -98,8 +103,8 @@ const MentorRegProgressForm = ({
             newData.append(
               "mentorName",
               singleMentor[0].mentor_firstname +
-                " " +
-                singleMentor[0].mentor_lastname
+              " " +
+              singleMentor[0].mentor_lastname
             );
             newData.append("jobtitle", data.mentorJobTitle);
             newData.append("experience", data.yearsOfExperience);
@@ -122,7 +127,7 @@ const MentorRegProgressForm = ({
             newData.append("CountryName", data.mentor_country);
             newData.append("CityName", data.mentorCityName);
             newData.append("Timezone", data.mentorTimezone);
-            newData.append("mentorEducationDetails",JSON.stringify(data.MentorEduDetails));
+            newData.append("mentorEducationDetails", JSON.stringify(data.MentorEduDetails));
             newData.append(
               "Availability",
               JSON.stringify(data.mentorAvailability)
@@ -147,8 +152,14 @@ const MentorRegProgressForm = ({
             if (res.data.success) {
               return (
                 toast.success(
-                  "Thank you for applying for the mentor application."
-                ),
+                  "Thank you for applying for the mentor application.", {
+                    position: "top-right",
+                  autoClose: 1500,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  transition: Flip,
+                }),
                 showFeedbackModelHandler(),
                 localStorage.removeItem("formData1"),
                 localStorage.removeItem("slots")
@@ -167,12 +178,12 @@ const MentorRegProgressForm = ({
               );
             }
           }
-           finally {
+          finally {
             dispatch(hideLoadingHandler());
             // localStorage.removeItem("formData1");
             // localStorage.removeItem("slots");
           }
-         
+
         }
       } else {
         setPage((currPage) => currPage - 1);

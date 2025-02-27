@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { option_fro_timezone } from "../../../data/Timezones";
-import { toast } from "react-toastify";
+import { toast, Flip } from "react-toastify";
 import "./MentorForm3.css";
 
 const AvailabilityForm = () => {
@@ -17,19 +17,19 @@ const AvailabilityForm = () => {
     return savedData
       ? JSON.parse(savedData)
       : [
-          {
-            days: [],
-            startHour: "12",
-            startMinute: "00",
-            startPeriod: "AM",
-            endHour: "12",
-            endMinute: "00",
-            endPeriod: "PM",
-            fromDate: "",
-            toDate: "",
-            duration: "60",
-          },
-        ];
+        {
+          days: [],
+          startHour: "12",
+          startMinute: "00",
+          startPeriod: "AM",
+          endHour: "12",
+          endMinute: "00",
+          endPeriod: "PM",
+          fromDate: "",
+          toDate: "",
+          duration: "60",
+        },
+      ];
   };
 
   const [slots, setSlots] = useState(loadSavedData);
@@ -283,8 +283,7 @@ const AvailabilityForm = () => {
       const overlappingDetails = overlappingSlots
         .map(
           (overlap) =>
-            `Slot ${overlap.slotIndex} (${overlap.days.join(", ")}) at ${
-              overlap.times
+            `Slot ${overlap.slotIndex} (${overlap.days.join(", ")}) at ${overlap.times
             }`
         )
         .join("\n");
@@ -323,11 +322,11 @@ const AvailabilityForm = () => {
         .join("\n");
       toast.error(`Error in Slot ${index + 1}:\n${errorMessages}`, {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
-        draggable: true,
+        transition: Flip,
       });
       return false;
     }
@@ -339,11 +338,11 @@ const AvailabilityForm = () => {
     setValue("mentorAvailability", updatedSlots);
     toast.success(`Slot ${index + 1} saved successfully!`, {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 1500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
-      draggable: true,
+      transition: Flip,
     });
     // alert(`Slot ${index + 1} saved successfully!`);
     const updatedSaveStatus = [...isSaved];
@@ -606,7 +605,7 @@ const AvailabilityForm = () => {
                     min={today}
                     className="date-picker"
                   />
-                {errors.toDate && (
+                  {errors.toDate && (
                     <p style={{ color: "red" }} className="errorfont">
                       {errors.toDate}
                     </p>

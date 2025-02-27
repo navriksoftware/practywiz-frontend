@@ -83,7 +83,7 @@ const FeedbackModel = ({ user, showFeedbackModelHandler }) => {
       if (res.data.success) {
         return (
           toast.success(
-            "Thank you for sharing your experience with our onboarding mentor registration process. We value your insights and are committed to continuously improving to make the journey as smooth and efficient as possible"
+            "Thanks for your feedback on our mentor onboarding! We appreciate your insights and strive to improve the process."
           ),
           showFeedbackModelHandler(),
           navigate("/redirect")

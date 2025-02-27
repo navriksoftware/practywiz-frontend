@@ -1,33 +1,99 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
-const InternshipProfileSettings = () => {
+import axios from "axios";
+import { ApiURL } from "../../../../Utils/ApiURL";
+import { toast } from "react-toastify";
+import { hideLoadingHandler, showLoadingHandler } from "../../../../Redux/loadingRedux";
+import { useDispatch } from "react-redux";
+const InternshipProfileSettings = ({ data, employerDtlsId, token }) => {
+
   const {
     register,
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
     trigger,
   } = useForm();
+  const url = ApiURL();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (data) {
+      setValue('employer_first_name', data[0]?.employer_firstname);
+      setValue('employer_last_name', data[0]?.employer_lastname);
+      setValue('employer_email', data[0]?.employer_email);
+      setValue('employer_phone', data[0]?.employer_phone_number);
+      setValue('organization_name', data[0]?.employer_organization_name);
+      setValue('organization_description', data[0]?.employer_organization_desc);
+      setValue('company_size', data[0]?.employer_organization_no_of_emp);
+      setValue('organization_city', data[0]?.employer_organization_location);
+      setValue('industry', data[0]?.employer_organization_industry);
+      setValue('organization_website', data[0]?.employer_organization_website);
+      setValue('organization_linkedin', data[0]?.employer_organization_linkedin);
+    }
+  }, [data, setValue]);
 
   const [isEditing, setIsEditing] = useState(false);
   const handleEditClick = () => {
     setIsEditing(!isEditing);
   };
-  const cleanPhoneNumber = (phone) => {
-    return phone.replace(/\D/g, "");
-  };
-  const onSubmit = (data) => {
-    console.log(data);
-    // Handle form submission logic here
+
+  const onSubmit = async (fromdata) => {
+    console.log(fromdata, employerDtlsId);
+    try {
+      dispatch(showLoadingHandler());
+      const res = await Promise.race([
+        axios.post(
+          `${url}api/v1/employer/internship/employer-profileSettings`,
+          {
+            fromdata,
+            employerDtlsId,
+
+          }
+          , {
+            headers: { authorization: "Bearer " + token },
+          }
+        ),
+        new Promise(
+          (_, reject) =>
+            setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+        )
+      ])
+
+      if (res.data.success) {
+        toast.success("Profile Details updated successfully");
+        setIsEditing(false);
+      } else if (res.data.error) {
+        toast.error(res.data.error);
+        setIsEditing(false);
+      }
+
+    }
+    catch (error) {
+      if (error.message === "Request timed out") {
+        toast.error("Update failed due to a timeout. Please try again.");
+      } else {
+        toast.error(
+          "Error in updating the profile details, please try again!"
+        );
+      }
+
+    }
+    finally {
+      dispatch(hideLoadingHandler());
+      setIsEditing(false);
+
+    }
+
 
   };
   return (
     <div>
       {" "}
-      <div className="mt-4">
+      <div className="mt-4 Inernship_form">
         <div className="container">
           <div style={{ textAlign: "center" }} className="mb-4">
             <h2>Profile Update</h2>
@@ -237,21 +303,21 @@ const InternshipProfileSettings = () => {
                         <label htmlFor="numEmployees" className="form-label">
                           Number of Employees
                         </label>
-                        <input
-                          type="number"
-                          disabled={!isEditing}
-                          onKeyUp={() => trigger("num_employees")}
+                        <select
                           className="form-control"
-                          id="numEmployees"
-                          placeholder="Enter the number of employees"
-                          {...register("num_employees", {
+                          disabled={!isEditing}
+                          id="numberOfEmployees"
+                          {...register("company_size", {
                             required: "Number of employees is required",
-                            min: {
-                              value: 1,
-                              message: "Must be at least 1 employee",
-                            },
                           })}
-                        />
+                        >
+                          <option value="">Select number of employees</option>
+                          <option value="1-10">1-10</option>
+                          <option value="11-50">11-50</option>
+                          <option value="51-200">51-200</option>
+                          <option value="201-500">201-500</option>
+                          <option value="500">500+</option>
+                        </select>
                         {errors.num_employees && (
                           <p className="Error-meg-login-register">
                             {errors.num_employees.message}

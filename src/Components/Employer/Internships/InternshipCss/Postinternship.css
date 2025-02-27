@@ -187,3 +187,6 @@
   margin-top: 4px;
   display: block;
 }
+.Inernship_form .react-tel-input .form-control {
+  background-color: #e9ecef !important;
+}

@@ -193,7 +193,7 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
     }
   };
   const onSubmit = async (data) => {
-    console.log(data);
+    
     const payload = {
       ...data,
       supervisionType,
@@ -1467,7 +1467,8 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
               >
                 <div className="bjuerirr_btn diuher  mt-4 htbjsjg">
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handleSubmit(onSubmit)}
                     className="btn juybeubrer_btn btn-primary"
                   >
                     Submit
