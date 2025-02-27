@@ -75,10 +75,10 @@ const TestimonialsSection = () => {
       <div className="practy-testimonials-container">
         <div className="practy-testimonials-header">
           <div className="practy-testimonials-title">
-            <h2>What Our Happy Users Say</h2>
+            <h2>Testimonials</h2>
             <p className="practy-testimonials-subtitle">
               Discover what our users have to say about their experiences with
-              our services.
+              PractyWiz.
             </p>
           </div>
           <div className="practy-testimonials-nav">
