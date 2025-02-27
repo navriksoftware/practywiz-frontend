@@ -20,6 +20,7 @@ export default function InternshipJobBoard({
   const [minStipend, setMinStipend] = useState("");
   const [maxStipend, setMaxStipend] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedSupervisionType, setSelectedSupervisionType] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ export default function InternshipJobBoard({
       result = result.filter((job) =>
         selectedSkills.every((skill) =>
           JSON.parse(job.employer_internship_post_skills).some((jobSkill) =>
-            jobSkill.label.toLowerCase().includes(skill.toLowerCase())
+            jobSkill.toLowerCase().includes(skill.toLowerCase())
           )
         )
       );
@@ -96,7 +97,7 @@ export default function InternshipJobBoard({
       result = result.filter((job) => {
         const searchString = searchTerm.toLowerCase();
         const skills = JSON.parse(job.employer_internship_post_skills).map(
-          (skill) => skill.label.toLowerCase()
+          (skill) => skill.toLowerCase()
         );
 
         return (
@@ -109,6 +110,15 @@ export default function InternshipJobBoard({
       });
     }
 
+    // Filter by supervision type
+    if (selectedSupervisionType) {
+      result = result.filter(
+        (job) =>
+          job.employer_internship_post_supervision_type ===
+          selectedSupervisionType
+      );
+    }
+
     setFilteredJobs(result);
   }, [
     jobs,
@@ -117,6 +127,7 @@ export default function InternshipJobBoard({
     minStipend,
     maxStipend,
     searchTerm,
+    selectedSupervisionType,
   ]);
 
   // Handle adding skills filter
@@ -154,6 +165,7 @@ export default function InternshipJobBoard({
     setMinStipend("");
     setMaxStipend("");
     setSearchTerm("");
+    setSelectedSupervisionType("");
   };
 
   const handleApply = (jobId) => {
@@ -285,6 +297,38 @@ export default function InternshipJobBoard({
               </div>
             </div>
 
+            <div className="intern-filter-section">
+              <h3>Supervision Type</h3>
+              <div className="intern-supervision-type-badges">
+                <span
+                  className={`intern-supervision-type-badge ${
+                    selectedSupervisionType === "Guided" ? "selected" : ""
+                  }`}
+                  onClick={() =>
+                    setSelectedSupervisionType(
+                      selectedSupervisionType === "Guided" ? "" : "Guided"
+                    )
+                  }
+                >
+                  Guided
+                </span>
+                <span
+                  className={`intern-supervision-type-badge ${
+                    selectedSupervisionType === "Self Manage" ? "selected" : ""
+                  }`}
+                  onClick={() =>
+                    setSelectedSupervisionType(
+                      selectedSupervisionType === "Self Manage"
+                        ? ""
+                        : "Self Manage"
+                    )
+                  }
+                >
+                  Self-Managed
+                </span>
+              </div>
+            </div>
+
             <button className="intern-clear-filters" onClick={clearAllFilters}>
               Clear All Filters
             </button>
@@ -330,7 +374,7 @@ export default function InternshipJobBoard({
                       {JSON.parse(job.employer_internship_post_skills).map(
                         (skill, index) => (
                           <span key={index} className="intern-skill-tag">
-                            {skill.label}
+                            {skill}
                           </span>
                         )
                       )}

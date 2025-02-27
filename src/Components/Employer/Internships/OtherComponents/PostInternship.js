@@ -37,7 +37,6 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
 
   const [supervisionType, setSupervisionType] = useState("Self Manage");
 
-
   //skill function
 
   const [skillList, setSkillList] = useState([]);
@@ -120,12 +119,10 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
   };
 
   useEffect(() => {
-    if (skillList?.length >=0 ) {
+    if (skillList?.length >= 0) {
       setValue("internshipSkills", skillList);
     }
   }, [skillList]);
-
-
 
   // Quill modules configuration
   const quillModules = {
@@ -256,8 +253,9 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
             <div className="postinternAling">
               <div className="toggle-container">
                 <div
-                  className={`toggle-button ${selected === "Pending" ? "active" : "inactive"
-                    }`}
+                  className={`toggle-button ${
+                    selected === "Pending" ? "active" : "inactive"
+                  }`}
                   onClick={() => {
                     setSelected("Pending");
                     setSupervisionType("Self Manage");
@@ -267,8 +265,9 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                   Self Manage internship
                 </div>
                 <div
-                  className={`toggle-button ${selected === "Completed" ? "active" : "inactive"
-                    }`}
+                  className={`toggle-button ${
+                    selected === "Completed" ? "active" : "inactive"
+                  }`}
                   onClick={() => {
                     setSelected("Completed");
                     setSupervisionType("Guided");
@@ -738,10 +737,12 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                   />
                 
                 </div> */}
-                <div className="col-lg-12 mb-4" style={{
-
-                  position: "relative",
-                }}>
+                <div
+                  className="col-lg-12 mb-4"
+                  style={{
+                    position: "relative",
+                  }}
+                >
                   <label htmlFor="mentorJobTitle" className="form-label">
                     <b>
                       Skills Required
@@ -774,7 +775,6 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                       type="text"
                       placeholder="Type skills and press Enter"
                       value={skills}
-
                       onChange={handleInputChangee}
                       onKeyDown={handleKeyPress}
                       className="form-control"
@@ -807,7 +807,7 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                           type="button"
                           onClick={() => removeSkill(index)}
                           className="remove-skill-btn"
-                        // disabled={!isEditing}
+                          // disabled={!isEditing}
                         >
                           &times;
                         </button>
@@ -1218,8 +1218,8 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                               value="Certificate"
                               className="d-none"
                               {...register("internshipPerks", {
-                                // required:
-                                //   "Please select your academic qualification",
+                                required:
+                                  "Please select at least one perk and benefit for the internship",
                               })}
                             />
                             <label htmlFor="internshipPerks1">
@@ -1325,26 +1325,20 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                           </li>
                         </ul>
                       </div>
-                      {/* <div
-                        style={{
-                          position: errors.academic_qualification
-                            ? "absolute"
-                            : "",
-                        }}
-                      >
-                        {errors.academic_qualification && (
+                      <div>
+                        {errors.internshipPerks && (
                           <p
                             className="Error-meg-login-register"
                             style={{
-                              position:
-                                errors.academic_qualification && "relative",
-                              top: errors.academic_qualification && "52px",
+                              display: errors.internshipPerks
+                                ? "inline-block"
+                                : "none",
                             }}
                           >
-                            {errors.academic_qualification.message}
+                            {errors.internshipPerks.message}
                           </p>
                         )}
-                      </div> */}
+                      </div>
                     </div>
                     <div className="thdyefbfe mb-4">
                       <h5>
@@ -1370,8 +1364,9 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                       role:
                     </label>
                     <select
-                      className={`form-select ${errors.taskCategory ? "error-input" : ""
-                        }`}
+                      className={`form-select ${
+                        errors.taskCategory ? "error-input" : ""
+                      }`}
                       {...register("taskCategory", {
                         // required: "Please select a task category",
                       })}
@@ -1396,8 +1391,9 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                       What is the expected business objective?
                     </label>
                     <select
-                      className={`form-select ${errors.businessObjective ? "error-input" : ""
-                        }`}
+                      className={`form-select ${
+                        errors.businessObjective ? "error-input" : ""
+                      }`}
                       {...register("businessObjective", {
                         // required: "Please select a business objective",
                       })}

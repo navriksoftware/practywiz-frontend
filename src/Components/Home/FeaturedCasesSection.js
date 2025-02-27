@@ -7,28 +7,28 @@ import agileTransformation from "./images/agiletransform-img.png";
 const FeaturedCasesSection = () => {
   const caseStudies = [
     {
-      title: "Leadership in Crisis",
+      title: "Remote Workforce Management",
       description:
-        "How Memorial Hospital implemented AI to optimize patient scheduling and resource allocation.",
-      category: "Risk Management",
+        "A global company successfully transitions to a hybrid workforce model while maintaining operational efficiency and team productivity.",
+      category: "Operations Management",
       readTime: "25 mins",
       participants: "2,145",
       image: leadershipCrisis,
     },
     {
-      title: "Retail Analytics Revolution",
+      title: "Personal Branding Impact",
       description:
-        "GlobalMart's journey of implementing predictive analytics for inventory management.",
-      category: "Retail",
+        "A tech company's success is significantly influenced by its CEO's personal brand. The case examines the relationship between personal and corporate branding in modern business.",
+      category: "Marketing",
       readTime: "20 mins",
       participants: "1,893",
       image: technicalManagement,
     },
     {
-      title: "Agile Transformation",
+      title: "Lean and Agile Operations",
       description:
-        "How NextGen Bank automated credit risk assessment using machine learning.",
-      category: "Project Management",
+        "A manufacturing facility implements lean and agile methodologies to improve efficiency. The case examines the transformation process and its impact on productivity and waste reduction.",
+      category: "Operations Management",
       readTime: "30 mins",
       participants: "3,267",
       image: agileTransformation,

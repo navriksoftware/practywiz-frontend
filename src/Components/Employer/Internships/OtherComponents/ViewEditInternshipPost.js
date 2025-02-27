@@ -11,7 +11,6 @@ const InternshipDetail = ({
   onEditInternshipPost,
   setInternPostData,
 }) => {
-
   const url = ApiURL();
   const [loading, setLoading] = useState(false);
   const [singleInternshipPost, setSingleInternshipPost] = useState(null);
@@ -134,7 +133,7 @@ const InternshipDetail = ({
                             key={index}
                             className="preview-single-intern-skill-tag"
                           >
-                            {skill.value}
+                            {skill}
                           </span>
                         ))}
                       </div>

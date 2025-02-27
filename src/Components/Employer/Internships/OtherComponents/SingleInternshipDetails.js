@@ -180,7 +180,7 @@ const InternshipDetail = ({ user, token }) => {
                         internship?.employer_internship_post_skills
                       ).map((skill, index) => (
                         <span key={index} className="single-intern-skill-tag">
-                          {skill.value}
+                          {skill}
                         </span>
                       ))}
                     </div>
