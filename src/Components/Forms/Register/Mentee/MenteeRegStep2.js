@@ -132,7 +132,7 @@ const MenteeRegStep2 = () => {
     <div className="step" id="step2">
       <h4 className="text-center">
         <img src="images/icons8-account-96.webp" alt="" className="me-1" />
-        Step 2: More About You
+        More About You
       </h4>
 
       <div className="ihduwfr_form_wrapper mt-4">
