@@ -9,7 +9,7 @@ const CaseNavBar = () => {
   return (
     <nav className="case-navbar md-header">
       <h4>
-        <Link to="/case-studies">AI Case Studies</Link>
+        <Link to="/case-studies">Case Studies</Link>
       </h4>
       <div className="cart-icon">
         <Link to="/cart">

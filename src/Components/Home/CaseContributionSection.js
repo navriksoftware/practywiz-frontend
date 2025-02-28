@@ -1,7 +1,18 @@
-import React from "react";
+import { React, useState } from "react";
 import casecontributionImg from "./images/casecontributionImg.png";
 import "./HomeCSS/CaseContributionSection.css";
+import EmailPopup from "./EmailPopup";
+
 const CaseContributionSection = () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const openPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
   return (
     <section className="case-contribution-container">
       <div className="case-contribution-inner">
@@ -24,10 +35,14 @@ const CaseContributionSection = () => {
               millions
             </p>
 
-            <button className="case-contribution-reach-button">
+            <button
+              className="case-contribution-reach-button"
+              onClick={openPopup}
+            >
               Reach to Case Consultant
               <i className="fa-solid fa-arrow-right"></i>
             </button>
+            <EmailPopup isOpen={isPopupOpen} onClose={closePopup} />
           </div>
         </div>
 

@@ -1,19 +1,39 @@
-import React from "react";
+import { React, useState } from "react";
 import "./HomeCSS/CasestudySection.css";
-import img from "./images/avega-ai-img.svg";
+import img from "./images/mentor.png";
+import EmailPopup from "./EmailPopup";
 
 const AiCasestudySection = () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const openPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
+
   return (
     <section className="ai-casestudy-hero-section">
       <div className="ai-casestudy-container">
-        <div className="ai-casestudy-grid">
+        <div className="ai-casestudy-grid ">
           <div className="ai-casestudy-image-column">
-            <img
-              src={img}
-              alt="AI Case Studies Interface Preview"
-              className="ai-casestudy-preview-image"
-              loading="lazy"
-            />
+            <h3
+              className="ai-casestudy-title "
+              style={{ fontSize: "2rem", zIndex: 100, textAlign: "center" }}
+            >
+              Join The Knowledge{" "}
+              <span className="ai-casestudy-highlight">"Revolution"</span>
+            </h3>
+            <div className="ai-casestudy-casecontributor-image-bg">
+              <img
+                src={img}
+                alt="Case Contribution"
+                className="ai-casestudy-casecontributor-image"
+                loading="lazy"
+              />
+            </div>
           </div>
           <div className="ai-casestudy-content-column">
             <span className="ai-casestudy-badge">
@@ -35,15 +55,16 @@ const AiCasestudySection = () => {
                   onClick={() => (window.location.href = "/case-studies")}
                   className="ai-casestudy-primary-button"
                 >
-                  View AI Case Study
+                  View Case Studies
                   <i className="fa-solid fa-arrow-right"></i>
                 </button>
                 <button
-                  onClick={() => (window.location.href = "/login")}
+                  onClick={openPopup}
                   className="ai-casestudy-secondary-button"
                 >
-                  Contribute Case Study
+                  Connect To Case Cunsultant
                 </button>
+                <EmailPopup isOpen={isPopupOpen} onClose={closePopup} />
               </div>
             </div>
           </div>

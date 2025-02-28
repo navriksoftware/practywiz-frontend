@@ -77,12 +77,12 @@
   display: grid;
   grid-template-columns: 1.5fr 1fr;
   gap: 3rem;
-  padding: 3rem 2rem;
+  padding: 2rem 2rem;
 }
 
 .dcs-details-card {
   background: var(--dcs-bg-secondary);
-  padding: 2.5rem;
+  padding: 2rem;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease;

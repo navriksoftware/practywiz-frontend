@@ -1,0 +1,304 @@
+.email-popup-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1200;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.email-popup-container {
+  background-color: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transform: translateY(0);
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.email-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  border-bottom: 1px solid #eaeaea;
+  background-color: #f9f9f9;
+}
+
+.email-popup-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.email-popup-close {
+  background: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.email-popup-close:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #333;
+}
+
+.email-popup-content {
+  padding: 24px;
+}
+
+.email-popup-content p {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #555;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.email-input-container {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.email-input-container input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.email-input-container input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.email-input-error {
+  border-color: #ff3860 !important;
+}
+
+.email-input-error:focus {
+  box-shadow: 0 0 0 3px rgba(255, 56, 96, 0.2) !important;
+}
+
+.error-message {
+  color: #ff3860;
+  font-size: 14px;
+  margin-top: 8px;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.error-message::before {
+  content: "⚠️";
+  margin-right: 6px;
+}
+
+.email-popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.cancel-button {
+  padding: 12px 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.submit-button {
+  padding: 12px 24px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.submit-button:hover {
+  background-color: #1d4ed8;
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+  transform: translateY(-1px);
+}
+
+.cancel-button:hover {
+  background-color: #e8e8e8;
+}
+
+/* Add a subtle branding element */
+.email-popup-branding {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #eaeaea;
+  color: #999;
+  font-size: 14px;
+}
+
+/* Make the popup responsive */
+@media (max-width: 480px) {
+  .email-popup-container {
+    width: 95%;
+  }
+
+  .email-popup-actions {
+    flex-direction: column;
+  }
+
+  .cancel-button,
+  .submit-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .submit-button {
+    order: -1;
+  }
+}
+
+/* Phone Input Styling */
+.react-tel-input .form-control {
+  width: 100% !important;
+  padding: 0.375rem 0.75rem 0.375rem 50px !important;
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  color: #212529 !important;
+  background-color: #fff !important;
+  background-clip: padding-box !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 0.25rem !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+/* Focus state - matching other input fields */
+.react-tel-input .form-control:focus {
+  color: #212529 !important;
+  background-color: #fff !important;
+  border-color: #2563eb !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+}
+
+.flag-dropdown {
+  margin: 1px !important;
+}
+.selected-flag {
+  background-color: #fff;
+}
+
+/* Error state styling */
+.phone-input-error .react-tel-input .form-control {
+  border-color: #dc3545 !important;
+}
+
+.phone-input-error .react-tel-input .form-control:focus {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+}
+
+/* Flag dropdown styling */
+.react-tel-input .flag-dropdown {
+  border-radius: 0.25rem 0 0 0.25rem !important;
+  border: 1px solid #ced4da !important;
+}
+
+/* Ensure consistent height with other form elements */
+.react-tel-input {
+  margin-bottom: 1rem;
+}
+/* Fix for country dropdown alignment */
+.react-tel-input .country-list {
+  text-align: left;
+  left: 0;
+  right: auto;
+  max-height: 200px;
+  overflow-y: scroll;
+  width: 300px;
+}
+
+.react-tel-input .country-list .country {
+  display: flex;
+  align-items: center;
+  padding: 7px 10px;
+}
+
+.react-tel-input .country-list .country .dial-code {
+  color: #666;
+}
+
+/* Ensure dropdown doesn't get cut off */
+.react-tel-input .flag-dropdown.open .country-list {
+  z-index: 100;
+}
+
+/* Improve dropdown scrollbar */
+.react-tel-input .country-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.react-tel-input .country-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.react-tel-input .country-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+/* Ensure the dropdown is visible on mobile */
+@media (max-width: 480px) {
+  .react-tel-input .country-list {
+    width: 250px;
+  }
+}

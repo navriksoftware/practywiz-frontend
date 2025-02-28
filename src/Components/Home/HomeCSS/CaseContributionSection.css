@@ -160,3 +160,23 @@
     height: 250px;
   }
 }
+
+.case-contribution-casecontributor-image-bg {
+  width: 60%;
+  height: 350px;
+  position: relative;
+  background-color: rgba(59, 174, 246, 0.275);
+  border-radius: 16px;
+  transition: transform 0.3s;
+}
+
+.case-contribution-casecontributor-image {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  border-radius: 16px;
+}
+
+.case-contribution-casecontributor-image-bg:hover {
+  transform: scale(1.02);
+}

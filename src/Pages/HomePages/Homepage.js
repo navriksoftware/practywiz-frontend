@@ -14,7 +14,7 @@ import OurPartnersSection from "../../Components/Home/OurPartnersSection";
 import TestimonialsSection from "../../Components/Home/TestimonialsSection";
 import ItTrainingSection from "../../Components/Home/ItTrainingSection";
 import RoleSelectorCustom from "../../Components/Home/CalltoactionSection";
-import CaseContributionSection from "../../Components/Home/CaseContributionSection";
+// import CaseContributionSection from "../../Components/Home/CaseContributionSection";
 
 const Homepage = () => {
   document.title = "Practywiz | Home";
@@ -26,7 +26,7 @@ const Homepage = () => {
       <FeaturedMentorSection />
       <MentorCTASection />
       <AiCasestudySection />
-      <CaseContributionSection />
+      {/* <CaseContributionSection /> */}
       <FeaturedCasesSection />
       <InternshipInfoSection />
       <RecentInternshipsSection />
