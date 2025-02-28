@@ -500,6 +500,7 @@ const MentorDashboard = ({ user, token }) => {
                   ShowMentorCompletedHandler={ShowMentorCompletedHandler}
                   MentorChangePwdHandler={MentorChangePwdHandler}
                   MentorPsettingsHandler={MentorPsettingsHandler}
+                  userLogoutHandler={userLogoutHandler}
                 />
               )}
               {mentorTotalProgress < 80 ? (
@@ -734,17 +735,13 @@ const MentorDashboard = ({ user, token }) => {
                         , Welcome To The Mentor Application Form. It Will Take
                         Approx. 4 Mins To Completing Of Profile. Thanks For Your
                         Co-operation.
-                        
                       </h5>
-                     
-                   
                     </div>
                     <p className="errorNoteText">
                       (80% completion is needed to approve your mentor
                       application!)
                     </p>
                     <ProgressBar progress={mentorTotalProgress} />
-                   
                   </>
                 )}
               {/* {singleMentor[0]?.mentor_approved_status === "Yes" &&

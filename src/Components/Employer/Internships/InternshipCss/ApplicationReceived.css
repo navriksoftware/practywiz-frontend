@@ -1,4 +1,3 @@
-
 .applications-type {
   display: flex;
   justify-self: center;
@@ -19,7 +18,7 @@
 }
 
 .applications-type-header.active {
-  background-color: blue;
+  background-color: #007bff;
   color: white;
 }
 
@@ -28,9 +27,8 @@
   color: black;
 }
 
-
 .applications-clear-filters {
-  background-color: #0255ca;
+  background-color: #2563eb;
   color: white;
   padding: 8px 16px;
   border: none;
@@ -79,7 +77,6 @@
   min-height: 100vh;
   background-color: #f5f7fa;
   padding: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .applications-outer-container {
@@ -184,7 +181,7 @@
 }
 
 .applications-info h2 {
-  font-size: 18px;
+  font-size: 18px !important;
   color: #2d3748;
   margin: 0 0 4px 0;
 }
@@ -235,12 +232,16 @@
 }
 
 .applications-view-profile-btn {
-  color: #0255ca;
+  color: #2563eb;
   margin-top: 8px;
   padding: 4px 8px;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.applications-view-profile-btn:hover {
+  background: #1d4ed8;
 }
 
 .applications-action-section {
@@ -250,13 +251,17 @@
 }
 
 .applications-shortlist-btn {
-  background: #0255ca;
+  background: #2563eb;
   color: white;
   padding: 8px 16px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+}
+
+.applications-shortlist-btn:hover {
+  background: #1d4ed8;
 }
 
 .applications-mobile-filter-toggle {
@@ -271,7 +276,9 @@
   .applications-main-content {
     grid-template-columns: 1fr;
   }
-
+  .applications-type {
+    width: 100%;
+  }
   .applications-filters {
     order: 2;
   }
@@ -300,24 +307,24 @@
 
   .applications-mobile-filter-toggle {
     display: block;
-    margin-bottom: 16px;
   }
 
   .applications-filter-overlay {
     display: block;
   }
   .applications-filter-mobile-btn {
-    padding: 10px;
-    background-color: #0255ca;
-    color: white;
+    padding: 5px 10px;
     border: none;
-    border-radius: 6px;
+    border-radius: 2rem;
     cursor: pointer;
     transition: background-color 0.2s;
+    font-size: 14px;
+    border: 1px solid #2563eb;
   }
 
   .applications-filter-mobile-btn:hover {
-    background-color: #2632dc;
+    background: #1d4ed8;
+    color: white;
   }
 
   .applications-filters {

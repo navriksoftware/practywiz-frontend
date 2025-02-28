@@ -134,7 +134,7 @@
 }
 
 .single-intern-section-title {
-  font-size: 18px;
+  font-size: 18px !important;
   font-weight: 600;
   color: #111827;
   margin-bottom: 16px;
