@@ -166,11 +166,8 @@
   }
   .ai-casestudy-casecontributor-image {
     width: auto;
-    height: 430px;
+    height: 400px;
   }
-}
-
-@media (max-width: 992px) {
 }
 
 @media (min-width: 1024px) {
@@ -184,8 +181,6 @@
   }
 
   .ai-casestudy-grid {
-    /* flex-direction: row;
-    gap: 4rem; */
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 32px;
@@ -207,9 +202,5 @@
 
   .ai-casestudy-button-group {
     justify-content: flex-end;
-  }
-  .ai-casestudy-casecontributor-image {
-    width: auto;
-    height: 430px;
   }
 }
