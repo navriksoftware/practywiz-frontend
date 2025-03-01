@@ -16,7 +16,30 @@
 .ai-casestudy-image-column {
   width: 100%;
   display: flex;
+  align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+
+.ai-casestudy-casecontributor-image-bg {
+  width: 80%;
+  height: 350px;
+  position: relative;
+  background-color: rgba(59, 174, 246, 0.275);
+  border-radius: 16px;
+  transition: transform 0.3s;
+  margin-top: 2rem;
+}
+
+.ai-casestudy-casecontributor-image {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  border-radius: 16px;
+}
+
+.ai-casestudy-casecontributor-image-bg:hover {
+  transform: scale(1.02);
 }
 
 .ai-casestudy-preview-image {
@@ -114,6 +137,18 @@
   height: 1rem;
 }
 
+@media (min-width: 420px) {
+  .ai-casestudy-casecontributor-image {
+    width: auto;
+    height: 400px;
+  }
+}
+@media (min-width: 540px) {
+  .ai-casestudy-casecontributor-image {
+    width: auto;
+    height: 400px;
+  }
+}
 @media (min-width: 768px) {
   .ai-casestudy-hero-section {
     padding: 3rem 2rem;
@@ -129,6 +164,10 @@
     width: auto;
     min-width: 180px;
   }
+  .ai-casestudy-casecontributor-image {
+    width: auto;
+    height: 400px;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -142,8 +181,9 @@
   }
 
   .ai-casestudy-grid {
-    flex-direction: row;
-    gap: 4rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
   }
 
   .ai-casestudy-image-column,

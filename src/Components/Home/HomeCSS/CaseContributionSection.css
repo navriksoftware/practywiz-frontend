@@ -1,0 +1,182 @@
+.case-contribution-container {
+  width: 100%;
+  background-color: #f3f6fb;
+  padding: 5rem 24px;
+  min-height: 85vh;
+  align-content: center;
+}
+
+.case-contribution-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.case-contribution-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.case-contribution-badge {
+  align-self: flex-start;
+  background-color: #e8eff9;
+  color: #2563eb;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  margin-bottom: 2rem;
+  white-space: nowrap;
+}
+
+.case-contribution-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.case-contribution-title {
+  font-size: 3.3rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.case-contribution-title-colored {
+  color: #2563eb;
+}
+
+.case-contribution-description {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.case-contribution-reach-button {
+  align-self: flex-start;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.case-contribution-reach-button:hover {
+  background-color: #1d4ed8;
+}
+
+.case-contribution-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.case-contribution-casecontributor-image-bg {
+  width: 60%;
+  height: 350px;
+  position: relative;
+  background-color: rgba(59, 174, 246, 0.275);
+  border-radius: 16px;
+  transition: transform 0.3s;
+}
+
+.case-contribution-casecontributor-image {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  border-radius: 16px;
+}
+
+.case-contribution-casecontributor-image-bg:hover {
+  transform: scale(1.02);
+}
+
+@media (max-width: 992px) {
+  .case-contribution-inner {
+    flex-direction: column-reverse;
+  }
+
+  .case-contribution-left {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+  }
+
+  .case-contribution-content {
+    align-items: center;
+  }
+
+  .case-contribution-title {
+    font-size: 32px;
+  }
+
+  .case-contribution-description {
+    text-align: center;
+  }
+
+  .case-contribution-right {
+    width: 100%;
+  }
+  .case-contribution-badge {
+    margin: 0 auto;
+  }
+  .case-contribution-reach-button {
+    margin: 0 auto;
+  }
+  .case-contribution-casecontributor-image-bg {
+    max-width: 300px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 576px) {
+  .case-contribution-title {
+    font-size: 28px;
+  }
+
+  .case-contribution-description {
+    font-size: 16px;
+  }
+
+  .case-contribution-reach-button {
+    width: 100%;
+  }
+
+  .case-contribution-casecontributor-image-bg {
+    max-width: 250px;
+    height: 250px;
+  }
+}
+
+.case-contribution-casecontributor-image-bg {
+  width: 60%;
+  height: 350px;
+  position: relative;
+  background-color: rgba(59, 174, 246, 0.275);
+  border-radius: 16px;
+  transition: transform 0.3s;
+}
+
+.case-contribution-casecontributor-image {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  border-radius: 16px;
+}
+
+.case-contribution-casecontributor-image-bg:hover {
+  transform: scale(1.02);
+}

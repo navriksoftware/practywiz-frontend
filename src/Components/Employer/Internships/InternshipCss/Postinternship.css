@@ -187,3 +187,49 @@
   margin-top: 4px;
   display: block;
 }
+.Inernship_form .react-tel-input .form-control {
+  background-color: #e9ecef !important;
+}
+
+@media screen and (max-width: 992px) {
+  .intershipWidth {
+    width: 100%;
+  }
+  .postintern-perk {
+    width: 100%;
+    margin-left: 0;
+  }
+  .toggle-container {
+    width: 100%;
+  }
+  .toggle-button {
+    padding: 10px 0;
+  }
+  .postinternAling {
+    margin: 20px 0;
+  }
+  .ql-editor {
+    min-height: 12em;
+    max-height: 12em;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .intershipPostdate {
+    width: 100%;
+  }
+  .intershipWidth {
+    width: 100%;
+  }
+  .postintern-perk {
+    width: 100%;
+    margin-left: 0;
+  }
+  .toggle-container {
+    width: 100%;
+    border-radius: 1.5rem;
+  }
+  .toggle-button {
+    padding: 10px 15px;
+  }
+}

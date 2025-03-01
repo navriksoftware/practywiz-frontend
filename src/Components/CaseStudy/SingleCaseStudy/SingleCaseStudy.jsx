@@ -113,16 +113,8 @@ function DetailedCaseStudy() {
                 <p className="dcs-text">{caseStudy.challenge}</p>
               </DetailItem> */}
 
-              <DetailItem label="Author Designation">
-                <p className="dcs-text">{caseStudy.caseAuthorDesignation}</p>
-              </DetailItem>
-
-              <DetailItem label="Case Location">
-                <p className="dcs-text">{caseStudy.caseLocation}</p>
-              </DetailItem>
-
-              <DetailItem label="Language">
-                <p className="dcs-text">{caseStudy.language}</p>
+              <DetailItem label="Extract">
+                <p className="dcs-text">{caseStudy.extract}</p>
               </DetailItem>
 
               <DetailItem label="Tags">
@@ -140,7 +132,7 @@ function DetailedCaseStudy() {
 
           <div className="dcs-media">
             <div className="dcs-image-card">
-              <div className="dcs-image-container">
+              {/* <div className="dcs-image-container">
                 <img
                   src={caseStudy.imageLink}
                   alt={caseStudy.caseTopic}
@@ -153,10 +145,18 @@ function DetailedCaseStudy() {
                 <div className="dcs-image-overlay">
                   <h3 className="dcs-overlay-title">{caseStudy.caseTopic}</h3>
                 </div>
-              </div>
+              </div> */}
               <div className="dcs-image-description">
-                <DetailItem label="Extract">
-                  <p className="dcs-text">{caseStudy.extract}</p>
+                <DetailItem label="Author Designation">
+                  <p className="dcs-text">{caseStudy.caseAuthorDesignation}</p>
+                </DetailItem>
+
+                <DetailItem label="Case Location">
+                  <p className="dcs-text">{caseStudy.caseLocation}</p>
+                </DetailItem>
+
+                <DetailItem label="Language">
+                  <p className="dcs-text">{caseStudy.language}</p>
                 </DetailItem>
               </div>
             </div>

@@ -960,6 +960,8 @@ const MenteeDashboard = ({ user, token }) => {
                   singleMentee={singleMentee}
                   user={user}
                   token={token}
+                  MenteePsettingsHandler={MenteePsettingsHandler}
+
                 />
               )}
               {showMenteePsettings && (

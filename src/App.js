@@ -12,7 +12,7 @@ import "./Styles/responsive.css";
 import "./Styles/style.css";
 import "./index.css";
 import "./Styles/DashBoard.css";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer,Flip  } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import ScrollButton from "./Utils/ScrollToTop";
@@ -91,7 +91,7 @@ function App() {
   return (
     <>
       {isLoading && <Spinner />}
-      <ToastContainer position="top-center" hideProgressBar />
+      <ToastContainer position="top-center" hideProgressBar transition={Flip}  autoClose={1500} closeOnClick draggable/>
       <Router>
         <Routes>
           <Route path="/image/test" element={<Test />} />

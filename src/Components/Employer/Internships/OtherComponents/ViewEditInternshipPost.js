@@ -11,60 +11,9 @@ const InternshipDetail = ({
   onEditInternshipPost,
   setInternPostData,
 }) => {
-
   const url = ApiURL();
   const [loading, setLoading] = useState(false);
   const [singleInternshipPost, setSingleInternshipPost] = useState(null);
-
-  // Dummy data remains the same as before
-  const internship = {
-    id: 1,
-    title: "Frontend Developer Intern",
-    company: "TechCorp",
-    location: "Delhi, India",
-    stipend: "15000",
-    duration: "6 months",
-    perks: [
-      "Certificate",
-      "Letter of Recommendation",
-      "Flexible Hours",
-      "PPO Opportunity",
-    ],
-    skills: ["React", "TypeScript", "Node.js", "GraphQL"],
-    replyRate: "92%",
-    status: "New",
-    aboutRole: `We are looking for a passionate Frontend Developer Intern to join our dynamic team. You'll work on real-world projects, collaborate with experienced developers, and contribute to building innovative web applications.
-
-    As an intern, you'll be involved in:
-    • Developing new user-facing features using React.js
-    • Building reusable components for future use
-    • Optimizing applications for maximum speed and scalability
-    • Collaborating with back-end developers and designers`,
-
-    responsibilities: [
-      "Write clean, maintainable code for web applications",
-      "Implement responsive design and ensure cross-browser compatibility",
-      "Participate in code reviews and contribute to team discussions",
-      "Debug and fix issues in existing applications",
-      "Document your code and development processes",
-    ],
-
-    requirements: [
-      "Currently pursuing B.Tech/B.E. in Computer Science or related field",
-      "Strong understanding of JavaScript, HTML, and CSS",
-      "Basic knowledge of React.js and modern JavaScript libraries",
-      "Good problem-solving skills and attention to detail",
-      "Excellent communication and teamwork abilities",
-    ],
-
-    aboutCompany: `TechCorp is a leading software development company specializing in creating innovative web solutions. With over 500 employees worldwide, we're committed to delivering high-quality products while fostering a culture of learning and growth.
-
-    Our tech stack includes the latest technologies, and we believe in mentoring fresh talent to become industry leaders.`,
-
-    companyWebsite: "www.techcorp.com",
-    companySize: "500+ employees",
-    companyEmail: "careers@techcorp.com",
-  };
 
   useEffect(() => {
     const fetchSingleMentors = async () => {
@@ -107,39 +56,58 @@ const InternshipDetail = ({
                 <div className="preview-single-intern-header">
                   <div className="preview-single-intern-header-content">
                     <h1 className="preview-single-intern-title">
-                      {internship.employer_internship_post_position} intern
+                      {internship.employer_internship_post_position}
                     </h1>
                     <div className="preview-single-intern-company">
-                      {/* <Building2 className="w-4 h-4" /> */}
                       <span>{internship.employer_organization_name}</span>
                     </div>
                     <div className="preview-single-intern-meta">
-                      <div className="preview-single-intern-meta-item">
-                        {/* <MapPin className="w-4 h-4" /> */}
+                      <div className="preview-single-intern-meta-item preview-single-intern-menta-item-location">
                         <span>
                           {internship.employer_internship_post_location}
                         </span>
                       </div>
-                      <div className="preview-single-intern-meta-item">
-                        {/* <Clock className="w-4 h-4" /> */}
+                      <div className="preview-single-intern-meta-item preview-single-intern-menta-item-duration">
                         <span>
                           {internship.employer_internship_post_duration} Months
                         </span>
                       </div>
-                      <div className="preview-single-intern-meta-item">
-                        {/* <Wallet className="w-4 h-4" /> */}
-                        {internship.employer_internship_post_stipend_type ===
-                        "Unpaid" ? (
-                          <span>
-                            {internship.employer_internship_post_stipend_type}
-                          </span>
-                        ) : (
-                          <span>
-                            ₹
-                            {internship.employer_internship_post_stipend_amount}
-                            /{internship.employer_internship_post_pay_type}
-                          </span>
-                        )}
+                      <div
+                        className={`preview-single-intern-meta-item preview-single-intern-menta-item-stipend ${
+                          internship.employer_internship_post_stipend_type ===
+                          "Unpaid"
+                            ? "unpaid"
+                            : "paid"
+                        }`}
+                      >
+                        <span>
+                          {internship.employer_internship_post_stipend_type ===
+                          "Unpaid" ? (
+                            <span>
+                              {internship.employer_internship_post_stipend_type}
+                            </span>
+                          ) : (
+                            <span>
+                              ₹
+                              {
+                                internship.employer_internship_post_stipend_amount
+                              }
+                              /{internship.employer_internship_post_pay_type}
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                      <div
+                        className={`preview-single-intern-meta-item preview-single-intern-menta-item-supervision ${
+                          internship.employer_internship_post_supervision_type ===
+                          "Guided"
+                            ? "guided"
+                            : "self"
+                        }`}
+                      >
+                        <span>
+                          {internship.employer_internship_post_supervision_type}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -165,7 +133,7 @@ const InternshipDetail = ({
                             key={index}
                             className="preview-single-intern-skill-tag"
                           >
-                            {skill.value}
+                            {skill}
                           </span>
                         ))}
                       </div>
@@ -216,7 +184,9 @@ const InternshipDetail = ({
 
                   <aside className="preview-single-intern-sidebar">
                     <h2 className="preview-single-intern-section-title">
-                      About{" "}
+                      About
+                    </h2>
+                    <h2 className="preview-single-intern-section-title">
                       {internship.employer_organization_name.toUpperCase()}
                     </h2>
                     <p className="preview-single-intern-text">
@@ -226,19 +196,33 @@ const InternshipDetail = ({
                     <div className="preview-single-intern-company-meta">
                       <div className="preview-single-intern-company-meta-item">
                         {/* <Globe className="w-4 h-4" /> */}
-                        <span>{internship.companyWebsite}</span>
+                        <i className="fa-solid fa-globe"></i>
+                        <span>
+                          <a href={internship.employer_organization_website}>
+                            {internship.employer_organization_website}
+                          </a>
+                        </span>
                       </div>
                       <div className="preview-single-intern-company-meta-item">
-                        {/* <Users className="w-4 h-4" /> */}
+                        <i className="fa-solid fa-users"></i>
                         <span>
                           {internship.employer_organization_no_of_emp}
                         </span>
                       </div>
                       <div className="preview-single-intern-company-meta-item">
-                        {/* <Mail className="w-4 h-4" /> */}
-                        <span>{internship.companyEmail}</span>
+                        <i className="fa-solid fa-envelope"></i>
+                        <span>{internship.employer_organization_email}</span>
+                      </div>
+                      <div className="preview-single-intern-company-meta-item">
+                        <i className="fa-solid fa-location-dot"></i>
+                        <span>
+                          {internship.employer_organization_location +
+                            ", " +
+                            internship.employer_organization_complete_address}
+                        </span>
                       </div>
                     </div>
+                    <hr />
                     <h2 className="preview-single-intern-section-title">
                       Perks & Benefits
                     </h2>

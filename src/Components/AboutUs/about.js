@@ -146,10 +146,10 @@ const About = () => {
               <div className="practywiz-about-offer-grid-section practywiz-about-offer-grid-mentors">
                 <h3>For Seasoned Professionals</h3>
                 <ul>
-                  <li>Mentorship opportunities</li>
-                  <li>Visiting/Guest Faculty positions</li>
-                  <li>Caselet Contribution</li>
-                  <li>Recognition and Earn for your impact</li>
+                  <li>Opportunity to give back to your alma mater</li>
+                  <li>Mentor and Groom students & professionals</li>
+                  <li>Join institutes as Guest/Visiting faculty</li>
+                  <li>Author Case Studies</li>
                 </ul>
               </div>
             </div>
@@ -159,9 +159,9 @@ const About = () => {
                 <h3>For Students & Professionals</h3>
                 <ul>
                   <li>Mentorship programs</li>
-                  <li>Experiential Trainings</li>
                   <li>Access to premium internships</li>
-                  <li>Practical skill development</li>
+                  <li>Case Studies with AI assessment</li>
+                  <li>Experiential Trainings & Practical skill development</li>
                 </ul>
               </div>
             </div>
@@ -173,10 +173,15 @@ const About = () => {
                 <h3>For Institutes</h3>
                 <div className="practywiz-about-offer-grid-two-cols">
                   <ul>
-                    <li>Industry Connect Programs</li>
+                    <li>Single Platform for Institutes</li>
                     <li>Get access to Alumni pool</li>
-                    <li>Provide students with AI case studies</li>
+                    <li>Access to Alumni and Non-Alumni mentors</li>
+
                     <li>Invite top experts for guest lectures</li>
+                  </ul>
+                  <ul>
+                    <li>Industry Connect Programs</li>
+                    <li>Provide students with AI case studies</li>
                   </ul>
                 </div>
               </div>
@@ -210,32 +215,6 @@ const About = () => {
                     <i class="fa-solid fa-code practywiz-about-icon"></i>
                   </div>
                   <div>
-                    {/* <h3>A Soft-Edtech Approach</h3>
-                    <div className="practywiz-about-unique-text">
-                      <h4></h4>
-                      <p>
-                        Practywiz is not just an Edtech platform—we are a
-                        Soft-Edtech, a technology-driven ecosystem that
-                        seamlessly connects education with industry. With strong
-                        expertise in software development, we collaborate with
-                        organizations to create real-world, industry-aligned
-                        learning experiences for students and professionals.
-                      </p>
-                      <p>
-                        Our platform leverages AI-driven insights to enhance
-                        learning efficiency, track performance, and provide
-                        personalized mentorship. These capabilities empower
-                        learners, ensuring they gain practical skills that align
-                        with industry needs.
-                      </p>
-                      <p>
-                        As a collaboration between Practywiz and Navrik, we
-                        merge the strengths of Edtech and software solutions,
-                        delivering innovative, tech-integrated education that
-                        adds value for colleges and corporates alike.
-                      </p>
-                    </div> */}
-
                     <div className="practywiz-about-unique-text">
                       <h4>Bridging the Gap</h4>
                       <p>

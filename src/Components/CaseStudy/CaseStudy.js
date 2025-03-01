@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../Redux/cartSlice";
-import { useNavigate } from "react-router-dom";
-import "./CaseStudyDisplay.css";
-// import video from "./CaseVideo.mp4";
+import axios from "axios";
 import "./CaseStudyDisplay.css";
 import CaseNavBar from "./CaseNavBar/CaseNavBar";
 import { ApiURL } from "../../Utils/ApiURL";
-import axios from "axios";
 import logo from "../../Images/logo.png";
 import {
   hideLoadingHandler,
@@ -23,11 +20,21 @@ const CaseStudy = ({ user, token }) => {
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart.items);
   const purchasedItems = useSelector((state) => state.purchased.purchasedItems);
-  console.log(purchasedItems);
   const video = "";
+
+  // State for case studies data and filters
+  const [allCaseStudiesData, setAllCaseStudiesData] = useState([]);
+  const [filteredCaseStudiesData, setFilteredCaseStudiesData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOrder, setSortOrder] = useState("newest");
+  const [loading, setLoading] = useState(false);
+
+  const url = ApiURL();
+
   const isItemInCart = (caseStudy) => {
     return cart.some((item) => item.id === caseStudy.id);
   };
+
   const handleAddToCart = (caseStudy) => {
     if (purchasedItems.includes(caseStudy.id)) {
       // Show a message or prevent adding to cart
@@ -150,11 +157,10 @@ const CaseStudy = ({ user, token }) => {
       </>
     );
   };
-  const [allCaseStudiesData, setAllCaseStudiesData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const url = ApiURL();
+
+  // Fetch case studies data
   useEffect(() => {
-    const fetchMentors = async () => {
+    const fetchCaseStudies = async () => {
       try {
         setLoading(true);
 
@@ -182,8 +188,10 @@ const CaseStudy = ({ user, token }) => {
         setLoading(false); // Ensure loading is stopped regardless of outcome
       }
     };
-    fetchMentors();
+    fetchCaseStudies();
   }, [url]);
+
+  // Fetch purchased items
   const fetchPurchasedItems = async (userId, dispatch) => {
     try {
       const response = await axios.get(
@@ -196,103 +204,155 @@ const CaseStudy = ({ user, token }) => {
       console.error("Error fetching purchased items:", error);
     }
   };
+
   useEffect(() => {
     if (user) {
       fetchPurchasedItems(user?.user_id, dispatch);
     }
   }, [user, dispatch]);
 
+  // Parse date function for sorting
+  const parseDate = (dateString) => {
+    if (!dateString) return new Date(0); // Handle missing dates
+
+    const [day, month, year] = dateString.split("-");
+    const monthMap = {
+      Jan: 0,
+      Feb: 1,
+      Mar: 2,
+      Apr: 3,
+      May: 4,
+      Jun: 5,
+      Jul: 6,
+      Aug: 7,
+      Sep: 8,
+      Oct: 9,
+      Nov: 10,
+      Dec: 11,
+    };
+
+    // Handle potential parsing errors
+    try {
+      return new Date(parseInt(year), monthMap[month], parseInt(day));
+    } catch (error) {
+      console.error("Date parsing error:", error);
+      return new Date(0);
+    }
+  };
+
+  // Apply filters and sorting whenever filter values change
+  useEffect(() => {
+    const filterAndSortData = () => {
+      // First filter by search term
+      let filtered = allCaseStudiesData.filter((caseStudy) => {
+        const matchesSearch = searchTerm
+          ? caseStudy.caseTopic.toLowerCase().includes(searchTerm.toLowerCase())
+          : true;
+
+        return matchesSearch;
+      });
+
+      // Then sort by date
+      filtered = [...filtered].sort((a, b) => {
+        const dateA = parseDate(a.publicationDate);
+        const dateB = parseDate(b.publicationDate);
+
+        return sortOrder === "newest"
+          ? dateB - dateA // Newest first
+          : dateA - dateB; // Oldest first
+      });
+
+      setFilteredCaseStudiesData(filtered);
+    };
+
+    filterAndSortData();
+  }, [searchTerm, sortOrder, allCaseStudiesData]);
+
+  // Clear all filters
+  const clearFilters = () => {
+    setSearchTerm("");
+    setSortOrder("newest");
+  };
+
+  // Render the selected sort option text
+  const renderSelectedOptionText = () => {
+    switch (sortOrder) {
+      case "newest":
+        return "Newest First";
+      case "oldest":
+        return "Oldest First";
+      default:
+        return "Sort By";
+    }
+  };
+
   return (
     <>
       <CaseNavBar />
-      {/* <div className="case-study-display-container"> */}
-      {/* <div className="case-fillter">Add fillter</div> */}
-      {/* {allCaseStudiesData.map((caseStudy) => {
-          const isPurchased = purchasedItems.includes(caseStudy.id);
-          return (
-            <div key={caseStudy.id} className="case-study-card bright-border">
-              <Link
-                target="_blank"
-                to={`/case-studies/view-case-study/${caseStudy.caseTopic
-                  .replace(" ", "-")
-                  .toLowerCase()}/${caseStudy.id} `}
-              >
-                <h2 className="head-clr">{caseStudy.caseTopic}</h2>
-              </Link>
-              <hr />
-              <div className="case-study-content">
-                <div className="case-study-text">
-                  <p>
-                    <strong>Lesson:</strong> {caseStudy.lesson}
-                  </p>
-                  <p>
-                    <strong>Future Skills:</strong> {caseStudy.futureSkills}
-                  </p>
-                  <p>
-                    <strong>Challenge:</strong> {caseStudy.challenge}
-                  </p>
-                  <p>
-                    <strong>Author Designation:</strong>{" "}
-                    {caseStudy.authorDesignation}
-                  </p>
-                  <p>
-                    <strong>Price: </strong> ₹ {caseStudy.price}
-                  </p>
-                  <p>
-                    <strong>Rating: </strong> {renderStars(caseStudy.rating)}
-                  </p>
-                  <div className="case-btn-container">
-                    <Link
-                      target="_blank"
-                      to={`/case-studies/view-case-study/${caseStudy.caseTopic
-                        .replace(" ", "-")
-                        .toLowerCase()}/${caseStudy.id} `}
-                    >
-                      <button className="buy-now">View case study</button>
-                    </Link>
-                    {/* <div className="case-btn-container">
-                    {isItemInCart(caseStudy) ? (
-                      <button
-                        className="go-to-cart"
-                        onClick={() => navigate("/cart")}
-                      >
-                        Go to Cart
-                      </button>
-                    ) : (
-                      <button
-                        className="add-to-cart"
-                        onClick={() => handleAddToCart(caseStudy)}
-                      >
-                        Add to Cart
-                      </button>
-                    )}
-                    <button
-                      disabled={isPurchased}
-                      className="buy-now"
-                      onClick={() => handleBuyNow(caseStudy)}
-                    >
-                      {isPurchased ? "You have already purchased" : "Buy Now"}
-                    </button>
-                  </div> */}
-      {/* </div> */}
-      {/* </div> */}
-      {/* <div className="case-study-video">
-                  {/* <video controls controlsList="nodownload" src={video}>
-                    Your browser does not support the video tag.
-                  </video> */}
-      {/* <img src={caseStudy.imageLink} alt="" /> */}
-      {/* </div> */}
-      {/* // </div> */}
-      {/* // </div> */}
-      {/* // ); */}
-      {/* // })} */}
-      {/* // </div> */}
+      <div className="case-study-display-container">
+        <div className="case-filter-container">
+          <div className="case-search">
+            <input
+              type="text"
+              placeholder="Search by topic..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="case-search-input"
+            />
+            <i className="fa fa-search search-icon"></i>
+          </div>
 
-      <div className="app-container">
-        <div className="case-study-grid">
-          {allCaseStudiesData.map((caseStudy) => (
-            <CaseStudyCard key={caseStudy.id} data={caseStudy} />
-          ))}
+          <div className="case-sort">
+            <div className="case-dropdown">
+              <button className="case-dropbtn">
+                {renderSelectedOptionText()}
+                <i className="fa fa-chevron-down"></i>
+              </button>
+              <div className="case-dropdown-content">
+                <button
+                  className={sortOrder === "newest" ? "active" : ""}
+                  onClick={() => setSortOrder("newest")}
+                >
+                  Newest First
+                </button>
+                <button
+                  className={sortOrder === "oldest" ? "active" : ""}
+                  onClick={() => setSortOrder("oldest")}
+                >
+                  Oldest First
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {(searchTerm || sortOrder !== "newest") && (
+            <button className="case-clear-btn" onClick={clearFilters}>
+              Clear All
+            </button>
+          )}
+        </div>
+
+        <div className="app-container">
+          {loading ? (
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+              <p>Loading case studies...</p>
+            </div>
+          ) : filteredCaseStudiesData.length > 0 ? (
+            <div className="case-study-grid">
+              {filteredCaseStudiesData.map((caseStudy) => (
+                <CaseStudyCard key={caseStudy.id} data={caseStudy} />
+              ))}
+            </div>
+          ) : (
+            <div className="no-results">
+              <h3>No case studies found </h3>
+              {/* <p>No case studies found matching your criteria.</p> */}
+              {/* <button onClick={clearFilters} className="reset-filters-btn">
+                Reset Filters
+              </button> */}
+            </div>
+          )}
         </div>
       </div>
     </>
@@ -300,65 +360,3 @@ const CaseStudy = ({ user, token }) => {
 };
 
 export default CaseStudy;
-
-// <div className="case-study-display-container">
-//   <h1 className="head-clr">AI Case Studies</h1>
-//   {CaseStudies.map((caseStudy) => (
-//     <>
-//       <div key={caseStudy.id} className="case-study-card bright-border">
-//         <h2 className="head-clr">{caseStudy.caseTopic}</h2>
-//         <hr />
-//         <div className="case-study-content">
-//           <div className="case-study-text">
-//             <p>
-//               <strong>Lesson:</strong> {caseStudy.lession}
-//             </p>
-
-//             <p>
-//               <strong>Future Skills:</strong> {caseStudy.fututreSkils}
-//             </p>
-
-//             <p>
-//               <strong>Roles:</strong>
-//               <ul>
-//                 {caseStudy.roles.length > 0 &&
-//                   Object.entries(caseStudy.roles[0]).map(([key, value]) => (
-//                     <li key={key}>{value}</li>
-//                   ))}
-//               </ul>
-//             </p>
-
-//             <p>
-//               <strong>Main Character Role:</strong>{" "}
-//               {caseStudy.roleOfMainCharacter}
-//             </p>
-
-//             <p>
-//               <strong>Challenge:</strong> {caseStudy.challenge}
-//             </p>
-//             <div className="case-btn-container">
-//               <Link
-//                 target="_blank"
-//                 to={`/case-studies/view-case-study/${caseStudy.caseTopic
-//                   .replace(" ", "-")
-//                   .toLowerCase()}/${caseStudy.id} `}
-//               >
-//                 <button className="see-case-btn">See Case</button>
-//               </Link>
-//               <button className="add-to-cart">Add to cart</button>
-//               <button className="buy-now">Buy Now</button>
-//             </div>
-//           </div>
-//           <div className="case-study-video">
-//             <video controls controlsList="nodownload">
-//               {/* <source src={caseStudy.videoLink} type="video/mp4" /> */}
-//               <source src={video} type="video/mp4" />
-//               Your browser does not support the video tag.
-//             </video>
-//           </div>
-//         </div>
-//       </div>{" "}
-//       <hr />
-//     </>
-//   ))}
-// </div>

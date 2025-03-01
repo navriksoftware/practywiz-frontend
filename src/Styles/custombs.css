@@ -3607,3 +3607,11 @@ fieldset:disabled .btn {
 .form_wrapper{
   border-bottom: 1px solid #cdcdcd;
 }
+
+.OtpSendOnWhatsappTaxt-Dflex{
+  display: flex;
+  flex-wrap: wrap;
+}
+.OtpSendOnWhatsappTaxt{
+  font-size: 14px;
+}

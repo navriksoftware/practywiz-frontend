@@ -176,9 +176,6 @@
 }
 
 @media (max-width: 767px) {
-  .practy-testimonials-container {
-    padding: 5rem 2rem;
-  }
   .practy-testimonials-header {
     flex-direction: column;
     gap: 20px;

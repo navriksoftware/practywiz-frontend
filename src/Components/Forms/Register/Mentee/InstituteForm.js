@@ -224,9 +224,13 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
                       field: { name, value, onChange, onBlur, ref },
                     }) => (
                       <div>
-                        <label htmlFor="phone" className="form-label">
-                          Phone Number
-                        </label>
+                         <div className="OtpSendOnWhatsappTaxt-Dflex">
+                          <label htmlFor="phone" className="form-label">
+                            Phone Number{" "} 
+                            <span className="RedColorStarMark">*</span>
+                          </label>
+                          <p className="ghhduenee OtpSendOnWhatsappTaxt">(OTP will be sent on WhatsApp)</p>
+                          </div>
                         <PhoneInput
                           value={value}
                           country="in"

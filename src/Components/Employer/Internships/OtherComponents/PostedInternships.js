@@ -81,63 +81,58 @@ const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
             {internshipList.length === 0 && (
               <p>Currently, You have not posted any internships posts</p>
             )}
-            {filteredInternships
-              .slice()
-              .reverse()
-              .map((internship) => (
-                <div key={internship.id} className="internship_profile_card">
-                  <div className="internship_profile_card_content">
-                    {/* Left section */}
-                    <div className="internship_profile_info_section">
-                      <h3 className="internship_profile_info_title">
-                        {internship.profile}
-                      </h3>
-                    </div>
+            {filteredInternships.slice().map((internship) => (
+              <div key={internship.id} className="internship_profile_card">
+                <div className="internship_profile_card_content">
+                  {/* Left section */}
+                  <div className="internship_profile_info_section">
+                    <h3 className="internship_profile_info_title">
+                      {internship.profile}
+                    </h3>
+                  </div>
 
-                    {/* Middle section */}
-                    <div className="internship_profile_status_section">
-                      <p
-                        className={`internship_profile_status_select ${
-                          internship.status === "open" ? "active" : "closed"
-                        }`}
-                      >
-                        {internship.status}
-                      </p>
-                    </div>
-                    <div className={`internship_profile_supervision_label `}>
-                      <span
-                        className={`internship_profile_supervision_label_text ${
-                          internship.supervisionType === "Self Manage"
-                            ? " guided"
-                            : " unsupervised"
-                        }`}
-                      >
-                        {internship.supervisionType === "Self Manage"
-                          ? "Guided"
-                          : "Unsupervised"}
-                      </span>
-                    </div>
+                  {/* Middle section */}
+                  <div className="internship_profile_status_section">
+                    <p
+                      className={`internship_profile_status_select ${
+                        internship.status === "open" ? "active" : "closed"
+                      }`}
+                    >
+                      {internship.status}
+                    </p>
+                  </div>
+                  <div className={`internship_profile_supervision_label `}>
+                    <span
+                      className={`internship_profile_supervision_label_text ${
+                        internship.supervisionType === "GUIDED"
+                          ? "guided"
+                          : "self"
+                      }`}
+                    >
+                      {internship.supervisionType}
+                    </span>
+                  </div>
 
-                    {/* Right section */}
-                    <div className="internship_profile_action_section">
-                      <button
-                        className="internship_profile_applicants_btn"
-                        onClick={() => {
-                          handleApplicants(internship.id, internship.profile);
-                        }}
-                      >
-                        Applicants:
-                      </button>
-                      <button
-                        onClick={() => onEditInternshipPost(internship.id)}
-                        className="internship_profile_edit_btn"
-                      >
-                        View
-                      </button>
-                    </div>
+                  {/* Right section */}
+                  <div className="internship_profile_action_section">
+                    <button
+                      className="internship_profile_applicants_btn"
+                      onClick={() => {
+                        handleApplicants(internship.id, internship.profile);
+                      }}
+                    >
+                      Applicants
+                    </button>
+                    <button
+                      onClick={() => onEditInternshipPost(internship.id)}
+                      className="internship_profile_edit_btn"
+                    >
+                      View
+                    </button>
                   </div>
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
         </div>
       )}

@@ -38,7 +38,8 @@ const MentorCompletedSessions = ({ user, token }) => {
           <div className="fgfdg">
             <h2>Your Completed Sessions</h2>
           </div>
-          <div className="oidieoiejrer_filter">
+
+          {/* <div className="oidieoiejrer_filter">
             <div className="row justify-content-between">
               <div className="col-lg-3 mb-2">
                 <div className="oidheknrier">
@@ -89,7 +90,8 @@ const MentorCompletedSessions = ({ user, token }) => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
+          
           <div className="row mt-4">
             {loading && (
               <>

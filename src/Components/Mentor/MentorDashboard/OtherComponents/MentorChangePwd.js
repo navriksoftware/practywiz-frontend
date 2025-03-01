@@ -68,8 +68,8 @@ const MentorChangePwd = ({ user, token }) => {
       <div className="hiniertvrer_change_password">
         <div className="container">
           <div className="mentor-prf-settings py-5">
-            <h3>Change Your Password</h3>
-            <h5 className="mb-3">Update your Password</h5>
+            <h3 className="mb-3">Change Your Password</h3>
+            
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 position-relative">
                 <label className="label-control">New Password</label>

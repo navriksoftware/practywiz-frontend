@@ -366,10 +366,13 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
                       field: { name, value, onChange, onBlur, ref },
                     }) => (
                       <div>
-                        <label htmlFor="phone" className="form-label">
-                          Phone Number{" "}
-                          <span className="RedColorStarMark">*</span>
-                        </label>
+                        <div className="OtpSendOnWhatsappTaxt-Dflex">
+                          <label htmlFor="phone" className="form-label">
+                            Phone Number{" "} 
+                            <span className="RedColorStarMark">*</span>
+                          </label>
+                          <p className="ghhduenee OtpSendOnWhatsappTaxt">(OTP will be sent on WhatsApp)</p>
+                          </div>
 
                         <div className="d-flex">
                           <PhoneInput

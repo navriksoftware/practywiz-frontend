@@ -7,13 +7,14 @@ const features = [
   {
     icon: <i className="fa-regular fa-lightbulb hero-feature-card-icon"></i>,
     title: "A Student or Professional",
-    description: "who is passionate about learning and growing in their career",
+    description:
+      "Who has unleashed his/her inner wizard by acquiring role clarity, practical experience and training",
   },
   {
     icon: <i className="fa-solid fa-share-nodes hero-feature-card-icon"></i>,
     title: "A Seasoned Corporate Professional",
     description:
-      "who wants to share their knowledge and experience with the next generation",
+      "Who grew in the organization as a recognized practical problem-solver, & believes in helping others grow to their potential",
   },
 ];
 

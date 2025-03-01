@@ -13,6 +13,7 @@ import Edu from "../../../../Images/Mentee/edu.png";
 import Certification from "../../../../Images/Mentee/certification.png";
 import Experience from "../../../../Images/Mentee/experiece.png";
 const MenteeProfile = () => {
+  // not in use
   return (
     <>
       <div className="difuhtre_content">

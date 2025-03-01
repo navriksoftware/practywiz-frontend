@@ -1,7 +1,7 @@
-import React from "react";
 import StarRating from "../../../Utils/StartRating";
 import "./AllMentorsMobile.css";
-
+import React, { useEffect, useState } from "react";
+import { countryCurrencyMapping } from "../../data/Currency_Convertion.js";
 const AllMentorCard = ({ mentor }) => {
   let mentorName = mentor.user_firstname + " " + mentor.user_lastname;
  
@@ -13,6 +13,82 @@ const AllMentorCard = ({ mentor }) => {
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
   }
+
+ const API_KEY = process.env.REACT_APP_API_KEY;
+
+  const [DefaultCurruncyType, setDefaultCurruncyType] = useState("IN");
+
+  const fetchLocationData = async () => {
+    try {
+      const response = await fetch(`https://ipinfo.io?token=${API_KEY}`);
+      const data = await response.json();
+      setDefaultCurruncyType(data.country);
+     
+    } catch (error) {
+      setDefaultCurruncyType("IN");
+
+      console.error("Error fetching location data:", error);
+    }
+  };
+
+  // Fetch the location data when the component mounts
+  useEffect(() => {
+    fetchLocationData();
+  }, []);
+
+  const convertCurrency = (amount, fromCurrency, toCurrency) => {
+    const FCurrency = fromCurrency.slice(0, -1);
+
+    if (!countryCurrencyMapping || countryCurrencyMapping.length === 0) {
+      console.error("Currency mapping data is not available.");
+      return 0; // Return a default value
+    }
+
+    // Find the conversion rates for `fromCurrency` and `toCurrency`
+    const fromRateEntry = countryCurrencyMapping.find(
+      (entry) => entry.currency === FCurrency
+    );
+    const toRateEntry = countryCurrencyMapping.find(
+      (entry) => entry.currency === toCurrency
+    );
+
+    // Validate if the rates exist
+    if (!fromRateEntry || !toRateEntry) {
+      console.error(
+        `Conversion rate not found for ${
+          !fromRateEntry ? fromCurrency : toCurrency
+        }`
+      );
+      return 0; // Return a default value
+    }
+
+    const fromRate = fromRateEntry.conversionRate;
+    const toRate = toRateEntry.conversionRate;
+
+    // Convert the amount from `fromCurrency` to `USD` and then to `toCurrency`
+    const amountInUSD = amount / fromRate; // Convert to USD
+    const convertedAmount = amountInUSD * toRate; // Convert from USD to `toCurrency`
+
+    // Round the result to 2 decimal places for better readability
+    return parseFloat(convertedAmount.toFixed(2));
+  };
+
+  const convertCurrencySymbol = (toCurrency) => {
+    // Save the currency symbol in state
+    const symbol = countryCurrencyMapping.find(
+      (entry) => entry.currency === toCurrency
+    ).currencySymbol;
+
+    return symbol;
+  };
+
+
+  const convertedAmount = convertCurrency(
+    mentor.mentor_session_price,
+    mentor.mentor_currency_type,
+    DefaultCurruncyType
+  );
+
 
   return (
     <div
@@ -27,7 +103,10 @@ const AllMentorCard = ({ mentor }) => {
         {/* Profile Image Section */}
 
         <div className="AllmentorCard-price-tag">
-          {mentor.mentor_currency_type} {mentor.mentor_session_price} /Hr
+        {convertCurrencySymbol(DefaultCurruncyType)}{" "}
+        {convertedAmount.toFixed(1)} /Hr
+
+          {/* {mentor.mentor_currency_type} {mentor.mentor_session_price} /Hr */}
         </div>
         <div className="AllMentorCard-image-container">
           <div className="AllMentorCard-rating">
