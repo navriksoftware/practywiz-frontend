@@ -206,7 +206,7 @@
 }
 
 /* Phone Input Styling */
-.react-tel-input .form-control {
+.email-input-container .react-tel-input .form-control {
   width: 100% !important;
   padding: 0.375rem 0.75rem 0.375rem 50px !important;
   font-size: 1rem !important;
@@ -221,7 +221,7 @@
 }
 
 /* Focus state - matching other input fields */
-.react-tel-input .form-control:focus {
+.email-input-container .react-tel-input .form-control:focus {
   color: #212529 !important;
   background-color: #fff !important;
   border-color: #2563eb !important;
@@ -229,35 +229,35 @@
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
 }
 
-.flag-dropdown {
+.email-input-container .flag-dropdown {
   margin: 1px !important;
 }
-.selected-flag {
+.email-input-container .selected-flag {
   background-color: #fff;
 }
 
 /* Error state styling */
-.phone-input-error .react-tel-input .form-control {
+.email-input-container .phone-input-error .react-tel-input .form-control {
   border-color: #dc3545 !important;
 }
 
-.phone-input-error .react-tel-input .form-control:focus {
+.email-input-container .phone-input-error .react-tel-input .form-control:focus {
   border-color: #dc3545 !important;
   box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
 }
 
 /* Flag dropdown styling */
-.react-tel-input .flag-dropdown {
+.email-input-container .react-tel-input .flag-dropdown {
   border-radius: 0.25rem 0 0 0.25rem !important;
   border: 1px solid #ced4da !important;
 }
 
 /* Ensure consistent height with other form elements */
-.react-tel-input {
+.email-input-container .react-tel-input {
   margin-bottom: 1rem;
 }
 /* Fix for country dropdown alignment */
-.react-tel-input .country-list {
+.email-input-container .react-tel-input .country-list {
   text-align: left;
   left: 0;
   right: auto;
@@ -266,39 +266,39 @@
   width: 300px;
 }
 
-.react-tel-input .country-list .country {
+.email-input-container .react-tel-input .country-list .country {
   display: flex;
   align-items: center;
   padding: 7px 10px;
 }
 
-.react-tel-input .country-list .country .dial-code {
+.email-input-container .react-tel-input .country-list .country .dial-code {
   color: #666;
 }
 
 /* Ensure dropdown doesn't get cut off */
-.react-tel-input .flag-dropdown.open .country-list {
+.email-input-container .react-tel-input .flag-dropdown.open .country-list {
   z-index: 100;
 }
 
 /* Improve dropdown scrollbar */
-.react-tel-input .country-list::-webkit-scrollbar {
+.email-input-container .react-tel-input .country-list::-webkit-scrollbar {
   width: 8px;
 }
 
-.react-tel-input .country-list::-webkit-scrollbar-track {
+.email-input-container .react-tel-input .country-list::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 4px;
 }
 
-.react-tel-input .country-list::-webkit-scrollbar-thumb {
+.email-input-container .react-tel-input .country-list::-webkit-scrollbar-thumb {
   background: #c1c1c1;
   border-radius: 4px;
 }
 
 /* Ensure the dropdown is visible on mobile */
 @media (max-width: 480px) {
-  .react-tel-input .country-list {
+  .email-input-container .react-tel-input .country-list {
     width: 250px;
   }
 }
