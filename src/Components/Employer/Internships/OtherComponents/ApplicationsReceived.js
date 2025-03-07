@@ -9,7 +9,6 @@ import { useLocation } from "react-router-dom";
 const ApplicationsReceived = () => {
   const { id } = useParams();
   const { profile } = useParams();
-  console.log("this is id", profile);
   const location = useLocation();
   // const { roleProfile } = location.state || {};
   const url = ApiURL();
@@ -390,7 +389,10 @@ const ApplicationsReceived = () => {
                             className="applications-view-profile-btn"
                             onClick={() =>
                               navigate(
-                                `/internships/applicants/${applicant.mentee_dtls_id}`
+                                `/internships/applicants/${applicant.mentee_dtls_id}`,
+                                {
+                                  state: { applicant },
+                                }
                               )
                             }
                           >
