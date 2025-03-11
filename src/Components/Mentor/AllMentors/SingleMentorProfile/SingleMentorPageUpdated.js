@@ -198,6 +198,8 @@ const SingleMentorPageUpdated = () => {
               sMentor.mentor_currency_type,
               DefaultCurruncyType
             );
+
+            // const educationList = JSON.parse(sMentor?.mentor_institute);
             return (
               <div key={index} className="mentor-profile-mainpage">
                 {/* Blue ribbon at top */}
@@ -237,21 +239,21 @@ const SingleMentorPageUpdated = () => {
                         <div className="mentor-name-section">
                           <span className="mentor-name">
                             {toTitleCase(sMentor?.mentor_firstname)}{" "}
-                            {toTitleCase(sMentor?.mentor_lastname)} 
-                            
+                            {toTitleCase(sMentor?.mentor_lastname)}
+
                           </span>
                           <span className="linkedinIconMediaQ"> {sMentor.mentor_social_media_profile && (
-                              <>
-                                <a
-                                  href={sMentor.mentor_social_media_profile}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="linkedin-link"
-                                >
-                                  <i className="fa-brands fa-linkedin fa-2xl"></i>
-                                </a>
-                              </>
-                            )}</span>
+                            <>
+                              <a
+                                href={sMentor.mentor_social_media_profile}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="linkedin-link"
+                              >
+                                <i className="fa-brands fa-linkedin fa-2xl"></i>
+                              </a>
+                            </>
+                          )}</span>
                         </div>
 
                         <div className="mentor-company">
@@ -286,6 +288,25 @@ const SingleMentorPageUpdated = () => {
                           </span>
                         </p>
                       </div>
+
+                      {/* Education Details */}
+                      {/* <div className="mentorprofile-education-container">
+                        <h2 className="mentorprofile-education-title">Education Details</h2>
+
+                        <div className="mentorprofile-education-list">
+                          {educationList.map((edu, index) => (
+                            <div key={index} className="mentorprofile-education-card">
+                              <div>
+                                <h3 className="mentorprofile-degree">{edu.Degree}</h3>
+                                <p className="mentorprofile-institute">{edu.Institute}</p>
+                                <p className="mentorprofile-year">
+                                  Year of Completion: <span className="mentorprofile-year-highlight">{edu.YearCompletion}</span>
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div> */}
 
                       {/* Skills Section */}
                       {sMentor.mentor_area_expertise !== "undefined" &&

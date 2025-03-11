@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { countryCurrencyMapping } from "../../data/Currency_Convertion.js";
 const AllMentorCard = ({ mentor }) => {
   let mentorName = mentor.user_firstname + " " + mentor.user_lastname;
- 
+
   function toTitleCase(str) {
     if (!str) return ""; // Handle null or undefined values
     return str
@@ -14,7 +14,7 @@ const AllMentorCard = ({ mentor }) => {
       .join(" ");
   }
 
- const API_KEY = process.env.REACT_APP_API_KEY;
+  const API_KEY = process.env.REACT_APP_API_KEY;
 
   const [DefaultCurruncyType, setDefaultCurruncyType] = useState("IN");
 
@@ -23,7 +23,7 @@ const AllMentorCard = ({ mentor }) => {
       const response = await fetch(`https://ipinfo.io?token=${API_KEY}`);
       const data = await response.json();
       setDefaultCurruncyType(data.country);
-     
+
     } catch (error) {
       setDefaultCurruncyType("IN");
 
@@ -55,8 +55,7 @@ const AllMentorCard = ({ mentor }) => {
     // Validate if the rates exist
     if (!fromRateEntry || !toRateEntry) {
       console.error(
-        `Conversion rate not found for ${
-          !fromRateEntry ? fromCurrency : toCurrency
+        `Conversion rate not found for ${!fromRateEntry ? fromCurrency : toCurrency
         }`
       );
       return 0; // Return a default value
@@ -91,23 +90,16 @@ const AllMentorCard = ({ mentor }) => {
 
 
   return (
-    <div
-      className="AllMentorCard-profile-card"
-      onClick={() =>
-        (window.location.href = `/mentor-club/mentor-profile/${mentorName
-          .replace(/\s+/g, "-")
-          .toLowerCase()}/${mentor.user_dtls_id}`)
-      }
-    >
+    <div className="AllMentorCard-profile-card">
       <div>
         {/* Profile Image Section */}
 
-        <div className="AllmentorCard-price-tag">
-        {convertCurrencySymbol(DefaultCurruncyType)}{" "}
-        {convertedAmount.toFixed(1)} /Hr
+        {/* <div className="AllmentorCard-price-tag">
+          {convertCurrencySymbol(DefaultCurruncyType)}{" "}
+          {convertedAmount.toFixed(1)} /Hr
 
-          {/* {mentor.mentor_currency_type} {mentor.mentor_session_price} /Hr */}
-        </div>
+
+        </div> */}
         <div className="AllMentorCard-image-container">
           <div className="AllMentorCard-rating">
             <i
@@ -175,44 +167,66 @@ const AllMentorCard = ({ mentor }) => {
             </div>
           </div>
 
-          {/* Tags */}
-          <div className="AllMentorCard-tags">
-            {JSON.parse(mentor.mentor_language || "[]").map(
-              (language, index, arr) => (
-                <span key={index} className="AllMentorCard-language-tag">
-                  {/* {index < arr.length && ' • '}  */}
-                  {language.label}{" "}
-                </span>
-              )
-            )}
+          {/* Experience and Domain */}
+
+          <div className="AllMentorCard-tags-container">
+            <div className="AllMentorCard-footer-item">
+              <div className="AllMentorCard-label">Domain</div>
+              <div className="AllMentorCard-value">
+                {mentor?.mentor_domain &&
+                  mentor.mentor_domain !== "[]" &&
+                  JSON.parse(mentor.mentor_domain)
+                    .slice(0, 3)
+                    .map((domain, index, arr) => (
+                      <span key={index}>
+                        {toTitleCase(domain)}
+                        {index < arr.length - 1 && " | "}
+                      </span>
+                    ))}
+              </div>
+            </div>
+
+            <div className="AllMentorCard-footer-itemExp">
+              <div className="AllMentorCard-label">Experience</div>
+              <div className="AllMentorCard-value">
+                {(() => {
+                  const experience = mentor.mentor_years_of_experience?.split("-")[0] || "";
+                  return experience.includes("+") ? experience : experience + "+";
+                })()}
+
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
-
-      {/* Experience and Domain */}
+      {/* Tags */}
       <div className="AllMentorCard-footer">
-        <div className="AllMentorCard-footer-item">
-          <div className="AllMentorCard-label">Domain</div>
-          <div className="AllMentorCard-value">
-            {mentor?.mentor_domain &&
-              mentor.mentor_domain !== "[]" &&
-              JSON.parse(mentor.mentor_domain)
-                .slice(0, 3)
-                .map((domain, index, arr) => (
-                  <span key={index}>
-                    {toTitleCase(domain)}
-                    {index < arr.length - 1 && " | "}
+        <div className="AllMentorCard-tags">
+          {/* {JSON.parse(mentor.mentor_language || "[]").map(
+                (language, index, arr) => (
+                  <span key={index} className="AllMentorCard-language-tag">
+                    {language.label}{" "}
                   </span>
-                ))}
-          </div>
+                )
+              )} */}
+          <span>{convertCurrencySymbol(DefaultCurruncyType)}{" "}
+            {convertedAmount.toFixed(0)} /hr
+          </span>
         </div>
+        {/* <div className="AllMentorCard-BookNow-Btn" onClick={() =>
+        (window.location.href = `/mentor-club/mentor-profile/${mentorName
+          .replace(/\s+/g, "-")
+          .toLowerCase()}/${mentor.user_dtls_id}`)
+        }>
 
-        <div className="AllMentorCard-footer-itemExp">
-          <div className="AllMentorCard-label">Experience</div>
-          <div className="AllMentorCard-value">
-            {mentor.mentor_years_of_experience?.split("-")[0] + "+"}
-          </div>
-        </div>
+         
+        </div> */}
+        <span className="MentorCard-Booknow-Btn" onClick={() =>
+        (window.location.href = `/mentor-club/mentor-profile/${mentorName
+          .replace(/\s+/g, "-")
+          .toLowerCase()}/${mentor.user_dtls_id}`)
+        }>Book Now<i className="fa-solid fa-arrow-right"></i></span>
       </div>
     </div>
   );

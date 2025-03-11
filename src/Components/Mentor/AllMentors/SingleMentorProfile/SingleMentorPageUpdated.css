@@ -455,7 +455,7 @@
 
 .mentor-description {
   margin-top: 1rem;
-  line-break: anywhere;
+  line-break: auto;
 }
 
 .mentor-headline {
@@ -578,63 +578,7 @@
   flex-wrap: wrap;
 }
 
-/* @media screen and (max-width: 1024px) {
-  .mentor-profile-content {
-    padding: 1rem;
-  }
 
-  .mentor-profile-col1 {
-    flex: 0 0 30%;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .mentor-profile-ribbon {
-    height: 10rem;
-  }
-
-  .mentor-profile-content {
-    margin-top: -4rem;
-    flex-direction: column;
-  }
-
-  .mentor-profile-col1 {
-    flex: 0 0 100%;
-  }
-
-  .mentor-profile-col2 {
-    padding-top: 1rem;
-  }
-
-  .mentor-name {
-    font-size: 1.5rem;
-  }
-
-  .mentor-company {
-    font-size: 1rem;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .mentor-profile-ribbon {
-    height: 8rem;
-  }
-
-  .mentor-profile-content {
-    padding: 0.5rem;
-    margin-top: -3rem;
-  }
-
-  .mentor-name-section {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .domain-tag,
-  .skill-tag {
-    font-size: 0.8rem;
-  }
-} */
 
 .SingleMentorProfile-Flex {
   display: flex;

@@ -4,6 +4,7 @@ import MentorUpcomingSessionCard from "./MentorUpcomingSessionCard";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import axios from "axios";
 import SessionCardSkeleton from "../SkeltonLoaders/SessionCardSkeleton";
+import "./UpcomingUpdatedcard.css"
 const MentorUpcomingSessions = ({ data, user, token }) => {
   const [allBookingSessions, setAllBookingSessions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -34,7 +35,7 @@ const MentorUpcomingSessions = ({ data, user, token }) => {
           <div className="fgfdg">
             <h2>Your Upcoming Mentor Sessions</h2>
           </div>
-          <div className="row">
+          <div className="MentorUpcomingSessionCard">
             {loading && (
               <>
                 <SessionCardSkeleton />

@@ -5,7 +5,7 @@ import GoToTop from "../../../Utils/GoToTop";
 import OrganizationRegister from "../../../Components/Forms/Register/Organization/OrganizationRegister";
 
 const EmployerRegistrationPage = () => {
-  document.title = "Practywiz | Institute Register";
+  document.title = "Practywiz | Employer Register";
 
   return (
     <>

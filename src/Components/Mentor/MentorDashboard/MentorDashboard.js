@@ -62,7 +62,7 @@ const MentorDashboard = ({ user, token }) => {
             response.data.success[0]?.mentor_academic_qualification === "" ||
             response.data.success[0]?.mentor_guest_lectures_interest === "" ||
             response.data.success[0]?.mentor_curating_case_studies_interest ===
-              "" ||
+            "" ||
             response.data.success[0]?.mentor_sessions_free_of_charge === "" ||
             response.data.success[0]?.mentor_language === "" ||
             response.data.success[0]?.mentor_country === "" ||
@@ -448,11 +448,10 @@ const MentorDashboard = ({ user, token }) => {
                         <li>
                           <Link
                             target="_blanks"
-                            to={`/mentor-club/mentor-profile/${
-                              user?.user_firstname +
+                            to={`/mentor-club/mentor-profile/${user?.user_firstname +
                               "-" +
                               user.user_lastname.replace(" ", "-").toLowerCase()
-                            }/${user?.user_id}`}
+                              }/${user?.user_id}`}
                           >
                             View Public Profile
                           </Link>
@@ -467,7 +466,20 @@ const MentorDashboard = ({ user, token }) => {
                         <li onClick={userLogoutHandler}>Log Out</li>
                       </ul>
                     </div>
+
                   </form>
+
+
+                </div>
+
+
+                <div
+                  className="mobileMenuIconMentorDashboard"
+                  onClick={() => {
+                    return setShowSidebarList(!showSidebarList);
+                  }}
+                >
+                  <i class="fa-solid fa-bars" style={{ fontSize: "1.5rem" }}></i>
                 </div>
               </div>
             </nav>
@@ -478,14 +490,7 @@ const MentorDashboard = ({ user, token }) => {
           {/* <div className="row"> */}
           <div className="">
             <div className="col-md-flex-center">
-              <div
-                className="mobileMenuIconMentorDashboard"
-                onClick={() => {
-                  return setShowSidebarList(!showSidebarList);
-                }}
-              >
-                <i className="fa-solid fa-2x fa-bars-staggered"></i>
-              </div>
+           
               {showSidebarList && (
                 <MentorDashboardSidebar
                   showSidebarList={showSidebarList}
@@ -657,43 +662,43 @@ const MentorDashboard = ({ user, token }) => {
 
                   {singleMentor[0]?.mentor_curating_case_studies_interest ===
                     "Yes" && (
-                    <div className="Baseposition" onMouseLeave={toggleOfCase}>
-                      <button
-                        className="btn btn-transparent text-center py-3 seeeett"
-                        onMouseOver={toggleOnCase}
-                      >
-                        <span className="d-block bg-white position-relative m-auto">
-                          <i className="fa-solid fa-folder"></i>
-                        </span>
-                        <h5>
-                          Case Studies
-                          <i className="fa-solid fa-chevron-down downarrowsize"></i>
-                        </h5>
-                      </button>
-                      {CaseMenu && (
-                        <div className="submenu1">
-                          <button
-                            className="submenu-item1"
-                            onClick={MentorCaseStudiesShowingHandler}
-                          >
-                            <h5>Create Case Study</h5>
-                          </button>
-                          <button
-                            className="submenu-item1"
-                            onClick={MentorCaseStudiesSubmitedShowingHandler}
-                          >
-                            <h5>Submitted Case Study</h5>
-                          </button>
-                          <button
-                            className="submenu-item1"
-                            onClick={MentorCaseStudiesPurchasedShowingHandler}
-                          >
-                            <h5>Purchased Case Studies</h5>
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                      <div className="Baseposition" onMouseLeave={toggleOfCase}>
+                        <button
+                          className="btn btn-transparent text-center py-3 seeeett"
+                          onMouseOver={toggleOnCase}
+                        >
+                          <span className="d-block bg-white position-relative m-auto">
+                            <i className="fa-solid fa-folder"></i>
+                          </span>
+                          <h5>
+                            Case Studies
+                            <i className="fa-solid fa-chevron-down downarrowsize"></i>
+                          </h5>
+                        </button>
+                        {CaseMenu && (
+                          <div className="submenu1">
+                            <button
+                              className="submenu-item1"
+                              onClick={MentorCaseStudiesShowingHandler}
+                            >
+                              <h5>Create Case Study</h5>
+                            </button>
+                            <button
+                              className="submenu-item1"
+                              onClick={MentorCaseStudiesSubmitedShowingHandler}
+                            >
+                              <h5>Submitted Case Study</h5>
+                            </button>
+                            <button
+                              className="submenu-item1"
+                              onClick={MentorCaseStudiesPurchasedShowingHandler}
+                            >
+                              <h5>Purchased Case Studies</h5>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   {/* ************************************************************************ */}
                 </div>
               )}

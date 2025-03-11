@@ -193,7 +193,7 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
     }
   };
   const onSubmit = async (data) => {
-    
+
     const payload = {
       ...data,
       supervisionType,
@@ -253,9 +253,8 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
             <div className="postinternAling">
               <div className="toggle-container">
                 <div
-                  className={`toggle-button ${
-                    selected === "Pending" ? "active" : "inactive"
-                  }`}
+                  className={`toggle-button ${selected === "Pending" ? "active" : "inactive"
+                    }`}
                   onClick={() => {
                     setSelected("Pending");
                     setSupervisionType("Self Manage");
@@ -265,9 +264,8 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                   Self Manage internship
                 </div>
                 <div
-                  className={`toggle-button ${
-                    selected === "Completed" ? "active" : "inactive"
-                  }`}
+                  className={`toggle-button ${selected === "Completed" ? "active" : "inactive"
+                    }`}
                   onClick={() => {
                     setSelected("Completed");
                     setSupervisionType("Guided");
@@ -807,7 +805,7 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                           type="button"
                           onClick={() => removeSkill(index)}
                           className="remove-skill-btn"
-                          // disabled={!isEditing}
+                        // disabled={!isEditing}
                         >
                           &times;
                         </button>
@@ -1364,9 +1362,8 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                       role:
                     </label>
                     <select
-                      className={`form-select ${
-                        errors.taskCategory ? "error-input" : ""
-                      }`}
+                      className={`form-select ${errors.taskCategory ? "error-input" : ""
+                        }`}
                       {...register("taskCategory", {
                         // required: "Please select a task category",
                       })}
@@ -1391,9 +1388,8 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                       What is the expected business objective?
                     </label>
                     <select
-                      className={`form-select ${
-                        errors.businessObjective ? "error-input" : ""
-                      }`}
+                      className={`form-select ${errors.businessObjective ? "error-input" : ""
+                        }`}
                       {...register("businessObjective", {
                         // required: "Please select a business objective",
                       })}

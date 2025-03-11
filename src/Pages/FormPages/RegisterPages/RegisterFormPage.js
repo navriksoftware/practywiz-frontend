@@ -5,7 +5,7 @@ import RegisterForm from "../../../Components/Forms/Register/Mentor/MentorStepFo
 import GoToTop from "../../../Utils/GoToTop";
 
 const RegisterFormPage = () => {
-  document.title = "Practywiz | Mentor Register";
+  document.title = "Practywiz | Mentor Registration";
   return (
     <>
       <Navbar />
