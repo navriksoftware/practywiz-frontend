@@ -15,7 +15,7 @@ const MentorCompletedSessionCard = ({
                   <div className="col-lg-12">
                     <div className="doiejrer_left">
                       <div className="kmg">
-                        <img src={session.mentee_profile} alt="" />
+                        <img src={session.mentee_profile_pic_url} alt="" />
                       </div>
                     </div>
                   </div>

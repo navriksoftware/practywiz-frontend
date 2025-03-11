@@ -1,316 +1,135 @@
-.applicant-skill {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  background-color: #f3f4f6;
-  color: #4b5563;
-  font-weight: 500;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-  transition: background-color 0.2s;
-  cursor: pointer;
-}
-.applicant-profile-container {
+.single-applicant-profile-overview-container {
+  padding: 0 2rem;
+  background-color: rgb(255, 255, 255);
   min-height: 100vh;
-  background-color: #f9fafb;
+}
+.single-applicant-prof-profile-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-.applicant-header {
-  background-color: #ffffff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.single-applicant-prof-profile-title {
+  margin: 0;
+  font-size: 1.5rem;
 }
 
-.applicant-header-content {
-  max-width: 1280px;
+.single-applicant-profile-overview-wrapper {
+  max-width: 900px;
   margin: 0 auto;
-  padding: 2rem 1rem;
 }
-
-.applicant-header-wrapper {
+.single-applicant-profile-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  border: 1px solid rgb(204, 204, 204);
+  padding: 2rem;
+}
+.single-applicant-profile-header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.applicant-profile-image-container {
-  position: relative;
-}
-
-.applicant-profile-image {
-  width: 8rem;
-  height: 8rem;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #f3f4f6;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.applicant-online-status {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: #22c55e;
-  border-radius: 50%;
-  border: 4px solid #ffffff;
-}
-
-.applicant-info-container {
-  flex: 1;
-  text-align: center;
-}
-
-.applicant-name {
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: #111827;
-}
-
-.applicant-role {
-  margin-top: 0.5rem;
-  font-size: 1.125rem;
-  color: #4b5563;
-  font-weight: 500;
-}
-
-.applicant-location {
-  margin-top: 0.25rem;
-  color: #6b7280;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-}
-
-.applicant-contact-info {
-  margin-top: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.applicant-contact-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #4b5563;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.applicant-contact-link:hover {
-  color: #2563eb;
-}
-
-.applicant-linkedin-link {
-  color: #2563eb;
-}
-
-.applicant-linkedin-link:hover {
-  color: #1d4ed8;
-}
-
-.applicant-action-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 1rem;
-}
-
-.applicant-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.applicant-button-primary {
-  background-color: #2563eb;
-  color: #ffffff;
-  border: none;
-}
-
-.applicant-button-primary:hover {
-  background-color: #1d4ed8;
-}
-
-.applicant-button-secondary {
-  background-color: #ffffff;
-  color: #374151;
-  border: 1px solid #d1d5db;
-}
-
-.applicant-button-secondary:hover {
-  background-color: #f9fafb;
-}
-
-.applicant-main-content {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
-
-.applicant-grid-container {
-  display: grid;
+  align-items: start;
   gap: 2rem;
 }
-
-.applicant-section {
-  background-color: #ffffff;
-  margin: 1rem 0;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s;
+.single-applicant-profile-picture {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  border: 2px solid #e2e8f0;
 }
-
-.applicant-section:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.single-applicant-profile-info {
+  flex: 1;
 }
-
-.applicant-section-header {
+.single-applicant-profile-name {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+.single-applicant-profile-location {
+  color: #6b7280;
+}
+.single-applicant-profile-description {
+  margin-top: 0.5rem;
+  color: #374151;
+}
+.single-applicant-profile-links {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+}
+.single-applicant-icon {
+  color: rgb(38, 108, 246);
+  font-size: 1.5rem;
+}
+.single-applicant-profile-section {
+  margin-top: 2rem;
+}
+.single-applicant-section-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #111827;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #e5e7eb;
+  color: #1f2937;
 }
-
-.applicant-section-icon {
-  color: #2563eb;
-}
-
-.applicant-about-text {
-  color: #4b5563;
-  line-height: 1.625;
-}
-
-.applicant-experience-item {
-  position: relative;
-  padding-left: 1rem;
-  border-left: 2px solid #e5e7eb;
-  margin-bottom: 2rem;
-  transition: border-color 0.2s;
-}
-
-.applicant-experience-item:hover {
-  border-left-color: #2563eb;
-}
-
-.applicant-experience-header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.applicant-experience-role {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #111827;
-}
-
-.applicant-experience-company {
-  color: #2563eb;
-  font-weight: 500;
-}
-
-.applicant-experience-date {
-  color: #6b7280;
-  font-size: 0.875rem;
-}
-
-.applicant-experience-description {
+.single-applicant-section-list {
   margin-top: 0.5rem;
-  color: #4b5563;
-  line-height: 1.625;
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  color: #374151;
 }
-
-.applicant-education-item {
-  position: relative;
-  padding-left: 1rem;
-  border-left: 2px solid #e5e7eb;
-  margin-bottom: 1.5rem;
-  transition: border-color 0.2s;
+.single-applicant-experience-item {
+  margin-top: 1.5rem;
 }
-
-.applicant-education-item:hover {
-  border-left-color: #2563eb;
-}
-
-.applicant-education-title {
-  font-weight: 600;
-  color: #111827;
-}
-
-.applicant-education-institute {
-  color: #2563eb;
-  margin-top: 0.25rem;
-}
-
-.applicant-education-details {
-  display: flex;
-  justify-content: space-between;
-  color: #6b7280;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-
-.applicant-personal-info-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.75rem;
-  transition: background-color 0.2s;
-  border-radius: 0.5rem;
-}
-
-.applicant-personal-info-item:hover {
-  background-color: #f9fafb;
-}
-
-.applicant-personal-info-label {
-  color: #4b5563;
-}
-
-.applicant-personal-info-value {
+.single-applicant-experience-title {
+  font-size: 1.125rem;
   font-weight: 500;
-  color: #111827;
+  color: #374151;
 }
-
-@media (min-width: 640px) {
-  .applicant-action-buttons {
-    flex-direction: row;
-  }
+.single-applicant-experience-company {
+  color: #6b7280;
 }
-
-@media (min-width: 768px) {
-  .applicant-header-wrapper {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-
-  .applicant-info-container {
-    text-align: left;
-  }
-
-  .applicant-location,
-  .applicant-contact-info {
-    justify-content: flex-start;
-  }
+.single-applicant-experience-list {
+  margin-top: 0.5rem;
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  color: #374151;
 }
-
-@media (min-width: 1024px) {
-  .applicant-grid-container {
-    grid-template-columns: 2fr 1fr;
+.single-applicant-prof-profile-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+.single-applicant-prof-btn-outline {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  background: transparent;
+  border-radius: 0.375rem;
+  color: #374151;
+  transition: all 0.3s;
+}
+.single-applicant-prof-btn-outline:hover {
+  background: #f3f4f6;
+}
+.single-applicant-btn-default {
+  padding: 0.5rem 1rem;
+  background: #1d4ed8;
+  border: none;
+  border-radius: 0.375rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.single-applicant-btn-default:hover {
+  background: #2563eb;
+}
+@media (max-width: 768px) {
+  .single-applicant-profile-overview-container {
+    padding: 0;
+  }
+  .single-applicant-profile-header {
+    flex-direction: column;
+    align-items: center;
+  }
+  .single-applicant-profile-info {
+    text-align: center;
+  }
+  .single-applicant-profile-card {
+    padding: 1rem;
   }
 }

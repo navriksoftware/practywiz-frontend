@@ -77,14 +77,14 @@
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: space-between;
-  cursor: pointer;
+
 
 }
 
-.AllMentorCard-profile-card:hover {
-  transform: scale(1.05);
+/* .AllMentorCard-profile-card:hover {
+  transform: scale(1);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-}
+} */
 
 .AllMentorCard-image-container {
   position: relative;
@@ -197,6 +197,7 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  color: #6b7280;
 }
 
 .AllMentorCard-language-tag {
@@ -260,4 +261,47 @@
 .AllMentorCardInline {
   display: inline-flex;
   gap: 5px;
+}
+
+.AllMentorCard-BookNow-Btn {
+  width: fit-content;
+
+
+  border-radius: 24px;
+  font-size: 0.875rem;
+
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #00ccce;
+  color: white;
+  cursor: pointer;
+}
+
+/* .AllMentorCard-BookNow-Btn:hover {
+  background: #244E8A;
+
+
+} */
+
+
+.AllMentorCard-tags-container {
+  display: flex;
+  justify-content: space-between;
+
+
+}
+
+.MentorCard-Booknow-Btn {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.25rem;
+  color: #696a6cfc;
+  cursor: pointer;
+  font-weight: 600;
+}
+.MentorCard-Booknow-Btn:hover {
+  color: #244E8A;
 }

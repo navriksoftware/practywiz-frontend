@@ -43,7 +43,7 @@ const AiCasestudySection = () => {
               <h2 className="ai-casestudy-title">
                 <span className="ai-casestudy-highlight">"Āvega"</span>
                 <br />
-                AI-Powered Case Studies
+                AI Powered Business Case Simulator
               </h2>
               <p className="ai-casestudy-description">
                 Experience the future of business education with interactive AI.

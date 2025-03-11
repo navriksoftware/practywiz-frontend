@@ -1,11 +1,10 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import "../InternshipCss/Postinternship.css";
 import Select from "react-select";
-import { options, skills } from "../../../data/Additionalquestion.js";
 import { option_fro_timezone } from "../../../data/Timezones.js";
-
+import { allSkills } from "../../../data/Skills.js";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
@@ -53,8 +52,25 @@ const EditInternshipPost = ({
       internshipPerks: JSON.parse(
         internPostData.employer_internship_post_perks
       ),
+      taskCategory : internPostData?.employer_internship_post_support,
+      businessObjective : internPostData?.employer_internship_post_project,
+      projectPlan : internPostData?.employer_internship_post_contribution,
+      StartTimeFrom: internPostData?.employer_internship_post_coll_hours?.split('-')[0] || '',
+      endTimeTo: internPostData?.employer_internship_post_coll_hours?.split('-')[1] || '',
+      internshipPostTimezone: internPostData?.employer_internship_post_timezone,
     },
   });
+  
+
+// Initial state setup with more robust default handling
+  const [formData, setFormData] = useState({
+   
+    internshipDomain: internPostData.employer_internship_post_domain
+    
+  });
+
+
+
   const dispatch = useDispatch();
   const url = ApiURL();
   const [amountShow, setamountShow] = useState(true);
@@ -62,6 +78,118 @@ const EditInternshipPost = ({
   const [performanceBased, setperformanceBased] = useState(false);
   const [showInternshipStartDate, setshowInternshipStartDate] = useState(false);
   const [selected, setSelected] = useState("Pending");
+
+
+  // for Domain 
+  const [selectedDomain, setSelectedDomain] = useState(() => {
+    try {
+      return JSON.parse(internPostData?.employer_internship_post_domain) || [];
+    } catch (error) {
+      console.error("Error parsing mentee_language:", error);
+      return [];
+    }
+  });
+
+   // Language change handler
+   const handleDomainChange = (selectedOption) => {
+    setSelectedDomain(selectedOption);
+    setValue("internshipDomain", selectedOption)
+    setFormData((prev) => ({
+      ...prev,
+      internshipDomain: selectedOption,
+      
+    }));
+  };
+
+
+  const internshipSkills = JSON.parse(
+    internPostData.employer_internship_post_skills
+  )
+
+  const [skillList, setSkillList] = useState(internshipSkills);
+  const [skills, setSkills] = useState(""); // For the input field
+
+  const [suggestions, setSuggestions] = useState([]); // For suggestions
+  const [message, setMessage] = useState(""); // For displaying messages
+  // Example skill suggestions
+
+  const handleInputChangee = (e) => {
+    const input = e.target.value.trimStart(); // Trim leading spaces
+    setSkills(input);
+
+    if (input.length > 3) {
+      // Suggest the input and filter suggestions from `allSkills`
+      setSuggestions([
+        input,
+        ...allSkills.filter(
+          (skill) =>
+            skill.toLowerCase().includes(input.toLowerCase()) &&
+            !skillList?.some(
+              (existingSkill) =>
+                existingSkill.toLowerCase() === skill.toLowerCase()
+            )
+        ),
+      ]);
+    } else if (input) {
+      // Filter suggestions if input is not empty
+      const filteredSuggestions = allSkills.filter(
+        (skill) =>
+          skill.toLowerCase().includes(input.toLowerCase()) &&
+          !skillList?.some(
+            (existingSkill) =>
+              existingSkill.toLowerCase() === skill.toLowerCase()
+          )
+      );
+      setSuggestions(filteredSuggestions);
+    } else {
+      // Clear suggestions if input is empty
+      setSuggestions([]);
+    }
+  };
+
+  const handleAddSkill = (newSkill) => {
+    const trimmedSkill = newSkill.trim();
+
+    // Prevent adding empty or duplicate skills
+    if (!trimmedSkill) {
+      setMessage("Skill cannot be empty");
+      setTimeout(() => setMessage(""), 2000);
+      return;
+    }
+
+    // Check if the skill already exists (case-insensitive)
+    const exists = (skillList || []).some(
+      (existingSkill) =>
+        existingSkill.toLowerCase() === trimmedSkill.toLowerCase()
+    );
+
+    if (!exists) {
+      setSkillList([...(skillList || []), trimmedSkill]); // Use fallback to avoid undefined
+      setMessage(""); // Clear any previous message
+    } else {
+      setMessage("Skill already added");
+      setTimeout(() => setMessage(""), 2000);
+    }
+
+    setSkills(""); // Clear input
+    setSuggestions([]); // Clear suggestions
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleAddSkill(skills);
+    }
+  };
+
+  const removeSkill = (index) => {
+    setSkillList(skillList.filter((_, i) => i !== index));
+  };
+
+  useEffect(() => {
+    if (skillList?.length >= 0) {
+      setValue("internshipSkills", skillList);
+    }
+  }, [skillList]);
 
   const [supervisionType, setSupervisionType] = useState("Self Manage");
 
@@ -75,9 +203,7 @@ const EditInternshipPost = ({
     ],
   };
 
-  const initialSkills = JSON.parse(
-    internPostData.employer_internship_post_skills
-  );
+ 
 
   const quillFormats = [
     "header",
@@ -139,7 +265,7 @@ const EditInternshipPost = ({
   };
 
   const onSubmit = async (data) => {
-   
+
     const payload = {
       ...data,
       supervisionType,
@@ -155,6 +281,7 @@ const EditInternshipPost = ({
           internshipSkills: JSON.stringify(payload.internshipSkills),
           internshipPerks: JSON.stringify(payload.internshipPerks),
           employerOrgDtlsId: employerDetails[0]?.employer_organization_dtls_id,
+          internshipDomain: formData?.internshipDomain,
         },
         {
           headers: { authorization: "Bearer " + token },
@@ -182,9 +309,8 @@ const EditInternshipPost = ({
             <div className="postinternAling">
               <div className="toggle-container">
                 <div
-                  className={`toggle-button ${
-                    selected === "Pending" ? "active" : "inactive"
-                  }`}
+                  className={`toggle-button ${selected === "Pending" ? "active" : "inactive"
+                    }`}
                   onClick={() => {
                     setSelected("Pending");
                     setSupervisionType("Self Manage");
@@ -194,9 +320,8 @@ const EditInternshipPost = ({
                   Self Manage internship
                 </div>
                 <div
-                  className={`toggle-button ${
-                    selected === "Completed" ? "active" : "inactive"
-                  }`}
+                  className={`toggle-button ${selected === "Completed" ? "active" : "inactive"
+                    }`}
                   onClick={() => {
                     setSelected("Completed");
                     setSupervisionType("Value Added");
@@ -264,7 +389,7 @@ const EditInternshipPost = ({
                               type="radio"
                               id="check_11"
                               name="internshipType"
-                              value=" On Premises"
+                              value="On Premises"
                               className="d-none"
                               {...register("internshipType", {
                                 required: "Please select internship type",
@@ -415,6 +540,7 @@ const EditInternshipPost = ({
                     </label>
                     <div className="dhjwwdk">
                       <select
+                      
                         className="form-select intershipWidth"
                         {...register("StartTimeFrom", {
                           required: "required",
@@ -627,6 +753,8 @@ const EditInternshipPost = ({
                           { value: "Research", label: "Research" },
                           { value: "Other", label: "Other" },
                         ]}
+                        value={selectedDomain}
+                        onChange={handleDomainChange}
                         placeholder="Select Internship Domain"
                       />
                     )}
@@ -638,41 +766,92 @@ const EditInternshipPost = ({
                   )}
                 </div>
 
-                <div className="col-lg-12 mb-4">
-                  <label htmlFor="exampleInputEmail1" className="form-label">
+               
+
+                <div
+                  className="col-lg-12 mb-4"
+                  style={{
+                    position: "relative",
+                  }}
+                >
+                  <label htmlFor="mentorJobTitle" className="form-label">
                     <b>
                       Skills Required
-                      <span className="RedColorStarMark"></span>
+                      {/* <span className="RedColorStarMark">*</span> */}
                     </b>
-                  </label>{" "}
-                  <Controller
-                    name="internshipSkills"
-                    control={control}
-                    defaultValue={initialSkills}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        // styles={customStyles} // Apply your custom styles here
-                        options={skills}
-                        isMulti={true} // Allow multiple selections
-                        value={field.value} // Sync value with react-hook-form state
-                        onChange={(selectedOptions) => {
-                          field.onChange(selectedOptions); // Update form state
-                          trigger("internshipSkills"); // Trigger validation when option is selected
-                        }}
-                      />
+                    {/* <i
+    className="fa-solid fa-circle-info mentorMicroHelpIcon"
+    onMouseEnter={() => handleMouseEnter("SkillHelp")}
+    onMouseLeave={() => handleMouseLeave("SkillHelp")}
+  ></i>
+  {visibleHelp.SkillHelp && (
+    <div className="mentorMicroHelpMessageSkills">
+      <ul>
+        <li className="Mentor-Microhelp-listFrontSize">
+          {" "}
+          List the key skills you specialize in within your
+          domains (e.g., Python,Data Analysis,Public Speaking).
+        </li>
+        <li className="Mentor-Microhelp-listFrontSize">
+          Why This Matters: Your skills help mentees understand
+          your expertise and choose you as their mentor for
+          relevant guidance.
+        </li>
+      </ul>
+    </div>
+  )} */}
+                  </label>
+                  <div className="input-wrapper">
+                    <input
+                      type="text"
+                      placeholder="Type skills and press Enter"
+                      value={skills}
+                      onChange={handleInputChangee}
+                      onKeyDown={handleKeyPress}
+                      className="form-control"
+                    />
+
+                    {/* Suggestions Dropdown */}
+                    {suggestions.length > 0 && (
+                      <ul className="suggestions-dropdown">
+                        {suggestions.map((suggestion, index) => (
+                          <li
+                            key={index}
+                            onClick={() => handleAddSkill(suggestion)}
+                            className="suggestion-item"
+                          >
+                            {suggestion}
+                          </li>
+                        ))}
+                      </ul>
                     )}
-                  />
-                  {/* Error message */}
-                  {/* {errors.internshipSkills && (
-                    <p
-                      style={{ color: "red", marginTop: "8px" }}
-                      // className="Error-meg-login-register"
-                    >
-                      {errors.internshipSkills.message}
-                    </p>
-                  )} */}
+                  </div>
+
+                  {/* Display message */}
+                  {message && <div className="message">{message}</div>}
+
+                  <div className="skill-list">
+                    {skillList?.map((skill, index) => (
+                      <span key={index} className="skill-tag">
+                        {skill}{" "}
+                        <button
+                          type="button"
+                          onClick={() => removeSkill(index)}
+                          className="remove-skill-btn"
+                        // disabled={!isEditing}
+                        >
+                          &times;
+                        </button>
+                      </span>
+                    ))}
+                  </div>
                 </div>
+
+
+
+
+
+
                 <div className="row">
                   <div className="col-lg-6 mb-4">
                     <label htmlFor="exampleInputEmail1" className="form-label">
@@ -1228,9 +1407,8 @@ const EditInternshipPost = ({
                       role:
                     </label>
                     <select
-                      className={`form-select ${
-                        errors.taskCategory ? "error-input" : ""
-                      }`}
+                      className={`form-select ${errors.taskCategory ? "error-input" : ""
+                        }`}
                       {...register("taskCategory", {
                         // required: "Please select a task category",
                       })}
@@ -1255,9 +1433,8 @@ const EditInternshipPost = ({
                       What is the expected business objective?
                     </label>
                     <select
-                      className={`form-select ${
-                        errors.businessObjective ? "error-input" : ""
-                      }`}
+                      className={`form-select ${errors.businessObjective ? "error-input" : ""
+                        }`}
                       {...register("businessObjective", {
                         // required: "Please select a business objective",
                       })}

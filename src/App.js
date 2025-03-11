@@ -12,7 +12,7 @@ import "./Styles/responsive.css";
 import "./Styles/style.css";
 import "./index.css";
 import "./Styles/DashBoard.css";
-import { ToastContainer,Flip  } from "react-toastify";
+import { ToastContainer, Flip } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import ScrollButton from "./Utils/ScrollToTop";
@@ -63,7 +63,6 @@ import PostInternship from "./Components/Employer/Internships/OtherComponents/Po
 import Orginternship from "./Components/Employer/Internships/OtherComponents/orginternship";
 import EmployerRegistrationPage from "./Pages/FormPages/RegisterPages/EmployerRegistrationPage";
 
-import ApplicantProfile from "./Components/Employer/Internships/OtherComponents/SingleApplicantProfile";
 import InternshipListingPage from "./Pages/InternshipPages/InternshipListingPage";
 // import MenteeInternshipListing from "./Components/Mentee/MenteeDashboard/OtherComponents/MenteeInternshipListing";
 import MenteeInternshipApplyPage from "./Components/Employer/Internships/OtherComponents/MenteeInternshipApplyPage";
@@ -83,6 +82,7 @@ import InternshipApplication from "./Components/Mentee/MenteeDashboard/MenteeInt
 
 import TermsConditionsPage from "./Pages/LegalPages/TermsConditionsPage";
 import PrivacyPolicyPage from "./Pages/LegalPages/PrivacyPolicyPage";
+import SingleApplicantProfilePage from "./Pages/InternshipPages/SingleApplicantProfilePage";
 
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
@@ -91,7 +91,14 @@ function App() {
   return (
     <>
       {isLoading && <Spinner />}
-      <ToastContainer position="top-center" hideProgressBar transition={Flip}  autoClose={1500} closeOnClick draggable/>
+      <ToastContainer
+        position="top-center"
+        hideProgressBar
+        transition={Flip}
+        autoClose={1500}
+        closeOnClick
+        draggable
+      />
       <Router>
         <Routes>
           <Route path="/image/test" element={<Test />} />
@@ -297,7 +304,7 @@ function App() {
           /> */}
           <Route
             path="/internships/applicants/:id"
-            element={<ApplicantProfile />}
+            element={<SingleApplicantProfilePage />}
           />
           <Route
             path="/internships/:profile/:id/applicants"
