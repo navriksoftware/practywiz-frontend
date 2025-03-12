@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import Spinner from "../../Utils/Spinner.js";
 import Logo from "../../Images/logo.png";
 import EmployerProfile from "../Employer/Internships/OtherComponents/EmployerProfile.js";
 import PostInternship from "../Employer/Internships/OtherComponents/PostInternship.js";
@@ -382,7 +382,7 @@ const EmployerDashboard = ({ user, token }) => {
   }, []);
   return (
     <>
-      <div className="md-header">
+      {loading ? <Spinner /> : <div className="md-header">
         <header>
           <div className="header-wrapper">
             <nav className="navbar mx-4 px-3 mt-3 navbar-expand-sm navbar-light ">
@@ -780,6 +780,8 @@ const EmployerDashboard = ({ user, token }) => {
               )}
             </div>
 
+
+
             <div className="maincontent">
               {showOrgUpdateDetails && (
                 <OrgUpdateDetails employerUserDtlsId={employerUserDtlsId} />
@@ -844,9 +846,11 @@ const EmployerDashboard = ({ user, token }) => {
                 <InternManagement employerDtlsId={employerUserDtlsId} />
               )}
             </div>
+
           </div>
         </div>
-      </div>
+      </div>}
+
     </>
   );
 };

@@ -169,388 +169,373 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
   };
 
   return (
-    <>
-      <div className="step active" id="step1">
-      <h4 className="text-center">
-            <img src={web96} alt="" className="me-1" />
-            Mentee Registration
-          </h4>
+    <><div className="ihduwfr_form_wrapper mt-4">
+    {/* <div className="csfvgdtrfs cihseriniewr mb-3 position-relative">
+      <label htmlFor="exampleInputEmail1" className="form-label">
+        I Want To Register As
+      </label>
+      <br />
+      <input
+        type="radio"
+        id="rdo2"
+        className="radio-input"
+        name="radio-group"
+        value="mentee"
+        checked={selectedOption === "mentee"}
+        onChange={handleChange}
+      />
+      <label htmlFor="rdo2" className="radio-label  pe-3">
+        <span className="radio-border"></span>
+        <i
+          className="fa-solid fa-graduation-cap me-1"
+          style={{ color: "#1B759A" }}
+        ></i>
+        Mentee
+      </label>
+      <input
+        type="radio"
+        id="rdo3"
+        className="radio-input"
+        name="radio-group"
+        value="jobseeker"
+        checked={selectedOption === "jobseeker"}
+        onChange={handleChange}
+      />
+      <label htmlFor="rdo3" className="radio-label  pe-3">
+        <span className="radio-border"></span>
+        <i
+          className="fa-solid fa-briefcase me-1"
+          style={{ color: "#1B759A" }}
+        ></i>
+        Job Seeker
+      </label>
+      <input
+        type="radio"
+        id="rdo4"
+        className="radio-input"
+        name="radio-group"
+        value="institute"
+        checked={selectedOption === "institute"}
+        onChange={handleChange}
+      />
+      <label htmlFor="rdo4" className="radio-label pe-3">
+        <span className="radio-border"></span>
+        <i
+          className="fa-solid fa-building-columns me-1"
+          style={{ color: "#1B759A" }}
+        ></i>
+        Institute
+      </label>
+    </div> */}
 
-        <div className="ihduwfr_form_wrapper mt-4">
-          {/* <div className="csfvgdtrfs cihseriniewr mb-3 position-relative">
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              I Want To Register As
-            </label>
-            <br />
-            <input
-              type="radio"
-              id="rdo2"
-              className="radio-input"
-              name="radio-group"
-              value="mentee"
-              checked={selectedOption === "mentee"}
-              onChange={handleChange}
-            />
-            <label htmlFor="rdo2" className="radio-label  pe-3">
-              <span className="radio-border"></span>
-              <i
-                className="fa-solid fa-graduation-cap me-1"
-                style={{ color: "#1B759A" }}
-              ></i>
-              Mentee
-            </label>
-            <input
-              type="radio"
-              id="rdo3"
-              className="radio-input"
-              name="radio-group"
-              value="jobseeker"
-              checked={selectedOption === "jobseeker"}
-              onChange={handleChange}
-            />
-            <label htmlFor="rdo3" className="radio-label  pe-3">
-              <span className="radio-border"></span>
-              <i
-                className="fa-solid fa-briefcase me-1"
-                style={{ color: "#1B759A" }}
-              ></i>
-              Job Seeker
-            </label>
-            <input
-              type="radio"
-              id="rdo4"
-              className="radio-input"
-              name="radio-group"
-              value="institute"
-              checked={selectedOption === "institute"}
-              onChange={handleChange}
-            />
-            <label htmlFor="rdo4" className="radio-label pe-3">
-              <span className="radio-border"></span>
-              <i
-                className="fa-solid fa-building-columns me-1"
-                style={{ color: "#1B759A" }}
-              ></i>
-              Institute
-            </label>
-          </div> */}
-
-          <div className="row">
-            <div className="col-lg-6">
-              <div className="mb-3">
-                <label
-                  htmlFor="exampleInputEmail1"
-                  className="form-label  pe-3"
-                >
-                  First Name <span className="RedColorStarMark">*</span>
-                </label>
-                <input
-                  onKeyUp={() => trigger("mentee_firstname")}
-                  type="text"
-                  className="form-control"
-                  // id="exampleInputEmail1"
-                  placeholder="First Name"
-                  // aria-describedby="emailHelp"
-                  {...register("mentee_firstname", {
-                    required: "First Name is required",
-                    pattern: {
-                      value: /^[a-zA-Z]+$/, // Pattern for letters only
-                      message: "First name should contain only letters",
-                    },
-                    minLength: {
-                      value: 2,
-                      message: "Must be greater than 2 characters.",
-                    },
-                  })}
-                />
-                {errors.mentee_firstname && (
-                  <p className="Error-meg-login-register">
-                    {errors.mentee_firstname.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="col-lg-6">
-              <div className="mb-3">
-                <label htmlFor="exampleInputPassword1" className="form-label">
-                  Last Name <span className="RedColorStarMark">*</span>
-                </label>
-                <input
-                  onKeyUp={() => trigger("mentee_lastname")}
-                  type="text"
-                  className="form-control"
-                  // id="exampleInputPassword1"
-                  placeholder="Last Name"
-                  {...register("mentee_lastname", {
-                    required: "Last Name is required",
-                    pattern: {
-                      value: /^[a-zA-Z]+$/, // Pattern for letters only
-                      message: "Last name should contain only letters",
-                    },
-                    minLength: {
-                      value: 2,
-                      message: "Must be greater than 2 characters.",
-                    },
-                  })}
-                />
-                {errors.mentee_lastname && (
-                  <p className="Error-meg-login-register">
-                    {errors.mentee_lastname.message}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-12">
-            <div className="mb-3">
-              <div className="h-25">
-                <Controller
-                  onKeyUp={() => {
-                    trigger("mentee_phone");
-                  }}
-                  name="mentee_phone"
-                  control={control}
-                  defaultValue=""
-                  rules={{
-                    required: "Phone number is required",
-                    validate: {
-                      minLength: (value) =>
-                        value.replace(/\D/g, "").length >= 10 ||
-                        "Enter a valid phone number",
-                    },
-                  }}
-                  render={({
-                    field: { name, value, onChange, onBlur, ref },
-                  }) => (
-                    <div>
-                      <div className="OtpSendOnWhatsappTaxt-Dflex">
-                          <label htmlFor="phone" className="form-label">
-                            Phone Number{" "} 
-                            <span className="RedColorStarMark">*</span>
-                          </label>
-                          <p className="ghhduenee OtpSendOnWhatsappTaxt">(OTP will be sent on WhatsApp)</p>
-                          </div>
-
-                      <div className="d-flex">
-                        <PhoneInput
-                          value={value}
-                          country="in"
-                          countryCodeEditable={false}
-                          onChange={(value, country, event, formattedValue) => {
-                            onChange(formattedValue);
-                          }}
-                          onBlur={onBlur}
-                          inputProps={{
-                            autoFocus: false,
-                            name,
-                            ref,
-                          }}
-                        />{" "}
-                        <button
-                          type="button"
-                          onClick={handleSendOtp}
-                          disabled={isLoading}
-                          className={`otp-button ${
-                            isLoading ? "loading" : ""
-                          } ${buttonState}`}
-                        >
-                          {isLoading ? (
-                            <div className="button-content">
-                              <div className="spinner"></div>Loading
-                            </div>
-                          ) : buttonState === "send" ? (
-                            "Send OTP"
-                          ) : (
-                            "OTP Sended"
-                          )}
-                        </button>
-                      </div>
-                      <div className="aftersendOTP">
-                            {" "}
-                            {Sendotp && (
-                              <>
-                                <input
-                                  type="number"
-                                  placeholder="Enter OTP"
-                                  className="PhoneNoOtpInput"
-                                  onChange={(e) => setOtp(e.target.value)}
-                                />
-                                <button
-                                  type="button"
-                                  onClick={handleVerifyOtp}
-                                  disabled={isLoadingVerify}
-                                  style={{fontSize:"11px"}}
-                                  className={`otp-buttonVerify ${
-                                    isLoadingVerify ? "loadingVerify" : ""
-                                  } ${VerifyState}`}
-                                >
-                                  {isLoadingVerify ? (
-                                    <div className="button-contentVerify">
-                                      <div className="spinnerVerifyOTP"></div>
-                                      Loading
-                                    </div>
-                                  ) : VerifyState === "Verify" ? (
-                                    "Verify OTP"
-                                  ) : (
-                                    "OTP Verified"
-                                  )}
-                                </button>
-                              </>
-                            )}
-                            {buttonState === "sended" && (
-                              
-                                <button
-                                  type="button"
-                                  onClick={handleResendOtp}
-                                  disabled={resendAvailable}
-                                  className="resendOtpBtn"
-                                >
-                                  {resendAvailable
-                                    ? "Resend OTP Available in one min"
-                                    : "Resend OTP"}
-                                </button>
-                              
-                            )}
-                          </div>
-
-                      {errors.mentee_phone && (
-                        <p className="Error-meg-login-register">
-                          {errors.mentee_phone.message}
-                        </p>
-                      )}
-                    </div>
-                  )}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="csfvgdtrfs mb-3 position-relative">
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              Email <span className="RedColorStarMark">*</span>
-            </label>
-            <input
-              onKeyUp={() => trigger("mentee_Email")}
-              type="email"
-              className="form-control"
-              // id="exampleInputEmail1"
-              placeholder="Email"
-              aria-describedby="emailHelp"
-              {...register("mentee_Email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "Must be a valid email address.",
-                },
-              })}
-            />
-            {errors.mentee_Email && (
-              <p className="Error-meg-login-register">
-                {errors.mentee_Email.message}
-              </p>
-            )}
-
-            <i className="fa-solid fa-envelopes-bulk position-absolute"></i>
-          </div>
-
-          <div className="csfvgdtrfs mb-3 position-relative">
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              Password <span className="RedColorStarMark">*</span>
-            </label>
-            <input
-              onKeyUp={() => trigger("mentee_password")}
-              className="form-control"
-              // id="exampleInputEmail1"
-              placeholder="Password must be at least 8 characters"
-              aria-describedby="emailHelp"
-              type={showIcon ? "text" : "password"}
-              {...register("mentee_password", {
-                required: "Password is Required",
-                pattern: {
-                  value:
-                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
-                  message:
-                    "Password must be at least 8 characters long and include at least one letter, one number, and one special character (e.g., @, #, $, etc.)",
-                },
-                minLength: {
-                  value: 8,
-                  message: "Must be greater than 8 characters.",
-                },
-                maxLength: {
-                  value: 16,
-                  message: "Must be less than 16 characters.",
-                },
-              })}
-            />
-
-            <i
-              i="true"
-              onClick={() => setShowIcon(!showIcon)}
-              className={
-                showIcon
-                  ? "fa-solid fa-eye position-absolute"
-                  : "fa-solid fa-eye-slash position-absolute"
-              }
-            ></i>
-
-            {errors.mentee_password && (
-              <p className="Error-meg-login-register">
-                {errors.mentee_password.message}
-              </p>
-            )}
-
-            {/* <i className="fa-solid fa-eye position-absolute"></i> */}
-          </div>
-
-          <div className="csfvgdtrfs mb-3 position-relative">
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              Confirm Password <span className="RedColorStarMark">*</span>
-            </label>
-            <input
-              onKeyUp={() => trigger("mentee_confirm_password")}
-              // type="text"
-              className="form-control"
-              // id="exampleInputEmail1"
-              placeholder="Type your password again"
-              aria-describedby="emailHelp"
-              type={showIcons ? "text" : "password"}
-              //onChange={(e) => setConfirmPassword(e.target.value)}
-              {...register("mentee_confirm_password", {
-                required: "Password is Required",
-                validate: (value) =>
-                  value === password || "Password must be matched",
-              })}
-            />
-
-            <i
-              i="true"
-              onClick={() => setShowIcons(!showIcons)}
-              className={
-                showIcons
-                  ? "fa-solid fa-eye position-absolute"
-                  : "fa-solid fa-eye-slash position-absolute"
-              }
-            />
-
-            {errors.mentee_confirm_password && (
-              <p className="Error-meg-login-register">
-                {errors.mentee_confirm_password.message}
-              </p>
-            )}
-
-            {/* <i className="fa-solid fa-eye position-absolute"></i> */}
-          </div>
-        </div>
-
-        <div className="d-flex justify-content-between pt-3">
-          <div className="uherrr_text text-center">
-            <p className="mb-0">
-              Already Have An Account? <a href="/login">Log In</a>
+    <div className="row">
+      <div className="col-lg-6">
+        <div className="mb-3">
+          <label
+            htmlFor="exampleInputEmail1"
+            className="form-label  pe-3"
+          >
+            First Name <span className="RedColorStarMark">*</span>
+          </label>
+          <input
+            onKeyUp={() => trigger("mentee_firstname")}
+            type="text"
+            className="form-control"
+            // id="exampleInputEmail1"
+            placeholder="First Name"
+            // aria-describedby="emailHelp"
+            {...register("mentee_firstname", {
+              required: "First Name is required",
+              pattern: {
+                value: /^[a-zA-Z]+$/, // Pattern for letters only
+                message: "First name should contain only letters",
+              },
+              minLength: {
+                value: 2,
+                message: "Must be greater than 2 characters.",
+              },
+            })}
+          />
+          {errors.mentee_firstname && (
+            <p className="Error-meg-login-register">
+              {errors.mentee_firstname.message}
             </p>
-          </div>
+          )}
         </div>
       </div>
+
+      <div className="col-lg-6">
+        <div className="mb-3">
+          <label htmlFor="exampleInputPassword1" className="form-label">
+            Last Name <span className="RedColorStarMark">*</span>
+          </label>
+          <input
+            onKeyUp={() => trigger("mentee_lastname")}
+            type="text"
+            className="form-control"
+            // id="exampleInputPassword1"
+            placeholder="Last Name"
+            {...register("mentee_lastname", {
+              required: "Last Name is required",
+              pattern: {
+                value: /^[a-zA-Z]+$/, // Pattern for letters only
+                message: "Last name should contain only letters",
+              },
+              minLength: {
+                value: 2,
+                message: "Must be greater than 2 characters.",
+              },
+            })}
+          />
+          {errors.mentee_lastname && (
+            <p className="Error-meg-login-register">
+              {errors.mentee_lastname.message}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+    <div className="col-lg-12">
+      <div className="mb-3">
+        <div className="h-25">
+          <Controller
+            onKeyUp={() => {
+              trigger("mentee_phone");
+            }}
+            name="mentee_phone"
+            control={control}
+            defaultValue=""
+            rules={{
+              required: "Phone number is required",
+              validate: {
+                minLength: (value) =>
+                  value.replace(/\D/g, "").length >= 10 ||
+                  "Enter a valid phone number",
+              },
+            }}
+            render={({
+              field: { name, value, onChange, onBlur, ref },
+            }) => (
+              <div>
+                <div className="OtpSendOnWhatsappTaxt-Dflex">
+                    <label htmlFor="phone" className="form-label">
+                      Phone Number{" "} 
+                      <span className="RedColorStarMark">*</span>
+                    </label>
+                    <p className="ghhduenee OtpSendOnWhatsappTaxt">(OTP will be sent on WhatsApp)</p>
+                    </div>
+
+                <div className="d-flex">
+                  <PhoneInput
+                    value={value}
+                    country="in"
+                    countryCodeEditable={false}
+                    onChange={(value, country, event, formattedValue) => {
+                      onChange(formattedValue);
+                    }}
+                    onBlur={onBlur}
+                    inputProps={{
+                      autoFocus: false,
+                      name,
+                      ref,
+                    }}
+                  />{" "}
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    disabled={isLoading}
+                    className={`otp-button ${
+                      isLoading ? "loading" : ""
+                    } ${buttonState}`}
+                  >
+                    {isLoading ? (
+                      <div className="button-content">
+                        <div className="spinner"></div>Loading
+                      </div>
+                    ) : buttonState === "send" ? (
+                      "Send OTP"
+                    ) : (
+                      "OTP Sent"
+                    )}
+                  </button>
+                </div>
+                <div className="aftersendOTP">
+                      {" "}
+                      {Sendotp && (
+                        <>
+                          <input
+                            type="number"
+                            placeholder="Enter OTP"
+                            className="PhoneNoOtpInput"
+                            onChange={(e) => setOtp(e.target.value)}
+                          />
+                          <button
+                            type="button"
+                            onClick={handleVerifyOtp}
+                            disabled={isLoadingVerify}
+                            style={{fontSize:"11px"}}
+                            className={`otp-buttonVerify ${
+                              isLoadingVerify ? "loadingVerify" : ""
+                            } ${VerifyState}`}
+                          >
+                            {isLoadingVerify ? (
+                              <div className="button-contentVerify">
+                                <div className="spinnerVerifyOTP"></div>
+                                Loading
+                              </div>
+                            ) : VerifyState === "Verify" ? (
+                              "Verify OTP"
+                            ) : (
+                              "OTP Verified"
+                            )}
+                          </button>
+                        </>
+                      )}
+                      {buttonState === "sended" && (
+                        
+                          <button
+                            type="button"
+                            onClick={handleResendOtp}
+                            disabled={resendAvailable}
+                            className="resendOtpBtn"
+                          >
+                            {resendAvailable
+                              ? "Resend OTP Available in one min"
+                              : "Resend OTP"}
+                          </button>
+                        
+                      )}
+                    </div>
+
+                {errors.mentee_phone && (
+                  <p className="Error-meg-login-register">
+                    {errors.mentee_phone.message}
+                  </p>
+                )}
+              </div>
+            )}
+          />
+        </div>
+      </div>
+    </div>
+
+    <div className="csfvgdtrfs mb-3 position-relative">
+      <label htmlFor="exampleInputEmail1" className="form-label">
+        Email <span className="RedColorStarMark">*</span>
+      </label>
+      <input
+        onKeyUp={() => trigger("mentee_Email")}
+        type="email"
+        className="form-control"
+        // id="exampleInputEmail1"
+        placeholder="Email"
+        aria-describedby="emailHelp"
+        {...register("mentee_Email", {
+          required: "Email is required",
+          pattern: {
+            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+            message: "Must be a valid email address.",
+          },
+        })}
+      />
+      {errors.mentee_Email && (
+        <p className="Error-meg-login-register">
+          {errors.mentee_Email.message}
+        </p>
+      )}
+
+      <i className="fa-solid fa-envelopes-bulk position-absolute"></i>
+    </div>
+
+    <div className="csfvgdtrfs mb-3 position-relative">
+      <label htmlFor="exampleInputEmail1" className="form-label">
+        Password <span className="RedColorStarMark">*</span>
+      </label>
+      <input
+        onKeyUp={() => trigger("mentee_password")}
+        className="form-control"
+        // id="exampleInputEmail1"
+        placeholder="Password must be at least 8 characters"
+        aria-describedby="emailHelp"
+        type={showIcon ? "text" : "password"}
+        {...register("mentee_password", {
+          required: "Password is Required",
+          pattern: {
+            value:
+              /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
+            message:
+              "Password must be at least 8 characters long and include at least one letter, one number, and one special character (e.g., @, #, $, etc.)",
+          },
+          minLength: {
+            value: 8,
+            message: "Must be greater than 8 characters.",
+          },
+          maxLength: {
+            value: 16,
+            message: "Must be less than 16 characters.",
+          },
+        })}
+      />
+
+      <i
+        i="true"
+        onClick={() => setShowIcon(!showIcon)}
+        className={
+          showIcon
+            ? "fa-solid fa-eye position-absolute"
+            : "fa-solid fa-eye-slash position-absolute"
+        }
+      ></i>
+
+      {errors.mentee_password && (
+        <p className="Error-meg-login-register">
+          {errors.mentee_password.message}
+        </p>
+      )}
+
+      {/* <i className="fa-solid fa-eye position-absolute"></i> */}
+    </div>
+
+    <div className="csfvgdtrfs mb-3 position-relative">
+      <label htmlFor="exampleInputEmail1" className="form-label">
+        Confirm Password <span className="RedColorStarMark">*</span>
+      </label>
+      <input
+        onKeyUp={() => trigger("mentee_confirm_password")}
+        // type="text"
+        className="form-control"
+        // id="exampleInputEmail1"
+        placeholder="Type your password again"
+        aria-describedby="emailHelp"
+        type={showIcons ? "text" : "password"}
+        //onChange={(e) => setConfirmPassword(e.target.value)}
+        {...register("mentee_confirm_password", {
+          required: "Password is Required",
+          validate: (value) =>
+            value === password || "Password must be matched",
+        })}
+      />
+
+      <i
+        i="true"
+        onClick={() => setShowIcons(!showIcons)}
+        className={
+          showIcons
+            ? "fa-solid fa-eye position-absolute"
+            : "fa-solid fa-eye-slash position-absolute"
+        }
+      />
+
+      {errors.mentee_confirm_password && (
+        <p className="Error-meg-login-register">
+          {errors.mentee_confirm_password.message}
+        </p>
+      )}
+
+      {/* <i className="fa-solid fa-eye position-absolute"></i> */}
+    </div>
+  </div>
+      
       <GoToTop />
     </>
   );

@@ -757,7 +757,7 @@ const InstituteDashboard = ({ user, token }) => {
               <h5>Internship</h5>
             </button>
 
-            <button
+            {/* <button
               className="btn btn-transparent text-center py-3 seeeett"
               // onClick={InstituteCommunicationTemplate}
             >
@@ -777,7 +777,7 @@ const InstituteDashboard = ({ user, token }) => {
               </span>
 
               <h5>Jobs</h5>
-            </button>
+            </button> */}
 
             <button
               className="btn btn-transparent text-center py-3 seeeett"

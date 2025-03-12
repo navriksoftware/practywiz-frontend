@@ -2,3 +2,16 @@
     display: flex;
     gap: 5px;
 }
+
+.dropdown-content-InstituteForm {
+    position: absolute;
+    background-color: #f9f9f9;
+    max-height: 10rem;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    width: 100%;
+    
+}

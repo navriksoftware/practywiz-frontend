@@ -3,12 +3,12 @@ import { useFormContext, Controller } from "react-hook-form";
 import collegeData from "../../../data/collegesname.json";
 import { allSkills } from "../../../data/Skills";
 
-const MenteeRegStep2 = () => {
+const MenteeRegStep2 = ({ userType }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedCollege, setSelectedCollege] = useState(null);
   const [showOption, setShowOption] = useState(true);
-
+  console.log(userType)
   const handleOptionFalse = () => setShowOption(false);
   const handleOptionTrue = () => setShowOption(true);
 
@@ -61,7 +61,7 @@ const MenteeRegStep2 = () => {
     }
   };
 
-  
+
 
   const handleAddSkill = (newSkill) => {
     const trimmedSkill = newSkill.trim();
@@ -130,115 +130,252 @@ const MenteeRegStep2 = () => {
 
   return (
     <div className="step" id="step2">
-      <h4 className="text-center">
+      {/* <h4 className="text-center">
         <img src="images/icons8-account-96.webp" alt="" className="me-1" />
         More About You
-      </h4>
+      </h4> */}
 
       <div className="ihduwfr_form_wrapper mt-4">
         {/* Radio Buttons for Type Selection */}
-        <div className="csfvgdtrfs cihseriniewr mb-3 position-relative">
-          <label htmlFor="exampleInputEmail1" className="form-label">
-            I Am A
-          </label>
-          <br />
-          <input
-            type="radio"
-            id="rdo4"
-            className="radio-input"
-            value={"Student"}
-            defaultChecked
-            onClick={handleOptionTrue}
-            {...register("mentee_type", {
-              required: "Please select one of the options",
-            })}
-          />
-          <label htmlFor="rdo4" className="radio-label pe-3">
-            <span className="radio-border"></span> Student
-          </label>
 
-          <input
-            type="radio"
-            id="rdo5"
-            className="radio-input"
-            value={"Working Professional"}
-            onClick={handleOptionFalse}
-            {...register("mentee_type", {
-              required: "Please select one of the options",
-            })}
-          />
-          <label htmlFor="rdo5" className="radio-label pe-3">
-            <span className="radio-border"></span> Working Professional
-          </label>
+        {
+          userType.userType === "InstituteStudent" ? "" : <div className="csfvgdtrfs cihseriniewr mb-3 position-relative">
+            <label htmlFor="exampleInputEmail1" className="form-label">
+              I Am A
+            </label>
+            <br />
+            <input
+              type="radio"
+              id="rdo4"
+              className="radio-input"
+              value={"Student"}
+              defaultChecked
+              onClick={handleOptionTrue}
+              {...register("mentee_type", {
+                required: "Please select one of the options",
+              })}
+            />
+            <label htmlFor="rdo4" className="radio-label pe-3">
+              <span className="radio-border"></span> Student
+            </label>
 
-          <input
-            type="radio"
-            id="rdo10"
-            className="radio-input"
-            value={"Fresher"}
-            onClick={handleOptionFalse}
-            {...register("mentee_type", {
-              required: "Please select one of the options",
-            })}
-          />
-          <label htmlFor="rdo10" className="radio-label pe-3">
-            <span className="radio-border"></span> Fresher
-          </label>
+            <input
+              type="radio"
+              id="rdo5"
+              className="radio-input"
+              value={"Working Professional"}
+              onClick={handleOptionFalse}
+              {...register("mentee_type", {
+                required: "Please select one of the options",
+              })}
+            />
+            <label htmlFor="rdo5" className="radio-label pe-3">
+              <span className="radio-border"></span> Working Professional
+            </label>
 
-          {errors.mentee_type && (
-            <p className="Error-meg-login-register">
-              {errors.mentee_type.message}
-            </p>
-          )}
-        </div>
+            <input
+              type="radio"
+              id="rdo10"
+              className="radio-input"
+              value={"Fresher"}
+              onClick={handleOptionFalse}
+              {...register("mentee_type", {
+                required: "Please select one of the options",
+              })}
+            />
+            <label htmlFor="rdo10" className="radio-label pe-3">
+              <span className="radio-border"></span> Fresher
+            </label>
+
+            {errors.mentee_type && (
+              <p className="Error-meg-login-register">
+                {errors.mentee_type.message}
+              </p>
+            )}
+          </div>
+        }
+
 
         {/* College Name Search with Dropdown */}
         {showOption && (
-          <>
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              Institute/College name <span className="RedColorStarMark">*</span>
-            </label>
-            <div className="dkjiherer moideuirer_list hello mb-3">
-              <div className="dropdown">
-                <input
-                  onKeyUp={() => {
-                    trigger("mentee_InstituteName");
-                  }}
-                  type="text"
-                  className="form-control"
-                  placeholder="Choose/Search for a college..."
-                  value={searchTerm} // Ensure input value is controlled
-                  {...register("mentee_InstituteName", {
-                    required: "College or Institute Name is required",
-                  })}
-                  onChange={handleInputChange}
-                  onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
-                />
-                {errors.mentee_InstituteName && (
-                  <p className="Error-meg-login-register">
-                    {errors.mentee_InstituteName.message}
-                  </p>
-                )}
-                {dropdownVisible && filteredColleges.length > 0 && (
-                  <div className="dropdown-contentMentee">
-                    {filteredColleges.slice(0, 50).map(
-                      (
-                        college,
-                        index // Limit to 10 results
-                      ) => (
-                        <div
-                          key={index}
-                          className="dropdown-item"
-                          onClick={() => handleOptionClick(college)}
-                        >
-                          {college["College Name"]}
-                        </div>
-                      )
+
+          <> {userType.userType === "InstituteStudent" ?
+            <div>
+
+              <div className="col-lg-12 intituteRegForm-dFlex">
+                <div className="col-lg-12" style={{ width: "70%" }}>
+                  <div className="mb-3">
+                    <label htmlFor="forName" className="form-label">
+                      Institute Name
+                    </label>
+                    <div className="dkjiherer moideuirer_list hello mb-3">
+                      <div className="dropdown">
+                        <input
+                          onKeyUp={() => {
+                            trigger("mentee_InstituteName");
+                          }}
+                          type="text"
+                          className="form-control"
+                          placeholder="Choose/Search for a college..."
+                          value={searchTerm} // Ensure input value is controlled
+                          {...register("mentee_InstituteName", {
+                            required: "College or Institute Name is required",
+                          })}
+                          onChange={handleInputChange}
+                          onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
+                          onBlur={() => setTimeout(() => setDropdownVisible(false), 200)}
+                        />
+                        {errors.mentee_InstituteName && (
+                          <p className="Error-meg-login-register">
+                            {errors.mentee_InstituteName.message}
+                          </p>
+                        )}
+                        {dropdownVisible && filteredColleges.length > 0 && (
+                          <div className="dropdown-contentMentee">
+                            {filteredColleges.slice(0, 50).map(
+                              (
+                                college,
+                                index // Limit to 10 results
+                              ) => (
+                                <div
+                                  key={index}
+                                  className="dropdown-item"
+                                  onClick={() => handleOptionClick(college)}
+                                >
+                                  {college["College Name"]}
+                                </div>
+                              )
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+                <div className="col-lg-6" style={{ width: "30%" }}>
+                  <div className="mb-3">
+                    <label htmlFor="contacPersonLastName" className="form-label">
+                      Institute Code
+                    </label>
+                    <input
+                      type="text"
+                      onKeyUp={() => trigger("instituteCode")}
+                      className="form-control"
+                      id="contacPersonLastName"
+                      placeholder="Institute Code"
+                      {...register("instituteCode", {
+                        required: "Name of contact person is required"
+                      })}
+                    />
+                    {errors.instituteCode && (
+                      <p className="Error-meg-login-register">
+                        {errors.instituteCode.message}
+                      </p>
                     )}
                   </div>
-                )}
+                </div>
               </div>
-            </div>
+
+              <div className="col-lg-12" >
+                <div className="mb-3">
+                  <label htmlFor="contacPersonFirstName" className="form-label">
+                    Teacher email
+                  </label>
+                  <input
+                    type="email"
+                    onKeyUp={() => trigger("instututeTeacherEmail")}
+                    className="form-control"
+                    id="emailId"
+                    placeholder="Enter Teacher Email Id"
+                    {...register("instututeTeacherEmail", {
+                      required: "Institute Email is required",
+                      pattern: {
+                        value:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                        message: "Must be a valid email address.",
+                      },
+                    })}
+                  />
+                  {errors.instututeTeacherEmail && (
+                    <p className="Error-meg-login-register">
+                      {errors.instututeTeacherEmail.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="col-lg-12" >
+                <div className="mb-3">
+                  <label htmlFor="contacPersonFirstName" className="form-label">
+                    Roll Number
+                  </label>
+                  <input
+                    type="text"
+                    onKeyUp={() => trigger("instututeStudentRollNO")}
+                    className="form-control"
+                    id="emailId"
+                    placeholder="Enter Teacher Email Id"
+                    {...register("instututeStudentRollNO", {
+                      required: "Institute Email is required"
+                    })}
+                  />
+                  {errors.instututeStudentRollNO && (
+                    <p className="Error-meg-login-register">
+                      {errors.instututeStudentRollNO.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+            </div> :
+            <div>
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                Institute/College name <span className="RedColorStarMark">*</span>
+              </label>
+              <div className="dkjiherer moideuirer_list hello mb-3">
+                <div className="dropdown">
+                  <input
+                    onKeyUp={() => {
+                      trigger("mentee_InstituteName");
+                    }}
+                    type="text"
+                    className="form-control"
+                    placeholder="Choose/Search for a college..."
+                    value={searchTerm} // Ensure input value is controlled
+                    {...register("mentee_InstituteName", {
+                      required: "College or Institute Name is required",
+                    })}
+                    onChange={handleInputChange}
+                    onFocus={() => setDropdownVisible(searchTerm !== "")} // Show dropdown when focused
+                    onBlur={() => setTimeout(() => setDropdownVisible(false), 200)}
+                  />
+                  {errors.mentee_InstituteName && (
+                    <p className="Error-meg-login-register">
+                      {errors.mentee_InstituteName.message}
+                    </p>
+                  )}
+                  {dropdownVisible && filteredColleges.length > 0 && (
+                    <div className="dropdown-contentMentee">
+                      {filteredColleges.slice(0, 50).map(
+                        (
+                          college,
+                          index // Limit to 10 results
+                        ) => (
+                          <div
+                            key={index}
+                            className="dropdown-item"
+                            onClick={() => handleOptionClick(college)}
+                          >
+                            {college["College Name"]}
+                          </div>
+                        )
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>}
           </>
         )}
 
