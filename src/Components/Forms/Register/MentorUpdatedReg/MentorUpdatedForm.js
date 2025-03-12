@@ -481,7 +481,7 @@ const MentorUpdatedForm = () => {
                               ) : buttonState === "send" ? (
                                 "Send OTP"
                               ) : (
-                                "OTP Sended"
+                                "OTP Sent"
                               )}
                             </button>
                           </div>

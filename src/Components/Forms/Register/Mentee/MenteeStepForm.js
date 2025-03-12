@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import menteeRegPage from "../../../../Images/Mentee/Group video-amico.svg";
 import "./menteeregistration.css";
 import "./MenteeReg.css";
 import MenteeRegStep1 from "./MenteeRegStep1";
 import MenteeRegStep2 from "./MenteeRegStep2";
-
 import { useForm, FormProvider } from "react-hook-form";
 import {
   hideLoadingHandler,
@@ -15,7 +13,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { useNavigate } from "react-router-dom";
-const MenteeStepForm = () => {
+const MenteeStepForm = (userType) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const url = ApiURL();
@@ -77,11 +75,11 @@ const MenteeStepForm = () => {
         return (
           <MenteeRegStep1
             selectedOption={selectedOption}
-            handleChange={handleChange}
-          />
+            handleChange={handleChange} />
         );
       case 2:
-        return <MenteeRegStep2 />;
+        return <MenteeRegStep2
+          userType={userType} />;
       // case 3:
       //   return <MenteeRegStep3 />;
       default:
@@ -92,6 +90,7 @@ const MenteeStepForm = () => {
   const nextStep = async () => {
     const isFormValid = await methods.trigger(); // Validate the entire form
     const isValidOTP = methods.getValues("mentee_OTPValid"); // Get OTP value
+
     if (isFormValid && isValidOTP) {
       // Check if the form is valid and OTP is true
       setStep(step + 1);
@@ -110,128 +109,63 @@ const MenteeStepForm = () => {
 
   return (
     <>
-      <main>
-        <div className="regis_background " id="menteeRegBackground">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-6 mb-4 dooneed">
-                <div className="iuhieiuihaw_left sticky-top">
-                  <img
-                    style={{ width: "22rem" }}
-                    src={menteeRegPage}
-                    alt="img"
-                  />
-                  <h4 className="mt-4 testsize">Register as a Mentee to start your Practywizard journey</h4>
 
-                  <ul className="ps-0 mt-3">
-                    <li className="mb-3">
-                      <div className="d-flex align-items-center">
-                        <i className="fa-solid fa-circle-check"></i>
-
-                        <p className="mb-0">Access to thousands of Industry Mentors</p>
-                      </div>
-                    </li>
-
-                    <li className="mb-3">
-                      <div className="d-flex align-items-center">
-                        <i className="fa-solid fa-circle-check"></i>
-
-                        <p className="mb-0">Internships with Corporates</p>
-                      </div>
-                    </li>
-
-                    <li className="mb-3">
-                      <div className="d-flex align-items-center">
-                        <i className="fa-solid fa-circle-check"></i>
-
-                        <p className="mb-0">
-                        Learn from real-world case studies
-                        </p>
-                      </div>
-                    </li>
-
-                    <li className="mb-3">
-                      <div className="d-flex align-items-center">
-                        <i className="fa-solid fa-circle-check"></i>
-
-                        <p className="mb-0">Access to Avega, AI based Case assessment tool</p>
-                      </div>
-                    </li>
-
-                    <li className="mb-3">
-                      <div className="d-flex align-items-center">
-                        <i className="fa-solid fa-circle-check"></i>
-
-                        <p className="mb-0">
-                          <p>Hands-on Experiential Training Programs</p>
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="col-lg-6">
-                <div className="iuhieiuihaw_right bg-white p-3">
-                  {/* <div className="uherrr_text text-center">
+      {/* <div className="uherrr_text text-center">
                     <h4>Sign up</h4>
                   </div> */}
-                  <>
-                    {" "}
-                    <FormProvider {...methods}>
-                      <form
-                        onSubmit={methods.handleSubmit(onSubmit)}
-                        onKeyDown={handleKeyDown}
-                      >
-                        {renderStep()}
-                        <div className="d-flex justify-content-between">
-                          {step === 1 ? (
-                            ""
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setStep(step - 1)}
-                              disabled={step === 1}
-                              className="btn dgheuih_btn_prev btn-main"
-                            >
-                              Previous
-                            </button>
-                          )}
-                          {step === 2 ? (
-                            ""
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={nextStep}
-                              disabled={step === 3}
-                              className="btn dgheuih_btn_next btn-main"
-                            >
-                              Next
-                            </button>
-                          )}
-                          {step === 2 && (
-                            // <form
-                            //   id="multi-step-form"
-                            //   onSubmit={methods.handleSubmit(onSubmit)}
-                            // >
-                            <button
-                              className="btn dgheuih_btn_next btn-main"
-                              type="submit"
-                            >
-                              Submit
-                            </button>
-                            // </form>
-                          )}
-                        </div>
-                      </form>
-                    </FormProvider>
-                  </>
-                </div>
-              </div>
+      <>
+        {" "}
+        <FormProvider {...methods}>
+          <form
+            onSubmit={methods.handleSubmit(onSubmit)}
+            onKeyDown={handleKeyDown}
+          >
+            {renderStep()}
+            <div className="d-flex justify-content-between">
+              {step === 1 ? (
+                ""
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setStep(step - 1)}
+                  disabled={step === 1}
+                  className="btn dgheuih_btn_prev btn-main"
+                >
+                  Previous
+                </button>
+              )}
+              {step === 2 ? (
+                ""
+              ) : (
+                <button
+                  type="button"
+                  onClick={nextStep}
+                  disabled={step === 3}
+                  className="btn dgheuih_btn_next btn-main"
+                >
+                  Next
+                </button>
+              )}
+              {step === 2 && (
+                // <form
+                //   id="multi-step-form"
+                //   onSubmit={methods.handleSubmit(onSubmit)}
+                // >
+                <button
+                  className="btn dgheuih_btn_next btn-main"
+                  type="submit"
+                >
+                  Submit
+                </button>
+                // </form>
+              )}
             </div>
-          </div>
-        </div>
-      </main>
+          </form>
+        </FormProvider>
+      </>
+
+
+
     </>
   );
 };

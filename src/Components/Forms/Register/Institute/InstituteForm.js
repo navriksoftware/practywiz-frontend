@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import web96 from "../../../../Images/icons8-account-96.webp";
+import MenteeStepForm from "../Mentee/MenteeStepForm";
 
 const InstituteForm = ({ InstitutePreviousHandler }) => {
   const {
@@ -187,15 +188,19 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
     }
   };
 
+  const userType = watch("mentee_type");
+
   const handleOptionFalse = () => setShowOption(false);
   const handleOptionTrue = () => setShowOption(true);
 
   const onSubmit = async (data) => {
+    console.log(data);
     const cleanedData = {
       ...data,
       institute_phone: cleanPhoneNumber(data.institute_phone), // Clean the phone number
     };
     if (VerifyState === "Verified") {
+
       try {
         dispatch(showLoadingHandler());
         const res = await axios.post(`${url}api/v1/institute/register`, {
@@ -223,7 +228,7 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <main>
       <div className="step" id="instituteInputFields">
         <h4 className="text-center">
           <img src={web96} alt="" className="me-1" />
@@ -241,8 +246,8 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
               type="radio"
               id="rdo4"
               className="radio-input"
-              value={"Student"}
-              // defaultChecked
+              value={"Institute"}
+              defaultChecked
               onClick={handleOptionFalse}
               {...register("mentee_type", {
                 required: "Please select one of the options",
@@ -256,7 +261,7 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
               type="radio"
               id="rdo5"
               className="radio-input"
-              value={"Working Professional"}
+              value={"Teacher"}
               onClick={handleOptionFalse}
               {...register("mentee_type", {
                 required: "Please select one of the options",
@@ -270,7 +275,7 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
               type="radio"
               id="rdo10"
               className="radio-input"
-              value={"Fresher"}
+              value={"InstituteStudent"}
               onClick={handleOptionTrue}
               {...register("mentee_type", {
                 required: "Please select one of the options",
@@ -287,431 +292,414 @@ const InstituteForm = ({ InstitutePreviousHandler }) => {
             )}
           </div>
 
-          <div className="row">
+          {userType === "InstituteStudent" ? <div className="col-lg-12">
+            <MenteeStepForm userType={userType} />
+          </div>
 
-            <div className="col-lg-12 intituteRegForm-dFlex">
+            :
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="row">
 
-              <div className="col-lg-6">
-                <div className="mb-3">
-                  <label htmlFor="contacPersonFirstName" className="form-label">
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    onKeyUp={() => trigger("institute_contact_person_first_name")}
-                    className="form-control"
-                    id="contacPersonFirstName"
-                    placeholder="First Name"
-                    {...register("institute_contact_person_first_name", {
-                      required: "Please Enter Your First Name",
-                      pattern: {
-                        value: /^[a-zA-Z]+$/, // Pattern for letters only
-                        message: "Last name should contain only letters",
-                      },
-                      minLength: {
-                        value: 2,
-                        message: "Must be greater than 2 characters.",
-                      },
-                    })}
-                  />
-                  {errors.institute_contact_person_first_name && (
-                    <p className="Error-meg-login-register">
-                      {errors.institute_contact_person_first_name.message}
-                    </p>
-                  )}
+                <div className="col-lg-12 intituteRegForm-dFlex">
+
+                  <div className="col-lg-6">
+                    <div className="mb-3">
+                      <label htmlFor="contacPersonFirstName" className="form-label">
+                        First Name <span className="RedColorStarMark">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        onKeyUp={() => trigger("institute_contact_person_first_name")}
+                        className="form-control"
+                        id="contacPersonFirstName"
+                        placeholder="First Name"
+                        {...register("institute_contact_person_first_name", {
+                          required: "Enter your first name.",
+                          pattern: {
+                            value: /^[a-zA-Z]+$/, // Pattern for letters only
+                            message: "Last name should contain only letters",
+                          },
+                          minLength: {
+                            value: 2,
+                            message: "Must be greater than 2 characters.",
+                          },
+                        })}
+                      />
+                      {errors.institute_contact_person_first_name && (
+                        <p className="Error-meg-login-register">
+                          {errors.institute_contact_person_first_name.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="col-lg-6">
+                    <div className="mb-3">
+                      <label htmlFor="contacPersonLastName" className="form-label">
+                        Last Name <span className="RedColorStarMark">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        onKeyUp={() => trigger("institute_contact_person_last_name")}
+                        className="form-control"
+                        id="contacPersonLastName"
+                        placeholder="Last Name"
+                        {...register("institute_contact_person_last_name", {
+                          required: "Enter your last name.",
+                          pattern: {
+                            value: /^[a-zA-Z]+$/, // Pattern for letters only
+                            message: "Last name should contain only letters",
+                          },
+                          minLength: {
+                            value: 2,
+                            message: "Must be greater than 2 characters.",
+                          },
+                        })}
+                      />
+                      {errors.institute_contact_person_last_name && (
+                        <p className="Error-meg-login-register">
+                          {errors.institute_contact_person_last_name.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-
-              <div className="col-lg-6">
-                <div className="mb-3">
-                  <label htmlFor="contacPersonLastName" className="form-label">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    onKeyUp={() => trigger("institute_contact_person_last_name")}
-                    className="form-control"
-                    id="contacPersonLastName"
-                    placeholder="Last Name"
-                    {...register("institute_contact_person_last_name", {
-                      required: "Name of contact person is required",
-                      pattern: {
-                        value: /^[a-zA-Z]+$/, // Pattern for letters only
-                        message: "Last name should contain only letters",
-                      },
-                      minLength: {
-                        value: 2,
-                        message: "Must be greater than 2 characters.",
-                      },
-                    })}
-                  />
-                  {errors.institute_contact_person_last_name && (
-                    <p className="Error-meg-login-register">
-                      {errors.institute_contact_person_last_name.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
 
 
 
-            <div className="col-lg-12">
-              <div className="mb-3">
-                <label htmlFor="emailId" className="form-label">
-                  Email Id
-                </label>
-                <input
-                  type="email"
-                  onKeyUp={() => trigger("institute_email")}
-                  className="form-control"
-                  id="emailId"
-                  placeholder="Enter Email Id"
-                  {...register("institute_email", {
-                    required: "Institute Email is required",
-                    pattern: {
-                      value:
-                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                      message: "Must be a valid email address.",
-                    },
-                  })}
-                />
-                {errors.institute_email && (
-                  <p className="Error-meg-login-register">
-                    {errors.institute_email.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="col-lg-12">
-              <div className="mb-3">
-                <div className="h-25">
-                  <Controller
-                    onKeyUp={() => {
-                      trigger("institute_phone");
-                    }}
-                    name="institute_phone"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required: "Phone number is required",
-                      validate: {
-                        minLength: (value) =>
-                          value.replace(/\D/g, "").length >= 10 ||
-                          "Enter a valid phone number",
-                      },
-                    }}
-                    render={({
-                      field: { name, value, onChange, onBlur, ref },
-                    }) => (
-                      <div>
-                        <div className="OtpSendOnWhatsappTaxt-Dflex">
-                          <label htmlFor="phone" className="form-label">
-                            Phone Number{" "}
-                            <span className="RedColorStarMark">*</span>
-                          </label>
-                          <p className="ghhduenee OtpSendOnWhatsappTaxt">(OTP will be sent on WhatsApp)</p>
-                        </div>
-
-                        <div className="d-flex">
-                          <PhoneInput
-                            value={value}
-                            country="in"
-                            countryCodeEditable={false}
-                            onChange={(
-                              value,
-                              country,
-                              event,
-                              formattedValue
-                            ) => {
-                              onChange(formattedValue);
-                            }}
-                            onBlur={onBlur}
-                            inputProps={{
-                              autoFocus: false,
-                              name,
-                              ref,
-                            }}
-                          />{" "}
-                          <button
-                            type="button"
-                            onClick={handleSendOtp}
-                            disabled={isLoading}
-                            className={`otp-button ${isLoading ? "loading" : ""
-                              } ${buttonState}`}
-                          >
-                            {isLoading ? (
-                              <div className="button-content">
-                                <div className="spinner"></div>Loading
-                              </div>
-                            ) : buttonState === "send" ? (
-                              "Send OTP"
-                            ) : (
-                              "OTP Sended"
-                            )}
-                          </button>
-                        </div>
-                        <div className="aftersendOTP">
-                          {" "}
-                          {Sendotp && (
-                            <>
-                              <input
-                                type="number"
-                                placeholder="Enter OTP"
-                                className="PhoneNoOtpInput"
-                                onChange={(e) => setOtp(e.target.value)}
-                              />
-                              <button
-                                type="button"
-                                onClick={handleVerifyOtp}
-                                disabled={isLoadingVerify}
-                                style={{ fontSize: "11px" }}
-                                className={`otp-buttonVerify ${isLoadingVerify ? "loadingVerify" : ""
-                                  } ${VerifyState}`}
-                              >
-                                {isLoadingVerify ? (
-                                  <div className="button-contentVerify">
-                                    <div className="spinnerVerifyOTP"></div>
-                                    Loading
-                                  </div>
-                                ) : VerifyState === "Verify" ? (
-                                  "Verify OTP"
-                                ) : (
-                                  "OTP Verified"
-                                )}
-                              </button>
-                            </>
-                          )}
-                          {buttonState === "sended" && (
-
-                            <button
-                              type="button"
-                              onClick={handleResendOtp}
-                              disabled={resendAvailable}
-                              className="resendOtpBtn"
-                            >
-                              {resendAvailable
-                                ? "Resend OTP Available in one min"
-                                : "Resend OTP"}
-                            </button>
-
-                          )}
-                        </div>
-                        {errors.institute_phone && (
-                          <p className="Error-meg-login-register">
-                            {errors.institute_phone.message}
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12">
-              <div className="mb-3">
-                <label htmlFor="forName" className="form-label">
-                  Institute Name
-                </label>
-                <div className="dkjiherer moideuirer_list hello">
-                  <div className="dropdown">
+                <div className="col-lg-12">
+                  <div className="mb-3">
+                    <label htmlFor="emailId" className="form-label">
+                      Email Id <span className="RedColorStarMark">*</span>
+                    </label>
                     <input
-                      type="text"
+                      type="email"
+                      onKeyUp={() => trigger("institute_email")}
                       className="form-control"
-                      placeholder="Enter Institute Name"
-                      value={searchTerm}
-                      {...register("institute_name", {
-                        required: "Institute Name is required",
+                      id="emailId"
+                      placeholder="Enter Email Id"
+                      {...register("institute_email", {
+                        required: "Enter your Email Id.",
+                        pattern: {
+                          value:
+                            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                          message: "Must be a valid email address.",
+                        },
                       })}
-                      onChange={handleInputChange}
-                      onFocus={() => setDropdownVisible(searchTerm !== "")}
                     />
-                    {dropdownVisible && filteredColleges.length > 0 && (
-                      <div className="dropdown-content">
-                        {filteredColleges.slice(0, 50).map((college, index) => (
-                          <div
-                            key={index}
-                            className="dropdown-item"
-                            onClick={() => handleOptionClick(college)}
-                          >
-                            {college["College Name"]}
-                          </div>
-                        ))}
-                      </div>
+                    {errors.institute_email && (
+                      <p className="Error-meg-login-register">
+                        {errors.institute_email.message}
+                      </p>
                     )}
                   </div>
                 </div>
 
-                {errors.institute_name && (
-                  <p className="Error-meg-login-register">
-                    {!nameOfInstitute && errors.institute_name.message}
-                  </p>
-                )}
-              </div>
-            </div>
+                <div className="col-lg-12">
+                  <div className="mb-3">
+                    <div className="h-25">
+                      <Controller
+                        onKeyUp={() => {
+                          trigger("institute_phone");
+                        }}
+                        name="institute_phone"
+                        control={control}
+                        defaultValue=""
+                        rules={{
+                          required: "Phone number is required",
+                          validate: {
+                            minLength: (value) =>
+                              value.replace(/\D/g, "").length >= 10 ||
+                              "Enter a valid phone number",
+                          },
+                        }}
+                        render={({
+                          field: { name, value, onChange, onBlur, ref },
+                        }) => (
+                          <div>
+                            <div className="OtpSendOnWhatsappTaxt-Dflex">
+                              <label htmlFor="phone" className="form-label">
+                                Phone Number{" "}
+                                <span className="RedColorStarMark">*</span>
+                              </label>
+                              <p className="ghhduenee OtpSendOnWhatsappTaxt">(OTP will be sent on WhatsApp)</p>
+                            </div>
 
-            {showOption && <div className="col-lg-12 intituteRegForm-dFlex">
+                            <div className="d-flex">
+                              <PhoneInput
+                                value={value}
+                                country="in"
+                                countryCodeEditable={false}
+                                onChange={(
+                                  value,
+                                  country,
+                                  event,
+                                  formattedValue
+                                ) => {
+                                  onChange(formattedValue);
+                                }}
+                                onBlur={onBlur}
+                                inputProps={{
+                                  autoFocus: false,
+                                  name,
+                                  ref,
+                                }}
+                              />{" "}
+                              <button
+                                type="button"
+                                onClick={handleSendOtp}
+                                disabled={isLoading}
+                                className={`otp-button ${isLoading ? "loading" : ""
+                                  } ${buttonState}`}
+                              >
+                                {isLoading ? (
+                                  <div className="button-content">
+                                    <div className="spinner"></div>Loading
+                                  </div>
+                                ) : buttonState === "send" ? (
+                                  "Send OTP"
+                                ) : (
+                                  "OTP Sent"
+                                )}
+                              </button>
+                            </div>
+                            <div className="aftersendOTP">
+                              {" "}
+                              {Sendotp && (
+                                <>
+                                  <input
+                                    type="number"
+                                    placeholder="Enter OTP"
+                                    className="PhoneNoOtpInput"
+                                    onChange={(e) => setOtp(e.target.value)}
+                                  />
+                                  <button
+                                    type="button"
+                                    onClick={handleVerifyOtp}
+                                    disabled={isLoadingVerify}
+                                    style={{ fontSize: "11px" }}
+                                    className={`otp-buttonVerify ${isLoadingVerify ? "loadingVerify" : ""
+                                      } ${VerifyState}`}
+                                  >
+                                    {isLoadingVerify ? (
+                                      <div className="button-contentVerify">
+                                        <div className="spinnerVerifyOTP"></div>
+                                        Loading
+                                      </div>
+                                    ) : VerifyState === "Verify" ? (
+                                      "Verify OTP"
+                                    ) : (
+                                      "OTP Verified"
+                                    )}
+                                  </button>
+                                </>
+                              )}
+                              {buttonState === "sended" && (
 
-              <div className="col-lg-6" style={{ width: "70%" }}>
-                <div className="mb-3">
-                  <label htmlFor="contacPersonFirstName" className="form-label">
-                    Teacher email
-                  </label>
-                  <input
-                    type="email"
-                    onKeyUp={() => trigger("instututeTeacherEmail")}
-                    className="form-control"
-                    id="emailId"
-                    placeholder="Enter Teacher Email Id"
-                    {...register("instututeTeacherEmail", {
-                      required: "Institute Email is required",
-                      pattern: {
-                        value:
-                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                        message: "Must be a valid email address.",
-                      },
-                    })}
-                  />
-                  {errors.instututeTeacherEmail && (
-                    <p className="Error-meg-login-register">
-                      {errors.instututeTeacherEmail.message}
-                    </p>
-                  )}
+                                <button
+                                  type="button"
+                                  onClick={handleResendOtp}
+                                  disabled={resendAvailable}
+                                  className="resendOtpBtn"
+                                >
+                                  {resendAvailable
+                                    ? "Resend OTP Available in one min"
+                                    : "Resend OTP"}
+                                </button>
+
+                              )}
+                            </div>
+                            {errors.institute_phone && (
+                              <p className="Error-meg-login-register">
+                                {errors.institute_phone.message}
+                              </p>
+                            )}
+                          </div>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-lg-12 intituteRegForm-dFlex">
+
+
+
+
+                  <div className="col-lg-12" style={{ width: "65%" }}>
+                    <div className="mb-3">
+                      <label htmlFor="forName" className="form-label">
+                        Institute Name <span className="RedColorStarMark">*</span>
+                      </label>
+                      <div className="dkjiherer moideuirer_list hello">
+                        <div className="dropdown">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter Institute Name"
+                            value={searchTerm}
+                            {...register("institute_name", {
+                              required: "Institute Name is required",
+                            })}
+                            onChange={handleInputChange}
+                            onFocus={() => setDropdownVisible(searchTerm !== "")}
+                            onBlur={() => setTimeout(() => setDropdownVisible(false), 200)}
+                          />
+                          {dropdownVisible && filteredColleges.length > 0 && (
+                            <div className="dropdown-content-InstituteForm">
+                              {filteredColleges.slice(0, 50).map((college, index) => (
+                                <div
+                                  key={index}
+                                  className="dropdown-item"
+                                  onClick={() => handleOptionClick(college)}
+                                >
+                                  {college["College Name"]}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {errors.institute_name && (
+                        <p className="Error-meg-login-register">
+                          {!nameOfInstitute && errors.institute_name.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+
+                  <div className="col-lg-6" style={{ width: "35%" }}>
+                    <div className="mb-3">
+                      <label htmlFor="contacPersonLastName" className="form-label">
+                        Institute Code <span className="RedColorStarMark">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        onKeyUp={() => trigger("instituteCode")}
+                        className="form-control"
+                        id="contacPersonLastName"
+                        placeholder="Institute Code"
+                        {...register("instituteCode", {
+                          required: "Enter your Institute Code.",
+                        })}
+                      />
+                      {errors.instituteCode && (
+                        <p className="Error-meg-login-register">
+                          {errors.instituteCode.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
+
+                <div className="col-lg-12">
+                  <div className="mb-3 csfvgdtrfs position-relative">
+                    <label htmlFor="password" className="form-label">
+                      Password <span className="RedColorStarMark">*</span>
+                    </label>
+                    <input
+                      onKeyUp={() => trigger("institute_password")}
+                      className="form-control"
+                      // id="exampleInputEmail1"
+                      placeholder="Password must be at least 8 characters"
+                      aria-describedby="emailHelp"
+                      type={showIcon ? "text" : "password"}
+                      {...register("institute_password", {
+                        required: "password is required",
+                        pattern: {
+                          value:
+                            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
+                          message:
+                            "Password must be at least 8 characters long and include at least one letter, one number, and one special character (e.g., @, #, $, etc.)",
+                        },
+                        maxLength: {
+                          value: 16,
+                          message: "Must be less than 16 characters.",
+                        },
+                      })}
+                    />
+
+                    <i
+                      i="true"
+                      onClick={() => setShowIcon(!showIcon)}
+                      className={
+                        showIcon
+                          ? "fa-solid fa-eye position-absolute"
+                          : "fa-solid fa-eye-slash position-absolute"
+                      }
+                    ></i>
+
+                    {errors.institute_password && (
+                      <p className="Error-meg-login-register">
+                        {errors.institute_password.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="col-lg-12">
+                  <div className="mb-3 csfvgdtrfs position-relative">
+                    <label htmlFor="cPassword" className="form-label">
+                      Confirm Password <span className="RedColorStarMark">*</span>
+                    </label>
+                    <input
+                      onKeyUp={() => trigger("mentee_confirm_password")}
+                      // type="text"
+                      className="form-control"
+                      // id="exampleInputEmail1"
+                      placeholder="Type your password again"
+                      aria-describedby="emailHelp"
+                      type={showIcons ? "text" : "password"}
+                      //onChange={(e) => setConfirmPassword(e.target.value)}
+                      {...register("mentee_confirm_password", {
+                        required: "Password is Required",
+                        validate: (value) =>
+                          value === password || "Password must be matched",
+                      })}
+                    />
+
+                    <i
+                      i="true"
+                      onClick={() => setShowIcons(!showIcons)}
+                      className={
+                        showIcons
+                          ? "fa-solid fa-eye position-absolute"
+                          : "fa-solid fa-eye-slash position-absolute"
+                      }
+                    />
+
+                    {errors.mentee_confirm_password && (
+                      <p className="Error-meg-login-register">
+                        {errors.mentee_confirm_password.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className="col-lg-6" style={{ width: "30%" }}>
-                <div className="mb-3">
-                  <label htmlFor="contacPersonLastName" className="form-label">
-                    Institute Code
-                  </label>
-                  <input
-                    type="text"
-                    onKeyUp={() => trigger("instituteCode")}
-                    className="form-control"
-                    id="contacPersonLastName"
-                    placeholder="Institute Code"
-                    {...register("instituteCode", {
-                      required: "Name of contact person is required"
-                    })}
-                  />
-                  {errors.instituteCode && (
-                    <p className="Error-meg-login-register">
-                      {errors.instituteCode.message}
-                    </p>
-                  )}
+              <div className="d-flex justify-content-between pt-3">
+                <div className="uherrr_text text-center">
+                  <p className="mb-0">
+                    Already Have An Account? <a href="/login">Log In</a>
+                  </p>
                 </div>
               </div>
-
-            </div>}
-
-
-
-            <div className="col-lg-12">
-              <div className="mb-3 csfvgdtrfs position-relative">
-                <label htmlFor="password" className="form-label">
-                  Password
-                </label>
-                <input
-                  onKeyUp={() => trigger("institute_password")}
-                  className="form-control"
-                  // id="exampleInputEmail1"
-                  placeholder="Password must be at least 8 characters"
-                  aria-describedby="emailHelp"
-                  type={showIcon ? "text" : "password"}
-                  {...register("institute_password", {
-                    required: "password is required",
-                    pattern: {
-                      value:
-                        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
-                      message:
-                        "Password must be at least 8 characters long and include at least one letter, one number, and one special character (e.g., @, #, $, etc.)",
-                    },
-                    maxLength: {
-                      value: 16,
-                      message: "Must be less than 16 characters.",
-                    },
-                  })}
-                />
-
-                <i
-                  i="true"
-                  onClick={() => setShowIcon(!showIcon)}
-                  className={
-                    showIcon
-                      ? "fa-solid fa-eye position-absolute"
-                      : "fa-solid fa-eye-slash position-absolute"
-                  }
-                ></i>
-
-                {errors.institute_password && (
-                  <p className="Error-meg-login-register">
-                    {errors.institute_password.message}
-                  </p>
-                )}
+              <div className="d-flex justify-content-between pt-3">
+                <button type="submit" className="btn dgheuih_btn_next btn-main">
+                  Create Account
+                </button>
               </div>
-            </div>
-
-            <div className="col-lg-12">
-              <div className="mb-3 csfvgdtrfs position-relative">
-                <label htmlFor="cPassword" className="form-label">
-                  Confirm Password
-                </label>
-                <input
-                  onKeyUp={() => trigger("mentee_confirm_password")}
-                  // type="text"
-                  className="form-control"
-                  // id="exampleInputEmail1"
-                  placeholder="Type your password again"
-                  aria-describedby="emailHelp"
-                  type={showIcons ? "text" : "password"}
-                  //onChange={(e) => setConfirmPassword(e.target.value)}
-                  {...register("mentee_confirm_password", {
-                    required: "Password is Required",
-                    validate: (value) =>
-                      value === password || "Password must be matched",
-                  })}
-                />
-
-                <i
-                  i="true"
-                  onClick={() => setShowIcons(!showIcons)}
-                  className={
-                    showIcons
-                      ? "fa-solid fa-eye position-absolute"
-                      : "fa-solid fa-eye-slash position-absolute"
-                  }
-                />
-
-                {errors.mentee_confirm_password && (
-                  <p className="Error-meg-login-register">
-                    {errors.mentee_confirm_password.message}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="d-flex justify-content-between pt-3">
-          <div className="uherrr_text text-center">
-            <p className="mb-0">
-              Already Have An Account? <a href="/login">Log In</a>
-            </p>
-          </div>
+            </form>
+          }
         </div>
 
-        <div className="d-flex justify-content-between pt-3">
 
 
-
-
-          <button type="submit" className="btn dgheuih_btn_next btn-main">
-            Create Account
-          </button>
-        </div>
       </div>
-    </form>
+    </main>
   );
 };
 
