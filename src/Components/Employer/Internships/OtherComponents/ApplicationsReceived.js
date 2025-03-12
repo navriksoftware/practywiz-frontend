@@ -126,7 +126,7 @@ const ApplicationsReceived = () => {
 
   // Filter applicants based on criteria
   useEffect(() => {
-    let result = applicants;
+    let result = applicants || [];
 
     if (showShortlistedOnly) {
       result = result.filter(

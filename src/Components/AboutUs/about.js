@@ -278,26 +278,30 @@ const About = () => {
               <h3>Tarun Gautam</h3>
               <div className="practywiz-about-founder-quote">
                 <p>
-                  Tarun Gautam is an IIM Lucknow alumnus and after a successful
-                  career of over 20 years in the IT industry, he founded two
-                  start-up brands – Navrik Software Solutions and PractyWiz.
+                  Talent needs guidance and the right platform to unleash
+                  it's potential
                 </p>
               </div>
               <div className="practywiz-about-founder-description">
                 <p>
-                  Navrik Software Solutions is a Software Products and Solutions
-                  company that helps organizations adopt AI Based Intelligent
-                  Automation solutions.
+                  Tarun Gautam, an IIM Lucknow alumnus, is the visionary behind
+                  PractyWiz, a rapidly growing global brand and startup. With
+                  over 20 years of experience working with large corporations
+                  and startups, he firmly believes in fostering practical growth
+                  through innovation. He is also the founder of Navrik Software
+                  Solutions, an IT software company specializing in AI-based
+                  intelligent automation solutions.
                 </p>
                 <p>
-                  PractyWiz is an innovative platform that provides practical
-                  training. The mentorship platform provides sessions from
-                  Industry experts.
+                  Driven by the mission to bridge the gap between academia and
+                  the corporate world, Tarun created PractyWiz to provide
+                  industry-relevant mentorship and practical training.
                 </p>
                 <p>
-                  Tarun is an avid speaker and loves to interact with students.
-                  He has been invited to IIM Lucknow, Lingaya Institute of
-                  Management, BIMTECH Noida, IIHMR Dwarka.
+                  Beyond entrepreneurship, he is an author and a passionate
+                  speaker, having delivered talks at prestigious institutions
+                  like IIM Lucknow, Lingaya Institute of Management, BIMTECH
+                  Noida, and IIHMR Dwarka.
                 </p>
               </div>
             </div>
