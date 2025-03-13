@@ -48,7 +48,7 @@ const MyApplications = ({ appliedInternships }) => {
         return "my-app-status-accepted";
       case "rejected":
         return "my-app-status-rejected";
-      case "under review":
+      case "shortlisted":
         return "my-app-status-review";
       case "applied":
         return "my-app-status-pending";

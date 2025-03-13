@@ -80,7 +80,7 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
   const handleSendOtp = async () => {
     setButtonState("send");
     setIsLoading(true);
-    
+
     if (validatePhoneNumber(phone)) {
       try {
         // Make Axios POST request to send OTP
@@ -245,11 +245,10 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="step" id="employerInputFields">
-      <h4 className="text-center">
-            <img src={web96} alt="" className="me-1" />
-            Employer Registration
-          </h4>
-
+        <h4 className="text-center">
+          <img src={web96} alt="" className="me-1" />
+          Corporate Registration
+        </h4>
 
         <div className="form_wrapper mt-3">
           <div className="row">
@@ -368,11 +367,13 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
                       <div>
                         <div className="OtpSendOnWhatsappTaxt-Dflex">
                           <label htmlFor="phone" className="form-label">
-                            Phone Number{" "} 
+                            Phone Number{" "}
                             <span className="RedColorStarMark">*</span>
                           </label>
-                          <p className="ghhduenee OtpSendOnWhatsappTaxt">(OTP will be sent on WhatsApp)</p>
-                          </div>
+                          <p className="ghhduenee OtpSendOnWhatsappTaxt">
+                            (OTP will be sent on WhatsApp)
+                          </p>
+                        </div>
 
                         <div className="d-flex">
                           <PhoneInput
@@ -414,52 +415,50 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
                           </button>
                         </div>
                         <div className="aftersendOTP">
-                            {" "}
-                            {Sendotp && (
-                              <>
-                                <input
-                                  type="number"
-                                  placeholder="Enter OTP"
-                                  className="PhoneNoOtpInput"
-                                  onChange={(e) => setOtp(e.target.value)}
-                                />
-                                <button
-                                  type="button"
-                                  onClick={handleVerifyOtp}
-                                  disabled={isLoadingVerify}
-                                  style={{fontSize:"11px"}}
-                                  className={`otp-buttonVerify ${
-                                    isLoadingVerify ? "loadingVerify" : ""
-                                  } ${VerifyState}`}
-                                >
-                                  {isLoadingVerify ? (
-                                    <div className="button-contentVerify">
-                                      <div className="spinnerVerifyOTP"></div>
-                                      Loading
-                                    </div>
-                                  ) : VerifyState === "Verify" ? (
-                                    "Verify OTP"
-                                  ) : (
-                                    "OTP Verified"
-                                  )}
-                                </button>
-                              </>
-                            )}
-                            {buttonState === "sended" && (
-                              
-                                <button
-                                  type="button"
-                                  onClick={handleResendOtp}
-                                  disabled={resendAvailable}
-                                  className="resendOtpBtn"
-                                >
-                                  {resendAvailable
-                                    ? "Resend OTP Available in one min"
-                                    : "Resend OTP"}
-                                </button>
-                              
-                            )}
-                          </div>
+                          {" "}
+                          {Sendotp && (
+                            <>
+                              <input
+                                type="number"
+                                placeholder="Enter OTP"
+                                className="PhoneNoOtpInput"
+                                onChange={(e) => setOtp(e.target.value)}
+                              />
+                              <button
+                                type="button"
+                                onClick={handleVerifyOtp}
+                                disabled={isLoadingVerify}
+                                style={{ fontSize: "11px" }}
+                                className={`otp-buttonVerify ${
+                                  isLoadingVerify ? "loadingVerify" : ""
+                                } ${VerifyState}`}
+                              >
+                                {isLoadingVerify ? (
+                                  <div className="button-contentVerify">
+                                    <div className="spinnerVerifyOTP"></div>
+                                    Loading
+                                  </div>
+                                ) : VerifyState === "Verify" ? (
+                                  "Verify OTP"
+                                ) : (
+                                  "OTP Verified"
+                                )}
+                              </button>
+                            </>
+                          )}
+                          {buttonState === "sended" && (
+                            <button
+                              type="button"
+                              onClick={handleResendOtp}
+                              disabled={resendAvailable}
+                              className="resendOtpBtn"
+                            >
+                              {resendAvailable
+                                ? "Resend OTP Available in one min"
+                                : "Resend OTP"}
+                            </button>
+                          )}
+                        </div>
                         {errors.employer_phone && (
                           <p className="Error-meg-login-register">
                             {errors.employer_phone.message}

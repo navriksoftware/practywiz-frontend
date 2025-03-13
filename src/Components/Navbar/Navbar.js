@@ -236,7 +236,7 @@ const Navbar = () => {
                             <li className="djgjefgndke">
                               <Link to="/employer-registration">
                                 <i className="fa-solid fa-briefcase menubarUsersIcons"></i>{" "}
-                                Employer
+                                Corporate
                               </Link>
                             </li>
                           </>
@@ -306,7 +306,11 @@ const Navbar = () => {
 
                     <li className="nav-item">
                       <a className="nav-link" href="/internships">
-                        Internships <i className="fa-regular fa-lightbulb"  style={{ color: "#1b63de",fontSize:"large" }}></i>
+                        Internships{" "}
+                        <i
+                          className="fa-regular fa-lightbulb"
+                          style={{ color: "#1b63de", fontSize: "large" }}
+                        ></i>
                       </a>
                     </li>
                   </ul>
@@ -403,7 +407,7 @@ const Navbar = () => {
                                   href="/employer-registration"
                                 >
                                   <i className="fa-solid fa-briefcase"></i>
-                                  <h5>Employer</h5>
+                                  <h5>Corporate</h5>
                                 </a>
                               </button>
                             </div>

@@ -2,10 +2,18 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons for showing/hiding password
-import "../InternshipCss/Internshipstyle.css";
-
+import "../../../Mentor/MentorDashboard/DashboardCSS/ChangePwd.css";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../Redux/loadingRedux";
+import { ApiURL } from "../../../../Utils/ApiURL";
 const TIMEOUT_MS = 45000; // Timeout duration in milliseconds
 const InternshipChangePwd = ({ user, token }) => {
+  const url = ApiURL();
+  const dispatch = useDispatch();
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
   const {
@@ -22,7 +30,37 @@ const InternshipChangePwd = ({ user, token }) => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
+    try {
+      dispatch(showLoadingHandler());
+      const response = await Promise.race([
+        axios.post(
+          `${url}api/v1/auth/change/password`,
+          {
+            password: data.newPassword,
+            userId: user?.user_id,
+          },
+          {
+            headers: { authorization: "Bearer " + token },
+          }
+        ),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Request timed out")), TIMEOUT_MS)
+        ),
+      ]);
+      if (response.data.success) {
+        dispatch(hideLoadingHandler());
+        toast.success("Password change successfully");
+      }
+      if (response.data.error) {
+        dispatch(hideLoadingHandler());
+        toast.error("There is some error while changing the passwords");
+      }
+    } catch (error) {
+      toast.error("There is some error while changing the passwords"); // Stop loading
+      dispatch(hideLoadingHandler());
+    } finally {
+      dispatch(hideLoadingHandler());
+    }
   };
 
   return (
@@ -30,8 +68,8 @@ const InternshipChangePwd = ({ user, token }) => {
       <div className="hiniertvrer_change_password">
         <div className="container">
           <div className="mentor-prf-settings py-5">
-            <h3>Change Your Password</h3>
-            <h5 className="mb-3">Update your Password</h5>
+            <h3 className="mb-3">Change Your Password</h3>
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 position-relative">
                 <label className="label-control">New Password</label>
@@ -51,7 +89,7 @@ const InternshipChangePwd = ({ user, token }) => {
                     },
                     pattern: {
                       value:
-                        /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/,
+                        /^(?=.[a-zA-Z])(?=.[0-9])(?=.[!@#$%^&])[A-Za-z\d!@#$%^&*]{8,16}$/,
                       message:
                         "Password must include letters, numbers, and special characters",
                     },
@@ -62,12 +100,12 @@ const InternshipChangePwd = ({ user, token }) => {
                   className="password-toggle"
                   onClick={() => setShowNewPassword(!showNewPassword)}
                 >
-                  {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                  {showNewPassword ? <FaEye /> : <FaEyeSlash />}
                 </button>
-                {errors.newPassword && (
-                  <p className="text-danger">{errors.newPassword.message}</p>
-                )}
               </div>
+              {errors.newPassword && (
+                <p className="text-danger">{errors.newPassword.message}</p>
+              )}
               <div className="mb-3 position-relative">
                 <label className="label-control">Confirm New Password</label>
                 <input
@@ -88,14 +126,14 @@ const InternshipChangePwd = ({ user, token }) => {
                     setShowConfirmNewPassword(!showConfirmNewPassword)
                   }
                 >
-                  {showConfirmNewPassword ? <FaEyeSlash /> : <FaEye />}
+                  {showConfirmNewPassword ? <FaEye /> : <FaEyeSlash />}
                 </button>
-                {errors.confirmNewPassword && (
-                  <p className="text-danger">
-                    {errors.confirmNewPassword.message}
-                  </p>
-                )}
               </div>
+              {errors.confirmNewPassword && (
+                <p className="text-danger">
+                  {errors.confirmNewPassword.message}
+                </p>
+              )}
               <button className="btn btn-main" type="submit">
                 Change Password
               </button>

@@ -31,14 +31,8 @@ const EmployerDashboard = ({ user, token }) => {
   const [ShowPostedInternship, setShowPostedInternship] = useState(false);
   const [InternshipApplicationR, setInternshipApplicationR] = useState(false);
 
-
   const [mobMenu, setMobMenu] = useState(false);
   const [mobProfileSubMenu, setMobProfileSubMenu] = useState(false);
-
-
-
-
-
 
   const [InternshipProfileSetting, setInternshipProfileSetting] =
     useState(false);
@@ -450,18 +444,18 @@ const EmployerDashboard = ({ user, token }) => {
                       </ul>
                     </div>
                   </form>
-
                 </div>
                 <div className="odejr_res d-none">
                   <div className="d-flex align-items-center">
-
                     {/* Employer dashboard modile view menu  */}
                     <div className="udgehrr position-relative me-3 ps-3">
                       <div
                         className="dashboard-side-bar"
                         id="responsive-side-bar"
                       >
-                        <i class="fa-solid fa-bars" style={{ fontSize: "1.5rem" }}
+                        <i
+                          class="fa-solid fa-bars"
+                          style={{ fontSize: "1.5rem" }}
                           onClick={() => {
                             setMobMenu(true);
                           }}
@@ -476,7 +470,6 @@ const EmployerDashboard = ({ user, token }) => {
                                 onClick={() => {
                                   setMobMenu(false);
                                   setMobProfileSubMenu(false);
-
                                 }}
                               ></i>
                             </li>
@@ -527,9 +520,7 @@ const EmployerDashboard = ({ user, token }) => {
                                     >
                                       Profile Change
                                     </li>
-                                    <li
-                                      onClick={HandleChangePwd}
-                                    >
+                                    <li onClick={HandleChangePwd}>
                                       Change Password
                                     </li>
                                   </ul>
@@ -605,20 +596,20 @@ const EmployerDashboard = ({ user, token }) => {
                               </span>
                               <span>Notifications </span>
                             </li>
-                            <li onClick={userLogoutHandler} className="menu-items">
-                              <span><i class="fa-solid fa-right-from-bracket"></i></span>
+                            <li
+                              onClick={userLogoutHandler}
+                              className="menu-items"
+                            >
+                              <span>
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                              </span>
                               <span>Log Out</span>
                             </li>
                             <li></li>
                           </ul>
                         )}
-
-
                       </div>
                     </div>
-
-
-
                   </div>
                 </div>
               </div>
@@ -741,7 +732,6 @@ const EmployerDashboard = ({ user, token }) => {
 
                   <h5>Applications received</h5>
                 </button> */}
-
                   {/* handleInternManagement */}
                   {/* <button
                     className="btn btn-transparent text-center py-3 seeeett"
@@ -821,9 +811,15 @@ const EmployerDashboard = ({ user, token }) => {
                 //   onEditInternshipPost={handleEditInternshipPost}
                 // />
               )}
-              {InternshipProfileSetting && <InternshipProfileSettings data={employerDetails}
-                employerDtlsId={employerUserDtlsId} />}
-              {InternshipChangePassword && <InternshipChangePwd />}
+              {InternshipProfileSetting && (
+                <InternshipProfileSettings
+                  data={employerDetails}
+                  employerDtlsId={employerUserDtlsId}
+                />
+              )}
+              {InternshipChangePassword && (
+                <InternshipChangePwd user={user} token={token} />
+              )}
               {showViewEditInternshipPost && (
                 <ViewEditInternshipPost
                   internshipPostId={showInternshipPostId}
