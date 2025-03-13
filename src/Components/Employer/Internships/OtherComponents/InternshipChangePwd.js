@@ -89,7 +89,7 @@ const InternshipChangePwd = ({ user, token }) => {
                     },
                     pattern: {
                       value:
-                        /^(?=.[a-zA-Z])(?=.[0-9])(?=.[!@#$%^&])[A-Za-z\d!@#$%^&*]{8,16}$/,
+                        /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/,
                       message:
                         "Password must include letters, numbers, and special characters",
                     },
