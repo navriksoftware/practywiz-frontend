@@ -191,7 +191,7 @@ const ApplicationsReceived = () => {
   if (isLoading) {
     return <div className="applications-card">Loading applicants...</div>;
   }
-
+  console.log("applicants", applicants);
   return (
     <div className="col-lg-10 ps-0">
       <div className="gtyfdgfgf">
@@ -352,7 +352,7 @@ const ApplicationsReceived = () => {
                                 {
                                   JSON.parse(
                                     applicant.mentee_institute_details
-                                  )[0].mentee_instituteName
+                                  )[0].collage_name
                                 }
                               </div>
                               <div className="applications-graduation-year">
