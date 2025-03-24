@@ -139,7 +139,7 @@ const InternshipDetail = ({ user, token }) => {
                           </span>
                         ) : (
                           <span>
-                            ₹
+                            {internship.employer_internship_post_currency_type}{" "}
                             {internship.employer_internship_post_stipend_amount}
                             /{internship.employer_internship_post_pay_type}
                           </span>

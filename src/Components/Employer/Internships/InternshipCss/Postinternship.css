@@ -233,3 +233,73 @@
     padding: 10px 15px;
   }
 }
+
+/* Stipend form container */
+.internship-post-page-stipend-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Row for inputs */
+.internship-post-page-input-row {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+/* Individual input group */
+.internship-post-page-input-group {
+  flex: 1;
+  min-width: 0; /* Prevents flex items from overflowing */
+}
+
+/* Input styling */
+.internship-post-page-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Select styling to match other inputs */
+.internship-post-page-select {
+  width: 100%;
+  height: 38px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+/* Error message styling */
+.internship-post-page-error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Submit button styling */
+.internship-post-page-submit-btn {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.internship-post-page-submit-btn:hover {
+  background-color: #0b5ed7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .internship-post-page-input-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
