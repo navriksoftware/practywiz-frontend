@@ -159,6 +159,46 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
     "11:00AM",
   ];
 
+  const currencyOptions = [
+    { value: "AED", label: "د.إ AED (United Arab Emirates Dirham)" },
+    { value: "AUD", label: "$ AUD (Australian Dollar)" },
+    { value: "BDT", label: "৳ BDT (Bangladeshi Taka)" },
+    { value: "BHD", label: ".د.ب BHD (Bahraini Dinar)" },
+    { value: "BRL", label: "R$ BRL (Brazilian Real)" },
+    { value: "CAD", label: "$ CAD (Canadian Dollar)" },
+    { value: "CHF", label: "CHF CHF (Swiss Franc)" },
+    { value: "CNY", label: "¥ CNY (Chinese Yuan)" },
+    { value: "DKK", label: "kr DKK (Danish Krone)" },
+    { value: "EGP", label: "£ EGP (Egyptian Pound)" },
+    { value: "EUR", label: "€ EUR (Euro)" },
+    { value: "GBP", label: "£ GBP (British Pound)" },
+    { value: "HKD", label: "$ HKD (Hong Kong Dollar)" },
+    { value: "IDR", label: "Rp IDR (Indonesian Rupiah)" },
+    { value: "ILS", label: "₪ ILS (Israeli Shekel)" },
+    { value: "INR", label: "₹ INR (Indian Rupee)" },
+    { value: "JPY", label: "¥ JPY (Japanese Yen)" },
+    { value: "KRW", label: "₩ KRW (South Korean Won)" },
+    { value: "KWD", label: "د.ك KWD (Kuwaiti Dinar)" },
+    { value: "LKR", label: "Rs LKR (Sri Lankan Rupee)" },
+    { value: "MYR", label: "RM MYR (Malaysian Ringgit)" },
+    { value: "NGN", label: "₦ NGN (Nigerian Naira)" },
+    { value: "NOK", label: "kr NOK (Norwegian Krone)" },
+    { value: "NZD", label: "$ NZD (New Zealand Dollar)" },
+    { value: "OMR", label: "ر.ع OMR (Omani Rial)" },
+    { value: "PHP", label: "₱ PHP (Philippine Peso)" },
+    { value: "PKR", label: "Rs PKR (Pakistani Rupee)" },
+    { value: "QAR", label: "ر.ق QAR (Qatari Riyal)" },
+    { value: "RUB", label: "₽ RUB (Russian Ruble)" },
+    { value: "SAR", label: "ر.س SAR (Saudi Riyal)" },
+    { value: "SEK", label: "kr SEK (Swedish Krona)" },
+    { value: "SGD", label: "$ SGD (Singapore Dollar)" },
+    { value: "THB", label: "฿ THB (Thai Baht)" },
+    { value: "TRY", label: "₺ TRY (Turkish Lira)" },
+    { value: "USD", label: "$ USD (US Dollar)" },
+    { value: "VND", label: "₫ VND (Vietnamese Dong)" },
+    { value: "ZAR", label: "R ZAR (South African Rand)" },
+  ];
+
   const HandleAmountShow = (e) => {
     let check = e.target.value; // Corrected "targert" to "target"
     if (check === "Unpaid") {
@@ -193,7 +233,6 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
     }
   };
   const onSubmit = async (data) => {
-
     const payload = {
       ...data,
       supervisionType,
@@ -223,10 +262,10 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
       ]);
       if (res.data.success) {
         toast.success(res.data.success);
-        setTimeout(() => {
-          window.location.reload();
-          setCurrentPage("postedInternship");
-        }, 1000);
+        // setTimeout(() => {
+        //   window.location.reload();
+        //   setCurrentPage("postedInternship");
+        // }, 1000);
       } else if (res.data.error) {
         toast.error(res.data.error);
       }
@@ -253,8 +292,9 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
             <div className="postinternAling">
               <div className="toggle-container">
                 <div
-                  className={`toggle-button ${selected === "Pending" ? "active" : "inactive"
-                    }`}
+                  className={`toggle-button ${
+                    selected === "Pending" ? "active" : "inactive"
+                  }`}
                   onClick={() => {
                     setSelected("Pending");
                     setSupervisionType("Self Manage");
@@ -264,8 +304,9 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                   Self Manage internship
                 </div>
                 <div
-                  className={`toggle-button ${selected === "Completed" ? "active" : "inactive"
-                    }`}
+                  className={`toggle-button ${
+                    selected === "Completed" ? "active" : "inactive"
+                  }`}
                   onClick={() => {
                     setSelected("Completed");
                     setSupervisionType("Guided");
@@ -733,7 +774,7 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                       />
                     )}
                   />
-                
+
                 </div> */}
                 <div
                   className="col-lg-12 mb-4"
@@ -805,7 +846,7 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                           type="button"
                           onClick={() => removeSkill(index)}
                           className="remove-skill-btn"
-                        // disabled={!isEditing}
+                          // disabled={!isEditing}
                         >
                           &times;
                         </button>
@@ -884,7 +925,7 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                 </div>
                 <div className="doiherner_wrapper">
                   <div
-                    className="ihduwfr_form_wrapper p-0 d-flex"
+                    className=" p-0 d-flex"
                     style={{ height: "100%", flexWrap: "wrap" }}
                   >
                     <div className="col-lg-6 mb-4">
@@ -992,14 +1033,95 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                         {amountShow && (
                           <div className="dwdyjw">
                             <select
+                              aria-label="Select currency"
                               className="form-select"
                               {...register("stipendCurrencyType")}
                             >
-                              <option value="INR">INR</option>
-                              <option value="USD">USD</option>
-                              <option value="CAD">CAD</option>
-                              <option value="GBP">GBP</option>
-                              <option value="AUD">AUD</option>
+                              <option value="AED">
+                                د.إ AED (United Arab Emirates Dirham)
+                              </option>
+                              <option value="AUD">
+                                $ AUD (Australian Dollar)
+                              </option>
+                              <option value="BDT">
+                                ৳ BDT (Bangladeshi Taka)
+                              </option>
+                              <option value="BHD">
+                                .د.ب BHD (Bahraini Dinar)
+                              </option>
+                              <option value="BRL">
+                                R$ BRL (Brazilian Real)
+                              </option>
+                              <option value="CAD">
+                                $ CAD (Canadian Dollar)
+                              </option>
+                              <option value="CHF">CHF CHF (Swiss Franc)</option>
+                              <option value="CNY">¥ CNY (Chinese Yuan)</option>
+                              <option value="DKK">kr DKK (Danish Krone)</option>
+                              <option value="EGP">
+                                £ EGP (Egyptian Pound)
+                              </option>
+                              <option value="EUR">€ EUR (Euro)</option>
+                              <option value="GBP">£ GBP (British Pound)</option>
+                              <option value="HKD">
+                                $ HKD (Hong Kong Dollar)
+                              </option>
+                              <option value="IDR">
+                                Rp IDR (Indonesian Rupiah)
+                              </option>
+                              <option value="ILS">
+                                ₪ ILS (Israeli Shekel)
+                              </option>
+                              <option value="INR">₹ INR (Indian Rupee)</option>
+                              <option value="JPY">¥ JPY (Japanese Yen)</option>
+                              <option value="KRW">
+                                ₩ KRW (South Korean Won)
+                              </option>
+                              <option value="KWD">
+                                د.ك KWD (Kuwaiti Dinar)
+                              </option>
+                              <option value="LKR">
+                                Rs LKR (Sri Lankan Rupee)
+                              </option>
+                              <option value="MYR">
+                                RM MYR (Malaysian Ringgit)
+                              </option>
+                              <option value="NGN">
+                                ₦ NGN (Nigerian Naira)
+                              </option>
+                              <option value="NOK">
+                                kr NOK (Norwegian Krone)
+                              </option>
+                              <option value="NZD">
+                                $ NZD (New Zealand Dollar)
+                              </option>
+                              <option value="OMR">ر.ع OMR (Omani Rial)</option>
+                              <option value="PHP">
+                                ₱ PHP (Philippine Peso)
+                              </option>
+                              <option value="PKR">
+                                Rs PKR (Pakistani Rupee)
+                              </option>
+                              <option value="QAR">
+                                ر.ق QAR (Qatari Riyal)
+                              </option>
+                              <option value="RUB">₽ RUB (Russian Ruble)</option>
+                              <option value="SAR">ر.س SAR (Saudi Riyal)</option>
+                              <option value="SEK">
+                                kr SEK (Swedish Krona)
+                              </option>
+                              <option value="SGD">
+                                $ SGD (Singapore Dollar)
+                              </option>
+                              <option value="THB">฿ THB (Thai Baht)</option>
+                              <option value="TRY">₺ TRY (Turkish Lira)</option>
+                              <option value="USD">$ USD (US Dollar)</option>
+                              <option value="VND">
+                                ₫ VND (Vietnamese Dong)
+                              </option>
+                              <option value="ZAR">
+                                R ZAR (South African Rand)
+                              </option>
                             </select>
                             <input
                               onKeyUp={() => {
@@ -1021,6 +1143,63 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                               <option value="lump-sum">lump-sum</option>
                             </select>
                           </div>
+                          // <div className="internship-post-page-stipend-container">
+                          //   <div className="internship-post-page-input-row">
+                          //     {/* Currency Selection with Search */}
+                          //     <div className="internship-post-page-input-group">
+                          //       <Controller
+                          //         name="stipendCurrencyType"
+                          //         control={control}
+                          //         rules={{
+                          //           required: "Please select a currency",
+                          //         }}
+                          //         render={({ field }) => (
+                          //           <Select
+                          //             {...field}
+                          //             options={currencyOptions}
+                          //             isSearchable
+                          //             placeholder="Select Currency"
+                          //             className="internship-post-page-select"
+                          //           />
+                          //         )}
+                          //       />
+                          //       {errors.stipendCurrencyType && (
+                          //         <p className="internship-post-page-error">
+                          //           {errors.stipendCurrencyType.message}
+                          //         </p>
+                          //       )}
+                          //     </div>
+
+                          //     {/* Amount Input */}
+                          //     <div className="internship-post-page-input-group">
+                          //       <input
+                          //         type="number"
+                          //         className="internship-post-page-input"
+                          //         placeholder="Amount..."
+                          //         {...register("stipendAmount", {
+                          //           required: "Please enter the Amount",
+                          //         })}
+                          //         onKeyUp={() => trigger("stipendAmount")}
+                          //       />
+                          //       {errors.stipendAmount && (
+                          //         <p className="internship-post-page-error">
+                          //           {errors.stipendAmount.message}
+                          //         </p>
+                          //       )}
+                          //     </div>
+
+                          //     {/* Time Selection */}
+                          //     <div className="internship-post-page-input-group">
+                          //       <select
+                          //         className="internship-post-page-select"
+                          //         {...register("stipendTime")}
+                          //       >
+                          //         <option value="month">per month</option>
+                          //         <option value="lump-sum">lump-sum</option>
+                          //       </select>
+                          //     </div>
+                          //   </div>
+                          // </div>
                         )}
                         {performanceBased && (
                           <>
@@ -1362,8 +1541,9 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                       role:
                     </label>
                     <select
-                      className={`form-select ${errors.taskCategory ? "error-input" : ""
-                        }`}
+                      className={`form-select ${
+                        errors.taskCategory ? "error-input" : ""
+                      }`}
                       {...register("taskCategory", {
                         // required: "Please select a task category",
                       })}
@@ -1388,8 +1568,9 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
                       What is the expected business objective?
                     </label>
                     <select
-                      className={`form-select ${errors.businessObjective ? "error-input" : ""
-                        }`}
+                      className={`form-select ${
+                        errors.businessObjective ? "error-input" : ""
+                      }`}
                       {...register("businessObjective", {
                         // required: "Please select a business objective",
                       })}

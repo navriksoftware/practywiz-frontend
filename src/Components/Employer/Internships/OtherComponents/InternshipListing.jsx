@@ -252,7 +252,7 @@ export default function InternshipJobBoard({
             </div>
 
             <div className="intern-filter-section">
-              <h3>Monthly Stipend (Rs)</h3>
+              <h3>Monthly Stipend</h3>
               <div className="intern-rate-inputs">
                 <input
                   type="number"
@@ -362,8 +362,12 @@ export default function InternshipJobBoard({
                       </div>
                       <div className="intern-job-rate">
                         <div className="intern-job-rate-amount">
-                          Rs {job.employer_internship_post_stipend_amount}/month
+                          {job.employer_internship_post_stipend_type ===
+                          "Unpaid"
+                            ? "Unpaid"
+                            : `${job.employer_internship_post_currency_type} ${job.employer_internship_post_stipend_amount}/month`}
                         </div>
+
                         <div className="intern-job-rate-reply">
                           {formatDate(job.employer_internship_post_cr_date)}
                         </div>

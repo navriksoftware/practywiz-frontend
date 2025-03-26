@@ -83,6 +83,8 @@ import InternshipApplication from "./Components/Mentee/MenteeDashboard/MenteeInt
 import TermsConditionsPage from "./Pages/LegalPages/TermsConditionsPage";
 import PrivacyPolicyPage from "./Pages/LegalPages/PrivacyPolicyPage";
 import SingleApplicantProfilePage from "./Pages/InternshipPages/SingleApplicantProfilePage";
+import TeacherDashboardPage from "./Pages/InstitutePages/TeacherDashboard/TeacherDashboardPage";
+import SingleAssignedCase from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleAssignedCase";
 
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
@@ -267,6 +269,14 @@ function App() {
           />
           <Route path="/simulation" element={<SimulationPage />} />
           <Route path="/cart" element={<Cart user={user} token={token} />} />
+
+          {/* teacher dashboard start */}
+          <Route
+            path="/teacher/dashboard"
+            element={<TeacherDashboardPage user={user} token={token} />}
+          />
+          {/* teacher dashboard end */}
+
           {/* internship section start */}
           <Route
             path="/employer/dashboard"
