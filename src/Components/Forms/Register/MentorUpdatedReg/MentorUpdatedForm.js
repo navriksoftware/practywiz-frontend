@@ -348,7 +348,7 @@ const MentorUpdatedForm = () => {
                     {...register("mentor_firstname", {
                       required: "First Name is required",
                       pattern: {
-                        value: /^[a-zA-Z]+$/, // Pattern for letters only
+                        value: /^[a-zA-Z\s]+$/, // Pattern for letters only
                         message: "First name should contain only letters",
                       },
                     })}
@@ -376,7 +376,7 @@ const MentorUpdatedForm = () => {
                     {...register("mentor_lastname", {
                       required: "Last Name is required",
                       pattern: {
-                        value: /^[a-zA-Z]+$/, // Pattern for letters only
+                        value: /^[a-zA-Z\s]+$/, // Pattern for letters only
                         message: "Last name should contain only letters",
                       },
                     })} //1
@@ -888,3 +888,4 @@ const styles = {
 };
 
 export default MentorUpdatedForm;
+

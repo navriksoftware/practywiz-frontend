@@ -1,328 +1,338 @@
-import React, { useState, useEffect } from "react";
-import { Bar, Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS } from "chart.js/auto";
-// import axios from "axios";
-// import { ApiURL } from "../../../../Utils/ApiURL";
-import "../DashboardCSS/InstituteProfileDashboard.css";
-import "swiper/css";
-import "swiper/css/navigation";
+import React, { useState, useEffect } from 'react';
+import '../DashboardCSS/InstituteProfileDashboard.css';
 
-const InstituteProfileDashboard = () => {
-  //Demo data
-  const Data = {
-    success: {
-      instituteName: "Indian Institute of Management (IIM) Lucknow",
-      studentRegistered: 600,
-      mentorSessionsCompleted: 235,
-      guestLecturesCompleted: 108,
-      upcomingSessions: 37,
-      barChartData: {
-        labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apl",
-          "May",
-          "Jun",
-          "July",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ],
-        datasets: [
-          {
-            label: "Mentor",
-            data: [200, 300, 400, 100, 200, 300, 400, 100, 200, 300, 400, 100],
-            backgroundColor: "#0255ca",
-            borderWidth: 1,
-          },
-          {
-            label: "session Completed",
-            data: [250, 200, 300, 500, 100, 200, 300, 400, 100, 200, 300, 400],
-            backgroundColor: "#00ccce",
-            borderWidth: 1,
-          },
-          {
-            label: "Next session",
-            data: [350, 500, 800, 100, 200, 300, 400, 100, 200, 300, 400, 100],
-            backgroundColor: "#244e8a",
-            borderWidth: 1,
-          },
-        ],
-      },
-      alumniData: [
-        { name: "Tushar Khanagwal", role: "Software Engineer", avatar: "TK" },
-        { name: "Aman Choudhary", role: "Software Engineer", avatar: "AC" },
-        { name: "Gagan Verma", role: "Data Scientist", avatar: "GV" },
-        { name: "Ankit Singh", role: "Product Manager", avatar: "AS" },
-        { name: "Raghv Verma", role: "Software Engineer", avatar: "RV" },
-      ],
-      pieChartData: {
-        labels: ["Alumni", "Students"],
-        datasets: [
-          {
-            label: "Total Percentage Alumni",
-            data: [75, 25],
-            backgroundColor: ["#00ccce", "#f0f0f0"],
-            hoverBackgroundColor: ["#00ccce", "#f0f0f0"],
-            borderWidth: 1,
-          },
-        ],
-      },
-    },
-  };
+const InstituteProfileDashboard = ({HandleSingleTeacherDetails}) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [subjectFilter, setSubjectFilter] = useState('');
+  const [dateRangeFilter, setDateRangeFilter] = useState('');
+  const [filteredCaseStudies, setFilteredCaseStudies] = useState([]);
+  const [showStatusDropdown, setShowStatusDropdown] = useState(false);
+  const [showSubjectDropdown, setShowSubjectDropdown] = useState(false);
+  const [showDateDropdown, setShowDateDropdown] = useState(false);
 
-  const [dashboardData, setDashboardData] = useState({});
+  // Sample data
+  const caseStudies = [
+    { id: 1, title: 'Global Supply Chain Management', subject: 'Business Studies', assignedTo: 'Gagan verma', assignedDate: 'Oct 15, 2023', status: 'Active' },
+    { id: 2, title: 'Renewable Energy Solutions', subject: 'Environmental Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 12, 2023', status: 'Completed' },
+    { id: 3, title: 'Digital Marketing Strategy', subject: 'Marketing', assignedTo: 'Gagan verma', assignedDate: 'Oct 10, 2023', status: 'Pending' },
+    { id: 4, title: 'Healthcare Innovation', subject: 'Healthcare Management', assignedTo: 'Gagan verma', assignedDate: 'Oct 8, 2023', status: 'Active' },
+    { id: 5, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
+  ];
 
+  // Dashboard metrics
+  const totalCases = 24;
+  const activeCases = 12;
+  const completedCases = 10;
+  const pendingReview = 2;
+
+  // Get unique subjects
+  const subjects = [...new Set(caseStudies.map(cs => cs.subject))];
+
+  // Get unique statuses
+  const statuses = [...new Set(caseStudies.map(cs => cs.status))];
+
+  // Date range options
+  const dateRanges = [
+    'Last 7 days',
+    'Last 30 days',
+    'Last 90 days',
+    'This year'
+  ];
+
+  // Filter case studies
   useEffect(() => {
-    setDashboardData(Data.success); // Simulate fetching data from API
-  }, []);
+    let result = [...caseStudies];
 
-  if (
-    !dashboardData.instituteName ||
-    !dashboardData.studentRegistered ||
-    !dashboardData.mentorSessionsCompleted ||
-    !dashboardData.guestLecturesCompleted ||
-    !dashboardData.upcomingSessions ||
-    !dashboardData.barChartData ||
-    !dashboardData.alumniData ||
-    !dashboardData.pieChartData
-  ) {
-    return <div>Loading...</div>;
-  }
+    // Apply search filter
+    if (searchQuery) {
+      result = result.filter(cs =>
+        cs.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        cs.subject.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
 
-  // Data for bar chart and pie chart
-  const barChartData = dashboardData.barChartData || { datasets: [] };
-  const pieChartData = dashboardData.pieChartData || { datasets: [] };
+    // Apply status filter
+    if (statusFilter) {
+      result = result.filter(cs => cs.status === statusFilter);
+    }
 
-  // Calculate max y value for bar chart
-  const allData = barChartData.datasets.flatMap((dataset) => dataset.data);
-  const maxValue = Math.max(...allData);
-  const yMax = maxValue + 100;
+    // Apply subject filter
+    if (subjectFilter) {
+      result = result.filter(cs => cs.subject === subjectFilter);
+    }
 
-  const barChartOptions = {
-    plugins: {
-      legend: { position: "top" },
-      tooltip: { enabled: true },
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    devicePixelRatio: 2,
-    scales: {
-      x: { beginAtZero: true },
-      y: { beginAtZero: true, suggestedMax: yMax },
-    },
+    // Apply date range filter
+    if (dateRangeFilter) {
+      // For demo purposes, we'll just filter but in a real app
+      // you would implement actual date filtering logic
+      const today = new Date();
+      const dates = {
+        'Last 7 days': new Date(today.setDate(today.getDate() - 7)),
+        'Last 30 days': new Date(today.setDate(today.getDate() - 30)),
+        'Last 90 days': new Date(today.setDate(today.getDate() - 90)),
+        'This year': new Date(today.getFullYear(), 0, 1)
+      };
+
+      // Simple simulation of date filtering
+      if (dateRangeFilter === 'Last 7 days') {
+        result = result.filter(cs => cs.assignedDate.includes('Oct 10') || cs.assignedDate.includes('Oct 12') || cs.assignedDate.includes('Oct 15'));
+      } else if (dateRangeFilter === 'Last 30 days') {
+        result = result.filter(cs => true); // All are within last 30 days in our example
+      }
+    }
+
+    setFilteredCaseStudies(result);
+  }, [searchQuery, statusFilter, subjectFilter, dateRangeFilter]);
+
+  // Status label styling
+  const getStatusClass = (status) => {
+    switch (status) {
+      case 'Active': return 'instituteDashboard-status-active';
+      case 'Completed': return 'instituteDashboard-status-completed';
+      case 'Pending': return 'instituteDashboard-status-pending';
+      default: return '';
+    }
   };
 
-  const pieChartOptions = {
-    cutout: "70%",
-    plugins: {
-      legend: { display: false },
-    },
+  // Clear all filters
+  const clearFilters = () => {
+    setSearchQuery('');
+    setStatusFilter('');
+    setSubjectFilter('');
+    setDateRangeFilter('');
+  };
+
+  // Toggle dropdowns
+  const toggleStatusDropdown = () => {
+    setShowStatusDropdown(!showStatusDropdown);
+    setShowSubjectDropdown(false);
+    setShowDateDropdown(false);
+  };
+
+  const toggleSubjectDropdown = () => {
+    setShowSubjectDropdown(!showSubjectDropdown);
+    setShowStatusDropdown(false);
+    setShowDateDropdown(false);
+  };
+
+  const toggleDateDropdown = () => {
+    setShowDateDropdown(!showDateDropdown);
+    setShowStatusDropdown(false);
+    setShowSubjectDropdown(false);
   };
 
   return (
-    <>
-      <div className="col-lg-10 ps-0">
-        <div className="difuhtre_content">
-          <div className="container-fluid px-5">
-            <div className="gtyfdgfgf">
-              <h2 className="institute-name">{dashboardData.instituteName}</h2>
+    <div className="instituteDashboard-container">
+      <div className="instituteDashboard-breadcrumb">
+        Institute Dashboard
+      </div>
 
-              <div className="institute-main-content">
-                <div className="institute-left-side">
-                  <div className="institute-summary-cards">
-                    <div className="institute-card">
-                      <div className="institute-card-info">
-                        <h2>{dashboardData.studentRegistered}</h2>
-                        <p>students Registered</p>
-                      </div>
-                      <div className="institute-card-icon">
-                        <i className="fa-solid fa-graduation-cap"></i>
-                      </div>
-                    </div>
+      {/* <h1 className="instituteDashboard-title">Teacher Case Studies Dashboard</h1> */}
 
-                    <div className="institute-card">
-                      <div className="institute-card-info">
-                        <h2>{dashboardData.mentorSessionsCompleted}</h2>
-                        <p>Mentor sessions completed</p>
-                      </div>
-                      <div className="institute-card-icon">
-                        <i className="fa-solid fa-list-check"></i>
-                      </div>
-                    </div>
-
-                    <div className="institute-card">
-                      <div className="institute-card-info">
-                        <h2>{dashboardData.guestLecturesCompleted}</h2>
-                        <p>Guest Lectures Completed</p>
-                      </div>
-                      <div className="institute-card-icon">
-                        <i className="fa-solid fa-chalkboard-teacher"></i>
-                      </div>
-                    </div>
-
-                    <div className="institute-card">
-                      <div className="institute-card-info">
-                        <h2>{dashboardData.upcomingSessions}</h2>
-                        <p>Upcoming sessions next week</p>
-                      </div>
-                      <div className="institute-card-icon">
-                        <i className="fa-solid fa-calendar-week"></i>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="institute-bar-chart">
-                    <h3>Mentorship Sessions Overview</h3>
-                    <div className="institute-chart-container">
-                      <Bar
-                        className="institute-bar-chart-canva"
-                        data={barChartData}
-                        options={barChartOptions}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="institute-right-side">
-                  <div className="institute-top-alumni">
-                    <h3>Top 5 Alumni</h3>
-                    <ul>
-                      {dashboardData.alumniData.map((alumnus, index) => (
-                        <li key={index}>
-                          <div className="intitute-alumni-avatar">
-                            {alumnus.avatar}
-                          </div>
-                          <div className="institute-alumni-names">
-                            <span className="institute-alumni-name">
-                              {alumnus.name}
-                            </span>
-                            <span className="institute-alumni-designation">
-                              {alumnus.role}
-                            </span>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="institute-percentage-alumni">
-                    <h3>Total Percentage Alumni</h3>
-                    <div className="institute-circle-chart">
-                      <Doughnut data={pieChartData} options={pieChartOptions} />
-                      <div className="institute-percentage">75%</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div className="instituteDashboard-metrics-container">
+        <div className="instituteDashboard-metric-card">
+          <div className="instituteDashboard-metric-icon instituteDashboard-document-icon">
+            <i className="fa-solid fa-book"></i>
           </div>
+          <div className="instituteDashboard-metric-value">{totalCases}</div>
+          <div className="instituteDashboard-metric-label">Total Cases Studies</div>
+        </div>
+
+        <div className="instituteDashboard-metric-card">
+          <div className="instituteDashboard-metric-icon instituteDashboard-clock-icon">
+            <i className="fa-solid fa-star"></i>
+          </div>
+          <div className="instituteDashboard-metric-value">{activeCases}</div>
+          <div className="instituteDashboard-metric-label">Assigned Cases studies</div>
+        </div>
+
+        <div className="instituteDashboard-metric-card">
+          <div className="instituteDashboard-metric-icon instituteDashboard-check-icon">
+            <i className="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div className="instituteDashboard-metric-value">{completedCases}</div>
+          <div className="instituteDashboard-metric-label">Total Students</div>
+        </div>
+
+        <div className="instituteDashboard-metric-card">
+          <div className="instituteDashboard-metric-icon instituteDashboard-pending-icon">
+            <i className="fa-solid fa-chalkboard-user"></i>
+          </div>
+          <div className="instituteDashboard-metric-value">{pendingReview}</div>
+          <div className="instituteDashboard-metric-label">Total Teacher</div>
         </div>
       </div>
-    </>
-    // <>
-    //   <div className="col-lg-10 ps-0">
-    //     <div className="difuhtre_content">
-    //       {/* <div className="dfknhguyfdgf"> */}
-    //       <div className="container-fluid px-5">
-    //         <div className="gtyfdgfgf">
-    //           <div className="col-lg-8">
-    //             <div className="ndfhjvdfv">
-    //               <h2> Indian Institute of Management (IIM) Lucknow</h2>
 
-    //               {/* <div className="fhghgdgg">
-    //                 <h3>
-    //                   <i className="fa-solid me-2 fa-sign-hanging"></i> Est. 2006
-    //                 </h3>
-    //               </div> */}
-    //             </div>
-    //           </div>
-    //           <div className="container_intdashboard">
-    //             <div className="item_intdashboard bg-img bg1">
-    //               <i className="fa-solid fa-graduation-cap iconsize"></i>
-    //               <h3 className="text-1"> students Registered</h3>
-    //               <div className="valuedash text-1">600</div>
-    //             </div>
-    //             <div className="item_intdashboard bg-img bg2">
-    //               <i className="fa-solid fa-list-check iconsize"></i>
-    //               <h3 className="text-1 "> Mentor sessions completed</h3>{" "}
-    //               <div className="valuedash text-1">235</div>
-    //             </div>
-    //             <div className="item_intdashboard bg-img bg3">
-    //               <i className="fa-solid fa-calendar-week iconsize"></i>
-    //               <h3 className="text-1"> Upcoming sessions in next week</h3>
-    //               <div className="valuedash text-1">37</div>
-    //             </div>
-    //           </div>
+      <div className="instituteDashboard-filters-container">
+        <div className="instituteDashboard-search-container">
+          <input
+            type="text"
+            placeholder="Search case studies..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="instituteDashboard-search-input"
+          />
+        </div>
 
-    //           <div className="container_intdashboard">
-    //             <div className="item_intdashboard bg-img bg1">
-    //               <i className="fa-solid fa-graduation-cap iconsize"></i>
-    //               <h3 className="text-1"> Top 5 Alumns</h3>
-    //               <div style={{ fontSize: "1rem" }}>
-    //                 <div className="text-2">Aman Choudhary</div>
-    //                 <div className="text-2">Gagan Verma</div>
-    //                 <div className="text-2">Ankit Singh</div>
-    //                 <div className="text-2">Raghv Verma</div>
-    //                 <div className="text-2">Govind Raj</div>
-    //               </div>
-    //             </div>
-    //             <div className="item_intdashboard bg-img bg2">
-    //               <i className="fa-solid fa-percent iconsize"></i>
-    //               <h3 className="text-1 "> Percentage Of Total Alumns</h3>{" "}
-    //               <div className="valuedash text-1">75%</div>
-    //             </div>
-    //             <div className="item_intdashboard bg-img bg3">
-    //               <i className="fa-solid fa-calendar-week iconsize"></i>
-    //               <h3 className="text-1"> Guest Lectures Completed</h3>
-    //               <div className="valuedash text-1">108</div>
-    //             </div>
-    //           </div>
-    //           <br />
-    //           <br />
+        <div className="instituteDashboard-filter-buttons">
+          <div className="instituteDashboard-filter-dropdown">
+            <button
+              className="instituteDashboard-filter-btn"
+              onClick={toggleStatusDropdown}
+            >
+              <span className="instituteDashboard-filter-icon"><i className="fa-solid fa-caret-down"></i></span>
+              {statusFilter || 'Status'}
+            </button>
+            {showStatusDropdown && (
+              <div className="instituteDashboard-dropdown-content">
+                <div
+                  className="instituteDashboard-dropdown-item"
+                  onClick={() => {
+                    setStatusFilter('');
+                    setShowStatusDropdown(false);
+                  }}
+                >
+                  All Statuses
+                </div>
+                {statuses.map(status => (
+                  <div
+                    key={status}
+                    className="instituteDashboard-dropdown-item"
+                    onClick={() => {
+                      setStatusFilter(status);
+                      setShowStatusDropdown(false);
+                    }}
+                  >
+                    {status}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
-    //           <div className="animation">
-    //             <Bar
-    //               data={{
-    //                 labels: [
-    //                   "Jan",
-    //                   "Feb",
-    //                   "Mar",
-    //                   "Apl",
-    //                   "May",
-    //                   "Jun",
-    //                   "July",
-    //                   "Aug",
-    //                   "Sep",
-    //                   "Oct",
-    //                   "Nov",
-    //                   "Dec",
-    //                 ],
-    //                 datasets: [
-    //                   {
-    //                     label: "Mentor",
-    //                     data: [200, 300, 400],
-    //                   },
-    //                   {
-    //                     label: "session Completed",
-    //                     data: [250, 200, 300],
-    //                   },
-    //                   {
-    //                     label: "Next session",
-    //                     data: [350, 500, 800],
-    //                   },
-    //                 ],
-    //               }}
-    //             />
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </>
+          <div className="instituteDashboard-filter-dropdown">
+            <button
+              className="instituteDashboard-filter-btn"
+              onClick={toggleSubjectDropdown}
+            >
+              <span className="instituteDashboard-filter-icon">☰</span>
+              {subjectFilter || 'Subject'}
+            </button>
+            {showSubjectDropdown && (
+              <div className="instituteDashboard-dropdown-content">
+                <div
+                  className="instituteDashboard-dropdown-item"
+                  onClick={() => {
+                    setSubjectFilter('');
+                    setShowSubjectDropdown(false);
+                  }}
+                >
+                  All Subjects
+                </div>
+                {subjects.map(subject => (
+                  <div
+                    key={subject}
+                    className="instituteDashboard-dropdown-item"
+                    onClick={() => {
+                      setSubjectFilter(subject);
+                      setShowSubjectDropdown(false);
+                    }}
+                  >
+                    {subject}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="instituteDashboard-filter-dropdown">
+            <button
+              className="instituteDashboard-filter-btn"
+              onClick={toggleDateDropdown}
+            >
+              <span className="instituteDashboard-filter-icon">📅</span>
+              {dateRangeFilter || 'Date Range'}
+            </button>
+            {showDateDropdown && (
+              <div className="instituteDashboard-dropdown-content">
+                <div
+                  className="instituteDashboard-dropdown-item"
+                  onClick={() => {
+                    setDateRangeFilter('');
+                    setShowDateDropdown(false);
+                  }}
+                >
+                  All Dates
+                </div>
+                {dateRanges.map(range => (
+                  <div
+                    key={range}
+                    className="instituteDashboard-dropdown-item"
+                    onClick={() => {
+                      setDateRangeFilter(range);
+                      setShowDateDropdown(false);
+                    }}
+                  >
+                    {range}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {(statusFilter || subjectFilter || dateRangeFilter) && (
+            <button
+              className="instituteDashboard-clear-filter-btn"
+              onClick={clearFilters}
+            >
+              Clear Filters
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="instituteDashboard-table-container">
+        <table className="instituteDashboard-case-studies-table">
+          <thead>
+            <tr>
+              <th>Case Study Title</th>
+              <th>Subject Area</th>
+              <th>Assigned To</th>
+              <th>Assigned Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredCaseStudies.length > 0 ? (
+              filteredCaseStudies.map(caseStudy => (
+                <tr key={caseStudy.id}>
+                  <td>{caseStudy.title}</td>
+                  <td>{caseStudy.subject}</td>
+                  <td>{caseStudy.assignedTo}</td>
+                  <td>{caseStudy.assignedDate}</td>
+                  {/* <td>
+                    <span className={`instituteDashboard-status-badge ${getStatusClass(caseStudy.status)}`}>
+                      {caseStudy.status}
+                    </span>
+                  </td> */}
+                  <td className="instituteDashboard-actions-cell">
+                    <button className="instituteDashboard-action-btn instituteDashboard-view-btn" onClick={HandleSingleTeacherDetails}>View</button>
+                    {/* <button className="instituteDashboard-action-btn instituteDashboard-edit-btn">Edit</button> */}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="instituteDashboard-no-results">
+                  No case studies found matching your filters.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

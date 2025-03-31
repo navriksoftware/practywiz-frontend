@@ -247,7 +247,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
             {...register("mentee_firstname", {
               required: "First Name is required",
               pattern: {
-                value: /^[a-zA-Z]+$/, // Pattern for letters only
+                value: /^[a-zA-Z\s]+$/, // Pattern for letters only
                 message: "First name should contain only letters",
               },
               minLength: {
@@ -278,7 +278,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
             {...register("mentee_lastname", {
               required: "Last Name is required",
               pattern: {
-                value: /^[a-zA-Z]+$/, // Pattern for letters only
+                value: /^[a-zA-Z\s]+$/, // Pattern for letters only
                 message: "Last name should contain only letters",
               },
               minLength: {

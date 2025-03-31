@@ -512,12 +512,12 @@ const MenteeRegStep2 = ({ userType }) => {
             placeholder="Write something about yourself"
             {...register("mentee_About", {
               required: "Write something about yourself",
-              minLength: {
-                value: 100,
-                message: "Must be greater than 100 characters.",
-              },
+              // minLength: {
+              //   value: 100,
+              //   message: "Must be greater than 100 characters.",
+              // },
               maxLength: {
-                value: 1000,
+                value: 200,
                 message: "Must be less than 1000 characters.",
               },
               validate: (value) => {

@@ -1,0 +1,424 @@
+/* Main container */
+.teacherPage {
+    font-family: "Inter", sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+  }
+  
+  /* Header and breadcrumb */
+  .teacherPage__header {
+    padding: 16px 24px;
+    background-color: #fff;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .teacherPage__breadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #6c757d;
+  }
+  
+  .teacherPage__breadcrumbSeparator {
+    margin: 0 8px;
+  }
+  
+  .teacherPage__breadcrumbActive {
+    color: #0066ff;
+  }
+  
+  /* Content container */
+  .teacherPage__content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+  
+  /* Profile section */
+  .teacherPage__profileSection {
+    display: flex;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  
+  .teacherPage__avatarSection {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid #e0e0e0;
+    min-width: 250px;
+  }
+  
+  .teacherPage__avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #e6f0ff;
+    color: #0066ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  .teacherPage__name {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+  }
+  
+  .teacherPage__title {
+    font-size: 14px;
+    color: #6c757d;
+    margin: 0 0 16px 0;
+  }
+  
+  .teacherPage__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  .teacherPage__tag {
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .teacherPage__tagBusiness {
+    background-color: #e6f0ff;
+    color: #0066ff;
+  }
+  
+  .teacherPage__tagEnvironmental {
+    background-color: #e6fff0;
+    color: #00b368;
+  }
+  
+  .teacherPage__tagComputer {
+    background-color: #f0e6ff;
+    color: #6200ea;
+  }
+  
+  .teacherPage__infoSection {
+    flex: 1;
+    display: flex;
+    padding: 24px;
+  }
+  
+  .teacherPage__contactInfo,
+  .teacherPage__facultyDetails {
+    flex: 1;
+  }
+  
+  .teacherPage__sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: #333;
+  }
+  
+  .teacherPage__infoItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .teacherPage__infoIcon {
+    margin-right: 12px;
+    color: #6c757d;
+  }
+  
+  .teacherPage__detailItem {
+    margin-bottom: 12px;
+  }
+  
+  .teacherPage__detailLabel {
+    font-weight: 500;
+    margin-right: 8px;
+  }
+  
+  .teacherPage__detailValue {
+    color: #6c757d;
+  }
+  
+  /* Stats section */
+  .teacherPage__statsSection {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .teacherPage__statCard {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .teacherPage__statIconContainer {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+  }
+  
+  .teacherPage__statIconTotal {
+    background-color: #e6f0ff;
+    color: #0066ff;
+  }
+  
+  .teacherPage__statIconActive {
+    background-color: #fff3e0;
+    color: #ff9800;
+  }
+  
+  .teacherPage__statIconCompleted {
+    background-color: #e6fff0;
+    color: #00b368;
+  }
+  
+  .teacherPage__statIconSuccess {
+    background-color: #f0e6ff;
+    color: #6200ea;
+  }
+  
+  .teacherPage__statIcon {
+    font-size: 24px;
+  }
+  
+  .teacherPage__statInfo {
+    flex: 1;
+  }
+  
+  .teacherPage__statValue {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .teacherPage__statLabel {
+    font-size: 14px;
+    color: #6c757d;
+    margin: 0;
+  }
+  
+  /* Cases section */
+  .teacherPage__casesSection {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  
+  .teacherPage__sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .teacherPage__assignButton {
+    display: flex;
+    align-items: center;
+    background-color: #0066ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .teacherPage__assignButton:hover {
+    background-color: #0052cc;
+  }
+  
+  .teacherPage__buttonIcon {
+    margin-right: 8px;
+  }
+  
+  .teacherPage__tableContainer {
+    overflow-x: auto;
+  }
+  
+  .teacherPage__table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  
+  .teacherPage__table th {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 2px solid #e0e0e0;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .teacherPage__table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .teacherPage__statusBadge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .teacherPage__statusInProgress {
+    background-color: #fff3e0;
+    color: #ff9800;
+  }
+  
+  .teacherPage__statusCompleted {
+    background-color: #e6fff0;
+    color: #00b368;
+  }
+  
+  .teacherPage__viewButton {
+    background-color: transparent;
+    color: #0066ff;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .teacherPage__viewButton:hover {
+    text-decoration: underline;
+  }
+  
+.teacherPage__tableContainer table{
+    text-align: left;
+} 
+
+  /* Assign form section */
+  /* .teacherPage__assignFormSection {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 24px;
+  }
+  
+  .teacherPage__form {
+    margin-top: 16px;
+  }
+  
+  .teacherPage__formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .teacherPage__formGroup {
+    margin-bottom: 16px;
+  }
+  
+  .teacherPage__formLabel {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  .teacherPage__formInput,
+  .teacherPage__formSelect,
+  .teacherPage__formTextarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .teacherPage__formTextarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  
+  .teacherPage__radioGroup {
+    display: flex;
+    gap: 24px;
+  }
+  
+  .teacherPage__radioOption {
+    display: flex;
+    align-items: center;
+  }
+  
+  .teacherPage__radioOption input {
+    margin-right: 8px;
+  }
+  
+  .teacherPage__submitButton {
+    background-color: #0066ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .teacherPage__submitButton:hover {
+    background-color: #0052cc;
+  } */
+  
+  /* Responsive adjustments */
+  @media (max-width: 992px) {
+    .teacherPage__statsSection {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .teacherPage__profileSection {
+      flex-direction: column;
+    }
+  
+    .teacherPage__avatarSection {
+      border-right: none;
+      border-bottom: 1px solid #e0e0e0;
+    }
+  
+    .teacherPage__infoSection {
+      flex-direction: column;
+    }
+  
+    .teacherPage__formRow {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .teacherPage__statsSection {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  

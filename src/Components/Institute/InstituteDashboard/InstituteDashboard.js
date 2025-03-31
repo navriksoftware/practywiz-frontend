@@ -21,6 +21,10 @@ import InstituteProfileSetting from "./OtherComponents/InstituteProfileSetting";
 import InstituteUserList from "./OtherComponents/InstituteUserList";
 import { ApiURL } from "../../../Utils/ApiURL";
 import axios from "axios";
+import CaseStudiesListPage from "./OtherComponents/CaseStudiesListPage";
+import { set } from "react-hook-form";
+import TeacherDetailslistings from "./OtherComponents/TeacherDetailslistings";
+import SingleTeacherdetailspage from "./OtherComponents/SingleTeacherdetailspage";
 
 const InstituteDashboard = ({ user, token }) => {
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
@@ -39,7 +43,9 @@ const InstituteDashboard = ({ user, token }) => {
   const [ShowAlumniMentor, setShowAlumniMentor] = useState(false);
   const [ShowNonAlumniMentor, setShowNonAlumniMentor] = useState(false);
   const [AlumniListMentor, setAlumniListMentor] = useState(false);
-
+  const [CaseStudiesList, setCaseStudiesList] = useState(false);
+  const [TeachersList, setTeachersList] = useState(false);
+  const [SingleTeacherdetails, setSingleTeacherdetails] = useState(false)
   const [Communication, setCommunication] = useState(false);
   const [profilemenu, setprofilemenu] = useState(false);
   const [mentormenu, setmentormenu] = useState(false);
@@ -104,7 +110,10 @@ const InstituteDashboard = ({ user, token }) => {
       setShowNonAlumniMentor(false),
       setAlumniListMentor(false),
       setShowProfileSettings(false),
-      setshowInstituteProfile(false)
+      setshowInstituteProfile(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
   const InstituteProfileSettingHandler = () => {
@@ -125,7 +134,10 @@ const InstituteDashboard = ({ user, token }) => {
       setShowNonAlumniMentor(false),
       setAlumniListMentor(false),
       setshowInstituteProfile(false),
-      setShowUserList(false)
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
 
@@ -147,7 +159,10 @@ const InstituteDashboard = ({ user, token }) => {
       setShowAlumniMentor(false),
       setShowNonAlumniMentor(false),
       setAlumniListMentor(false),
-      setShowUserList(false)
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
 
@@ -169,7 +184,10 @@ const InstituteDashboard = ({ user, token }) => {
       setShowAlumniMentor(false),
       setShowNonAlumniMentor(false),
       setAlumniListMentor(false),
-      setShowUserList(false)
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
 
@@ -191,7 +209,10 @@ const InstituteDashboard = ({ user, token }) => {
       setShowAlumniMentor(false),
       setShowNonAlumniMentor(false),
       setAlumniListMentor(false),
-      setShowUserList(false)
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
 
@@ -213,7 +234,10 @@ const InstituteDashboard = ({ user, token }) => {
       setShowAlumniMentor(false),
       setShowNonAlumniMentor(false),
       setAlumniListMentor(false),
-      setShowUserList(false)
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
 
@@ -235,7 +259,10 @@ const InstituteDashboard = ({ user, token }) => {
       setShowAlumniMentor(false),
       setShowNonAlumniMentor(false),
       setAlumniListMentor(false),
-      setShowUserList(false)
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
   const InstituteRegiterGuest = () => {
@@ -256,7 +283,10 @@ const InstituteDashboard = ({ user, token }) => {
       setShowAlumniMentor(false),
       setShowNonAlumniMentor(false),
       setAlumniListMentor(false),
-      setShowUserList(false)
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
   const InstituteHistoryGuest = () => {
@@ -277,7 +307,10 @@ const InstituteDashboard = ({ user, token }) => {
       setShowAlumniMentor(false),
       setShowNonAlumniMentor(false),
       setAlumniListMentor(false),
-      setShowUserList(false)
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
 
@@ -299,7 +332,10 @@ const InstituteDashboard = ({ user, token }) => {
       setShowAlumniMentor(false),
       setShowNonAlumniMentor(false),
       setAlumniListMentor(false),
-      setShowUserList(false)
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
 
@@ -321,7 +357,10 @@ const InstituteDashboard = ({ user, token }) => {
       setShowChangePwd(false),
       setShowNonAlumniMentor(false),
       setAlumniListMentor(false),
-      setShowUserList(false)
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
 
@@ -343,7 +382,10 @@ const InstituteDashboard = ({ user, token }) => {
       setShowAlumniMentor(false),
       setShowChangePwd(false),
       setAlumniListMentor(false),
-      setShowUserList(false)
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
   const InstituteAlumniListMentor = () => {
@@ -364,7 +406,10 @@ const InstituteDashboard = ({ user, token }) => {
       setShowNonAlumniMentor(false),
       setShowChangePwd(false),
       setShowAlumniMentor(false),
-      setShowUserList(false)
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
 
@@ -386,9 +431,90 @@ const InstituteDashboard = ({ user, token }) => {
       setShowAlumniMentor(false),
       setShowNonAlumniMentor(false),
       setAlumniListMentor(false),
-      setShowUserList(false)
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
     );
   };
+  const HandleCaseStudieslist = () => {
+    if (!CaseStudiesList) {
+      setCaseStudiesList(true)
+    }
+    return (
+      setShowProfileSettings(false),
+      setShowChangePwd(false),
+      setShowInstituteMessage(false),
+      setshowInstituteProfile(false),
+      setshowsearchguest(false),
+      setCommunication(false),
+      setShowRequestGuest(false),
+      setShowRegisterGuest(false),
+      setShowNotification(false),
+      setshowAddMentor(false),
+      setShowHistory(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false),
+      setTeachersList(false),
+      setSingleTeacherdetails(false)
+    );
+  };
+  const HandleTeacherslist = () => {
+    if (!TeachersList) {
+      setTeachersList(true)
+    }
+    return (
+      setShowProfileSettings(false),
+      setShowChangePwd(false),
+      setShowInstituteMessage(false),
+      setshowInstituteProfile(false),
+      setshowsearchguest(false),
+      setCommunication(false),
+      setShowRequestGuest(false),
+      setShowRegisterGuest(false),
+      setShowNotification(false),
+      setshowAddMentor(false),
+      setShowHistory(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setSingleTeacherdetails(false)
+    );
+  };
+  const HandleSingleTeacherDetails = () => {
+    if (!SingleTeacherdetails) {
+      setSingleTeacherdetails(true)
+    }
+    return (
+      setShowProfileSettings(false),
+      setShowChangePwd(false),
+      setShowInstituteMessage(false),
+      setshowInstituteProfile(false),
+      setshowsearchguest(false),
+      setCommunication(false),
+      setShowRequestGuest(false),
+      setShowRegisterGuest(false),
+      setShowNotification(false),
+      setshowAddMentor(false),
+      setShowHistory(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false)
+    );
+  };
+
+
+
+
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userLogoutHandler = () => {
@@ -564,7 +690,7 @@ const InstituteDashboard = ({ user, token }) => {
 
                 onMouseOver={toggleMenu1}
 
-                // onBlur={toggleMenu1}
+              // onBlur={toggleMenu1}
               >
                 <span className="d-block bg-white position-relative m-auto ">
                   <i className="fa-solid fa-bars"></i>
@@ -737,24 +863,24 @@ const InstituteDashboard = ({ user, token }) => {
 
             <button
               className="btn btn-transparent text-center py-3 seeeett"
-              // onClick={InstituteCommunicationTemplate}
+            onClick={HandleCaseStudieslist}
             >
               <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-file-lines"></i>
               </span>
 
-              <h5>Case Study</h5>
+              <h5>All Case Studies</h5>
             </button>
 
             <button
               className="btn btn-transparent text-center py-3 seeeett"
-              // onClick={InstituteCommunicationTemplate}
+            onClick={HandleTeacherslist}
             >
               <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-briefcase"></i>
               </span>
 
-              <h5>Internship</h5>
+              <h5>Teachers Info</h5>
             </button>
 
             {/* <button
@@ -831,11 +957,43 @@ const InstituteDashboard = ({ user, token }) => {
             ) : (
               ""
             )}
+            {CaseStudiesList ? (
+              <CaseStudiesListPage
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {TeachersList ? (
+              <TeacherDetailslistings
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+                HandleSingleTeacherDetails={HandleSingleTeacherDetails}
+              />
+            ) : (
+              ""
+            )}
+            {SingleTeacherdetails ? (
+              <SingleTeacherdetailspage
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+                
+              />
+            ) : (
+              ""
+            )}
+
+
             {showInstituteProfile ? (
               <InstituteProfileDashboard
                 instituteDashboardDetails={instituteDashboardDetails}
                 user={user}
                 token={token}
+                HandleSingleTeacherDetails={HandleSingleTeacherDetails}
               />
             ) : (
               ""

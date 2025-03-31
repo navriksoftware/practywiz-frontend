@@ -4,7 +4,8 @@
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
-  height: 100%; /* Ensure all cards are same height */
+  height: 100%;
+  /* Ensure all cards are same height */
   display: flex;
   flex-direction: column;
 }
@@ -21,7 +22,8 @@
 
 .case-study-card-content {
   padding: 20px;
-  flex-grow: 1; /* Allow content to fill available space */
+  flex-grow: 1;
+  /* Allow content to fill available space */
   display: flex;
   flex-direction: column;
 }
@@ -80,18 +82,19 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  flex-grow: 1; /* Allow excerpt to fill available space */
+  flex-grow: 1;
+  /* Allow excerpt to fill available space */
 }
 
 .read-more-btn {
   display: block;
   width: 100%;
   padding: 12px;
-  background-color: #2563eb;
-  color: white !important;
+  color: #1728e4 !important;
   text-align: center;
   text-decoration: none;
   border-radius: 6px;
+  border: 1px solid !important;
   font-weight: 500;
   transition: background-color 0.2s ease;
   border: none;
@@ -101,4 +104,5 @@
 
 .read-more-btn:hover {
   background-color: #1d4ed8;
+  color: white !important;
 }
