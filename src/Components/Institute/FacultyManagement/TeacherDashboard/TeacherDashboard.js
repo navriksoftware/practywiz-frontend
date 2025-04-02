@@ -11,6 +11,11 @@ import Store from "./OtherComponents/Store";
 import Notification from "./OtherComponents/Notification";
 import SingleAssignedCase from "./OtherComponents/SingleAssignedCase";
 import CaseAssigneProcess from "./OtherComponents/CaseAssignProcess";
+import ShowClasses from "./ShowClasses";
+import CreateClass from "./OtherComponents/CreateClass";
+import SingleClassdetails from "./OtherComponents/SingleClassdetails";
+import AddBulkStudents from "./OtherComponents/AddBulkStudents";
+import AddSingleStudent from "./OtherComponents/AddSingleStudent";
 
 const TeacherDashboard = () => {
   const dispatch = useDispatch();
@@ -86,6 +91,16 @@ const TeacherDashboard = () => {
         return <Setting data={data.settings} />;
       case "store":
         return <Store data={data.store} setActivePage={setActivePage} />;
+      case "showclasses":
+        return <ShowClasses data={data.store} setActivePage={setActivePage} />;
+      case "createclass":
+        return <CreateClass data={data.store} setActivePage={setActivePage} />;
+      case "singleclassdetails":
+        return <SingleClassdetails data={data.store} setActivePage={setActivePage} />;
+      case "addbulkstudents":
+        return <AddBulkStudents data={data.store} setActivePage={setActivePage} />;
+      case "addsinglestudent":
+        return <AddSingleStudent data={data.store} setActivePage={setActivePage} />;
       case "assigncase":
         return <CaseAssigneProcess data={data.assignedcase} />;
       case "notifications":
@@ -306,6 +321,16 @@ const TeacherDashboard = () => {
               </span>
 
               <h5>Available Cases</h5>
+            </button>
+            <button
+              className="btn btn-transparent text-center py-3 seeeett"
+              onClick={() => setActivePage("showclasses")}
+            >
+              <span className="d-block bg-white position-relative m-auto">
+                <i class="fa-solid fa-folder-open"></i>
+              </span>
+
+              <h5>Class info</h5>
             </button>
             <div className="Baseposition" onMouseLeave={toggleOffProfile}>
               <button

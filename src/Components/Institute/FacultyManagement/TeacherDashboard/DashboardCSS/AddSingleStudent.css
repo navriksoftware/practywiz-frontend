@@ -1,0 +1,133 @@
+/* Backdrop styling */
+.AddSingleStudentBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+/* Modal styling */
+.AddSingleStudentModal {
+  position: fixed;
+  top: 100px;
+  left: 5%;
+  width: 90%;
+  height: auto;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  animation: AddSingleStudentSlideDown 300ms ease-out forwards;
+}
+.AddSingleStudent-CloseBtn{
+  text-align: end;
+}
+
+@media (min-width: 768px) {
+  .AddSingleStudentModal {
+    width: 40rem;
+    left: calc(50% - 20rem);
+  }
+}
+
+@keyframes AddSingleStudentSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Rest of the form styling */
+.AddSingleStudentHeader {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.AddSingleStudentHeader h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0 0 8px 0;
+}
+
+.AddSingleStudentHeader p {
+  color: #6c757d;
+  font-size: 14px;
+  margin: 0;
+  font-weight: 400;
+}
+
+.AddSingleStudentFormField {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.AddSingleStudentFormRow {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.AddSingleStudentFormField label {
+  display: block;
+  font-size: 14px;
+  color: #212529;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.AddSingleStudentFormField input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #495057;
+  background-color: #fff;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.AddSingleStudentFormField input::placeholder {
+  color: #adb5bd;
+}
+
+.AddSingleStudentFormField input:focus {
+  outline: none;
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.AddSingleStudentSubmitButton {
+  width: 100%;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+  margin-top: 8px;
+}
+
+.AddSingleStudentSubmitButton:hover {
+  background-color: #0b5ed7;
+}
+
+/* Additional responsive adjustments */
+@media (max-width: 576px) {
+  .AddSingleStudentFormRow {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

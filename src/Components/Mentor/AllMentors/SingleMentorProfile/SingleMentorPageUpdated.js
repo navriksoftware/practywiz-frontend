@@ -333,8 +333,7 @@ const SingleMentorPageUpdated = () => {
                             </div>
                           </div>
                         )}
-
-                      <div className="MentorDashboard-RatingSection Hide-elementforScreenSize1275">
+                      {sMentor.feedback_count > 0 && <div className="MentorDashboard-RatingSection Hide-elementforScreenSize1275">
                         <div>
                           {" "}
                           <span className="SingleMentor-SkillsHeadline">
@@ -354,7 +353,8 @@ const SingleMentorPageUpdated = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div>}
+
                     </div>
                   </div>
                   <div
@@ -499,7 +499,7 @@ const SingleMentorPageUpdated = () => {
                       )}
                     </div>
                   </div>{" "}
-                  <div className="MentorDashboard-RatingSection Hide-elementforScreenSizeFull">
+                  {sMentor.feedback_count > 0 && <div className="MentorDashboard-RatingSection Hide-elementforScreenSizeFull">
                     <div>
                       {" "}
                       <span className="SingleMentor-SkillsHeadline">
@@ -519,7 +519,8 @@ const SingleMentorPageUpdated = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> }
+
                 </div>
               </div>
             );

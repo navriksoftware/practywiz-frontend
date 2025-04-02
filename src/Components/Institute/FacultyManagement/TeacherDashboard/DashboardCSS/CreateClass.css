@@ -1,0 +1,178 @@
+/* Modal overlay */
+.CreateClass-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1200;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal container */
+.CreateClass-modal-container {
+  position: fixed;
+  top: 100px;
+  left: 5%;
+  width: 90%;
+  height: auto;
+  background-color: white;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  animation: CreateClassSlideDown 300ms ease-out forwards;
+}
+
+@media (min-width: 768px) {
+  .CreateClass-modal-container {
+    width: 40rem;
+    left: calc(50% - 20rem);
+  }
+}
+
+@keyframes CreateClassSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal content */
+.CreateClass-modal-content {
+  padding: 1.5rem;
+}
+
+/* Header styling */
+.CreateClass-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.CreateClass-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0 0 8px 0;
+}
+
+.CreateClass-header p {
+  color: #6c757d;
+  font-size: 14px;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Form fields styling */
+.CreateClass-form-fields {
+  margin-bottom: 24px;
+}
+
+.CreateClass-form-field {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.CreateClass-form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.CreateClass-form-field label {
+  display: block;
+  font-size: 14px;
+  color: #212529;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.CreateClass-form-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #495057;
+  background-color: #fff;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.CreateClass-form-input::placeholder {
+  color: #adb5bd;
+}
+
+.CreateClass-form-input:focus {
+  outline: none;
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Form actions styling */
+.CreateClass-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.CreateClass-button-cancel {
+  padding: 8px 16px;
+  background-color: #f8f9fa;
+  color: #212529;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.CreateClass-button-cancel:hover {
+  background-color: #e9ecef;
+}
+
+.CreateClass-button-create {
+  padding: 8px 16px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.CreateClass-button-create:hover {
+  background-color: #0b5ed7;
+}
+
+/* Additional responsive adjustments */
+@media (max-width: 576px) {
+  .CreateClass-modal-content {
+    padding: 1rem;
+  }
+  
+  .CreateClass-form-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .CreateClass-form-actions {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+  
+  .CreateClass-button-cancel,
+  .CreateClass-button-create {
+    width: 100%;
+    padding: 10px;
+  }
+}

@@ -1,0 +1,228 @@
+/* ShowClasses.css */
+.showclasses-container {
+    background-color: #f9fafb;
+    min-height: 100vh;
+    padding-bottom: 40px;
+  }
+  
+  .showclasses-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+    padding-top: 24px;
+  }
+  
+  .showclasses-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .showclasses-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+  }
+  
+  .showclasses-create-button {
+    display: flex;
+    align-items: center;
+    background-color: #4f46e5;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .showclasses-create-button:hover {
+    background-color: #4338ca;
+  }
+  
+  .showclasses-plus-icon {
+    margin-right: 4px;
+  }
+  
+  .showclasses-tabs-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  
+  .showclasses-tabs {
+    display: flex;
+  }
+  
+  .showclasses-tab {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 6px;
+    background-color: transparent;
+    color: #4b5563;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: background-color 0.2s;
+  }
+  
+  .showclasses-tab:hover:not(.showclasses-tab-active) {
+    background-color: #f3f4f6;
+  }
+  
+  .showclasses-tab-active {
+    background-color: #4f46e5;
+    color: white;
+  }
+  
+  .showclasses-filter-button {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: transparent;
+    border: none;
+    border-radius: 6px;
+    color: #4b5563;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .showclasses-filter-button:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .showclasses-filter-icon {
+    margin-right: 4px;
+  }
+  
+  .showclasses-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  @media (min-width: 768px) {
+    .showclasses-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .showclasses-grid {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+  
+  .showclasses-card {
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .showclasses-card-content {
+    padding: 16px;
+  }
+  
+  .showclasses-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .showclasses-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+  }
+  
+  .showclasses-card-code {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 4px 0 0 0;
+  }
+  
+  .showclasses-options-button {
+    background-color: transparent;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 4px;
+  }
+  
+  .showclasses-card-meta {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 8px 0 0 0;
+  }
+  
+  .showclasses-progress-container {
+    margin-top: 16px;
+  }
+  
+  .showclasses-progress-label {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 0 0 4px 0;
+  }
+  
+  .showclasses-progress-bar-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .showclasses-progress-bar-wrapper {
+    flex-grow: 1;
+    background-color: #e5e7eb;
+    height: 8px;
+    border-radius: 9999px;
+    margin-right: 8px;
+    overflow: hidden;
+  }
+  
+  .showclasses-progress-bar {
+    height: 100%;
+    border-radius: 9999px;
+  }
+  
+  .showclasses-progress-text {
+    font-size: 12px;
+    font-weight: 500;
+    color: #1f2937;
+  }
+  
+  .showclasses-card-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+  
+  .showclasses-details-button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    color: #4f46e5;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .showclasses-arrow-icon {
+    margin-left: 4px;
+  }
+  
+  .showclasses-share-button {
+    background-color: transparent;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 0;
+  }
