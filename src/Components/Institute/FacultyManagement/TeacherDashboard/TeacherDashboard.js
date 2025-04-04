@@ -17,6 +17,7 @@ import SingleClassdetails from "./OtherComponents/SingleClassdetails";
 import AddBulkStudents from "./OtherComponents/AddBulkStudents";
 import AddSingleStudent from "./OtherComponents/AddSingleStudent";
 import ChangePassword from "./OtherComponents/ChangePassword";
+import AddNonPractywizCase from "./AddNonPractywizCases/AddNonPractywizCase";
 
 const TeacherDashboard = () => {
   const dispatch = useDispatch();
@@ -94,12 +95,22 @@ const TeacherDashboard = () => {
         return <ChangePassword data={data.settings} />;
       case "store":
         return <Store data={data.store} setActivePage={setActivePage} />;
+      case "AddCaseStudy":
+        return (
+          <AddNonPractywizCase
+            data={data.store}
+            setActivePage={setActivePage}
+          />
+        );
+
       case "showclasses":
         return <ShowClasses data={data.store} setActivePage={setActivePage} />;
       case "createclass":
         return <CreateClass data={data.store} setActivePage={setActivePage} />;
       case "singleclassdetails":
-        return <SingleClassdetails data={data.store} setActivePage={setActivePage} />;
+        return (
+          <SingleClassdetails data={data.store} setActivePage={setActivePage} />
+        );
       // case "addbulkstudents":
       //   return <AddBulkStudents data={data.store} setActivePage={setActivePage} />;
       // case "addsinglestudent":
@@ -238,6 +249,24 @@ const TeacherDashboard = () => {
                             </span>
                             <span>Available Cases</span>
                           </li>
+                          <li
+                            className="menu-items"
+                            onClick={() => setActivePage("AddCaseStudy")}
+                          >
+                            <span>
+                              <i className="fa-solid fa-pen-to-square"></i>
+                            </span>
+                            <span>Add Case Study</span>
+                          </li>
+                          <li
+                            className="menu-items"
+                            onClick={() => setActivePage("AddCaseStudy")}
+                          >
+                            <span>
+                              <i className="fa-solid fa-pen-to-square"></i>
+                            </span>
+                            <span>Add Case Study</span>
+                          </li>
 
                           <li
                             onClick={() => {
@@ -301,9 +330,10 @@ const TeacherDashboard = () => {
           </nav>
         </div>
       </header>
-      <div className="mentor_dashboard"
-      //  id="mentorRegisterBg"
-       >
+      <div
+        className="mentor_dashboard"
+        //  id="mentorRegisterBg"
+      >
         <div className="col-md-flex-center">
           <div className="display-raw">
             <button
@@ -326,6 +356,16 @@ const TeacherDashboard = () => {
               </span>
 
               <h5>Available Cases</h5>
+            </button>
+            <button
+              className="btn btn-transparent text-center py-3 seeeett"
+              onClick={() => setActivePage("AddCaseStudy")}
+            >
+              <span className="d-block bg-white position-relative m-auto">
+                <i className="fa-solid fa-pen-to-square"></i>
+              </span>
+
+              <h5>Add Case Study</h5>
             </button>
             <button
               className="btn btn-transparent text-center py-3 seeeett"

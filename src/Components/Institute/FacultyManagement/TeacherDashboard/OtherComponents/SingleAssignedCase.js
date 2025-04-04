@@ -2,11 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import "../DashboardCSS/SingleAssignedCase.css";
 import { debounce } from "lodash";
 
-// Sample data
 const STUDENTS_DATA = [
   {
     id: 1,
-    name: "student 1",
+    name: "Student 1",
     avatar: "https://randomuser.me/api/portraits/women/44.jpg",
     rollNo: "2024001",
     status: "Completed",
@@ -16,7 +15,7 @@ const STUDENTS_DATA = [
   },
   {
     id: 2,
-    name: "tushar",
+    name: "Tushar",
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
     rollNo: "2024002",
     status: "In Progress",
@@ -26,7 +25,7 @@ const STUDENTS_DATA = [
   },
   {
     id: 3,
-    name: "gagan",
+    name: "Gagan",
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
     rollNo: "2024003",
     status: "Not Started",
@@ -36,7 +35,7 @@ const STUDENTS_DATA = [
   },
   {
     id: 4,
-    name: "aman",
+    name: "Aman",
     avatar: "https://randomuser.me/api/portraits/men/22.jpg",
     rollNo: "2024004",
     status: "Overdue",
@@ -46,7 +45,7 @@ const STUDENTS_DATA = [
   },
   {
     id: 5,
-    name: "tarun singh",
+    name: "Tarun Singh",
     avatar: "https://randomuser.me/api/portraits/women/90.jpg",
     rollNo: "2024005",
     status: "Completed",
@@ -73,32 +72,6 @@ const STUDENTS_DATA = [
   })),
 ];
 
-// Score distribution data
-const SCORE_DISTRIBUTION = [
-  { range: "0-20", count: 5 },
-  { range: "21-40", count: 8 },
-  { range: "41-60", count: 15 },
-  { range: "61-80", count: 24 },
-  { range: "81-100", count: 13 },
-];
-
-// Progress overview data
-const PROGRESS_OVERVIEW = [
-  { status: "Completed", count: 35, color: "#4CD964" },
-  { status: "In Progress", count: 20, color: "#2979FF" },
-  { status: "Not Started", count: 5, color: "#9E9E9E" },
-  { status: "Overdue", count: 5, color: "#FF3B30" },
-];
-
-// Time spent data
-const TIME_SPENT = [
-  { day: "Mon", minutes: 45 },
-  { day: "Tue", minutes: 52 },
-  { day: "Wed", minutes: 48 },
-  { day: "Thu", minutes: 60 },
-  { day: "Fri", minutes: 55 },
-];
-
 const SingleAssignedCase = () => {
   const [students, setStudents] = useState(STUDENTS_DATA);
   const [filteredStudents, setFilteredStudents] = useState(STUDENTS_DATA);
@@ -107,6 +80,11 @@ const SingleAssignedCase = () => {
   const [statusFilter, setStatusFilter] = useState("All");
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("student-list");
+  const [isClassDropdownOpen, setIsClassDropdownOpen] = useState(false);
+  const [selectedClass, setSelectedClass] = useState(
+    "Global Economics - ECO 201"
+  );
   const [newStudent, setNewStudent] = useState({
     name: "",
     rollNo: "",
@@ -210,6 +188,17 @@ const SingleAssignedCase = () => {
     setActiveDropdown(activeDropdown === studentId ? null : studentId);
   };
 
+  // Toggle class dropdown
+  const toggleClassDropdown = () => {
+    setIsClassDropdownOpen(!isClassDropdownOpen);
+  };
+
+  // Select class
+  const selectClass = (className) => {
+    setSelectedClass(className);
+    setIsClassDropdownOpen(false);
+  };
+
   // Handle student actions
   const viewStudent = (student) => {
     alert(`Viewing student: ${student.name}`);
@@ -252,7 +241,7 @@ const SingleAssignedCase = () => {
       progress:
         newStudent.status === "Completed"
           ? 100
-          : parseInt(newStudent.progress || 0),
+          : Number.parseInt(newStudent.progress || 0),
     };
 
     setStudents([...students, studentToAdd]);
@@ -268,214 +257,298 @@ const SingleAssignedCase = () => {
   };
 
   return (
-    <div className="ye-waala-naya-h-dusra-container">
-      <div className="ye-waala-naya-h-dusra-nevigation-indication">
-        <i className="fa-solid fa-home" /> DashBoard
-        <i className="fa-solid fa-chevron-right" /> case studie
-      </div>
-      <div className="ye-waala-naya-h-dusra-header">
-        <h1 className="ye-waala-naya-h-dusra-title">
+    <div className="single-case-details-view-container">
+      <div className="single-case-details-view-header">
+        <h1 className="single-case-details-view-title">
           Case Study: Environmental Impact Analysis
         </h1>
-        <div className="ye-waala-naya-h-dusra-meta">
-          <span>Duration: 4 weeks</span>
-          <span className="ye-waala-naya-h-dusra-dot">•</span>
-          <span>Subject: Environmental Science</span>
-          <span className="ye-waala-naya-h-dusra-dot">•</span>
-          <span>Grade: 10th</span>
+      </div>
+
+      <div className="single-case-details-view-course-info">
+        <div className="single-case-details-view-course-details">
+          <h1 className="single-case-details-view-course-name">
+            {selectedClass}
+          </h1>
+        </div>
+
+        <div className="single-case-details-view-class-selector">
+          <label className="single-case-details-view-select-label">
+            Select Class
+          </label>
+          <div className="single-case-details-view-dropdown">
+            <button
+              className="single-case-details-view-dropdown-toggle"
+              onClick={toggleClassDropdown}
+            >
+              {selectedClass}
+              <i className="fa fa-chevron-down"></i>
+            </button>
+            {isClassDropdownOpen && (
+              <div className="single-case-details-view-dropdown-menu">
+                <div
+                  className="single-case-details-view-dropdown-item"
+                  onClick={() => selectClass("Global Economics - ECO 201")}
+                >
+                  Global Economics - ECO 201
+                </div>
+                <div
+                  className="single-case-details-view-dropdown-item"
+                  onClick={() => selectClass("Microeconomics - ECO 101")}
+                >
+                  Microeconomics - ECO 101
+                </div>
+                <div
+                  className="single-case-details-view-dropdown-item"
+                  onClick={() => selectClass("Macroeconomics - ECO 102")}
+                >
+                  Macroeconomics - ECO 102
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      <div className="ye-waala-naya-h-dusra-metrics">
-        <div className="ye-waala-naya-h-dusra-metric">
-          <div className="ye-waala-naya-h-dusra-metric-icon ye-waala-naya-h-dusra-blue">
-            <i className="fa-solid fa-graduation-cap" />
+      <div className="single-case-details-view-stats">
+        <div className="single-case-details-view-stat-card">
+          <div className="single-case-details-view-stat-icon">
+            <i className="fa fa-graduation-cap"></i>
           </div>
-          <div className="ye-waala-naya-h-dusra-metric-content">
-            <h3>Total Students</h3>
-            <div className="ye-waala-naya-h-dusra-metric-value">
+          <div className="single-case-details-view-stat-content">
+            <p className="single-case-details-view-stat-label">
+              Total Students
+            </p>
+            <h3 className="single-case-details-view-stat-value">
               {totalStudents}
-            </div>
+            </h3>
           </div>
         </div>
 
-        <div className="ye-waala-naya-h-dusra-metric">
-          <div className="ye-waala-naya-h-dusra-metric-icon ye-waala-naya-h-dusra-green">
-            <i className="fa-solid fa-chart-line" />
+        <div className="single-case-details-view-stat-card">
+          <div className="single-case-details-view-stat-icon">
+            <i className="fa fa-chart-bar"></i>
           </div>
-          <div className="ye-waala-naya-h-dusra-metric-content">
-            <h3>Average Score</h3>
-            <div className="ye-waala-naya-h-dusra-metric-value">
+          <div className="single-case-details-view-stat-content">
+            <p className="single-case-details-view-stat-label">Average Score</p>
+            <h3 className="single-case-details-view-stat-value">
               {averageScore}%
-            </div>
+            </h3>
           </div>
         </div>
 
-        <div className="ye-waala-naya-h-dusra-metric">
-          <div className="ye-waala-naya-h-dusra-metric-icon ye-waala-naya-h-dusra-purple">
-            <i className="fa-solid fa-check-circle" />
+        <div className="single-case-details-view-stat-card">
+          <div className="single-case-details-view-stat-icon">
+            <i className="fa fa-check-circle"></i>
           </div>
-          <div className="ye-waala-naya-h-dusra-metric-content">
-            <h3>Completion Rate</h3>
-            <div className="ye-waala-naya-h-dusra-metric-value">
+          <div className="single-case-details-view-stat-content">
+            <p className="single-case-details-view-stat-label">
+              Completion Rate
+            </p>
+            <h3 className="single-case-details-view-stat-value">
               {completionRate}%
-            </div>
+            </h3>
           </div>
         </div>
 
-        <div className="ye-waala-naya-h-dusra-metric">
-          <div className="ye-waala-naya-h-dusra-metric-icon ye-waala-naya-h-dusra-orange">
-            <i className="fa-solid fa-clock" />
+        <div className="single-case-details-view-stat-card">
+          <div className="single-case-details-view-stat-icon">
+            <i className="fa fa-clock"></i>
           </div>
-          <div className="ye-waala-naya-h-dusra-metric-content">
-            <h3>Time Remaining</h3>
-            <div className="ye-waala-naya-h-dusra-metric-value">5 Days</div>
+          <div className="single-case-details-view-stat-content">
+            <p className="single-case-details-view-stat-label">
+              Time Remaining
+            </p>
+            <h3 className="single-case-details-view-stat-value">5 Days</h3>
           </div>
         </div>
       </div>
 
-      <div className="ye-waala-naya-h-dusra-student-list">
-        <div className="ye-waala-naya-h-dusra-list-header">
-          <h2>Student List</h2>
-          <div className="ye-waala-naya-h-dusra-search-export">
-            <div className="ye-waala-naya-h-dusra-search">
-              <i className="fa-solid fa-search ye-waala-naya-h-dusra-search-icon" />
-              <input
-                type="text"
-                placeholder="Search students..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-              />
-            </div>
-            <button
-              className="ye-waala-naya-h-dusra-add-btn"
-              onClick={() => setShowAddModal(true)}
-            >
-              <i className="fa-solid fa-user-plus" />
-              Add Student
-            </button>
-            <button className="ye-waala-naya-h-dusra-export-btn">
-              <i className="fa-solid fa-graduation-cap" />
-              Export Data
-            </button>
-          </div>
-        </div>
+      <div className="single-case-details-view-tabs">
+        <button
+          className={`single-case-details-view-tab ${
+            selectedTab === "student-list"
+              ? "single-case-details-view-tab-active"
+              : ""
+          }`}
+          onClick={() => setSelectedTab("student-list")}
+        >
+          Student List
+        </button>
+        <button
+          className={`single-case-details-view-tab ${
+            selectedTab === "case-study-questions"
+              ? "single-case-details-view-tab-active"
+              : ""
+          }`}
+          onClick={() => setSelectedTab("case-study-questions")}
+        >
+          Case Study Questions
+        </button>
+      </div>
 
-        <div className="ye-waala-naya-h-dusra-table-container">
-          <table className="ye-waala-naya-h-dusra-table">
-            <thead>
-              <tr>
-                <th>Student</th>
-                <th>Roll No.</th>
-                <th>Status</th>
-                <th>Score</th>
-                <th>Last Activity</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentStudents.map((student) => (
-                <tr key={student.id}>
-                  <td>
-                    <div className="ye-waala-naya-h-dusra-student-info">
-                      <img
-                        src={student.avatar || "/placeholder.svg"}
-                        alt={student.name}
-                        className="ye-waala-naya-h-dusra-avatar"
-                      />
-                      <span>{student.name}</span>
-                    </div>
-                  </td>
-                  <td>{student.rollNo}</td>
-                  <td>
-                    <span
-                      className={`ye-waala-naya-h-dusra-status ye-waala-naya-h-dusra-status-${student.status
-                        .toLowerCase()
-                        .replace(" ", "-")}`}
-                    >
-                      {student.status}
-                    </span>
-                  </td>
-                  <td>{student.score}</td>
-                  <td>{student.lastActivity}</td>
-                  <td>
-                    <div
-                      className="ye-waala-naya-h-dusra-action-dropdown"
-                      ref={dropdownRef}
-                    >
-                      <button
-                        className="ye-waala-naya-h-dusra-action-btn"
-                        onClick={() => toggleDropdown(student.id)}
-                      >
-                        <i className="fa-solid fa-ellipsis-v" />
-                      </button>
-                      {activeDropdown === student.id && (
-                        <div className="ye-waala-naya-h-dusra-dropdown-menu">
-                          <button onClick={() => viewStudent(student)}>
-                            <i className="fa-solid fa-eye" />
-                            <span>View</span>
-                          </button>
-                          <button onClick={() => editStudent(student)}>
-                            <i className="fa-solid fa-edit" />
-                            <span>Edit</span>
-                          </button>
-                          <button onClick={() => deleteStudent(student)}>
-                            <i className="fa-solid fa-trash" />
-                            <span>Delete</span>
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </td>
+      {selectedTab === "student-list" && (
+        <div className="single-case-details-view-student-list-container">
+          <div className="single-case-details-view-list-header">
+            <h2 className="single-case-details-view-list-title">
+              Student List
+            </h2>
+            <div className="single-case-details-view-list-actions">
+              <div className="single-case-details-view-search">
+                <i className="fa fa-search"></i>
+                <input
+                  type="text"
+                  placeholder="Search students..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  className="single-case-details-view-search-input"
+                />
+              </div>
+              <button
+                className="single-case-details-view-export-btn"
+                onClick={() => alert("Exporting data...")}
+              >
+                <i className="fa fa-file-export"></i>
+                Export Data
+              </button>
+            </div>
+          </div>
+
+          <div className="single-case-details-view-table-container">
+            <table className="single-case-details-view-table">
+              <thead>
+                <tr>
+                  <th className="single-case-details-view-th">Student</th>
+                  <th className="single-case-details-view-th">Roll No.</th>
+                  <th className="single-case-details-view-th">Status</th>
+                  <th className="single-case-details-view-th">Score</th>
+                  <th className="single-case-details-view-th">Last Activity</th>
+                  <th className="single-case-details-view-th">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {currentStudents.map((student) => (
+                  <tr key={student.id} className="single-case-details-view-tr">
+                    <td className="single-case-details-view-td single-case-details-view-student-cell">
+                      <div className="single-case-details-view-student-info">
+                        <div className="single-case-details-view-avatar">
+                          <img
+                            src={student.avatar || "/placeholder.svg"}
+                            alt={student.name}
+                          />
+                        </div>
+                        <span className="single-case-details-view-student-name">
+                          {student.name}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="single-case-details-view-td">
+                      {student.rollNo}
+                    </td>
+                    <td className="single-case-details-view-td">
+                      <span
+                        className={`single-case-details-view-status single-case-details-view-status-${student.status
+                          .toLowerCase()
+                          .replace(" ", "-")}`}
+                      >
+                        {student.status}
+                      </span>
+                    </td>
+                    <td className="single-case-details-view-td">
+                      {student.score}
+                    </td>
+                    <td className="single-case-details-view-td">
+                      {student.lastActivity}
+                    </td>
+                    <td className="single-case-details-view-td single-case-details-view-actions-cell">
+                      <div
+                        className="single-case-details-view-action-dropdown"
+                        ref={dropdownRef}
+                      >
+                        <button
+                          className="single-case-details-view-action-btn"
+                          onClick={() => toggleDropdown(student.id)}
+                        >
+                          <i className="fa-solid fa-ellipsis-v" />
+                        </button>
+                        {activeDropdown === student.id && (
+                          <div className="single-case-details-view-dropdown-menu">
+                            <button onClick={() => viewStudent(student)}>
+                              <i className="fa-solid fa-eye" />
+                              <span>View</span>
+                            </button>
+                            <button onClick={() => editStudent(student)}>
+                              <i className="fa-solid fa-edit" />
+                              <span>Edit</span>
+                            </button>
+                            <button onClick={() => deleteStudent(student)}>
+                              <i className="fa-solid fa-trash" />
+                              <span>Delete</span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-        <div className="ye-waala-naya-h-dusra-pagination">
-          <div className="ye-waala-naya-h-dusra-pagination-info">
-            Showing {indexOfFirstStudent + 1} to{" "}
-            {Math.min(indexOfLastStudent, filteredStudents.length)} of{" "}
-            {filteredStudents.length} students
-          </div>
-          <div className="ye-waala-naya-h-dusra-pagination-controls">
-            <button
-              className="ye-waala-naya-h-dusra-pagination-btn"
-              onClick={prevPage}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </button>
-            <button
-              className="ye-waala-naya-h-dusra-pagination-btn ye-waala-naya-h-dusra-pagination-btn-primary"
-              onClick={nextPage}
-              disabled={
-                currentPage ===
-                Math.ceil(filteredStudents.length / studentsPerPage)
-              }
-            >
-              Next
-            </button>
+          <div className="single-case-details-view-pagination">
+            <div className="single-case-details-view-pagination-info">
+              Showing {indexOfFirstStudent + 1} to{" "}
+              {Math.min(indexOfLastStudent, filteredStudents.length)} of{" "}
+              {filteredStudents.length} students
+            </div>
+            <div className="single-case-details-view-pagination-controls">
+              <button
+                className="single-case-details-view-pagination-btn"
+                onClick={prevPage}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+              <button
+                className="single-case-details-view-pagination-btn single-case-details-view-pagination-btn-primary"
+                onClick={nextPage}
+                disabled={
+                  currentPage ===
+                  Math.ceil(filteredStudents.length / studentsPerPage)
+                }
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
+      {selectedTab === "case-study-questions" && (
+        <div className="single-case-details-view-questions-container">
+          <h2 className="single-case-details-view-section-title">
+            Case Study Questions
+          </h2>
+          <p className="single-case-details-view-placeholder">
+            Questions content would go here
+          </p>
+        </div>
+      )}
 
       {/* Add Student Modal */}
       {showAddModal && (
-        <div className="ye-waala-naya-h-dusra-modal-overlay">
-          <div className="ye-waala-naya-h-dusra-modal">
-            <div className="ye-waala-naya-h-dusra-modal-header">
+        <div className="single-case-details-view-modal-overlay">
+          <div className="single-case-details-view-modal">
+            <div className="single-case-details-view-modal-header">
               <h3>Add New Student</h3>
               <button
-                className="ye-waala-naya-h-dusra-modal-close"
+                className="single-case-details-view-modal-close"
                 onClick={() => setShowAddModal(false)}
               >
-                <i className="fa-solid fa-times" />
+                <i className="fa fa-times"></i>
               </button>
             </div>
-            <div className="ye-waala-naya-h-dusra-modal-body">
-              <div className="ye-waala-naya-h-dusra-form-group">
+            <div className="single-case-details-view-modal-body">
+              <div className="single-case-details-view-form-group">
                 <label>Student Name*</label>
                 <input
                   type="text"
@@ -486,7 +559,7 @@ const SingleAssignedCase = () => {
                   required
                 />
               </div>
-              <div className="ye-waala-naya-h-dusra-form-group">
+              <div className="single-case-details-view-form-group">
                 <label>Roll Number*</label>
                 <input
                   type="text"
@@ -497,7 +570,7 @@ const SingleAssignedCase = () => {
                   required
                 />
               </div>
-              <div className="ye-waala-naya-h-dusra-form-group">
+              <div className="single-case-details-view-form-group">
                 <label>Status</label>
                 <select
                   name="status"
@@ -510,7 +583,7 @@ const SingleAssignedCase = () => {
                   <option value="Overdue">Overdue</option>
                 </select>
               </div>
-              <div className="ye-waala-naya-h-dusra-form-group">
+              <div className="single-case-details-view-form-group">
                 <label>Score</label>
                 <input
                   type="number"
@@ -522,15 +595,15 @@ const SingleAssignedCase = () => {
                 />
               </div>
             </div>
-            <div className="ye-waala-naya-h-dusra-modal-footer">
+            <div className="single-case-details-view-modal-footer">
               <button
-                className="ye-waala-naya-h-dusra-btn-secondary"
+                className="single-case-details-view-btn-secondary"
                 onClick={() => setShowAddModal(false)}
               >
                 Cancel
               </button>
               <button
-                className="ye-waala-naya-h-dusra-btn-primary"
+                className="single-case-details-view-btn-primary"
                 onClick={handleAddStudent}
               >
                 Add Student

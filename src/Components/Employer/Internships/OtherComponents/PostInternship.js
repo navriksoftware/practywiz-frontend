@@ -262,10 +262,10 @@ const PostInternship = ({ user, token, employerDetails, setCurrentPage }) => {
       ]);
       if (res.data.success) {
         toast.success(res.data.success);
-        // setTimeout(() => {
-        //   window.location.reload();
-        //   setCurrentPage("postedInternship");
-        // }, 1000);
+        setTimeout(() => {
+          window.location.reload();
+          setCurrentPage("postedInternship");
+        }, 1000);
       } else if (res.data.error) {
         toast.error(res.data.error);
       }

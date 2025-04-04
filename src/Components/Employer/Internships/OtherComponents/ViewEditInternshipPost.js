@@ -88,7 +88,9 @@ const InternshipDetail = ({
                             </span>
                           ) : (
                             <span>
-                              ₹
+                              {
+                                internship.employer_internship_post_currency_type
+                              }{" "}
                               {
                                 internship.employer_internship_post_stipend_amount
                               }

@@ -11,6 +11,9 @@ function CaseStudyCard({ data, setActivePage }) {
         className="case-study-card-image"
       /> */}
       <div className="case-study-card-content">
+        <div class="case-study-tags ">
+          <span class="tag practywiz-tag">PractyWiz</span>
+        </div>
         <h2 className="card-title">{data.caseTopic}</h2>
         <div className="meta-info">
           <span>Case Author Designation: {data.caseAuthorDesignation}</span>
@@ -25,6 +28,7 @@ function CaseStudyCard({ data, setActivePage }) {
           </span>
           <span>Published: {data.publicationDate}</span>
         </div>
+
         <button
           onClick={() => setActivePage("assigncase")}
           className="read-more-btn"
@@ -34,7 +38,7 @@ function CaseStudyCard({ data, setActivePage }) {
           // target="_blank"
           to={`/case-studies/view-case-study/${data.id} `}
         > */}
-          Assigen Case
+          Assign Case Study
           {/* </Link> */}
         </button>
       </div>

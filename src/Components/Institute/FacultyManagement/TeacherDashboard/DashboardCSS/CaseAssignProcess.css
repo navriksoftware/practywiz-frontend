@@ -1,11 +1,11 @@
-.ye-waala-final-assign-container {
+.case-assign-to-student-container {
   max-width: 1300px;
   margin: 0 auto;
   min-height: 80vh;
   padding: 20px;
 }
 
-.ye-waala-final-assign-dashboard {
+.case-assign-to-student-dashboard {
   width: 100%;
   display: flex;
   background-color: #fff;
@@ -15,62 +15,62 @@
 }
 
 /* Left Panel Styles */
-.ye-waala-final-assign-left-panel {
+.case-assign-to-student-left-panel {
   flex: 1;
   padding: 30px;
   border-right: 1px solid #eaedf3;
   max-width: 500px;
 }
 
-.ye-waala-final-assign-title {
+.case-assign-to-student-title {
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 15px;
   color: #1a1a1a;
 }
 
-.ye-waala-final-assign-tags {
+.case-assign-to-student-tags {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.ye-waala-final-assign-tag {
+.case-assign-to-student-tag {
   padding: 5px 15px;
   border-radius: 20px;
   font-size: 14px;
   font-weight: 500;
 }
 
-.ye-waala-final-assign-tag-business {
+.case-assign-to-student-tag-business {
   background-color: #e6f7ff;
   color: #0070f3;
 }
 
-.ye-waala-final-assign-tag-strategy {
+.case-assign-to-student-tag-strategy {
   background-color: #f0f5ff;
   color: #2f54eb;
 }
 
-.ye-waala-final-assign-tag-marketing {
+.case-assign-to-student-tag-marketing {
   background-color: #e6fffb;
   color: #13c2c2;
 }
 
-.ye-waala-final-assign-description {
+.case-assign-to-student-description {
   font-size: 15px;
   line-height: 1.6;
   color: #4a4a4a;
   margin-bottom: 20px;
 }
 
-.ye-waala-final-assign-course-info {
+.case-assign-to-student-course-info {
   display: flex;
   gap: 20px;
   margin-bottom: 30px;
 }
 
-.ye-waala-final-assign-info-item {
+.case-assign-to-student-info-item {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -78,35 +78,35 @@
   font-size: 14px;
 }
 
-.ye-waala-final-assign-icon {
+.case-assign-to-student-icon {
   color: #999;
 }
 
-.ye-waala-final-assign-subtitle {
+.case-assign-to-student-subtitle {
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 15px;
   color: #1a1a1a;
 }
 
-.ye-waala-final-assign-modules {
+.case-assign-to-student-modules {
   display: flex;
   flex-direction: column;
   gap: 20px;
   margin-bottom: 30px;
 }
 
-.ye-waala-final-assign-module {
+.case-assign-to-student-module {
   font-size: 14px;
   line-height: 1.6;
   color: #4a4a4a;
 }
 
-.ye-waala-final-assign-module strong {
+.case-assign-to-student-module strong {
   color: #1a1a1a;
 }
 
-.ye-waala-final-assign-view-button {
+.case-assign-to-student-view-button {
   width: 100%;
   padding: 12px;
   background-color: #2563eb;
@@ -118,29 +118,29 @@
   transition: background-color 0.2s;
 }
 
-.ye-waala-final-assign-view-button:hover {
+.case-assign-to-student-view-button:hover {
   background-color: #1d4ed8;
 }
 
 /* Right Panel Styles */
-.ye-waala-final-assign-right-panel {
+.case-assign-to-student-right-panel {
   flex: 1;
   padding: 30px;
   display: flex;
   flex-direction: column;
 }
 
-.ye-waala-final-assign-search-section {
+.case-assign-to-student-search-section {
   margin-bottom: 20px;
 }
 
-.ye-waala-final-assign-search-container {
+.case-assign-to-student-search-container {
   display: flex;
   gap: 10px;
   margin-bottom: 15px;
 }
 
-.ye-waala-final-assign-search-input {
+.case-assign-to-student-search-input {
   flex: 1;
   padding: 10px 15px;
   border: 1px solid #ddd;
@@ -149,7 +149,7 @@
   font-size: 14px;
 }
 
-.ye-waala-final-assign-class-filter {
+.case-assign-to-student-class-filter {
   position: relative;
   padding: 10px 15px;
   border: 1px solid #ddd;
@@ -163,7 +163,7 @@
   font-size: 14px;
 }
 
-.ye-waala-final-assign-class-dropdown {
+.case-assign-to-student-class-dropdown {
   position: absolute;
   top: 100%;
   left: 0;
@@ -176,24 +176,24 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.ye-waala-final-assign-class-option {
+.case-assign-to-student-class-option {
   padding: 10px 15px;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
-.ye-waala-final-assign-class-option:hover {
+.case-assign-to-student-class-option:hover {
   background-color: #f5f7fa;
 }
 
-.ye-waala-final-assign-active-filters {
+.case-assign-to-student-active-filters {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 15px;
 }
 
-.ye-waala-final-assign-filter-tag {
+.case-assign-to-student-filter-tag {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -204,12 +204,12 @@
   font-size: 14px;
 }
 
-.ye-waala-final-assign-remove-filter {
+.case-assign-to-student-remove-filter {
   cursor: pointer;
   font-size: 12px;
 }
 
-.ye-waala-final-assign-add-button {
+.case-assign-to-student-add-button {
   padding: 10px 20px;
   background-color: #2563eb;
   color: white;
@@ -223,11 +223,11 @@
   justify-self: end;
 }
 
-.ye-waala-final-assign-add-button:hover {
+.case-assign-to-student-add-button:hover {
   background-color: #1d4ed8;
 }
 
-.ye-waala-final-assign-students-table {
+.case-assign-to-student-students-table {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -237,7 +237,7 @@
   margin-bottom: 20px;
 }
 
-.ye-waala-final-assign-table-header {
+.case-assign-to-student-table-header {
   display: flex;
   background-color: #f9fafb;
   padding: 15px;
@@ -245,78 +245,78 @@
   border-bottom: 1px solid #eaedf3;
 }
 
-.ye-waala-final-assign-table-body {
+.case-assign-to-student-table-body {
   flex: 1;
   overflow-y: auto;
   max-height: 400px;
 }
 
-.ye-waala-final-assign-table-row {
+.case-assign-to-student-table-row {
   display: flex;
   padding: 15px;
   border-bottom: 1px solid #eaedf3;
 }
 
-.ye-waala-final-assign-table-row:last-child {
+.case-assign-to-student-table-row:last-child {
   border-bottom: none;
 }
 
-.ye-waala-final-assign-checkbox-cell {
+.case-assign-to-student-checkbox-cell {
   width: 40px;
   display: flex;
   align-items: center;
 }
 
-.ye-waala-final-assign-name-cell {
+.case-assign-to-student-name-cell {
   flex: 2;
 }
 
-.ye-waala-final-assign-id-cell {
+.case-assign-to-student-id-cell {
   flex: 1;
 }
 
-.ye-waala-final-assign-class-cell {
+.case-assign-to-student-class-cell {
   flex: 1;
 }
 
-.ye-waala-final-assign-email-cell {
+.case-assign-to-student-email-cell {
   flex: 2;
 }
 
-.ye-waala-final-assign-action-cell {
+.case-assign-to-student-action-cell {
   width: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.ye-waala-final-assign-delete-icon {
+.case-assign-to-student-delete-icon {
   color: #999;
   cursor: pointer;
   transition: color 0.2s;
 }
 
-.ye-waala-final-assign-delete-icon:hover {
+.case-assign-to-student-delete-icon:hover {
   color: #f43f5e;
 }
 
-.ye-waala-final-assign-table-footer {
+.case-assign-to-student-table-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.ye-waala-final-assign-selection-info {
+.case-assign-to-student-selection-info {
   font-size: 14px;
   color: #666;
 }
 
-.ye-waala-final-assign-pagination {
+.case-assign-to-student-pagination {
   display: flex;
   gap: 5px;
 }
 
-.ye-waala-final-assign-page-button {
+.case-assign-to-student-page-button {
   width: 30px;
   height: 30px;
   display: flex;
@@ -329,17 +329,17 @@
   transition: all 0.2s;
 }
 
-.ye-waala-final-assign-page-button:hover {
+.case-assign-to-student-page-button:hover {
   background-color: #f5f7fa;
 }
 
-.ye-waala-final-assign-active-page {
+.case-assign-to-student-active-page {
   background-color: #2563eb;
   color: white;
   border-color: #2563eb;
 }
 
-.ye-waala-final-assign-assign-button {
+.case-assign-to-student-assign-button {
   padding: 10px 20px;
   background-color: #2563eb;
   color: white;
@@ -350,17 +350,17 @@
   transition: background-color 0.2s;
 }
 
-.ye-waala-final-assign-assign-button:hover {
+.case-assign-to-student-assign-button:hover {
   background-color: #1d4ed8;
 }
 
 /* Responsive Styles */
 @media (max-width: 1024px) {
-  .ye-waala-final-assign-dashboard {
+  .case-assign-to-student-dashboard {
     flex-direction: column;
   }
 
-  .ye-waala-final-assign-left-panel {
+  .case-assign-to-student-left-panel {
     max-width: 100%;
     border-right: none;
     border-bottom: 1px solid #eaedf3;
@@ -368,25 +368,25 @@
 }
 
 @media (max-width: 768px) {
-  .ye-waala-final-assign-course-info {
+  .case-assign-to-student-course-info {
     flex-direction: column;
     gap: 10px;
   }
 
-  .ye-waala-final-assign-search-container {
+  .case-assign-to-student-search-container {
     flex-direction: column;
   }
 
-  .ye-waala-final-assign-table-header,
-  .ye-waala-final-assign-table-row {
+  .case-assign-to-student-table-header,
+  .case-assign-to-student-table-row {
     font-size: 14px;
   }
 
-  .ye-waala-final-assign-email-cell {
+  .case-assign-to-student-email-cell {
     display: none;
   }
 
-  .ye-waala-final-assign-table-footer {
+  .case-assign-to-student-table-footer {
     flex-direction: column;
     gap: 15px;
     align-items: flex-start;
@@ -394,20 +394,20 @@
 }
 
 @media (max-width: 480px) {
-  .ye-waala-final-assign-container {
+  .case-assign-to-student-container {
     padding: 10px;
   }
 
-  .ye-waala-final-assign-left-panel,
-  .ye-waala-final-assign-right-panel {
+  .case-assign-to-student-left-panel,
+  .case-assign-to-student-right-panel {
     padding: 15px;
   }
 
-  .ye-waala-final-assign-id-cell {
+  .case-assign-to-student-id-cell {
     display: none;
   }
 
-  .ye-waala-final-assign-class-cell {
+  .case-assign-to-student-class-cell {
     display: none;
   }
 }

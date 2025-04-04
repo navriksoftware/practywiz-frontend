@@ -9,69 +9,75 @@ import { Link } from "react-router-dom";
 const initialCaseStudies = [
   {
     id: 1,
-    title: "Business Ethics in Modern Markets",
-    department: "MBA - First Year",
+    title: "Competing Against A Product Leader",
+    department: "FIN 301, BUS 202",
     batch: "2024",
     students: 45,
     dueDate: "Feb 28, 2024",
     progress: 75,
     status: "Active",
     class: "MBA",
+    type: "PractyWiz",
   },
   {
     id: 2,
     title: "Sustainable Development Goals",
-    department: "Environmental Studies",
+    department: "ECO 101, ENV 202",
     batch: "2023",
     students: 32,
     dueDate: "Mar 05, 2024",
     progress: 60,
     status: "Active",
     class: "Environmental Studies",
+    type: "PractyWiz",
   },
   {
     id: 3,
     title: "Global Supply Chain Management",
-    department: "Operations Management",
+    department: "MKT 101",
     batch: "2024",
     students: 38,
     dueDate: "Mar 10, 2024",
     progress: 45,
     status: "Active",
     class: "Operations Management",
+    type: "Non-PractyWiz",
   },
   {
     id: 4,
     title: "Digital Transformation Strategy",
-    department: "Information Systems",
+    department: "ENT 401",
     batch: "2024",
     students: 41,
     dueDate: "Mar 15, 2024",
     progress: 30,
     status: "Active",
     class: "Information Systems",
+    type: "PractyWiz",
   },
   {
     id: 5,
     title: "Marketing Analytics Project",
-    department: "Digital Marketing",
+    department: "BUS 202",
     batch: "2023",
     students: 35,
     dueDate: "Mar 20, 2024",
     progress: 25,
-    status: "Active",
+    status: "Completed",
     class: "Digital Marketing",
+    type: "Non-PractyWiz",
   },
   {
     id: 6,
     title: "Financial Risk Assessment",
-    department: "Finance Management",
+    department: "ENT 401",
     batch: "2024",
     students: 40,
     dueDate: "Mar 25, 2024",
     progress: 15,
     status: "Active",
     class: "Finance Management",
+    type: "Non-PractyWiz",
   },
 ];
 
@@ -82,7 +88,7 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
     class: "All Classes",
-    batch: "All Batches",
+    type: "All Cases",
     dueDate: "Due Date",
     status: "All Status",
   });
@@ -90,8 +96,8 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   // Calculate metrics
   const totalActiveCases = caseStudies.length;
   const casesDueThisWeek = 8; // This would be calculated based on actual dates
-  const studentParticipation = 87; // This would be calculated from actual data
-  const completionRate = 92; // This would be calculated from actual data
+  const studentParticipation = 17; // This would be calculated from actual data
+  const completionRate = 6; // This would be calculated from actual data
 
   // Debounced search function
   const debouncedSearch = useCallback(
@@ -127,10 +133,8 @@ const ActiveCaseStudies = ({ setActivePage }) => {
       result = result.filter((cs) => cs.class === currentFilters.class);
     }
 
-    if (currentFilters.batch !== "All Batches") {
-      result = result.filter(
-        (cs) => cs.batch === currentFilters.batch.split(" ")[1]
-      );
+    if (currentFilters.type !== "All Cases") {
+      result = result.filter((cs) => cs.type === currentFilters.type);
     }
 
     if (currentFilters.status !== "All Status") {
@@ -168,17 +172,19 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   };
 
   return (
-    <div className="ye-waala-naya-h-container">
-      <div className="ye-waala-naya-h-header">
+    <div className="teacher-profile-home-page-container">
+      <div className="teacher-profile-home-page-header">
         <div>
-          <h1 className="ye-waala-naya-h-title">Active Case Studies</h1>
-          <p className="ye-waala-naya-h-subtitle">
+          <h1 className="teacher-profile-home-page-title">
+            Active Case Studies
+          </h1>
+          <p className="teacher-profile-home-page-subtitle">
             Managing {totalActiveCases} active cases across different classes
           </p>
         </div>
-        <div className="ye-waala-naya-h-actions">
-          <div className="ye-waala-naya-h-search">
-            <i className="fa-solid fa-filter ye-waala-naya-h-search-icon" />
+        <div className="teacher-profile-home-page-actions">
+          <div className="teacher-profile-home-page-search">
+            <i className="fa-solid fa-magnifying-glass teacher-profile-home-page-search-icon" />
             <input
               type="text"
               placeholder="Search cases..."
@@ -186,60 +192,44 @@ const ActiveCaseStudies = ({ setActivePage }) => {
               onChange={handleSearchChange}
             />
           </div>
-          <button className="ye-waala-naya-h-add-button">
-            <span>+</span> Add New Case
-          </button>
+          {/* <button className="teacher-profile-home-page-add-button">
+            <span>+</span> Assign New Case Study
+          </button> */}
         </div>
       </div>
 
-      <div className="ye-waala-naya-h-metrics">
-        <div className="ye-waala-naya-h-metric-card">
-          <div className="ye-waala-naya-h-metric-icon">
+      <div className="teacher-profile-home-page-metrics">
+        <div className="teacher-profile-home-page-metric-card">
+          <div className="teacher-profile-home-page-metric-icon">
             <i className="fa-solid fa-book" />
           </div>
-          <div className="ye-waala-naya-h-metric-content">
-            <p className="ye-waala-naya-h-metric-label">Total Active Cases</p>
-            <h2 className="ye-waala-naya-h-metric-value">{totalActiveCases}</h2>
-            <p className="ye-waala-naya-h-metric-change positive">
+          <div className="teacher-profile-home-page-metric-content">
+            <p className="teacher-profile-home-page-metric-label">
+              Total Active Cases
+            </p>
+            <h2 className="teacher-profile-home-page-metric-value">
+              {totalActiveCases}
+            </h2>
+            <p className="teacher-profile-home-page-metric-change positive">
               +12% from last month
             </p>
           </div>
-          <div className="ye-waala-naya-h-metric-trend positive">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3 17L9 11L13 15L21 7"
-                stroke="#4CAF50"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M21 7V13H15"
-                stroke="#4CAF50"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
         </div>
 
-        <div className="ye-waala-naya-h-metric-card">
-          <div className="ye-waala-naya-h-metric-icon">
+        <div className="teacher-profile-home-page-metric-card">
+          <div className="teacher-profile-home-page-metric-icon">
             <i className="fa-solid fa-calendar-week" />
           </div>
-          <div className="ye-waala-naya-h-metric-content">
-            <p className="ye-waala-naya-h-metric-label">Cases Due This Week</p>
-            <h2 className="ye-waala-naya-h-metric-value">{casesDueThisWeek}</h2>
-            <p className="ye-waala-naya-h-metric-urgent">3 urgent</p>
+          <div className="teacher-profile-home-page-metric-content">
+            <p className="teacher-profile-home-page-metric-label">
+              Cases Due This Week
+            </p>
+            <h2 className="teacher-profile-home-page-metric-value">
+              {casesDueThisWeek}
+            </h2>
+            <p className="teacher-profile-home-page-metric-urgent">3 urgent</p>
           </div>
-          <div className="ye-waala-naya-h-metric-trend warning">
+          {/* <div className="teacher-profile-home-page-metric-trend warning">
             <svg
               width="24"
               height="24"
@@ -262,93 +252,44 @@ const ActiveCaseStudies = ({ setActivePage }) => {
                 strokeLinejoin="round"
               />
             </svg>
-          </div>
+          </div> */}
         </div>
 
-        <div className="ye-waala-naya-h-metric-card">
-          <div className="ye-waala-naya-h-metric-icon">
+        <div className="teacher-profile-home-page-metric-card">
+          <div className="teacher-profile-home-page-metric-icon">
             <i className="fa-solid fa-users" />
           </div>
-          <div className="ye-waala-naya-h-metric-content">
-            <p className="ye-waala-naya-h-metric-label">
-              Student Participation
+          <div className="teacher-profile-home-page-metric-content">
+            <p className="teacher-profile-home-page-metric-label">
+              Total Case Studies
             </p>
-            <h2 className="ye-waala-naya-h-metric-value">
-              {studentParticipation}%
+            <h2 className="teacher-profile-home-page-metric-value">
+              {studentParticipation}
             </h2>
-            <p className="ye-waala-naya-h-metric-change positive">
+            <p className="teacher-profile-home-page-metric-change positive">
               +5% from last month
             </p>
           </div>
-          <div className="ye-waala-naya-h-metric-trend positive">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3 17L9 11L13 15L21 7"
-                stroke="#4CAF50"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M21 7V13H15"
-                stroke="#4CAF50"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
         </div>
 
-        <div className="ye-waala-naya-h-metric-card">
-          <div className="ye-waala-naya-h-metric-icon">
-            <i className="fa-solid fa-chart-line" />
+        <div className="teacher-profile-home-page-metric-card">
+          <div className="teacher-profile-home-page-metric-icon">
+            <i className="fa-solid fa-chalkboard-user"></i>
           </div>
-          <div className="ye-waala-naya-h-metric-content">
-            <p className="ye-waala-naya-h-metric-label">Completion Rate</p>
-            <h2 className="ye-waala-naya-h-metric-value">{completionRate}%</h2>
-            <p className="ye-waala-naya-h-metric-change positive">
-              +8% from last month
-            </p>
-          </div>
-          <div className="ye-waala-naya-h-metric-trend positive">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3 17L9 11L13 15L21 7"
-                stroke="#4CAF50"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M21 7V13H15"
-                stroke="#4CAF50"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+          <div className="teacher-profile-home-page-metric-content">
+            <p className="teacher-profile-home-page-metric-label">My Classes</p>
+            <h2 className="teacher-profile-home-page-metric-value">
+              {completionRate}
+            </h2>
           </div>
         </div>
       </div>
 
-      <div className="ye-waala-naya-h-filters">
-        <div className="ye-waala-naya-h-filter-label">
+      <div className="teacher-profile-home-page-filters">
+        <div className="teacher-profile-home-page-filter-label">
           <i className="fa-solid fa-filter" /> Filters:
         </div>
-        <div className="ye-waala-naya-h-filter-dropdowns">
+        <div className="teacher-profile-home-page-filter-dropdowns">
           <select
             value={filters.class}
             onChange={(e) => handleFilterChange("class", e.target.value)}
@@ -363,12 +304,12 @@ const ActiveCaseStudies = ({ setActivePage }) => {
           </select>
 
           <select
-            value={filters.batch}
-            onChange={(e) => handleFilterChange("batch", e.target.value)}
+            value={filters.type}
+            onChange={(e) => handleFilterChange("type", e.target.value)}
           >
-            <option>All Batches</option>
-            <option>Batch 2023</option>
-            <option>Batch 2024</option>
+            <option>All Cases</option>
+            <option>PractyWiz</option>
+            <option>Non-PractyWiz</option>
           </select>
 
           <select
@@ -393,12 +334,24 @@ const ActiveCaseStudies = ({ setActivePage }) => {
         </div>
       </div>
 
-      <div className="ye-waala-naya-h-case-studies">
+      <div className="teacher-profile-home-page-case-studies">
         {filteredCaseStudies.map((caseStudy) => (
-          <div key={caseStudy.id} className="ye-waala-naya-h-case-card">
-            <div className="ye-waala-naya-h-case-header">
-              <h3 className="ye-waala-naya-h-case-title">{caseStudy.title}</h3>
-              <button className="ye-waala-naya-h-case-menu">
+          <div
+            key={caseStudy.id}
+            className="teacher-profile-home-page-case-card"
+          >
+            <div className="teacher-profile-home-page-case-case-type">
+              <span
+                className={`teacher-profile-home-page-case-case-type-tag ${caseStudy.type.toLowerCase()}`}
+              >
+                {caseStudy.type}
+              </span>
+            </div>
+            <div className="teacher-profile-home-page-case-header">
+              <h3 className="teacher-profile-home-page-case-title">
+                {caseStudy.title}
+              </h3>
+              <button className="teacher-profile-home-page-case-menu">
                 <svg
                   width="24"
                   height="24"
@@ -422,33 +375,39 @@ const ActiveCaseStudies = ({ setActivePage }) => {
               </button>
             </div>
 
-            <div className="ye-waala-naya-h-case-info">
-              <div className="ye-waala-naya-h-case-detail">
+            <div className="teacher-profile-home-page-case-info">
+              <div className="teacher-profile-home-page-case-detail">
                 <i className="fa-solid fa-graduation-cap" />
-                <span>{caseStudy.department}</span>
+                {/* <span>{caseStudy.department}</span> */}
+                {caseStudy.department.split(", ").map((dept, index) => (
+                  <span
+                    className="teacher-profile-home-page-case-detail-subj-tag"
+                    key={index}
+                  >
+                    {dept}
+                  </span>
+                ))}
               </div>
 
-              <div className="ye-waala-naya-h-case-detail">
+              <div className="teacher-profile-home-page-case-detail">
                 <i className="fa-solid fa-user-friends" />
-                <span>
-                  Batch {caseStudy.batch} • {caseStudy.students} Students
-                </span>
+                <span>{caseStudy.students} Students</span>
               </div>
 
-              <div className="ye-waala-naya-h-case-detail">
+              <div className="teacher-profile-home-page-case-detail">
                 <i className="fa-solid fa-clock" />
                 <span>Due {caseStudy.dueDate}</span>
               </div>
             </div>
 
-            <div className="ye-waala-naya-h-case-progress">
-              <div className="ye-waala-naya-h-progress-header">
+            <div className="teacher-profile-home-page-case-progress">
+              <div className="teacher-profile-home-page-progress-header">
                 <span>Progress</span>
                 <span>{caseStudy.progress} %</span>
               </div>
-              <div className="ye-waala-naya-h-progress-bar">
+              <div className="teacher-profile-home-page-progress-bar">
                 <div
-                  className="ye-waala-naya-h-progress-fill"
+                  className="teacher-profile-home-page-progress-fill"
                   style={{
                     width: `${caseStudy.progress}%`,
                     backgroundColor: getProgressColor(caseStudy.progress),
@@ -457,15 +416,15 @@ const ActiveCaseStudies = ({ setActivePage }) => {
               </div>
             </div>
 
-            <div className="ye-waala-naya-h-case-footer">
+            <div className="teacher-profile-home-page-case-footer">
               <div
-                className={`ye-waala-naya-h-case-status ${caseStudy.status.toLowerCase()}`}
+                className={`teacher-profile-home-page-case-status ${caseStudy.status.toLowerCase()}`}
               >
                 {caseStudy.status}
               </div>
               <button
                 onClick={() => setActivePage("singlecase")}
-                className="ye-waala-naya-h-view-details"
+                className="teacher-profile-home-page-view-details"
               >
                 View Case Study
               </button>
