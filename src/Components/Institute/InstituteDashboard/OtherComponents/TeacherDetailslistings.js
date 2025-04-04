@@ -15,7 +15,11 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
     { teacherName: 'Rajesh Kumar', department: 'Environmental Science', numberOfCaseStudiesAssigned: 6, numberOfStudents: 3, actions: 'View Details' },
     { teacherName: 'Meera Joshi', department: 'Marketing', numberOfCaseStudiesAssigned: 3, numberOfStudents: 4, actions: 'View Details' },
     { teacherName: 'Amit Singh', department: 'Healthcare Management', numberOfCaseStudiesAssigned: 2, numberOfStudents: 2, actions: 'View Details' },
-    { teacherName: 'Neha Patel', department: 'Computer Science', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' }
+    { teacherName: 'Neha Patel', department: 'Computer Science', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
+    { teacherName: 'Neha Patel', department: 'Computer Science', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
+    { teacherName: 'Neha Patel', department: 'Computer Science', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
+    { teacherName: 'Neha Patel', department: 'Computer Science', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
+    { teacherName: 'Neha Patel', department: 'Computer Science', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
   ];
 
   const departments = [...new Set(caseStudies.map(cs => cs.department))];
@@ -59,7 +63,7 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
     <div className="instituteDashboard-container">
       <div className="instituteDashboard-filters-container">
 
-        <div className="instituteDashboard-search-container">
+        {/* <div className="instituteDashboard-search-container">
           <input
             type="text"
             placeholder="Search..."
@@ -67,6 +71,18 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="instituteDashboard-search-input"
           />
+        </div> */}
+
+        <div className="ye-waala-naya-h-actions">
+          <div className="ye-waala-naya-h-search">
+            <i class="fa-solid fa-magnifying-glass search-iconsPosition" />
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
         </div>
 
         <div className="instituteDashboard-filter-buttons">

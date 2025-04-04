@@ -266,13 +266,10 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
                   {...register("employer_first_name", {
                     required: "First name is required",
                     pattern: {
-                      value: /^[a-zA-Z]+$/,
+                      value: /^[a-zA-Z.\s]+$/,
                       message: "First name should contain only letters",
-                    },
-                    minLength: {
-                      value: 2,
-                      message: "Must be at least 2 characters",
-                    },
+                    }
+                   
                   })}
                 />
                 {errors.employer_first_name && (
@@ -297,13 +294,9 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
                   {...register("employer_last_name", {
                     required: "Last name is required",
                     pattern: {
-                      value: /^[a-zA-Z]+$/,
+                      value: /^[a-zA-Z.\s]+$/,
                       message: "Last name should contain only letters",
-                    },
-                    minLength: {
-                      value: 2,
-                      message: "Must be at least 2 characters",
-                    },
+                    }
                   })}
                 />
                 {errors.employer_last_name && (

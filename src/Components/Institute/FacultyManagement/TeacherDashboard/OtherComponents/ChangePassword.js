@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 // } from "../../../../Redux/loadingRedux";
 // import { ApiURL } from "../../../../Utils/ApiURL";
 const TIMEOUT_MS = 45000; // Timeout duration in milliseconds
-const InstituteChangePwd = ({ user, token }) => {
+const ChangePassword = ({ user, token }) => {
 //   const url = ApiURL();
 //   const dispatch = useDispatch();
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -145,4 +145,4 @@ const InstituteChangePwd = ({ user, token }) => {
   );
 };
 
-export default InstituteChangePwd;
+export default ChangePassword;

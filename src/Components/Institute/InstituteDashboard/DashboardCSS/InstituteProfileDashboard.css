@@ -359,6 +359,14 @@
 
 .instituteDashboard-search-container {
   position: relative;
+  width: 240px;
+}
+.search-iconsPosition{
+  position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
 }
 
 .instituteDashboard-search-input {
@@ -445,13 +453,14 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow-y: scroll;
+  height: 30rem;
 }
 
 .instituteDashboard-case-studies-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  /* table-layout: fixed; */
 }
 
 .instituteDashboard-case-studies-table th,

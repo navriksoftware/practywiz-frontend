@@ -77,10 +77,10 @@ const [caseStudyTitle, setCaseStudyTitle] = useState("")
           </div>
         </div>
 
-        <div className="teacherPage__statsSection">
+        {/* <div className="teacherPage__statsSection">
           <div className="teacherPage__statCard">
             <div className="teacherPage__statIconContainer teacherPage__statIconTotal">
-              {/* <FiBox className="teacherPage__statIcon" /> */}
+            
               <i className="fa-solid fa-book"></i>
             </div>
             <div className="teacherPage__statInfo">
@@ -91,7 +91,7 @@ const [caseStudyTitle, setCaseStudyTitle] = useState("")
 
           <div className="teacherPage__statCard">
             <div className="teacherPage__statIconContainer teacherPage__statIconActive">
-              {/* <FiClock className="teacherPage__statIcon" /> */}
+            
               <i className="fa-solid fa-star"></i>
             </div>
             <div className="teacherPage__statInfo">
@@ -102,7 +102,7 @@ const [caseStudyTitle, setCaseStudyTitle] = useState("")
 
           <div className="teacherPage__statCard">
             <div className="teacherPage__statIconContainer teacherPage__statIconCompleted">
-              {/* <FiCheckCircle className="teacherPage__statIcon" /> */}
+             
               <i className="fa-solid fa-graduation-cap"></i>
             </div>
             <div className="teacherPage__statInfo">
@@ -113,7 +113,7 @@ const [caseStudyTitle, setCaseStudyTitle] = useState("")
 
           <div className="teacherPage__statCard">
             <div className="teacherPage__statIconContainer teacherPage__statIconSuccess">
-              {/* <FiPieChart className="teacherPage__statIcon" /> */}
+         
               <i className="fa-solid fa-chalkboard-user"></i>
             </div>
             <div className="teacherPage__statInfo">
@@ -121,7 +121,7 @@ const [caseStudyTitle, setCaseStudyTitle] = useState("")
               <p className="teacherPage__statLabel">Success Rate</p>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="teacherPage__casesSection">
           <div className="teacherPage__sectionHeader">
@@ -161,6 +161,72 @@ const [caseStudyTitle, setCaseStudyTitle] = useState("")
                   <td>Oct 12, 2023</td>
                   {/* <td>
                     <span className="teacherPage__statusBadge teacherPage__statusInProgress">In Progress</span>
+                  </td> */}
+                  <td>
+                    <button className="teacherPage__viewButton">View Details</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Digital Marketing Strategy</td>
+                  <td>Marketing</td>
+                  <td>Oct 10, 2023</td>
+                  {/* <td>
+                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
+                  </td> */}
+                  <td>
+                    <button className="teacherPage__viewButton">View Details</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Digital Marketing Strategy</td>
+                  <td>Marketing</td>
+                  <td>Oct 10, 2023</td>
+                  {/* <td>
+                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
+                  </td> */}
+                  <td>
+                    <button className="teacherPage__viewButton">View Details</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Digital Marketing Strategy</td>
+                  <td>Marketing</td>
+                  <td>Oct 10, 2023</td>
+                  {/* <td>
+                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
+                  </td> */}
+                  <td>
+                    <button className="teacherPage__viewButton">View Details</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Digital Marketing Strategy</td>
+                  <td>Marketing</td>
+                  <td>Oct 10, 2023</td>
+                  {/* <td>
+                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
+                  </td> */}
+                  <td>
+                    <button className="teacherPage__viewButton">View Details</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Digital Marketing Strategy</td>
+                  <td>Marketing</td>
+                  <td>Oct 10, 2023</td>
+                  {/* <td>
+                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
+                  </td> */}
+                  <td>
+                    <button className="teacherPage__viewButton">View Details</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Digital Marketing Strategy</td>
+                  <td>Marketing</td>
+                  <td>Oct 10, 2023</td>
+                  {/* <td>
+                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
                   </td> */}
                   <td>
                     <button className="teacherPage__viewButton">View Details</button>

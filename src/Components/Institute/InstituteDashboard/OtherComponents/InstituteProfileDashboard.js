@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../DashboardCSS/InstituteProfileDashboard.css';
 
-const InstituteProfileDashboard = ({HandleSingleTeacherDetails}) => {
+const InstituteProfileDashboard = ({ HandleSingleTeacherDetails }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [subjectFilter, setSubjectFilter] = useState('');
@@ -18,13 +18,18 @@ const InstituteProfileDashboard = ({HandleSingleTeacherDetails}) => {
     { id: 3, title: 'Digital Marketing Strategy', subject: 'Marketing', assignedTo: 'Gagan verma', assignedDate: 'Oct 10, 2023', status: 'Pending' },
     { id: 4, title: 'Healthcare Innovation', subject: 'Healthcare Management', assignedTo: 'Gagan verma', assignedDate: 'Oct 8, 2023', status: 'Active' },
     { id: 5, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
+    { id: 6, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
+    { id: 7, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
+    { id: 8, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
+    { id: 9, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
+    { id: 10, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
   ];
 
   // Dashboard metrics
   const totalCases = 24;
   const activeCases = 12;
-  const completedCases = 10;
-  const pendingReview = 2;
+  const completedCases = 290;
+  const pendingReview = 23;
 
   // Get unique subjects
   const subjects = [...new Set(caseStudies.map(cs => cs.subject))];
@@ -130,7 +135,7 @@ const InstituteProfileDashboard = ({HandleSingleTeacherDetails}) => {
 
       {/* <h1 className="instituteDashboard-title">Teacher Case Studies Dashboard</h1> */}
 
-      <div className="instituteDashboard-metrics-container">
+      {/* <div className="instituteDashboard-metrics-container">
         <div className="instituteDashboard-metric-card">
           <div className="instituteDashboard-metric-icon instituteDashboard-document-icon">
             <i className="fa-solid fa-book"></i>
@@ -162,18 +167,193 @@ const InstituteProfileDashboard = ({HandleSingleTeacherDetails}) => {
           <div className="instituteDashboard-metric-value">{pendingReview}</div>
           <div className="instituteDashboard-metric-label">Total Teacher</div>
         </div>
+      </div> */}
+      <div className="ye-waala-naya-h-metrics">
+        <div className="ye-waala-naya-h-metric-card">
+          <div className="ye-waala-naya-h-metric-icon">
+            <i className="fa-solid fa-book" />
+          </div>
+          <div className="ye-waala-naya-h-metric-content">
+            <p className="ye-waala-naya-h-metric-label">Total Cases Studies</p>
+            <h2 className="ye-waala-naya-h-metric-value">{totalCases}</h2>
+            {/* <p className="ye-waala-naya-h-metric-change positive">
+              +12% from last month
+            </p> */}
+          </div>
+          <div className="ye-waala-naya-h-metric-trend positive">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* <path
+                d="M3 17L9 11L13 15L21 7"
+                stroke="#4CAF50"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M21 7V13H15"
+                stroke="#4CAF50"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              /> */}
+            </svg>
+          </div>
+        </div>
+
+        <div className="ye-waala-naya-h-metric-card">
+          <div className="ye-waala-naya-h-metric-icon">
+            <i className="fa-solid fa-calendar-week" />
+          </div>
+          <div className="ye-waala-naya-h-metric-content">
+            <p className="ye-waala-naya-h-metric-label">Assigned Cases studies</p>
+            <h2 className="ye-waala-naya-h-metric-value">{activeCases}</h2>
+            {/* <p className="ye-waala-naya-h-metric-urgent">3 urgent</p> */}
+          </div>
+          <div className="ye-waala-naya-h-metric-trend warning">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* <path
+                d="M3 7L9 13L13 9L21 17"
+                stroke="#FF9800"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M21 17V11H15"
+                stroke="#FF9800"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              /> */}
+            </svg>
+          </div>
+        </div>
+
+        <div className="ye-waala-naya-h-metric-card">
+          <div className="ye-waala-naya-h-metric-icon">
+            <i className="fa-solid fa-users" />
+          </div>
+          <div className="ye-waala-naya-h-metric-content">
+            <p className="ye-waala-naya-h-metric-label">
+              Total Students
+            </p>
+            <h2 className="ye-waala-naya-h-metric-value">
+              {completedCases}
+            </h2>
+            {/* <p className="ye-waala-naya-h-metric-change positive">
+              +5% from last month
+            </p> */}
+          </div>
+          <div className="ye-waala-naya-h-metric-trend positive">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* <path
+                d="M3 17L9 11L13 15L21 7"
+                stroke="#4CAF50"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M21 7V13H15"
+                stroke="#4CAF50"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              /> */}
+            </svg>
+          </div>
+        </div>
+
+        <div className="ye-waala-naya-h-metric-card">
+          <div className="ye-waala-naya-h-metric-icon">
+            <i className="fa-solid fa-chart-line" />
+          </div>
+          <div className="ye-waala-naya-h-metric-content">
+            <p className="ye-waala-naya-h-metric-label">Total Teacher</p>
+            <h2 className="ye-waala-naya-h-metric-value">{pendingReview}</h2>
+            {/* <p className="ye-waala-naya-h-metric-change positive">
+              +8% from last month
+            </p> */}
+          </div>
+          <div className="ye-waala-naya-h-metric-trend positive">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* <path
+                d="M3 17L9 11L13 15L21 7"
+                stroke="#4CAF50"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M21 7V13H15"
+                stroke="#4CAF50"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              /> */}
+            </svg>
+          </div>
+        </div>
       </div>
 
+
+
       <div className="instituteDashboard-filters-container">
-        <div className="instituteDashboard-search-container">
+        {/* <div className="instituteDashboard-search-container">
+          <i class="fa-solid fa-magnifying-glass search-iconsPosition"></i>
           <input
             type="text"
-            placeholder="Search case studies..."
+            placeholder="          Search case studies..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="instituteDashboard-search-input"
           />
+        </div> */}
+
+        <div className="ye-waala-naya-h-actions">
+          <div className="ye-waala-naya-h-search">
+            <i class="fa-solid fa-magnifying-glass search-iconsPosition" />
+            <input
+              type="text"
+              placeholder="Search case studies..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
         </div>
+
+
+
+
+
+
+
+
+
 
         <div className="instituteDashboard-filter-buttons">
           <div className="instituteDashboard-filter-dropdown">
@@ -251,7 +431,7 @@ const InstituteProfileDashboard = ({HandleSingleTeacherDetails}) => {
               className="instituteDashboard-filter-btn"
               onClick={toggleDateDropdown}
             >
-              <span className="instituteDashboard-filter-icon">📅</span>
+              <span className="instituteDashboard-filter-icon"><i class="fa-solid fa-calendar-week"></i></span>
               {dateRangeFilter || 'Date Range'}
             </button>
             {showDateDropdown && (
@@ -291,6 +471,8 @@ const InstituteProfileDashboard = ({HandleSingleTeacherDetails}) => {
           )}
         </div>
       </div>
+
+
 
       <div className="instituteDashboard-table-container">
         <table className="instituteDashboard-case-studies-table">

@@ -297,13 +297,9 @@ const InstituteForm = () => {
                       {...register("institute_contact_person_first_name", {
                         required: "Enter your first name.",
                         pattern: {
-                          value: /^[a-zA-Z]+$/, // Pattern for letters only
+                          value: /^[a-zA-Z.\s]+$/, // Pattern for letters only
                           message: "Last name should contain only letters",
-                        },
-                        minLength: {
-                          value: 2,
-                          message: "Must be greater than 2 characters.",
-                        },
+                        }
                       })}
                     />
                     {errors.institute_contact_person_first_name && (
@@ -328,14 +324,10 @@ const InstituteForm = () => {
                       {...register("institute_contact_person_last_name", {
                         required: "Enter your last name.",
                         pattern: {
-                          value: /^[a-zA-Z]+$/, // Pattern for letters only
+                          value: /^[a-zA-Z.\s]+$/, // Pattern for letters only
                           message: "Last name should contain only letters",
-                        },
-                        minLength: {
-                          value: 2,
-                          message: "Must be greater than 2 characters.",
-                        },
-                      })}
+                        }
+                       })}
                     />
                     {errors.institute_contact_person_last_name && (
                       <p className="Error-meg-login-register">
@@ -388,11 +380,11 @@ const InstituteForm = () => {
                       defaultValue=""
                       rules={{
                         required: "Phone number is required",
-                        validate: {
-                          minLength: (value) =>
-                            value.replace(/\D/g, "").length >= 10 ||
-                            "Enter a valid phone number",
-                        },
+                        // validate: {
+                        //   minLength: (value) =>
+                        //     value.replace(/\D/g, "").length >= 10 ||
+                        //     "Enter a valid phone number",
+                        // },
                       }}
                       render={({
                         field: { name, value, onChange, onBlur, ref },

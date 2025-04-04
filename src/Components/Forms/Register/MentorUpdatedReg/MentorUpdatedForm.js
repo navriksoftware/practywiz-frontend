@@ -212,7 +212,6 @@ const MentorUpdatedForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [VerifyState, setVerifyState] = useState("Verify");
   const [isLoadingVerify, setIsLoadingVerify] = useState(false);
-
   const [resendAvailable, setResendAvailable] = useState(false);
 
   const handleSendOtp = async () => {
@@ -348,7 +347,7 @@ const MentorUpdatedForm = () => {
                     {...register("mentor_firstname", {
                       required: "First Name is required",
                       pattern: {
-                        value: /^[a-zA-Z\s]+$/, // Pattern for letters only
+                        value:/^[a-zA-Z.\s]+$/, // Pattern for letters only
                         message: "First name should contain only letters",
                       },
                     })}
@@ -376,7 +375,7 @@ const MentorUpdatedForm = () => {
                     {...register("mentor_lastname", {
                       required: "Last Name is required",
                       pattern: {
-                        value: /^[a-zA-Z\s]+$/, // Pattern for letters only
+                        value: /^[a-zA-Z.\s]+$/, // Pattern for letters only
                         message: "Last name should contain only letters",
                       },
                     })} //1
@@ -429,11 +428,11 @@ const MentorUpdatedForm = () => {
                       defaultValue=""
                       rules={{
                         required: "Phone number is required",
-                        validate: {
-                          minLength: (value) =>
-                            value.replace(/\D/g, "").length >= 10 ||
-                            "Enter a valid phone number",
-                        },
+                        // validate: {
+                        //   minLength: (value) =>
+                        //     value.replace(/\D/g, "").length >= 10 ||
+                        //     "Enter a valid phone number",
+                        // },
                       }}
                       render={({
                         field: { name, value, onChange, onBlur, ref },

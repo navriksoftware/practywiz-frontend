@@ -709,12 +709,12 @@ const InstituteDashboard = ({ user, token }) => {
                   >
                     <h5> Profile Settings </h5>
                   </button>
-                  <button
+                  {/* <button
                     className="submenu-item1"
                     onClick={InstituteUsersListHandler}
                   >
                     <h5> Users List</h5>
-                  </button>
+                  </button> */}
                   <button
                     className="submenu-item1"
                     onClick={InstituteChangePwdHandler}

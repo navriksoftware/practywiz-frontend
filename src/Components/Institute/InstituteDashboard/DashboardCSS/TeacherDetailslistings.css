@@ -257,7 +257,8 @@
   }
   
   .teacherPage__tableContainer {
-    overflow-x: auto;
+    overflow-y: scroll;
+    height: 15rem;
   }
   
   .teacherPage__table {
