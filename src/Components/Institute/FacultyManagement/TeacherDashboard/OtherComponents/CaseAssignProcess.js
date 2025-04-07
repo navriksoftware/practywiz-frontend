@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import "../DashboardCSS/CaseAssignProcess.css";
+import ConfigureCasePopup from "./ConfigureCase.js";
 
 const CaseAssigneProcess = () => {
   // State
@@ -17,6 +18,8 @@ const CaseAssigneProcess = () => {
   ]);
   const [selectedClasses, setSelectedClasses] = useState([]);
   const [showClassDropdown, setShowClassDropdown] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [caseauthor, setcaseauthor] = useState(0); //Case Created by: 0 for Practywiz case, 1 for NON-Practywiz case
 
   // Initial data
   useEffect(() => {
@@ -546,6 +549,15 @@ const CaseAssigneProcess = () => {
             <button className="case-assign-to-student-assign-button">
               Assign Case Study
             </button>
+            <button
+              className="case-assign-to-student-assign-button"
+              onClick={() => setOpen(true)}
+            >
+              Assign Case Study
+            </button>
+            {open && (
+              <ConfigureCasePopup setOpen={setOpen} caseauthor={caseauthor} />
+            )}
           </div>
         </div>
       </div>
