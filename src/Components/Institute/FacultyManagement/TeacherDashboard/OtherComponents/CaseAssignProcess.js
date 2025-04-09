@@ -546,9 +546,7 @@ const CaseAssigneProcess = () => {
               {selectedStudents.length} students selected
             </div>
 
-            <button className="case-assign-to-student-assign-button">
-              Assign Case Study
-            </button>
+          
             <button
               className="case-assign-to-student-assign-button"
               onClick={() => setOpen(true)}
