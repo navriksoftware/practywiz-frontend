@@ -15,11 +15,9 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
     { teacherName: 'Rajesh Kumar', department: 'Environmental Science', numberOfCaseStudiesAssigned: 6, numberOfStudents: 3, actions: 'View Details' },
     { teacherName: 'Meera Joshi', department: 'Marketing', numberOfCaseStudiesAssigned: 3, numberOfStudents: 4, actions: 'View Details' },
     { teacherName: 'Amit Singh', department: 'Healthcare Management', numberOfCaseStudiesAssigned: 2, numberOfStudents: 2, actions: 'View Details' },
-    { teacherName: 'Neha Patel', department: 'Computer Science', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
-    { teacherName: 'Neha Patel', department: 'Computer Science', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
-    { teacherName: 'Neha Patel', department: 'Computer Science', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
-    { teacherName: 'Neha Patel', department: 'Computer Science', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
-    { teacherName: 'Neha Patel', department: 'Computer Science', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
+    { teacherName: 'Aman Kumar', department: 'Business Studies', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
+    { teacherName: 'Deepak Sharma', department: 'Business Studies', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
+    { teacherName: 'Neha Roa', department: 'Marketing', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
   ];
 
   const departments = [...new Set(caseStudies.map(cs => cs.department))];
@@ -73,9 +71,11 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
           />
         </div> */}
 
-        <div className="ye-waala-naya-h-actions">
-          <div className="ye-waala-naya-h-search">
-            <i class="fa-solid fa-magnifying-glass search-iconsPosition" />
+       
+
+        <div className="teacher-profile-home-page-actions">
+          <div className="teacher-profile-home-page-search">
+            <i className="fa-solid fa-magnifying-glass teacher-profile-home-page-search-icon" />
             <input
               type="text"
               placeholder="Search..."
@@ -83,6 +83,9 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
+          {/* <button className="teacher-profile-home-page-add-button">
+            <span>+</span> Assign New Case Study
+          </button> */}
         </div>
 
         <div className="instituteDashboard-filter-buttons">
@@ -132,13 +135,13 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
       </div>
 
       <div className="instituteDashboard-table-container">
-        <table className="instituteDashboard-case-studies-table">
+        <table className="teacherPage__case-studies-table">
           <thead>
             <tr>
-              <th>Assigned To</th>
+              <th>Faculty Name</th>
               <th>Department</th>
               <th>No. of CaseStudies Assign</th>
-              <th>No. of Students</th>
+              {/* <th>No. of Students</th> */}
               <th>Actions</th>
             </tr>
           </thead>
@@ -148,7 +151,7 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
                 <tr key={index}>
                   <td>{caseStudy.teacherName}</td>
                   <td>{caseStudy.department}</td>
-                  <td>{caseStudy.numberOfCaseStudiesAssigned}</td>
+                  {/* <td>{caseStudy.numberOfCaseStudiesAssigned}</td> */}
                   <td>{caseStudy.numberOfStudents}</td>
                   <td>
                     <button

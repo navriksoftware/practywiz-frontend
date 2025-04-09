@@ -47,6 +47,15 @@ export function QuestionsSection({
         >
           Subjective
         </button>
+        <button
+          type="button"
+          className={`new-case-add-tab ${
+            activeType === "subjective" ? "new-case-add-tab-active" : ""
+          }`}
+          onClick={() => handleTypeChange("subjective")}
+        >
+        Research
+        </button>
       </div>
 
       {filteredQuestions.map((question) => (

@@ -26,9 +26,9 @@ const InstituteProfileDashboard = ({ HandleSingleTeacherDetails }) => {
   ];
 
   // Dashboard metrics
-  const totalCases = 24;
-  const activeCases = 12;
-  const completedCases = 290;
+  const totalCases = 30;
+  const activeCases = 24;
+  const completedCases = 6;
   const pendingReview = 23;
 
   // Get unique subjects
@@ -133,210 +133,76 @@ const InstituteProfileDashboard = ({ HandleSingleTeacherDetails }) => {
         Institute Dashboard
       </div>
 
-      {/* <h1 className="instituteDashboard-title">Teacher Case Studies Dashboard</h1> */}
 
-      {/* <div className="instituteDashboard-metrics-container">
-        <div className="instituteDashboard-metric-card">
-          <div className="instituteDashboard-metric-icon instituteDashboard-document-icon">
-            <i className="fa-solid fa-book"></i>
-          </div>
-          <div className="instituteDashboard-metric-value">{totalCases}</div>
-          <div className="instituteDashboard-metric-label">Total Cases Studies</div>
-        </div>
 
-        <div className="instituteDashboard-metric-card">
-          <div className="instituteDashboard-metric-icon instituteDashboard-clock-icon">
-            <i className="fa-solid fa-star"></i>
-          </div>
-          <div className="instituteDashboard-metric-value">{activeCases}</div>
-          <div className="instituteDashboard-metric-label">Assigned Cases studies</div>
-        </div>
-
-        <div className="instituteDashboard-metric-card">
-          <div className="instituteDashboard-metric-icon instituteDashboard-check-icon">
-            <i className="fa-solid fa-graduation-cap"></i>
-          </div>
-          <div className="instituteDashboard-metric-value">{completedCases}</div>
-          <div className="instituteDashboard-metric-label">Total Students</div>
-        </div>
-
-        <div className="instituteDashboard-metric-card">
-          <div className="instituteDashboard-metric-icon instituteDashboard-pending-icon">
-            <i className="fa-solid fa-chalkboard-user"></i>
-          </div>
-          <div className="instituteDashboard-metric-value">{pendingReview}</div>
-          <div className="instituteDashboard-metric-label">Total Teacher</div>
-        </div>
-      </div> */}
-      <div className="ye-waala-naya-h-metrics">
-        <div className="ye-waala-naya-h-metric-card">
-          <div className="ye-waala-naya-h-metric-icon">
+      <div className="teacher-profile-home-page-metrics">
+        <div className="teacher-profile-home-page-metric-card">
+          <div className="teacher-profile-home-page-metric-icon">
             <i className="fa-solid fa-book" />
           </div>
-          <div className="ye-waala-naya-h-metric-content">
-            <p className="ye-waala-naya-h-metric-label">Total Cases Studies</p>
-            <h2 className="ye-waala-naya-h-metric-value">{totalCases}</h2>
-            {/* <p className="ye-waala-naya-h-metric-change positive">
-              +12% from last month
+          <div className="teacher-profile-home-page-metric-content">
+            <p className="teacher-profile-home-page-metric-label">
+            Purchased Case Studies
+            </p>
+            <h2 className="teacher-profile-home-page-metric-value">
+              {totalCases}
+            </h2>
+            {/* <p className="teacher-profile-home-page-metric-change positive">
+             PractyWiz & Non-PractyWiz
             </p> */}
-          </div>
-          <div className="ye-waala-naya-h-metric-trend positive">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* <path
-                d="M3 17L9 11L13 15L21 7"
-                stroke="#4CAF50"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M21 7V13H15"
-                stroke="#4CAF50"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              /> */}
-            </svg>
+
           </div>
         </div>
 
-        <div className="ye-waala-naya-h-metric-card">
-          <div className="ye-waala-naya-h-metric-icon">
+        <div className="teacher-profile-home-page-metric-card">
+          <div className="teacher-profile-home-page-metric-icon">
             <i className="fa-solid fa-calendar-week" />
           </div>
-          <div className="ye-waala-naya-h-metric-content">
-            <p className="ye-waala-naya-h-metric-label">Assigned Cases studies</p>
-            <h2 className="ye-waala-naya-h-metric-value">{activeCases}</h2>
-            {/* <p className="ye-waala-naya-h-metric-urgent">3 urgent</p> */}
+          <div className="teacher-profile-home-page-metric-content">
+            <p className="teacher-profile-home-page-metric-label">
+            Utilized Case Studies 
+            </p>
+            <h2 className="teacher-profile-home-page-metric-value">
+              {activeCases}
+            </h2>
+
           </div>
-          <div className="ye-waala-naya-h-metric-trend warning">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* <path
-                d="M3 7L9 13L13 9L21 17"
-                stroke="#FF9800"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M21 17V11H15"
-                stroke="#FF9800"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              /> */}
-            </svg>
-          </div>
+         
         </div>
 
-        <div className="ye-waala-naya-h-metric-card">
-          <div className="ye-waala-naya-h-metric-icon">
+        <div className="teacher-profile-home-page-metric-card">
+          <div className="teacher-profile-home-page-metric-icon">
             <i className="fa-solid fa-users" />
           </div>
-          <div className="ye-waala-naya-h-metric-content">
-            <p className="ye-waala-naya-h-metric-label">
-              Total Students
+          <div className="teacher-profile-home-page-metric-content">
+            <p className="teacher-profile-home-page-metric-label">
+            Unutilized Case Studies
             </p>
-            <h2 className="ye-waala-naya-h-metric-value">
+            <h2 className="teacher-profile-home-page-metric-value">
               {completedCases}
             </h2>
-            {/* <p className="ye-waala-naya-h-metric-change positive">
-              +5% from last month
-            </p> */}
-          </div>
-          <div className="ye-waala-naya-h-metric-trend positive">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* <path
-                d="M3 17L9 11L13 15L21 7"
-                stroke="#4CAF50"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M21 7V13H15"
-                stroke="#4CAF50"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              /> */}
-            </svg>
+           
+
           </div>
         </div>
 
-        <div className="ye-waala-naya-h-metric-card">
-          <div className="ye-waala-naya-h-metric-icon">
-            <i className="fa-solid fa-chart-line" />
+        <div className="teacher-profile-home-page-metric-card">
+          <div className="teacher-profile-home-page-metric-icon">
+            <i className="fa-solid fa-chalkboard-user"></i>
           </div>
-          <div className="ye-waala-naya-h-metric-content">
-            <p className="ye-waala-naya-h-metric-label">Total Teacher</p>
-            <h2 className="ye-waala-naya-h-metric-value">{pendingReview}</h2>
-            {/* <p className="ye-waala-naya-h-metric-change positive">
-              +8% from last month
-            </p> */}
-          </div>
-          <div className="ye-waala-naya-h-metric-trend positive">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* <path
-                d="M3 17L9 11L13 15L21 7"
-                stroke="#4CAF50"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M21 7V13H15"
-                stroke="#4CAF50"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              /> */}
-            </svg>
+          <div className="teacher-profile-home-page-metric-content">
+            <p className="teacher-profile-home-page-metric-label">Total Faculty member</p>
+            <h2 className="teacher-profile-home-page-metric-value">
+              {pendingReview}
+            </h2>
           </div>
         </div>
       </div>
 
-
-
       <div className="instituteDashboard-filters-container">
-        {/* <div className="instituteDashboard-search-container">
-          <i class="fa-solid fa-magnifying-glass search-iconsPosition"></i>
-          <input
-            type="text"
-            placeholder="          Search case studies..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="instituteDashboard-search-input"
-          />
-        </div> */}
-
-        <div className="ye-waala-naya-h-actions">
-          <div className="ye-waala-naya-h-search">
-            <i class="fa-solid fa-magnifying-glass search-iconsPosition" />
+        <div className="teacher-profile-home-page-actions">
+          <div className="teacher-profile-home-page-search">
+            <i className="fa-solid fa-magnifying-glass teacher-profile-home-page-search-icon" />
             <input
               type="text"
               placeholder="Search case studies..."
@@ -344,17 +210,10 @@ const InstituteProfileDashboard = ({ HandleSingleTeacherDetails }) => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
+          {/* <button className="teacher-profile-home-page-add-button">
+            <span>+</span> Assign New Case Study
+          </button> */}
         </div>
-
-
-
-
-
-
-
-
-
-
         <div className="instituteDashboard-filter-buttons">
           <div className="instituteDashboard-filter-dropdown">
             <button
@@ -471,9 +330,6 @@ const InstituteProfileDashboard = ({ HandleSingleTeacherDetails }) => {
           )}
         </div>
       </div>
-
-
-
       <div className="instituteDashboard-table-container">
         <table className="instituteDashboard-case-studies-table">
           <thead>

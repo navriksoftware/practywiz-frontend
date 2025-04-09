@@ -29,9 +29,9 @@ const [caseStudyTitle, setCaseStudyTitle] = useState("")
         <div className="teacherPage__profileSection">
           <div className="teacherPage__avatarSection">
             <div className="teacherPage__avatar">
-              <span>GV</span>
+              <span>AS</span>
             </div>
-            <h2 className="teacherPage__name">Gagan verma</h2>
+            <h2 className="teacherPage__name">Ananya Sharma</h2>
             <p className="teacherPage__title">Faculty Member</p>
             <div className="teacherPage__tags">
               <span className="teacherPage__tag teacherPage__tagBusiness">Business Studies</span>
@@ -46,7 +46,7 @@ const [caseStudyTitle, setCaseStudyTitle] = useState("")
               <div className="teacherPage__infoItem">
                 {/* <FiMail className="teacherPage__infoIcon" /> */}
                 <i className="fa-solid fa-envelope teacherPage__infoIcon"></i>
-                <span>gagan.verma@educase.com</span>
+                <span>Ananya.Sharma@educase.com</span>
               </div>
               <div className="teacherPage__infoItem">
                 {/* <FiPhone className="teacherPage__infoIcon" /> */}
