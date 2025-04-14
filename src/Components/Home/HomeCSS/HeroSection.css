@@ -218,6 +218,49 @@
   font-size: 1rem;
   font-weight: 500;
 }
+.hero-register-section-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.hero-register-cta-btns {
+  gap: 1rem;
+  display: flex;
+}
+
+.hero-mentee-register-button {
+  background-color: var(--light-blue-border-color);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.hero-mentee-register-button:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.02);
+}
+
+.hero-mentor-register-button {
+  background-color: rgba(59, 131, 246, 0.622);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.hero-mentor-register-button:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.02);
+}
 
 .hero-right-column {
   position: relative;

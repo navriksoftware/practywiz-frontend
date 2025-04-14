@@ -5,7 +5,6 @@
   align-items: center;
   position: relative;
   margin-left: 2rem;
- 
 }
 .seeeett {
   display: flex;
@@ -38,7 +37,6 @@ header .navbar-brand img {
   top: 10rem;
 }
 
-
 .submenu {
   position: absolute;
   top: 3rem;
@@ -61,8 +59,6 @@ header .navbar-brand img {
   border: 1px solid white;
   border-radius: 5px;
 }
-
-
 
 .submenu1 {
   position: absolute;
@@ -105,14 +101,11 @@ header .navbar-brand img {
 .fas {
   font-weight: 900;
   font-size: 18px;
- 
 }
 
 .display-raw h5 {
   margin-top: 5px;
 }
-
-
 
 .downarrowsize {
   font-size: 12px;
@@ -195,7 +188,6 @@ header .navbar-brand img {
   align-items: center;
 
   margin-left: 2rem;
- 
 }
 .seeeett {
   display: flex;
@@ -246,8 +238,6 @@ header .navbar-brand img {
   border-radius: 5px;
 }
 
-
-
 .submenu1 {
   position: absolute;
   top: 3rem;
@@ -289,14 +279,11 @@ header .navbar-brand img {
 .fas {
   font-weight: 900;
   font-size: 18px;
-
 }
 
 .display-raw h5 {
   margin-top: 5px;
 }
-
-
 
 .downarrowsize {
   font-size: 12px;
@@ -316,7 +303,7 @@ header .navbar-brand img {
   justify-content: space-between;
   margin: 0 40px 0 0;
 }
-.Mentee-MentorconnectNavbar{
+.Mentee-MentorconnectNavbar {
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 600;

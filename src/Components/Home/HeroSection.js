@@ -2,7 +2,7 @@ import React from "react";
 import oldProImg from "./images/old-professional.png";
 import youngProImg from "./images/young-pro.png";
 import "./HomeCSS/HeroSection.css";
-
+import { useNavigate } from "react-router-dom";
 const features = [
   {
     icon: <i className="fa-regular fa-lightbulb hero-feature-card-icon"></i>,
@@ -17,8 +17,15 @@ const features = [
       "Who grew in the organization as a recognized practical problem-solver, & believes in helping others grow to their potential",
   },
 ];
-
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const handleRegisterMentee = () => {
+    navigate("/mentee-registration");
+  };
+  const handleRegisterMentor = () => {
+    navigate("/mentor-registration");
+  };
+
   return (
     <div className="hero-main-container px-8">
       <div className="hero-content-wrapper">
@@ -52,7 +59,7 @@ const HeroSection = () => {
                 </div>
               ))}
             </div>
-            <div className="hero-achievement-container">
+            {/* <div className="hero-achievement-container">
               <div className="hero-achievement-card hero-animate-slideUp hero-delay-200">
                 <div className="hero-achievement-content">
                   <h3>300+</h3>
@@ -70,6 +77,23 @@ const HeroSection = () => {
                   <h3>2000+</h3>
                   <p>Students</p>
                 </div>
+              </div>
+            </div> */}
+            <div className="hero-register-section-container hero-animate-slideUp hero-delay-200">
+              <h2 className="hero-subtitle">Ready to Join?</h2>
+              <div className="hero-register-cta-btns hero-animate-slideUp hero-delay-200">
+                <button
+                  onClick={handleRegisterMentee}
+                  className="hero-mentee-register-button"
+                >
+                  Register as a Mentee
+                </button>
+                <button
+                  onClick={handleRegisterMentor}
+                  className="hero-mentor-register-button"
+                >
+                  Register as a Mentor
+                </button>
               </div>
             </div>
           </div>

@@ -97,7 +97,7 @@
 }
 
 .mentor-cta-card-btn {
-  background-color: #0255ca;
+  background-color: #2563eb;
   width: 90%;
   color: white;
   padding: 10px 20px;
@@ -111,7 +111,7 @@
 }
 
 .mentor-cta-card-btn:hover {
-  background-color: #003366;
+  background-color: #1d4ed8;
 }
 
 @media (max-width: 768px) {

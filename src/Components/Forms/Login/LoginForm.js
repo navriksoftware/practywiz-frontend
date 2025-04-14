@@ -137,13 +137,7 @@ const LoginForm = ({ user, token }) => {
           <div className="row">
             <div className="col-lg-6 mb-4 doneed">
               <div className="iuhieiuihaw_left sticky-top">
-
-                <img
-                  style={{ width: "30rem" }}
-                  src={loginImg}
-                  alt=""
-                />
-
+                <img style={{ width: "30rem" }} src={loginImg} alt="" />
               </div>
             </div>
 
@@ -153,8 +147,36 @@ const LoginForm = ({ user, token }) => {
                   <h4>Log in</h4>
 
                   <p className="mb-0">
-                    Don't have an account?{" "}
-                    <a href="/mentor-registration">Sign Up</a>
+                    Don't have an account? Sign up as:
+                    <div>
+                      <span className="user-role-help-tooltip-wrapper">
+                        <a href="/mentee-registration">Mentee</a>
+                        <span className="user-role-help-tooltip-text">
+                          Access internships, case studies, and mentorship.
+                        </span>
+                      </span>{" "}
+                      |&nbsp;
+                      <span className="user-role-help-tooltip-wrapper">
+                        <a href="/mentor-registration">Mentor</a>
+                        <span className="user-role-help-tooltip-text">
+                          Guide mentees and contribute to case studies.
+                        </span>
+                      </span>{" "}
+                      |&nbsp;
+                      <span className="user-role-help-tooltip-wrapper">
+                        <a href="/employer-registration">Corporate</a>
+                        <span className="user-role-help-tooltip-text">
+                          Hire interns and manage opportunities.
+                        </span>
+                      </span>{" "}
+                      |&nbsp;
+                      <span className="user-role-help-tooltip-wrapper">
+                        <a href="/institute-registration">Institute</a>
+                        <span className="user-role-help-tooltip-text">
+                          Manage students and assign case studies.
+                        </span>
+                      </span>
+                    </div>
                   </p>
                 </div>
 
