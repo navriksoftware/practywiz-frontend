@@ -11,6 +11,13 @@ import Store from "./OtherComponents/Store";
 import Notification from "./OtherComponents/Notification";
 import SingleAssignedCase from "./OtherComponents/SingleAssignedCase";
 import CaseAssigneProcess from "./OtherComponents/CaseAssignProcess";
+import ShowClasses from "./ShowClasses";
+import CreateClass from "./OtherComponents/CreateClass";
+import SingleClassdetails from "./OtherComponents/SingleClassdetails";
+import AddBulkStudents from "./OtherComponents/AddBulkStudents";
+import AddSingleStudent from "./OtherComponents/AddSingleStudent";
+import ChangePassword from "./OtherComponents/ChangePassword";
+import AddNonPractywizCase from "./AddNonPractywizCases/AddNonPractywizCase";
 
 const TeacherDashboard = () => {
   const dispatch = useDispatch();
@@ -84,8 +91,30 @@ const TeacherDashboard = () => {
         return <SingleAssignedCase data={data.singlecase} />;
       case "settings":
         return <Setting data={data.settings} />;
+      case "ChangePwd":
+        return <ChangePassword data={data.settings} />;
       case "store":
         return <Store data={data.store} setActivePage={setActivePage} />;
+      case "AddCaseStudy":
+        return (
+          <AddNonPractywizCase
+            data={data.store}
+            setActivePage={setActivePage}
+          />
+        );
+
+      case "showclasses":
+        return <ShowClasses data={data.store} setActivePage={setActivePage} />;
+      case "createclass":
+        return <CreateClass data={data.store} setActivePage={setActivePage} />;
+      case "singleclassdetails":
+        return (
+          <SingleClassdetails data={data.store} setActivePage={setActivePage} />
+        );
+      // case "addbulkstudents":
+      //   return <AddBulkStudents data={data.store} setActivePage={setActivePage} />;
+      // case "addsinglestudent":
+      //   return <AddSingleStudent data={data.store} setActivePage={setActivePage} />;
       case "assigncase":
         return <CaseAssigneProcess data={data.assignedcase} />;
       case "notifications":
@@ -220,6 +249,24 @@ const TeacherDashboard = () => {
                             </span>
                             <span>Available Cases</span>
                           </li>
+                          <li
+                            className="menu-items"
+                            onClick={() => setActivePage("AddCaseStudy")}
+                          >
+                            <span>
+                              <i className="fa-solid fa-pen-to-square"></i>
+                            </span>
+                            <span>Add Case Study</span>
+                          </li>
+                          <li
+                            className="menu-items"
+                            onClick={() => setActivePage("AddCaseStudy")}
+                          >
+                            <span>
+                              <i className="fa-solid fa-pen-to-square"></i>
+                            </span>
+                            <span>Add Case Study</span>
+                          </li>
 
                           <li
                             onClick={() => {
@@ -283,7 +330,10 @@ const TeacherDashboard = () => {
           </nav>
         </div>
       </header>
-      <div className="mentor_dashboard" id="mentorRegisterBg">
+      <div
+        className="mentor_dashboard"
+        //  id="mentorRegisterBg"
+      >
         <div className="col-md-flex-center">
           <div className="display-raw">
             <button
@@ -306,6 +356,26 @@ const TeacherDashboard = () => {
               </span>
 
               <h5>Available Cases</h5>
+            </button>
+            <button
+              className="btn btn-transparent text-center py-3 seeeett"
+              onClick={() => setActivePage("AddCaseStudy")}
+            >
+              <span className="d-block bg-white position-relative m-auto">
+                <i className="fa-solid fa-pen-to-square"></i>
+              </span>
+
+              <h5>Add Case Study</h5>
+            </button>
+            <button
+              className="btn btn-transparent text-center py-3 seeeett"
+              onClick={() => setActivePage("showclasses")}
+            >
+              <span className="d-block bg-white position-relative m-auto">
+                <i class="fa-solid fa-folder-open"></i>
+              </span>
+
+              <h5>Class info</h5>
             </button>
             <div className="Baseposition" onMouseLeave={toggleOffProfile}>
               <button
@@ -330,7 +400,7 @@ const TeacherDashboard = () => {
                   </button>
                   <button
                     className="submenu-item1"
-                    onClick={() => setActivePage("settings")}
+                    onClick={() => setActivePage("ChangePwd")}
                   >
                     <h5>Change Password</h5>
                   </button>

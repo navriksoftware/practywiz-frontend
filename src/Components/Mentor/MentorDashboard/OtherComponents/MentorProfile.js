@@ -97,7 +97,7 @@ const MentorProfile = ({ data, user, token }) => {
                     </span>
                     <span className="MentorProfile-span121 span121">
                       <StarRating rating={sMentor.avg_mentor_rating} />(
-                      {sMentor.feedback_count} Reviews)
+                      {sMentor.feedback_count})
                     </span>
                   </div>
 
@@ -203,7 +203,7 @@ const MentorProfile = ({ data, user, token }) => {
                   <div>
                     {" "}
                     <span className="SingleMentor-SkillsHeadline">
-                      Ratings and Reviews
+                      Reviews
                     </span>
                   </div>
                   <div>

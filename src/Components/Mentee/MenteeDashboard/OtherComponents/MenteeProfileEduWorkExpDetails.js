@@ -248,67 +248,90 @@ const MenteeProfileEduWorkexpDetails = ({ singleMentee, user, token }) => {
   const [suggestions, setSuggestions] = useState([]); // For suggestions
   const [message, setMessage] = useState(""); // For displaying messages
   // Example skill suggestions
-
-  const handleInputChangee = (e) => {
+ const handleInputChangee = (e) => {
     const input = e.target.value.trimStart(); // Trim leading spaces
     setSkills(input);
 
-    if (input.length > 3) {
-      // Suggest the input and filter suggestions from `allSkills`
-      setSuggestions([
-        input,
-        ...allSkills.filter(
-          (skill) =>
-            skill.toLowerCase().includes(input.toLowerCase()) &&
-            !skillList?.some(
-              (existingSkill) =>
-                existingSkill.toLowerCase() === skill.toLowerCase()
-            )
-        ),
-      ]);
-    } else if (input) {
-      // Filter suggestions if input is not empty
-      const filteredSuggestions = allSkills.filter(
-        (skill) =>
-          skill.toLowerCase().includes(input.toLowerCase()) &&
-          !skillList?.some(
-            (existingSkill) =>
-              existingSkill.toLowerCase() === skill.toLowerCase()
-          )
-      );
-      setSuggestions(filteredSuggestions);
-    } else {
+    if (!input) {
       // Clear suggestions if input is empty
       setSuggestions([]);
+      return;
+    }
+
+    // Normalize input
+    const lowerInput = input.toLowerCase();
+
+    // Filter out skills already in the skillList (supporting string or object with 'name')
+    const filteredSuggestions = allSkills.filter((skill) => {
+      const lowerSkill = skill.toLowerCase();
+      const alreadyAdded = skillList?.some((existingSkill) => {
+        const skillName = typeof existingSkill === 'string' ? existingSkill : existingSkill.name;
+        return skillName?.toLowerCase() === lowerSkill;
+      });
+      return lowerSkill.includes(lowerInput) && !alreadyAdded;
+    });
+
+    // If input length > 3, add the input as the first suggestion
+    if (input.length > 3) {
+      setSuggestions([input, ...filteredSuggestions]);
+    } else {
+      setSuggestions(filteredSuggestions);
     }
   };
 
-  const handleAddSkill = (newSkill) => {
-    const trimmedSkill = newSkill.trim();
 
-    // Prevent adding empty or duplicate skills
-    if (!trimmedSkill) {
+  const handleAddSkill = (newSkill) => {
+    if (!newSkill.trim()) {
       setMessage("Skill cannot be empty");
       setTimeout(() => setMessage(""), 2000);
       return;
     }
 
-    // Check if the skill already exists (case-insensitive)
-    const exists = (skillList || []).some(
-      (existingSkill) =>
-        existingSkill.toLowerCase() === trimmedSkill.toLowerCase()
-    );
+    // Split by comma, trim, remove empty strings, and normalize to lowercase for duplicate check
+    const skillEnteredByUser = newSkill
+      .split(",")
+      .map((skill) => skill.trim())
+      .filter((skill) => skill.length > 0);
 
-    if (!exists) {
-      setSkillList([...(skillList || []), trimmedSkill]); // Use fallback to avoid undefined
-      setMessage(""); // Clear any previous message
-    } else {
-      setMessage("Skill already added");
+    if (skillEnteredByUser.length === 0) {
+      setMessage("Skill cannot be empty");
       setTimeout(() => setMessage(""), 2000);
+      return;
     }
 
-    setSkills(""); // Clear input
-    setSuggestions([]); // Clear suggestions
+    // Remove duplicates within the newly entered skills
+    const uniqueNewSkills = [...new Set(skillEnteredByUser.map((s) => s.toLowerCase()))];
+
+    // Prepare lowercased list of already added skills
+    const existingSkillsLower = (skillList || []).map((s) =>
+      (typeof s === "string" ? s : s.name).toLowerCase()
+    );
+
+    // Filter only new skills that aren't already in skillList
+    const finalSkillsToAdd = uniqueNewSkills.filter(
+      (skill) => !existingSkillsLower.includes(skill)
+    );
+
+    if (finalSkillsToAdd.length === 0) {
+      setMessage("Skill already added");
+      setTimeout(() => setMessage(""), 2000);
+      setSkills("");
+      setSuggestions([]);
+      return;
+    }
+
+    // Capitalize first letter of each skill (optional)
+    const formattedSkillsToAdd = finalSkillsToAdd.map(
+      (skill) => skill.charAt(0).toUpperCase() + skill.slice(1)
+    );
+
+    const updatedSkillList = [...(skillList || []), ...formattedSkillsToAdd];
+
+    setSkillList(updatedSkillList);
+    // setValue("mentorSkill", updatedSkillList);
+    setMessage("");
+    setSkills("");
+    setSuggestions([]);
   };
 
   const handleKeyPress = (e) => {

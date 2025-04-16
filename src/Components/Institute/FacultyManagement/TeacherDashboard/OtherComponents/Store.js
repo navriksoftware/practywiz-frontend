@@ -15,6 +15,7 @@ const Store = ({ user, token, setActivePage }) => {
   const [filteredCaseStudiesData, setFilteredCaseStudiesData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("newest");
+  const [practyWizFilter, setPractyWizFilter] = useState("all");
   const [loading, setLoading] = useState(false);
 
   const url = ApiURL();
@@ -70,7 +71,7 @@ const Store = ({ user, token, setActivePage }) => {
           console.log("An error occurred. Please try again.");
         }
       } finally {
-        setLoading(false); // Ensure loading is stopped regardless of outcome
+        setLoading(false);
       }
     };
     fetchCaseStudies();
@@ -134,7 +135,13 @@ const Store = ({ user, token, setActivePage }) => {
           ? caseStudy.caseTopic.toLowerCase().includes(searchTerm.toLowerCase())
           : true;
 
-        return matchesSearch;
+        // Filter by PractyWiz status
+        const matchesPractyWizFilter =
+          practyWizFilter === "all" ||
+          (practyWizFilter === "practywiz" && caseStudy.isPractyWiz) ||
+          (practyWizFilter === "non-practywiz" && !caseStudy.isPractyWiz);
+
+        return matchesSearch && matchesPractyWizFilter;
       });
 
       // Then sort by date
@@ -151,12 +158,13 @@ const Store = ({ user, token, setActivePage }) => {
     };
 
     filterAndSortData();
-  }, [searchTerm, sortOrder, allCaseStudiesData]);
+  }, [searchTerm, sortOrder, practyWizFilter, allCaseStudiesData]);
 
   // Clear all filters
   const clearFilters = () => {
     setSearchTerm("");
     setSortOrder("newest");
+    setPractyWizFilter("all");
   };
 
   // Render the selected sort option text
@@ -171,13 +179,23 @@ const Store = ({ user, token, setActivePage }) => {
     }
   };
 
+  // Render the selected PractyWiz filter text
+  const renderSelectedPractyWizText = () => {
+    switch (practyWizFilter) {
+      case "all":
+        return "All Cases";
+      case "practywiz":
+        return "PractyWiz";
+      case "non-practywiz":
+        return "Non-PractyWiz";
+      default:
+        return "Case Type";
+    }
+  };
+
   return (
     <>
       <div className="case-study-display-container">
-        <div className="ye-waala-naya-h-dusra-nevigation-indication">
-          <i className="fa-solid fa-home" /> DashBoard
-          <i className="fa-solid fa-chevron-right" /> Available Cases
-        </div>
         <div className="case-filter-container">
           <div className="case-search">
             <input
@@ -190,6 +208,39 @@ const Store = ({ user, token, setActivePage }) => {
             <i className="fa fa-search search-icon"></i>
           </div>
 
+          {/* PractyWiz Filter Dropdown */}
+          <div className="case-sort">
+            <div className="case-dropdown">
+              <button className="case-dropbtn">
+                {renderSelectedPractyWizText()}
+                <i className="fa fa-chevron-down"></i>
+              </button>
+              <div className="case-dropdown-content">
+                <button
+                  className={practyWizFilter === "all" ? "active" : ""}
+                  onClick={() => setPractyWizFilter("all")}
+                >
+                  All Cases
+                </button>
+                <button
+                  className={practyWizFilter === "practywiz" ? "active" : ""}
+                  onClick={() => setPractyWizFilter("practywiz")}
+                >
+                  PractyWiz
+                </button>
+                <button
+                  className={
+                    practyWizFilter === "non-practywiz" ? "active" : ""
+                  }
+                  onClick={() => setPractyWizFilter("non-practywiz")}
+                >
+                  Non-PractyWiz
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Sort Dropdown */}
           <div className="case-sort">
             <div className="case-dropdown">
               <button className="case-dropbtn">
@@ -213,7 +264,9 @@ const Store = ({ user, token, setActivePage }) => {
             </div>
           </div>
 
-          {(searchTerm || sortOrder !== "newest") && (
+          {(searchTerm ||
+            sortOrder !== "newest" ||
+            practyWizFilter !== "all") && (
             <button className="case-clear-btn" onClick={clearFilters}>
               Clear All
             </button>
@@ -239,10 +292,6 @@ const Store = ({ user, token, setActivePage }) => {
           ) : (
             <div className="no-results">
               <h3>No case studies found </h3>
-              {/* <p>No case studies found matching your criteria.</p> */}
-              {/* <button onClick={clearFilters} className="reset-filters-btn">
-                Reset Filters
-              </button> */}
             </div>
           )}
         </div>

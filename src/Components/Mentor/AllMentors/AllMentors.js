@@ -198,8 +198,6 @@ const AllMentors = () => {
     }));
   };
 
-
-  
   return (
     <>
       <div className="adadadad mt-8">
@@ -229,7 +227,7 @@ const AllMentors = () => {
             Mentor Connect
           </p> */}
           <div className="container-fluid">
-            <div className="uilhdier_filter_wrap d-flex slign-items-center justify-content-between">
+            <div className="uilhdier_filter_wrap d-flex align-items-center justify-content-center ">
               <div class="filter-container">
                 <div class="filter-button">
                   <span class="icon icon-availability"></span>
@@ -255,7 +253,10 @@ const AllMentors = () => {
                     // >
                     //  <i class="fa-solid fa-xmark"></i>
                     // </button>
-                    <i onClick={() => clearFilters("availability")} class="fa-solid fa-xmark"></i>
+                    <i
+                      onClick={() => clearFilters("availability")}
+                      class="fa-solid fa-xmark"
+                    ></i>
                   )}
                 </div>
 
@@ -283,9 +284,12 @@ const AllMentors = () => {
                     //   className="btn-clear-availability-unique"
                     //   onClick={() => clearFilters("experience")}
                     // >
-                   
+
                     // </button>
-                      <i  onClick={() => clearFilters("experience")} class="fa-solid fa-xmark"></i>
+                    <i
+                      onClick={() => clearFilters("experience")}
+                      class="fa-solid fa-xmark"
+                    ></i>
                   )}
                 </div>
 
@@ -310,7 +314,10 @@ const AllMentors = () => {
                     //   onClick={() => clearFilters("pricing")}
                     // >
                     // </button>
-                     <i   onClick={() => clearFilters("pricing")} class="fa-solid fa-xmark"></i>
+                    <i
+                      onClick={() => clearFilters("pricing")}
+                      class="fa-solid fa-xmark"
+                    ></i>
                   )}
                 </div>
 
@@ -336,9 +343,12 @@ const AllMentors = () => {
                     //   className="btn-clear-availability-unique"
                     //   onClick={() => clearFilters("rating")}
                     // >
-                     
+
                     // </button>
-                    <i   onClick={() => clearFilters("rating")} class="fa-solid fa-xmark"></i>
+                    <i
+                      onClick={() => clearFilters("rating")}
+                      class="fa-solid fa-xmark"
+                    ></i>
                   )}
                 </div>
               </div>
@@ -387,7 +397,7 @@ const AllMentors = () => {
                   </div>
                 )}
               </>
-           )}
+            )}
           </div>
         </div>
       </div>

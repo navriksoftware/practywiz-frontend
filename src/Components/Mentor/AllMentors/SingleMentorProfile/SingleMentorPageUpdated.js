@@ -230,7 +230,7 @@ const SingleMentorPageUpdated = () => {
                           // rating={sMentor.avg_mentor_rating}
                           />(
                           {/* {sMentor.feedback_count} */}
-                          {RatingNo} Reviews)
+                          {RatingNo})
                         </span>
                       </div>
 
@@ -333,12 +333,11 @@ const SingleMentorPageUpdated = () => {
                             </div>
                           </div>
                         )}
-
-                      <div className="MentorDashboard-RatingSection Hide-elementforScreenSize1275">
+                      {sMentor.feedback_count > 0 && <div className="MentorDashboard-RatingSection Hide-elementforScreenSize1275">
                         <div>
                           {" "}
                           <span className="SingleMentor-SkillsHeadline">
-                            Ratings and Reviews
+                            Reviews
                           </span>
                         </div>
                         <div>
@@ -354,7 +353,8 @@ const SingleMentorPageUpdated = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div>}
+
                     </div>
                   </div>
                   <div
@@ -365,22 +365,21 @@ const SingleMentorPageUpdated = () => {
                       <div className="Singlementor-booking1">
                         <div className="Singlementor-booking2 dkjiherer moideuirer_list SingleMentor-Radio">
                           {" "}
-                          <ul className="ps-0 mb-0">
+                          <ul className="SingleMentor-Radio ps-0 mb-0">
                             <li>
                               <input
-                                value={"30"}
                                 type="radio"
-                                name="MentorPrice_Min"
+                                value="30"
+                                name="MentorPrice" // Same name ensures only one selection
                                 id="check_11"
-                                // defaultValue
+                                defaultChecked
                                 className="d-none"
                                 onChange={MentorTimeSlotDurationHandler}
                               />
                               <label htmlFor="check_11">
                                 <span className="MarginR">30 Minutes</span>
                                 <span>
-                                  {convertCurrencySymbol(DefaultCurruncyType)}{" "}
-                                  {convertedAmount.toFixed(1) / 2}
+                                  {convertCurrencySymbol(DefaultCurruncyType)} {(convertedAmount / 2).toFixed(1)}
                                 </span>
                               </label>
                             </li>
@@ -388,21 +387,23 @@ const SingleMentorPageUpdated = () => {
                             <li>
                               <input
                                 type="radio"
+                                value="60"
+                                name="MentorPrice" // Same name ensures only one selection
                                 id="check_30"
-                                name="MentorPrice_Min"
-                                value={"60"}
                                 className="d-none"
                                 onChange={MentorTimeSlotDurationHandler}
                               />
                               <label htmlFor="check_30">
                                 <span className="MarginR">60 Minutes</span>
                                 <span>
-                                  {convertCurrencySymbol(DefaultCurruncyType)}{" "}
-                                  {convertedAmount.toFixed(1)}
+                                  {convertCurrencySymbol(DefaultCurruncyType)} {convertedAmount.toFixed(1)}
                                 </span>
                               </label>
                             </li>
                           </ul>
+
+
+
                         </div>{" "}
                         <CustomDatePicker
                           mentorTimeSlotDuration={mentorTimeSlotDuration}
@@ -498,11 +499,11 @@ const SingleMentorPageUpdated = () => {
                       )}
                     </div>
                   </div>{" "}
-                  <div className="MentorDashboard-RatingSection Hide-elementforScreenSizeFull">
+                  {sMentor.feedback_count > 0 && <div className="MentorDashboard-RatingSection Hide-elementforScreenSizeFull">
                     <div>
                       {" "}
                       <span className="SingleMentor-SkillsHeadline">
-                        Ratings and Reviews
+                        Reviews
                       </span>
                     </div>
                     <div>
@@ -518,7 +519,8 @@ const SingleMentorPageUpdated = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> }
+
                 </div>
               </div>
             );

@@ -247,13 +247,9 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
             {...register("mentee_firstname", {
               required: "First Name is required",
               pattern: {
-                value: /^[a-zA-Z]+$/, // Pattern for letters only
+                value: /^[a-zA-Z.\s]+$/, // Pattern for letters only
                 message: "First name should contain only letters",
-              },
-              minLength: {
-                value: 2,
-                message: "Must be greater than 2 characters.",
-              },
+              }
             })}
           />
           {errors.mentee_firstname && (
@@ -278,13 +274,9 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
             {...register("mentee_lastname", {
               required: "Last Name is required",
               pattern: {
-                value: /^[a-zA-Z]+$/, // Pattern for letters only
+                value: /^[a-zA-Z.\s]+$/, // Pattern for letters only
                 message: "Last name should contain only letters",
-              },
-              minLength: {
-                value: 2,
-                message: "Must be greater than 2 characters.",
-              },
+              }
             })}
           />
           {errors.mentee_lastname && (
@@ -307,11 +299,11 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
             defaultValue=""
             rules={{
               required: "Phone number is required",
-              validate: {
-                minLength: (value) =>
-                  value.replace(/\D/g, "").length >= 10 ||
-                  "Enter a valid phone number",
-              },
+              // validate: {
+              //   minLength: (value) =>
+              //     value.replace(/\D/g, "").length >= 10 ||
+              //     "Enter a valid phone number",
+              // },
             }}
             render={({
               field: { name, value, onChange, onBlur, ref },
