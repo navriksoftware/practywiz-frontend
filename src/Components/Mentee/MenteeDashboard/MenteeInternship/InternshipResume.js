@@ -106,6 +106,9 @@ const InternshipResume = ({ singleMentee, user, token }) => {
                   Uploaded on: {resume.uploadTime}
                 </span>
               </div>
+              <button className="ir-upload-button" disabled={isUploading}>
+                Upload
+              </button>
               <button
                 onClick={handleRemove}
                 className="ir-remove-button"
@@ -255,6 +258,17 @@ const InternshipResume = ({ singleMentee, user, token }) => {
             font-size: 12px;
             color: #777;
           }
+            .ir-upload-button{
+            margin-left: 10px;
+            padding: 8px 16px;
+            background-color:rgba(77, 255, 92, 0.83);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+            }
 
           .ir-remove-button {
             margin-left: 10px;

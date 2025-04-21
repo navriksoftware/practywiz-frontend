@@ -13,8 +13,11 @@ export default function InternshipJobBoard({
   // State for jobs and filters
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
+  const [isMobileFiltersVisible, setIsMobileFiltersVisible] = useState(false);
   const [skillInput, setSkillInput] = useState("");
   const [selectedSkills, setSelectedSkills] = useState([]);
+  const [showAllSkills, setShowAllSkills] = useState(false);
+  const [showAll, setShowAll] = useState(false);
   const [locationInput, setLocationInput] = useState("");
   const [selectedLocations, setSelectedLocations] = useState([]);
   const [minStipend, setMinStipend] = useState("");
@@ -26,6 +29,7 @@ export default function InternshipJobBoard({
   const navigate = useNavigate();
 
   const url = ApiURL();
+  const [showSkill, setShowSkill] = useState(false);
 
   // Fetch internship listings
   const fetchInternshipListings = async () => {
@@ -146,6 +150,10 @@ export default function InternshipJobBoard({
       }
     }
   };
+  // HANDLE VEIW MORE AND VIEW LESS TAG IN SKILLS SECTION
+  const toggleShow = () => {
+    setShowAll(!showAll);
+  };
 
   // Remove filter
   const removeFilter = (filter, type) => {
@@ -222,12 +230,63 @@ export default function InternshipJobBoard({
   return (
     <div className="intern-job-board">
       <div className="intern-outer-container">
-        <h2 className="profile-title">Internship</h2>
+        <div className="intern-heading-container">
+          <div className="intern-main-heading">
+            <p className="profile-title ">Internship</p>
+          </div>
+          <div className="intern-search-filter-container">
+            <div className="intern-search-bar">
+              <input
+                type="text"
+                className="intern-search-input"
+                placeholder=" Search by keywords (React, Node.js, Design...)"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="applications-mobile-filter-toggle">
+              <button
+                className="applications-filter-mobile-btn"
+                onClick={() =>
+                  setIsMobileFiltersVisible(!isMobileFiltersVisible)
+                }
+              >
+                {" "}
+                Filters
+                <i
+                  className="fa-solid fa-filter"
+                  style={{ marginLeft: 5, fontSize: 14 }}
+                />{" "}
+              </button>
+            </div>
+          </div>
+        </div>
 
         <div className="intern-main-content">
-          <aside className="intern-filters">
+          <aside
+            className={`intern-filters ${
+              !isMobileFiltersVisible ? "display-hidden" : ""
+            }`}
+          >
             <div className="intern-filter-section">
-              <h3>Skills</h3>
+              <div className="mobile-filter-heading-section">
+                <h2>Filters</h2>
+                <span
+                  className={`${
+                    isMobileFiltersVisible
+                      ? "mobile-filter-close-btn"
+                      : "display-hidden"
+                  }`}
+                  onClick={() =>
+                    setIsMobileFiltersVisible(!isMobileFiltersVisible)
+                  }
+                >
+                  ×
+                </span>
+              </div>
+
+              <h3>Skills </h3>
+
               <input
                 type="text"
                 className="intern-filter-input"
@@ -335,15 +394,6 @@ export default function InternshipJobBoard({
           </aside>
 
           <main className="intern-job-listings">
-            <div className="intern-search-bar">
-              <input
-                type="text"
-                className="intern-search-input"
-                placeholder="Search by keywords (React, Node.js, Design...)"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
             <div className="difuhtre_content intern-job-lists">
               {filteredJobs.length > 0 ? (
                 filteredJobs.map((job) => (
@@ -375,12 +425,30 @@ export default function InternshipJobBoard({
                     </div>
 
                     <div className="intern-skills-list">
-                      {JSON.parse(job.employer_internship_post_skills).map(
-                        (skill, index) => (
-                          <span key={index} className="intern-skill-tag">
-                            {skill}
-                          </span>
-                        )
+                      {(JSON.parse(job.employer_internship_post_skills).length >
+                        4 && !showAll
+                        ? JSON.parse(job.employer_internship_post_skills).slice(
+                            0,
+                            4
+                          )
+                        : JSON.parse(job.employer_internship_post_skills)
+                      ).map((skill, index) => (
+                        <span key={index} className={`intern-skill-tag`}>
+                          {skill}
+                        </span>
+                      ))}
+                      {JSON.parse(job.employer_internship_post_skills).length >
+                        4 && (
+                        <a
+                          className="intern-skills-show-more"
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            toggleShow();
+                          }}
+                        >
+                          {showAll ? "View less" : "View more"}
+                        </a>
                       )}
                     </div>
 
