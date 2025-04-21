@@ -10,6 +10,7 @@ import {
   hideLoadingHandler,
   showLoadingHandler,
 } from "../../../../Redux/loadingRedux";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
@@ -28,9 +29,9 @@ const InstituteForm = () => {
     control,
     formState: { errors },
   } = useForm();
-  const password = watch("institute_password");
-  const nameOfInstitute = watch("institute_name");
-
+  const password = watch("password");
+  const nameOfInstitute = watch("organization_name");
+  const navigate = useNavigate();
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
 
@@ -42,7 +43,7 @@ const InstituteForm = () => {
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-    setValue("institute_name", value);
+    setValue("organization_name", value);
     setDropdownVisible(value !== "");
   };
 
@@ -55,7 +56,7 @@ const InstituteForm = () => {
     setSelectedCollege(college);
     setSearchTerm(college["College Name"]);
     setDropdownVisible(false);
-    setValue("institute_name", college["College Name"]);
+    setValue("organization_name", college["College Name"]);
   };
 
 
@@ -63,7 +64,7 @@ const InstituteForm = () => {
   const cleanPhoneNumber = (phone) => {
     return phone.replace(/\D/g, "");
   };
-  const phone = getValues("institute_phone");
+  const phone = getValues("phone");
   useEffect(() => {
     setSendotp(false);
     setButtonState("send");
@@ -196,7 +197,7 @@ const InstituteForm = () => {
     // console.log(data);
     const cleanedData = {
       ...data,
-      institute_phone: cleanPhoneNumber(data.institute_phone), // Clean the phone number
+      phone: cleanPhoneNumber(data.phone), // Clean the phone number
     };
     console.log("clean data", cleanedData);
 
@@ -213,6 +214,14 @@ const InstituteForm = () => {
           toast.success(
             "You have been successfully register. Please login again."
           );
+          if (data.user_type === "institute") {
+            
+            navigate("/institute/dashboard");
+
+          }
+          else {
+            navigate("/faculty/dashboard");
+          }
         }
         if (res.data.error) {
           dispatch(hideLoadingHandler());
@@ -246,7 +255,7 @@ const InstituteForm = () => {
               type="radio"
               id="rdo4"
               className="radio-input"
-              value={"Institute"}
+              value={"institute"}
               defaultChecked
 
               {...register("user_type", {
@@ -261,14 +270,14 @@ const InstituteForm = () => {
               type="radio"
               id="rdo5"
               className="radio-input"
-              value={"Teacher"}
+              value={"faculty"}
 
               {...register("user_type", {
                 required: "Please select one of the options",
               })}
             />
             <label htmlFor="rdo5" className="radio-label pe-3">
-              <span className="radio-border"></span> Teacher
+              <span className="radio-border"></span> Faculty
             </label>
             {errors.user_type && (
               <p className="Error-meg-login-register">
@@ -290,11 +299,11 @@ const InstituteForm = () => {
                     </label>
                     <input
                       type="text"
-                      onKeyUp={() => trigger("institute_contact_person_first_name")}
+                      onKeyUp={() => trigger("contact_person_first_name")}
                       className="form-control"
                       id="contacPersonFirstName"
                       placeholder="First Name"
-                      {...register("institute_contact_person_first_name", {
+                      {...register("contact_person_first_name", {
                         required: "Enter your first name.",
                         pattern: {
                           value: /^[a-zA-Z.\s]+$/, // Pattern for letters only
@@ -302,9 +311,9 @@ const InstituteForm = () => {
                         }
                       })}
                     />
-                    {errors.institute_contact_person_first_name && (
+                    {errors.contact_person_first_name && (
                       <p className="Error-meg-login-register">
-                        {errors.institute_contact_person_first_name.message}
+                        {errors.contact_person_first_name.message}
                       </p>
                     )}
                   </div>
@@ -317,21 +326,21 @@ const InstituteForm = () => {
                     </label>
                     <input
                       type="text"
-                      onKeyUp={() => trigger("institute_contact_person_last_name")}
+                      onKeyUp={() => trigger("contact_person_last_name")}
                       className="form-control"
                       id="contacPersonLastName"
                       placeholder="Last Name"
-                      {...register("institute_contact_person_last_name", {
+                      {...register("contact_person_last_name", {
                         required: "Enter your last name.",
                         pattern: {
                           value: /^[a-zA-Z.\s]+$/, // Pattern for letters only
                           message: "Last name should contain only letters",
                         }
-                       })}
+                      })}
                     />
-                    {errors.institute_contact_person_last_name && (
+                    {errors.contact_person_last_name && (
                       <p className="Error-meg-login-register">
-                        {errors.institute_contact_person_last_name.message}
+                        {errors.contact_person_last_name.message}
                       </p>
                     )}
                   </div>
@@ -347,11 +356,11 @@ const InstituteForm = () => {
                   </label>
                   <input
                     type="email"
-                    onKeyUp={() => trigger("institute_email")}
+                    onKeyUp={() => trigger("email")}
                     className="form-control"
                     id="emailId"
                     placeholder="Enter Email Id"
-                    {...register("institute_email", {
+                    {...register("email", {
                       required: "Enter your Email Id.",
                       pattern: {
                         value:
@@ -360,9 +369,9 @@ const InstituteForm = () => {
                       },
                     })}
                   />
-                  {errors.institute_email && (
+                  {errors.email && (
                     <p className="Error-meg-login-register">
-                      {errors.institute_email.message}
+                      {errors.email.message}
                     </p>
                   )}
                 </div>
@@ -373,9 +382,9 @@ const InstituteForm = () => {
                   <div className="h-25">
                     <Controller
                       onKeyUp={() => {
-                        trigger("institute_phone");
+                        trigger("phone");
                       }}
-                      name="institute_phone"
+                      name="phone"
                       control={control}
                       defaultValue=""
                       rules={{
@@ -482,9 +491,9 @@ const InstituteForm = () => {
 
                             )}
                           </div>
-                          {errors.institute_phone && (
+                          {errors.phone && (
                             <p className="Error-meg-login-register">
-                              {errors.institute_phone.message}
+                              {errors.phone.message}
                             </p>
                           )}
                         </div>
@@ -511,7 +520,7 @@ const InstituteForm = () => {
                           className="form-control"
                           placeholder="Enter Institute Name"
                           value={searchTerm}
-                          {...register("institute_name", {
+                          {...register("organization_name", {
                             required: "Institute Name is required",
                           })}
                           onChange={handleInputChange}
@@ -534,9 +543,9 @@ const InstituteForm = () => {
                       </div>
                     </div>
 
-                    {errors.institute_name && (
+                    {errors.organization_name && (
                       <p className="Error-meg-login-register">
-                        {!nameOfInstitute && errors.institute_name.message}
+                        {!nameOfInstitute && errors.organization_name.message}
                       </p>
                     )}
                   </div>
@@ -550,17 +559,17 @@ const InstituteForm = () => {
                     </label>
                     <input
                       type="text"
-                      onKeyUp={() => trigger("instituteCode")}
+                      onKeyUp={() => trigger("organization_code")}
                       className="form-control"
                       id="contacPersonLastName"
                       placeholder="Institute Code is required"
-                      {...register("instituteCode", {
+                      {...register("organization_code", {
                         required: "Institute Code is required",
                       })}
                     />
-                    {errors.instituteCode && (
+                    {errors.organization_code && (
                       <p className="Error-meg-login-register">
-                        {errors.instituteCode.message}
+                        {errors.organization_code.message}
                       </p>
                     )}
                   </div>
@@ -574,13 +583,13 @@ const InstituteForm = () => {
                     Password <span className="RedColorStarMark">*</span>
                   </label>
                   <input
-                    onKeyUp={() => trigger("institute_password")}
+                    onKeyUp={() => trigger("password")}
                     className="form-control"
                     // id="exampleInputEmail1"
                     placeholder="Password must be at least 8 characters"
                     aria-describedby="emailHelp"
                     type={showIcon ? "text" : "password"}
-                    {...register("institute_password", {
+                    {...register("password", {
                       required: "password is required",
                       pattern: {
                         value:
@@ -605,9 +614,9 @@ const InstituteForm = () => {
                     }
                   ></i>
 
-                  {errors.institute_password && (
+                  {errors.password && (
                     <p className="Error-meg-login-register">
-                      {errors.institute_password.message}
+                      {errors.password.message}
                     </p>
                   )}
                 </div>

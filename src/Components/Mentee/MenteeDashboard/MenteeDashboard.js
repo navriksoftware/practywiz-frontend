@@ -24,6 +24,7 @@ import Spinner from "../../../Utils/Spinner.js";
 import InternshipListing from "../../Employer/Internships/OtherComponents/InternshipListing";
 import AppliedInternships from "../../Employer/Internships/OtherComponents/InternshipListing";
 import InternshipProfileMain from "./MenteeInternship/InternshipProfileMain";
+import CaseStudyAssignList from "./OtherComponents/CaseStudyAssignList.js";
 // import MenteeMenteeInternshipPage from "./OtherComponents/MenteeMenteeInternshipPage";
 // end
 const MenteeDashboard = ({ user, token }) => {
@@ -59,6 +60,7 @@ const MenteeDashboard = ({ user, token }) => {
   const [mobProfileSubMenu, setMobProfileSubMenu] = useState(false);
   const [mySessionInfo, setMySessionInfo] = useState(false);
   const [loading, setLoading] = useState(false); // State for loading
+  const [caseStudyShowList, setcaseStudyShowList] = useState(false)
 
   const MenteeNotificationHandler = () => {
     if (!showNotification) {
@@ -77,7 +79,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false)
+      setMenteeInternshipPage(false),setcaseStudyShowList(false)
     );
   };
 
@@ -98,7 +100,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeProfile(false),
       setShowMenteePaymentHistory(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false)
+      setMenteeInternshipPage(false),setcaseStudyShowList(false)
     );
   };
   const HandleAppliedInternshipmenu = () => {
@@ -118,7 +120,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeProfile(false),
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
-      setMenteeInternshipPage(false)
+      setMenteeInternshipPage(false),setcaseStudyShowList(false)
     );
   };
   const HandleMenteeInternshipPageHandler = () => {
@@ -138,7 +140,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeProfile(false),
       setShowMenteePaymentHistory(false),
       setAppliedInternship(false),
-      setinternshipMenu(false)
+      setinternshipMenu(false),setcaseStudyShowList(false)
     );
   };
   const MenteeChangePwdHandler = () => {
@@ -158,7 +160,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false)
+      setMenteeInternshipPage(false),setcaseStudyShowList(false)
     );
   };
   const MenteeSavedJobsHandler = () => {
@@ -178,7 +180,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false)
+      setMenteeInternshipPage(false),setcaseStudyShowList(false)
     );
   };
   const MenteeCourseProgressHandler = () => {
@@ -198,7 +200,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false)
+      setMenteeInternshipPage(false),setcaseStudyShowList(false)
     );
   };
   const MenteeCompCourseHandler = () => {
@@ -218,7 +220,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false)
+      setMenteeInternshipPage(false),setcaseStudyShowList(false)
     );
   };
   const MenteePsettingsHandler = () => {
@@ -238,7 +240,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false)
+      setMenteeInternshipPage(false),setcaseStudyShowList(false)
     );
   };
   const MenteeMessageHandler = () => {
@@ -258,7 +260,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false)
+      setMenteeInternshipPage(false),setcaseStudyShowList(false)
     );
   };
   const ShowMenteeProfileHandler = () => {
@@ -278,7 +280,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false)
+      setMenteeInternshipPage(false),setcaseStudyShowList(false)
     );
   };
   const ShowMenteeUpcomingHandler = () => {
@@ -298,7 +300,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false)
+      setMenteeInternshipPage(false),setcaseStudyShowList(false)
     );
   };
   const ShowMenteeCompletedHandler = () => {
@@ -318,7 +320,7 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false)
+      setMenteeInternshipPage(false),setcaseStudyShowList(false)
     );
   };
   const ShowMenteePaymentHistoryHandler = () => {
@@ -338,9 +340,31 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeProfile(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
+      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+    );
+  };
+  const ShowCaseStudyShowList = () => {
+    if (!caseStudyShowList) {
+      setcaseStudyShowList(true);
+    }
+    return (
+      setShowNotification(false),
+      setShowChangePwd(false),
+      setShowMenteePsettings(false),
+      setShowCompletedCourse(false),
+      setShowMenteeSavedJobs(false),
+      setShowMenteeCourseProgress(false),
+      setShowMenteeMessage(false),
+      setShowMenteeUpcomingSessions(false),
+      setShowMenteeCompletedSessions(false),
+      setShowMenteeProfile(false),
+      setinternshipMenu(false),
+      setAppliedInternship(false),
       setMenteeInternshipPage(false)
     );
   };
+
+
   const menteeDtlsId = user?.user_id;
   useEffect(() => {
     const fetchSingleMentee = async () => {
@@ -890,6 +914,43 @@ const MenteeDashboard = ({ user, token }) => {
                 </div>
               )} */}
                 </div>
+                <div className="Baseposition" onMouseLeave={toggleOffCourse}>
+                  <button
+                    className="btn btn-transparent text-center py-3 seeeett"
+                    // onMouseOver={toggleNoCourse}
+                    onClick={ShowCaseStudyShowList}
+                  >
+                    <span className="d-block bg-white position-relative m-auto ">
+                    <i className="fa-solid fa-book"></i>
+                    </span>
+                    <h5>
+                    Case Studies info
+                      {/* <i className="fa-solid fa-chevron-down downarrowsize"></i> */}
+                    </h5>
+                  </button>
+                  {/* {Coursemenu && (
+                <div className="submenu1">
+                  <button
+                    className="submenu-item1"
+                    onClick={HandleInternshipmenu}
+                  >
+                    <h5> Apply for Internship</h5>
+                  </button>
+                  <button
+                    className="submenu-item1"
+                    onClick={HandleAppliedInternshipmenu}
+                  >
+                    <h5>Applied Internship</h5>
+                  </button>
+                  <button
+                    className="submenu-item1"
+                    onClick={HandleMenteeInternshipPageHandler}
+                  >
+                    <h5>Stipend Info</h5>
+                  </button>
+                </div>
+              )} */}
+                </div>
                 <button
                   className="btn btn-transparent text-center py-3 seeeett"
                   onClick={MenteeNotificationHandler}
@@ -1044,6 +1105,13 @@ const MenteeDashboard = ({ user, token }) => {
               )}
               {AppliedInternship && (
                 <AppliedInternships
+                  singleMentee={singleMentee}
+                  user={user}
+                  token={token}
+                />
+              )}
+              {caseStudyShowList && (
+                <CaseStudyAssignList
                   singleMentee={singleMentee}
                   user={user}
                   token={token}

@@ -39,51 +39,41 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [VerifyState, setVerifyState] = useState("Verify");
   const [isLoadingVerify, setIsLoadingVerify] = useState(false);
-
   const [resendAvailable, setResendAvailable] = useState(false);
 
-  function validatePhoneNumber(phone) {
-    const regex = /^[+]?[0-9\s-]{10,17}$/;
-    return regex.test(phone);
-  }
-  
+   
   const handleSendOtp = async () => {
     setButtonState("send");
     setIsLoading(true);
-    if (validatePhoneNumber(phone)) {
-      try {
-        // Make Axios POST request to send OTP
-        const response = await axios.post(
-          `${url}api/v1/otpvarification/request-otp`,
-          { phone }
-        );
 
-        if (response.data.success) {
-          setButtonState("sended");
-          setSendotp(true);
-          setResendAvailable(true);
+    try {
+      // Make Axios POST request to send OTP
+      const response = await axios.post(
+        `${url}api/v1/otpvarification/request-otp`,
+        { phone }
+      );
 
-          // Enable resend after 1 minute
-          setTimeout(() => {
-            setResendAvailable(false);
-          }, 60000); // 1 minute timeout
-        } else {
-          setButtonState("send");
-          alert(response.data.message || "Failed to send OTP");
-        }
-      } catch (error) {
-        console.error("Error sending OTP:", error);
+      if (response.data.success) {
+        setButtonState("sended");
+        setSendotp(true);
+        setResendAvailable(true);
+
+        // Enable resend after 1 minute
+        setTimeout(() => {
+          setResendAvailable(false);
+        }, 60000); // 1 minute timeout
+      } else {
         setButtonState("send");
-        alert(
-          error.response?.data?.message || "An error occurred while sending OTP"
-        );
-      } finally {
-        setIsLoading(false);
+        alert(response.data.message || "Failed to send OTP");
       }
-    }
-    else{
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      setButtonState("send");
+      alert(
+        error.response?.data?.message || "An error occurred while sending OTP"
+      );
+    } finally {
       setIsLoading(false);
-      toast.error("Please Enter Valid Phone Number");
     }
   };
 
@@ -302,7 +292,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
               // validate: {
               //   minLength: (value) =>
               //     value.replace(/\D/g, "").length >= 10 ||
-              //     "Enter a valid phone number",
+              //     "Please Enter a valid phone number",
               // },
             }}
             render={({

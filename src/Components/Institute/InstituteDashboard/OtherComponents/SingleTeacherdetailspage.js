@@ -1,11 +1,15 @@
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import "../DashboardCSS/TeacherDetailslistings.css"
-const SingleTeacherdetailspage = () => {
-const [caseStudyTitle, setCaseStudyTitle] = useState("")
+import { ApiURL } from "../../../../Utils/ApiURL.js";
+import axios from "axios";
+
+const SingleTeacherdetailspage = ({ childData }) => {
+  const [caseStudyTitle, setCaseStudyTitle] = useState("")
   const [subjectArea, setSubjectArea] = useState("")
   const [description, setDescription] = useState("")
   const [dueDate, setDueDate] = useState("")
   const [priorityLevel, setPriorityLevel] = useState("")
+  console.log("childData", childData)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -13,9 +17,52 @@ const [caseStudyTitle, setCaseStudyTitle] = useState("")
     console.log({ caseStudyTitle, subjectArea, description, dueDate, priorityLevel })
   }
 
+  const [singleFacultyDetails, setsingleFacultyDetails] = useState([])
+  const url = ApiURL();
+  useEffect(() => {
+    const fetchMentors = async () => {
+      try {
+        const response = await Promise.race([
+          axios.post(`${url}api/v1/institute/dashboard/Single-facultyDetails`, {
+            facultyid: childData,
+          }),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (response.data.success) {
+          setsingleFacultyDetails(response.data.success);
+        } else if (response.data.error) {
+          setsingleFacultyDetails([]);
+        }
+      } catch (error) {
+        setsingleFacultyDetails([]);
+        if (error.message === "Request timed out") {
+          console.log("Request timed out. Please try again.");
+        } else {
+          console.log("An error occurred. Please try again.");
+        }
+      } finally {
+        console.log("Request completed");
+      }
+    };
+    fetchMentors();
+  }, [url]);
+
+console.log("singleFacultyDetails", singleFacultyDetails)
+
+const firstInitial = singleFacultyDetails[0]?.faculty_firstname?.charAt(0) || "";
+const lastInitial = singleFacultyDetails[0]?.faculty_lastname?.charAt(0) || "";
+const initials = (firstInitial + lastInitial).toUpperCase();
+
+
+
+
   return (
     <div className="teacherPage">
-      <div className="teacherPage__header">
+      {/* <div className="teacherPage__header">
         <div className="teacherPage__breadcrumb">
           <span>Dashboard</span>
           <span className="teacherPage__breadcrumbSeparator">&gt;</span>
@@ -23,21 +70,21 @@ const [caseStudyTitle, setCaseStudyTitle] = useState("")
           <span className="teacherPage__breadcrumbSeparator">&gt;</span>
           <span className="teacherPage__breadcrumbActive">Gagan verma</span>
         </div>
-      </div>
+      </div> */}
 
       <div className="teacherPage__content">
         <div className="teacherPage__profileSection">
           <div className="teacherPage__avatarSection">
             <div className="teacherPage__avatar">
-              <span>AS</span>
+              <span>{initials}</span>
             </div>
-            <h2 className="teacherPage__name">Ananya Sharma</h2>
+            <h2 className="teacherPage__name">{singleFacultyDetails[0]?.faculty_firstname + " " + singleFacultyDetails[0]?.faculty_lastname }</h2>
             <p className="teacherPage__title">Faculty Member</p>
-            <div className="teacherPage__tags">
+            {/* <div className="teacherPage__tags">
               <span className="teacherPage__tag teacherPage__tagBusiness">Business Studies</span>
               <span className="teacherPage__tag teacherPage__tagEnvironmental">Environmental Science</span>
               <span className="teacherPage__tag teacherPage__tagComputer">Computer Science</span>
-            </div>
+            </div> */}
           </div>
 
           <div className="teacherPage__infoSection">
@@ -46,12 +93,12 @@ const [caseStudyTitle, setCaseStudyTitle] = useState("")
               <div className="teacherPage__infoItem">
                 {/* <FiMail className="teacherPage__infoIcon" /> */}
                 <i className="fa-solid fa-envelope teacherPage__infoIcon"></i>
-                <span>Ananya.Sharma@educase.com</span>
+                <span>{singleFacultyDetails[0]?.faculty_email}</span>
               </div>
               <div className="teacherPage__infoItem">
                 {/* <FiPhone className="teacherPage__infoIcon" /> */}
                 <i className="fa-solid fa-phone teacherPage__infoIcon"></i>
-                <span>+91 111111111</span>
+                <span>{singleFacultyDetails[0]?.faculty_phone_number}</span>
               </div>
               <div className="teacherPage__infoItem">
                 {/* <FiMapPin className="teacherPage__infoIcon" /> */}
@@ -67,7 +114,7 @@ const [caseStudyTitle, setCaseStudyTitle] = useState("")
               </div>
               <div className="teacherPage__detailItem">
                 <span className="teacherPage__detailLabel">Join Date:</span>
-                <span className="teacherPage__detailValue">October 2023</span>
+                <span className="teacherPage__detailValue">{singleFacultyDetails[0]?.faculty_dtls_cr_date}</span>
               </div>
               <div className="teacherPage__detailItem">
                 {/* <span className="teacherPage__detailLabel">Faculty ID:</span>

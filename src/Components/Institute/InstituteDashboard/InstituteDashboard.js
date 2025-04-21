@@ -51,6 +51,8 @@ const InstituteDashboard = ({ user, token }) => {
   const [mentormenu, setmentormenu] = useState(false);
   const [sub_sub1, setsub_sub1] = useState(false);
   const [sub_sub2, setsub_sub2] = useState(false);
+
+  const [childData, setchildData] = useState()
   const toggleMenu = () => {
     setIsOpen(true);
     setsub_sub2(false);
@@ -513,8 +515,6 @@ const InstituteDashboard = ({ user, token }) => {
 
 
 
-
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userLogoutHandler = () => {
@@ -972,6 +972,7 @@ const InstituteDashboard = ({ user, token }) => {
                 user={user}
                 token={token}
                 HandleSingleTeacherDetails={HandleSingleTeacherDetails}
+                setchildData={setchildData}
               />
             ) : (
               ""
@@ -981,8 +982,7 @@ const InstituteDashboard = ({ user, token }) => {
                 instituteDashboardDetails={instituteDashboardDetails}
                 user={user}
                 token={token}
-                
-              />
+                childData={childData}            />
             ) : (
               ""
             )}

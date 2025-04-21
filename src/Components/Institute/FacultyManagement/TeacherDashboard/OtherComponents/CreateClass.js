@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
 import '../DashboardCSS/CreateClass.css';
+import axios from 'axios';
+import { ApiURL } from '../../../../../Utils/ApiURL';
+import { toast } from "react-toastify";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../../Redux/loadingRedux";
+import { useDispatch } from "react-redux";
 
-const CreateClass = ({ setShowCreateclassform }) => {
+const CreateClass = ({ userdata, setActivePage, setShowCreateclassform }) => {
+    
   const [formData, setFormData] = useState({
     Name: '',
     SubjectCode: '',
     SubjectName: '',
     SemisterEnd: '',
-    emailAddress: ''
+    facultyId: userdata[0]?.faculty_dtls_id
   });
+  const dispatch = useDispatch();
+  const url = ApiURL();
 
   const handleInputChange = (e, field) => {
     setFormData({
@@ -21,6 +32,29 @@ const CreateClass = ({ setShowCreateclassform }) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
     // Handle form submission logic here
+    try {
+      dispatch(showLoadingHandler());
+      axios.post(` ${url}api/v1/faculty/createClass`, formData)
+        .then((res) => {
+          if (res.status === 200) {
+            dispatch(hideLoadingHandler());
+            setShowCreateclassform(false);
+            toast.success("Class created successfully!");
+          } else {
+            dispatch(hideLoadingHandler());
+            toast.error("Failed to create class. Please try again.");
+          }
+        })
+        .catch((error) => {
+          dispatch(hideLoadingHandler());
+          console.error("Error creating class:", error);
+        });
+    }
+    catch (error) {
+      dispatch(hideLoadingHandler());
+      console.error("Error:", error);
+    }
+
   };
 
   return (
@@ -31,7 +65,7 @@ const CreateClass = ({ setShowCreateclassform }) => {
             <h2>Create class</h2>
             <p>Please fill in your details below</p>
           </div>
-          
+
           <form onSubmit={handleSubmit}>
             <div className="CreateClass-form-fields">
               <div className="CreateClass-form-field">
@@ -64,7 +98,7 @@ const CreateClass = ({ setShowCreateclassform }) => {
                 <div className="CreateClass-form-field">
                   <label htmlFor="SubjectName">Subject Name *</label>
                   <input
-                    type="text" 
+                    type="text"
                     id="SubjectName"
                     placeholder="Enter Subject Name"
                     value={formData.SubjectName}
@@ -88,7 +122,7 @@ const CreateClass = ({ setShowCreateclassform }) => {
               </div>
 
             </div>
-            
+
             <div className="CreateClass-form-actions">
               <button
                 type="button"
@@ -97,7 +131,7 @@ const CreateClass = ({ setShowCreateclassform }) => {
               >
                 Cancel
               </button>
-              
+
               <button
                 type="submit"
                 className="CreateClass-button-create"

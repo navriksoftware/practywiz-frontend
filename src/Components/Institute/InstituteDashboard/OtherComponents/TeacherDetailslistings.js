@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import "../DashboardCSS/TeacherDetailslistings.css";
+import { ApiURL } from "../../../../Utils/ApiURL.js";
+import axios from "axios";
 
-const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
+const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacherDetails ,setchildData}) => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [departmentFilter, setDepartmentFilter] = useState('');
@@ -9,41 +11,53 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
   const [filteredCaseStudies, setFilteredCaseStudies] = useState([]);
   const [showDepartmentDropdown, setShowDepartmentDropdown] = useState(false);
   const [showDateDropdown, setShowDateDropdown] = useState(false);
+  const [facultyDetails, setfacultyDetails] = useState([])
 
-  const caseStudies = [
-    { teacherName: 'Ananya Sharma', department: 'Business Studies', numberOfCaseStudiesAssigned: 4, numberOfStudents: 5, actions: 'View Details' },
-    { teacherName: 'Rajesh Kumar', department: 'Environmental Science', numberOfCaseStudiesAssigned: 6, numberOfStudents: 3, actions: 'View Details' },
-    { teacherName: 'Meera Joshi', department: 'Marketing', numberOfCaseStudiesAssigned: 3, numberOfStudents: 4, actions: 'View Details' },
-    { teacherName: 'Amit Singh', department: 'Healthcare Management', numberOfCaseStudiesAssigned: 2, numberOfStudents: 2, actions: 'View Details' },
-    { teacherName: 'Aman Kumar', department: 'Business Studies', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
-    { teacherName: 'Deepak Sharma', department: 'Business Studies', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
-    { teacherName: 'Neha Roa', department: 'Marketing', numberOfCaseStudiesAssigned: 4, numberOfStudents: 6, actions: 'View Details' },
-  ];
-
-  const departments = [...new Set(caseStudies.map(cs => cs.department))];
-
-  const dateRanges = ['Last 7 days', 'Last 30 days', 'Last 90 days', 'This year'];
-
+  const url = ApiURL();
+  
   useEffect(() => {
-    let result = [...caseStudies];
+    const fetchMentors = async () => {
+      try {
+        const response = await Promise.race([
+          axios.post(`${url}api/v1/institute/dashboard/faculty-list`, {
+            instituteCode: instituteDashboardDetails[0]?.institute_code,
+          }),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
 
-    if (searchQuery) {
-      result = result.filter(cs =>
-        cs.teacherName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        cs.department.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
+        if (response.data.success) {
+          setfacultyDetails(response.data.success);
+        } else if (response.data.error) {
+          setfacultyDetails([]);
+        }
+      } catch (error) {
+        setfacultyDetails([]);
+        if (error.message === "Request timed out") {
+          console.log("Request timed out. Please try again.");
+        } else {
+          console.log("An error occurred. Please try again.");
+        }
+      } finally {
+        console.log("Request completed");
+      }
+    };
+    fetchMentors();
+  }, [url,]);
 
-    if (departmentFilter) {
-      result = result.filter(cs => cs.department === departmentFilter);
-    }
+  const caseStudies = facultyDetails.map((FacDtl) => ({
+    teacherName: FacDtl.faculty_lastname + " " + FacDtl.faculty_firstname,
+    department: FacDtl.faculty_email,
+    numberOfCaseStudiesAssigned: FacDtl.faculty_phone_number,
+    facultyDtls_id: FacDtl.faculty_user_dtls_id,
+  }))
 
-    setFilteredCaseStudies(result);
-  }, [searchQuery, departmentFilter, dateRangeFilter]);
 
   const clearFilters = () => {
     setSearchQuery('');
-    setDepartmentFilter('');
+    // setDepartmentFilter('');
     setDateRangeFilter('');
   };
 
@@ -56,6 +70,27 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
     setShowDateDropdown(!showDateDropdown);
     setShowDepartmentDropdown(false);
   };
+
+
+
+
+  useEffect(() => {
+    let result = [...caseStudies];
+
+    if (searchQuery) {
+      result = result.filter(cs =>
+        cs.teacherName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        cs.department.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // if (departmentFilter) {
+    //   result = result.filter(cs => cs.department === departmentFilter);
+    // }
+
+    setFilteredCaseStudies(result);
+  }, [searchQuery]);
+
 
   return (
     <div className="instituteDashboard-container">
@@ -71,7 +106,7 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
           />
         </div> */}
 
-       
+
 
         <div className="teacher-profile-home-page-actions">
           <div className="teacher-profile-home-page-search">
@@ -96,7 +131,7 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
             >
               {departmentFilter || 'Department'}
             </button>
-            {showDepartmentDropdown && (
+            {/* {showDepartmentDropdown && (
               <div className="instituteDashboard-dropdown-content">
                 <div
                   className="instituteDashboard-dropdown-item"
@@ -120,7 +155,7 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
                   </div>
                 ))}
               </div>
-            )}
+            )} */}
           </div>
 
           {(departmentFilter || dateRangeFilter) && (
@@ -146,17 +181,19 @@ const TeacherDetailslistings = ({ HandleSingleTeacherDetails }) => {
             </tr>
           </thead>
           <tbody>
-            {filteredCaseStudies.length > 0 ? (
-              filteredCaseStudies.map((caseStudy, index) => (
+            {caseStudies.length > 0 ? (
+              caseStudies.map((caseStudy, index) => (
                 <tr key={index}>
                   <td>{caseStudy.teacherName}</td>
                   <td>{caseStudy.department}</td>
-                  {/* <td>{caseStudy.numberOfCaseStudiesAssigned}</td> */}
-                  <td>{caseStudy.numberOfStudents}</td>
+                  <td>{caseStudy.numberOfCaseStudiesAssigned}</td>
                   <td>
                     <button
                       className="instituteDashboard-action-btn instituteDashboard-view-btn"
-                      onClick={HandleSingleTeacherDetails}
+                      onClick={() => {
+                        HandleSingleTeacherDetails();
+                        setchildData(caseStudy.facultyDtls_id);
+                      }}
                     >
                       View
                     </button>

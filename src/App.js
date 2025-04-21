@@ -272,7 +272,7 @@ function App() {
 
           {/* teacher dashboard start */}
           <Route
-            path="/teacher/dashboard"
+            path="/faculty/dashboard"
             element={<TeacherDashboardPage user={user} token={token} />}
           />
           {/* teacher dashboard end */}

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './DashboardCSS/ShowClasses.css';
 import CreateClass from './OtherComponents/CreateClass';
+import axios from 'axios';
+import { ApiURL } from '../../../../Utils/ApiURL.js';
+import { useDispatch } from "react-redux";
 
-
-const ClassCard = ({ title, code, students, schedule, progress, color, setActivePage }) => {
+const ClassCard = ({ title, code, students, schedule, progress, color, class_dtls_id, setActivePage, setdataFormchild }) => {
   return (
     <div className="showclasses-card" style={{ borderTop: `3px solid ${color}` }}>
       <div className="showclasses-card-content">
@@ -22,7 +24,7 @@ const ClassCard = ({ title, code, students, schedule, progress, color, setActive
         </div>
 
         <p className="showclasses-card-meta">{students}
-           {/* • {schedule} */}
+          {/* • {schedule} */}
 
         </p>
 
@@ -37,7 +39,12 @@ const ClassCard = ({ title, code, students, schedule, progress, color, setActive
         </div>
 
         <div className="showclasses-card-footer">
-          <button className="showclasses-details-button" onClick={() => setActivePage("singleclassdetails")}>
+          <button className="showclasses-details-button" onClick={() => {
+            setActivePage("singleclassdetails");
+            setdataFormchild(class_dtls_id);
+          }}
+
+          >
             View Details
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="showclasses-arrow-icon">
               <polyline points="9 18 15 12 9 6" />
@@ -56,49 +63,101 @@ const ClassCard = ({ title, code, students, schedule, progress, color, setActive
   );
 };
 
-const ShowClasses = ({ setActivePage }) => {
-  const classes = [
-    {
-      title: "Financial Accounting",
-      code: "FIN 301",
-      students: "28 Students",
-      schedule: "Mon, Wed, Fri • 10:00 AM",
-      progress: 65,
-      color: "#6366f1" // indigo
-    },
-    {
-      title: "Global Economics",
-      code: "ECO 201",
-      students: "32 Students",
-      schedule: "Tue, Thu • 2:00 PM",
-      progress: 45,
-      color: "#06b6d4" // cyan
-    },
-    {
-      title: "Marketing Strategies",
-      code: "MKT 101",
-      students: "24 Students",
-      schedule: "Mon, Wed • 1:00 PM",
-      progress: 80,
-      color: "#6366f1" // indigo
-    },
-    {
-      title: "Business Communication",
-      code: "BUS 202",
-      students: "30 Students",
-      schedule: "Tue, Thu • 11:00 AM",
-      progress: 35,
-      color: "#ec4899" // pink
-    },
-    {
-      title: "Entrepreneurship & Innovation",
-      code: "ENT 401",
-      students: "22 Students",
-      schedule: "Wed, Fri • 3:00 PM",
-      progress: 55,
-      color: "#f59e0b" // amber
-    }
-  ];
+const ShowClasses = ({ userdata, data, setActivePage, setdataFormchild }) => {
+
+
+
+  const dispatch = useDispatch();
+  const url = ApiURL();
+  const [classDetalis, setclassDetalis] = useState([])
+
+  useEffect(() => {
+    const fetchClassDetails = async () => {
+      try {
+        const response = await Promise.race([
+          axios.post(`${url}api/v1/faculty/class/get`, {
+            FacultyUserId: userdata[0]?.faculty_dtls_id,
+          }),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (response.data.success) {
+          setclassDetalis(response.data.success);
+        } else if (response.data.error) {
+          setclassDetalis([]);
+        }
+      } catch (error) {
+        setclassDetalis([]);
+        if (error.message === "Request timed out") {
+          console.log("Request timed out. Please try again.");
+        } else {
+          console.log("An error occurred. Please try again.");
+        }
+      } finally {
+        console.log("Request completed");
+      }
+    };
+    fetchClassDetails();
+  }, [url, userdata]);
+
+
+  
+  console.log("classDetalis", classDetalis)
+  const classDetails = classDetalis.map((cls) => ({
+    title: cls.class_name,
+    code: cls.class_subject_code,
+    students: cls.class_subject,
+    schedule: cls.class_name,
+    progress: 63,
+    class_dtls_id: cls.class_dtls_id,
+    color: "#6366f1" // indigo
+  }))
+
+  // const classes = [
+  //   {
+  //     title: "Financial Accounting",
+  //     code: "FIN 301",
+  //     students: "28 Students",
+  //     schedule: "Mon, Wed, Fri • 10:00 AM",
+  //     progress: 65,
+  //     color: "#6366f1" // indigo
+  //   },
+  //   {
+  //     title: "Global Economics",
+  //     code: "ECO 201",
+  //     students: "32 Students",
+  //     schedule: "Tue, Thu • 2:00 PM",
+  //     progress: 45,
+  //     color: "#06b6d4" // cyan
+  //   },
+  //   {
+  //     title: "Marketing Strategies",
+  //     code: "MKT 101",
+  //     students: "24 Students",
+  //     schedule: "Mon, Wed • 1:00 PM",
+  //     progress: 80,
+  //     color: "#6366f1" // indigo
+  //   },
+  //   {
+  //     title: "Business Communication",
+  //     code: "BUS 202",
+  //     students: "30 Students",
+  //     schedule: "Tue, Thu • 11:00 AM",
+  //     progress: 35,
+  //     color: "#ec4899" // pink
+  //   },
+  //   {
+  //     title: "Entrepreneurship & Innovation",
+  //     code: "ENT 401",
+  //     students: "22 Students",
+  //     schedule: "Wed, Fri • 3:00 PM",
+  //     progress: 55,
+  //     color: "#f59e0b" // amber
+  //   }
+  // ];
 
   const [ShowCreateclassform, setShowCreateclassform] = useState(false)
 
@@ -108,7 +167,7 @@ const ShowClasses = ({ setActivePage }) => {
 
   return (
     <div className="showclasses-container">
-      {ShowCreateclassform && <CreateClass setShowCreateclassform={setShowCreateclassform} />}
+      {ShowCreateclassform && <CreateClass userdata={userdata} setActivePage={setActivePage} setShowCreateclassform={setShowCreateclassform} />}
       <div className="showclasses-wrapper">
         <div className="showclasses-header">
           <h1 className="showclasses-title">My Classes</h1>
@@ -145,7 +204,7 @@ const ShowClasses = ({ setActivePage }) => {
         </div> */}
 
         <div className="showclasses-grid">
-          {classes.map((cls, index) => (
+          {classDetails.reverse().map((cls, index) => (
             <ClassCard
               key={index}
               title={cls.title}
@@ -154,7 +213,9 @@ const ShowClasses = ({ setActivePage }) => {
               schedule={cls.schedule}
               progress={cls.progress}
               color={cls.color}
+              class_dtls_id={cls.class_dtls_id}
               setActivePage={setActivePage} // Pass the setActivePage function to ClassCard
+              setdataFormchild={setdataFormchild} // Pass the setdataFormchild function to ClassCard
             />
           ))}
         </div>

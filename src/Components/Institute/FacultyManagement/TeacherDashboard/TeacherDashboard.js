@@ -12,57 +12,55 @@ import Notification from "./OtherComponents/Notification";
 import SingleAssignedCase from "./OtherComponents/SingleAssignedCase";
 import CaseAssigneProcess from "./OtherComponents/CaseAssignProcess";
 import ShowClasses from "./ShowClasses";
-import CreateClass from "./OtherComponents/CreateClass";
 import SingleClassdetails from "./OtherComponents/SingleClassdetails";
-import AddBulkStudents from "./OtherComponents/AddBulkStudents";
-import AddSingleStudent from "./OtherComponents/AddSingleStudent";
 import ChangePassword from "./OtherComponents/ChangePassword";
 import AddNonPractywizCase from "./AddNonPractywizCases/AddNonPractywizCase";
 
-const TeacherDashboard = () => {
+const TeacherDashboard = ({ user, token }) => {
+
   const dispatch = useDispatch();
   const navigate = useNavigate(); // For redirecting after logout
-  const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState({});
 
   const [mobMenu, setMobMenu] = useState(false);
   const [mobProfileSubMenu, setMobProfileSubMenu] = useState(false);
   const [profilemenu, setprofilemenu] = useState(false);
-
+  const [userdata, setuserdata] = useState([])
   // Initialize activePage from localStorage or default to "profile"
   const [activePage, setActivePage] = useState(() => {
     return localStorage.getItem("activePage") || "profile";
   });
+  const url = ApiURL();
+  useEffect(() => {
+    const fetchFacultyDetails = async () => {
+      try {
+        const response = await Promise.race([
+          axios.post(`${url}api/v1/faculty/dashboard/details`, {
+            FacultyUserId: user?.user_id,
+          }),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
 
-  // Fetch user data
-  // useEffect(() => {
-  //   axios
-  //     .get(`${ApiURL}api/auth/user`, { withCredentials: true })
-  //     .then((res) => {
-  //       setUser(res.data);
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       setLoading(false);
-  //       navigate("/login"); // Redirect to login if auth fails
-  //     });
-  // }, [navigate]);
-
-  // Fetch dashboard data
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get("/api/dashboard-data");
-  //     setData(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+        if (response.data.success) {
+          setuserdata(response.data.success);
+        } else if (response.data.error) {
+          setuserdata([]);
+        }
+      } catch (error) {
+        setuserdata([]);
+        if (error.message === "Request timed out") {
+          console.log("Request timed out. Please try again.");
+        } else {
+          console.log("An error occurred. Please try again.");
+        }
+      } finally {
+        console.log("Request completed");
+      }
+    };
+    fetchFacultyDetails();
+  }, [url, user?.user_id]);
 
   // Update localStorage when activePage changes
   useEffect(() => {
@@ -83,44 +81,45 @@ const TeacherDashboard = () => {
   //   }
   // }, [user, loading]);
 
+  const [dataFormchild, setdataFormchild] = useState("")
+
   const renderPage = () => {
     switch (activePage) {
       case "profile":
-        return <Profile data={data.profile} setActivePage={setActivePage} />;
+        return <Profile userdata={userdata} setActivePage={setActivePage} />;
       case "singlecase":
-        return <SingleAssignedCase data={data.singlecase} />;
+        return <SingleAssignedCase userdata={userdata} />;
       case "settings":
-        return <Setting data={data.settings} />;
+        return <Setting userdata={userdata} />;
       case "ChangePwd":
-        return <ChangePassword data={data.settings} />;
+        return <ChangePassword user={user} token={token}/>;
       case "store":
-        return <Store data={data.store} setActivePage={setActivePage} />;
+        return <Store userdata={userdata} setActivePage={setActivePage} />;
       case "AddCaseStudy":
         return (
-          <AddNonPractywizCase
-            data={data.store}
+          <AddNonPractywizCase userdata={userdata}
             setActivePage={setActivePage}
           />
         );
 
       case "showclasses":
-        return <ShowClasses data={data.store} setActivePage={setActivePage} />;
-      case "createclass":
-        return <CreateClass data={data.store} setActivePage={setActivePage} />;
+        return <ShowClasses userdata={userdata} setActivePage={setActivePage} setdataFormchild={setdataFormchild} />;
+      // case "createclass":
+      //   return <CreateClass user={user} token={token} setActivePage={setActivePage} />;
       case "singleclassdetails":
         return (
-          <SingleClassdetails data={data.store} setActivePage={setActivePage} />
+          <SingleClassdetails setActivePage={setActivePage} dataFormchild={dataFormchild} />
         );
       // case "addbulkstudents":
       //   return <AddBulkStudents data={data.store} setActivePage={setActivePage} />;
       // case "addsinglestudent":
       //   return <AddSingleStudent data={data.store} setActivePage={setActivePage} />;
       case "assigncase":
-        return <CaseAssigneProcess data={data.assignedcase} />;
+        return <CaseAssigneProcess />;
       case "notifications":
-        return <Notification data={data.notifications} />;
+        return <Notification />;
       default:
-        return <Profile data={data.profile} />;
+        return <Profile />;
     }
   };
 
@@ -131,7 +130,7 @@ const TeacherDashboard = () => {
     setprofilemenu(false);
   };
 
-  if (loading) {
+  if (false) {
     return <div>Loading...</div>;
   }
 
@@ -332,7 +331,7 @@ const TeacherDashboard = () => {
       </header>
       <div
         className="mentor_dashboard"
-        //  id="mentorRegisterBg"
+      //  id="mentorRegisterBg"
       >
         <div className="col-md-flex-center">
           <div className="display-raw">

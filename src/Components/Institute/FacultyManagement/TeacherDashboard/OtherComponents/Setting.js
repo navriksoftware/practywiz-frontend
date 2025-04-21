@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import collegeData from "../../../../data/collegesname.json";
-function Setting() {
+function Setting({ userdata }) {
   const {
     register,
     watch,
@@ -12,30 +12,43 @@ function Setting() {
     trigger,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      faculty_firstname: userdata[0]?.faculty_firstname,
+      faculty_lastname: userdata[0]?.faculty_lastname,
+      faculty_phone_number: userdata[0]?.faculty_phone_number,
+      faculty_email: userdata[0]?.faculty_email,
+      faculty_institute_name: userdata[0]?.faculty_institute_name,
+      faculty_institute_code: userdata[0]?.faculty_institute_code,
+
+
+    }
+  });
+  console.log("userdata", userdata);
+
   const [isEditing, setIsEditing] = useState(false);
-  const nameOfInstitute = watch("institute_name");
+  const nameOfInstitute = watch("faculty_institute_name");
   //Institute name code start
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(userdata[0]?.faculty_institute_name);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedCollege, setSelectedCollege] = useState(null);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-    setValue("institute_name", value);
+    setValue("faculty_institute_name", value);
     setDropdownVisible(value !== "");
   };
 
   const filteredColleges = collegeData.filter((item) =>
-    item["College Name"].toLowerCase().includes(searchTerm.toLowerCase())
+    item["College Name"]?.toLowerCase()?.includes(searchTerm?.toLowerCase())
   );
 
   const handleOptionClick = (college) => {
     setSelectedCollege(college);
     setSearchTerm(college["College Name"]);
     setDropdownVisible(false);
-    setValue("institute_name", college["College Name"]);
+    setValue("faculty_institute_name", college["College Name"]);
   };
 
 
@@ -76,12 +89,12 @@ function Setting() {
                 </label>
                 <input
                   type="text"
-                  onKeyUp={() => trigger("institute_contact_person_first_name")}
+                  onKeyUp={() => trigger("faculty_firstname")}
                   className="form-control"
                   disabled={!isEditing}
                   id="contacPersonFirstName"
                   placeholder="First Name"
-                  {...register("institute_contact_person_first_name", {
+                  {...register("faculty_firstname", {
                     required: "Enter your first name.",
                     pattern: {
                       value: /^[a-zA-Z]+$/, // Pattern for letters only
@@ -93,9 +106,9 @@ function Setting() {
                     },
                   })}
                 />
-                {errors.institute_contact_person_first_name && (
+                {errors.faculty_firstname && (
                   <p className="Error-meg-login-register">
-                    {errors.institute_contact_person_first_name.message}
+                    {errors.faculty_firstname.message}
                   </p>
                 )}
               </div>
@@ -108,12 +121,12 @@ function Setting() {
                 </label>
                 <input
                   type="text"
-                  onKeyUp={() => trigger("institute_contact_person_last_name")}
+                  onKeyUp={() => trigger("faculty_lastname")}
                   className="form-control"
                   disabled={!isEditing}
                   id="contacPersonLastName"
                   placeholder="Last Name"
-                  {...register("institute_contact_person_last_name", {
+                  {...register("faculty_lastname", {
                     required: "Enter your last name.",
                     pattern: {
                       value: /^[a-zA-Z]+$/, // Pattern for letters only
@@ -125,9 +138,9 @@ function Setting() {
                     },
                   })}
                 />
-                {errors.institute_contact_person_last_name && (
+                {errors.faculty_lastname && (
                   <p className="Error-meg-login-register">
-                    {errors.institute_contact_person_last_name.message}
+                    {errors.faculty_lastname.message}
                   </p>
                 )}
               </div>
@@ -143,12 +156,12 @@ function Setting() {
                 </label>
                 <input
                   type="email"
-                  onKeyUp={() => trigger("institute_email")}
+                  onKeyUp={() => trigger("faculty_email")}
                   className="form-control"
                   disabled
                   id="emailId"
                   placeholder="Enter Email Id"
-                  {...register("institute_email", {
+                  {...register("faculty_email", {
                     required: "Enter your Email Id.",
                     pattern: {
                       value:
@@ -157,9 +170,9 @@ function Setting() {
                     },
                   })}
                 />
-                {errors.institute_email && (
+                {errors.faculty_email && (
                   <p className="Error-meg-login-register">
-                    {errors.institute_email.message}
+                    {errors.faculty_email.message}
                   </p>
                 )}
               </div>
@@ -173,7 +186,7 @@ function Setting() {
                 </label>
                 <PhoneInput
                   country={"in"}
-                  //  value={formData.mentor_phone_number}
+                  //  value={faculty_phone_number}
                   //  onChange={handlePhoneChange}
                   disabled
                 />
@@ -198,7 +211,7 @@ function Setting() {
                       className="form-control"
                       placeholder="Enter Institute Name"
                       value={searchTerm}
-                      {...register("institute_name", {
+                      {...register("faculty_institute_name", {
                         required: "Institute Name is required",
                       })}
                       onChange={handleInputChange}
@@ -221,9 +234,9 @@ function Setting() {
                   </div>
                 </div>
 
-                {errors.institute_name && (
+                {errors.faculty_institute_name && (
                   <p className="Error-meg-login-register">
-                    {!nameOfInstitute && errors.institute_name.message}
+                    {!nameOfInstitute && errors.faculty_institute_name.message}
                   </p>
                 )}
               </div>
@@ -238,17 +251,17 @@ function Setting() {
                 <input
                   type="text"
                   disabled={!isEditing}
-                  onKeyUp={() => trigger("instituteCode")}
+                  onKeyUp={() => trigger("faculty_institute_code")}
                   className="form-control"
                   id="contacPersonLastName"
                   placeholder="Institute Code"
-                  {...register("instituteCode", {
+                  {...register("faculty_institute_code", {
                     required: "Enter your Institute Code.",
                   })}
                 />
-                {errors.instituteCode && (
+                {errors.faculty_institute_code && (
                   <p className="Error-meg-login-register">
-                    {errors.instituteCode.message}
+                    {errors.faculty_institute_code.message}
                   </p>
                 )}
               </div>
