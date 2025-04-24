@@ -1,13 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import './DashboardCSS/ShowClasses.css';
-import CreateClass from './OtherComponents/CreateClass';
-import axios from 'axios';
-import { ApiURL } from '../../../../Utils/ApiURL.js';
+import React, { useState, useEffect } from "react";
+import "./DashboardCSS/ShowClasses.css";
+import CreateClass from "./OtherComponents/CreateClass";
+import axios from "axios";
+import { ApiURL } from "../../../../Utils/ApiURL.js";
 import { useDispatch } from "react-redux";
 
-const ClassCard = ({ title, code, students, schedule, progress, color, class_dtls_id, setActivePage, setdataFormchild }) => {
+const ClassCard = ({
+  title,
+  code,
+  students,
+  schedule,
+  progress,
+  color,
+  class_dtls_id,
+  setActivePage,
+  setClickedClassId,
+}) => {
   return (
-    <div className="showclasses-card" style={{ borderTop: `3px solid ${color}` }}>
+    <div
+      className="showclasses-card"
+      style={{ borderTop: `3px solid ${color}` }}
+    >
       <div className="showclasses-card-content">
         <div className="showclasses-card-header">
           <div>
@@ -15,7 +28,17 @@ const ClassCard = ({ title, code, students, schedule, progress, color, class_dtl
             <p className="showclasses-card-code">{code}</p>
           </div>
           <button className="showclasses-options-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <circle cx="12" cy="12" r="1" />
               <circle cx="19" cy="12" r="1" />
               <circle cx="5" cy="12" r="1" />
@@ -23,30 +46,45 @@ const ClassCard = ({ title, code, students, schedule, progress, color, class_dtl
           </button>
         </div>
 
-        <p className="showclasses-card-meta">{students}
+        <p className="showclasses-card-meta">
+          {students}
           {/* • {schedule} */}
-
         </p>
 
         <div className="showclasses-progress-container">
           <p className="showclasses-progress-label">Course Progress</p>
           <div className="showclasses-progress-bar-container">
             <div className="showclasses-progress-bar-wrapper">
-              <div className="showclasses-progress-bar" style={{ width: `${progress}%`, backgroundColor: color }}></div>
+              <div
+                className="showclasses-progress-bar"
+                style={{ width: `${progress}%`, backgroundColor: color }}
+              ></div>
             </div>
             <span className="showclasses-progress-text">{progress}%</span>
           </div>
         </div>
 
         <div className="showclasses-card-footer">
-          <button className="showclasses-details-button" onClick={() => {
-            setActivePage("singleclassdetails");
-            setdataFormchild(class_dtls_id);
-          }}
-
+          <button
+            className="showclasses-details-button"
+            onClick={() => {
+              setActivePage("singleclassdetails");
+              setClickedClassId(class_dtls_id);
+            }}
           >
             View Details
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="showclasses-arrow-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="showclasses-arrow-icon"
+            >
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>
@@ -63,13 +101,10 @@ const ClassCard = ({ title, code, students, schedule, progress, color, class_dtl
   );
 };
 
-const ShowClasses = ({ userdata, data, setActivePage, setdataFormchild }) => {
-
-
-
+const ShowClasses = ({ userdata, data, setActivePage, setClickedClassId }) => {
   const dispatch = useDispatch();
   const url = ApiURL();
-  const [classDetalis, setclassDetalis] = useState([])
+  const [classDetalis, setclassDetalis] = useState([]);
 
   useEffect(() => {
     const fetchClassDetails = async () => {
@@ -103,9 +138,7 @@ const ShowClasses = ({ userdata, data, setActivePage, setdataFormchild }) => {
     fetchClassDetails();
   }, [url, userdata]);
 
-
-  
-  console.log("classDetalis", classDetalis)
+  console.log("classDetalis", classDetalis);
   const classDetails = classDetalis.map((cls) => ({
     title: cls.class_name,
     code: cls.class_subject_code,
@@ -113,8 +146,8 @@ const ShowClasses = ({ userdata, data, setActivePage, setdataFormchild }) => {
     schedule: cls.class_name,
     progress: 63,
     class_dtls_id: cls.class_dtls_id,
-    color: "#6366f1" // indigo
-  }))
+    color: "#6366f1", // indigo
+  }));
 
   // const classes = [
   //   {
@@ -159,21 +192,40 @@ const ShowClasses = ({ userdata, data, setActivePage, setdataFormchild }) => {
   //   }
   // ];
 
-  const [ShowCreateclassform, setShowCreateclassform] = useState(false)
+  const [ShowCreateclassform, setShowCreateclassform] = useState(false);
 
   const handleCreateClassClick = () => {
     setShowCreateclassform(true);
-  }
+  };
 
   return (
     <div className="showclasses-container">
-      {ShowCreateclassform && <CreateClass userdata={userdata} setActivePage={setActivePage} setShowCreateclassform={setShowCreateclassform} />}
+      {ShowCreateclassform && (
+        <CreateClass
+          userdata={userdata}
+          setActivePage={setActivePage}
+          setShowCreateclassform={setShowCreateclassform}
+        />
+      )}
       <div className="showclasses-wrapper">
         <div className="showclasses-header">
           <h1 className="showclasses-title">My Classes</h1>
-          <button className="showclasses-create-button"
-            onClick={handleCreateClassClick}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="showclasses-plus-icon">
+          <button
+            className="showclasses-create-button"
+            onClick={handleCreateClassClick}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="showclasses-plus-icon"
+            >
               <line x1="12" y1="5" x2="12" y2="19" />
               <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
@@ -215,7 +267,7 @@ const ShowClasses = ({ userdata, data, setActivePage, setdataFormchild }) => {
               color={cls.color}
               class_dtls_id={cls.class_dtls_id}
               setActivePage={setActivePage} // Pass the setActivePage function to ClassCard
-              setdataFormchild={setdataFormchild} // Pass the setdataFormchild function to ClassCard
+              setClickedClassId={setClickedClassId} // Pass the setClickedClassId function to ClassCard
             />
           ))}
         </div>

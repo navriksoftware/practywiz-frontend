@@ -17,17 +17,19 @@ import ChangePassword from "./OtherComponents/ChangePassword";
 import AddNonPractywizCase from "./AddNonPractywizCases/AddNonPractywizCase";
 
 const TeacherDashboard = ({ user, token }) => {
-
   const dispatch = useDispatch();
   const navigate = useNavigate(); // For redirecting after logout
 
   const [mobMenu, setMobMenu] = useState(false);
   const [mobProfileSubMenu, setMobProfileSubMenu] = useState(false);
   const [profilemenu, setprofilemenu] = useState(false);
-  const [userdata, setuserdata] = useState([])
+  const [userdata, setuserdata] = useState([]);
   // Initialize activePage from localStorage or default to "profile"
   const [activePage, setActivePage] = useState(() => {
     return localStorage.getItem("activePage") || "profile";
+  });
+  const [clickedClassId, setClickedClassId] = useState(() => {
+    return localStorage.getItem("clickedClassId") || null;
   });
   const url = ApiURL();
   useEffect(() => {
@@ -65,10 +67,12 @@ const TeacherDashboard = ({ user, token }) => {
   // Update localStorage when activePage changes
   useEffect(() => {
     localStorage.setItem("activePage", activePage);
+    localStorage.setItem("clickedClassId", clickedClassId);
   }, [activePage]);
 
   const userLogoutHandler = () => {
     localStorage.removeItem("activePage");
+    localStorage.removeItem("clickedClassId");
     return dispatch(logOut()), navigate("/login");
   };
 
@@ -81,7 +85,7 @@ const TeacherDashboard = ({ user, token }) => {
   //   }
   // }, [user, loading]);
 
-  const [dataFormchild, setdataFormchild] = useState("")
+  const [dataFormchild, setdataFormchild] = useState("");
 
   const renderPage = () => {
     switch (activePage) {
@@ -92,28 +96,33 @@ const TeacherDashboard = ({ user, token }) => {
       case "settings":
         return <Setting userdata={userdata} />;
       case "ChangePwd":
-        return <ChangePassword user={user} token={token}/>;
+        return <ChangePassword user={user} token={token} />;
       case "store":
         return <Store userdata={userdata} setActivePage={setActivePage} />;
       case "AddCaseStudy":
         return (
-          <AddNonPractywizCase userdata={userdata}
+          <AddNonPractywizCase
+            userdata={userdata}
             setActivePage={setActivePage}
           />
         );
 
       case "showclasses":
-        return <ShowClasses userdata={userdata} setActivePage={setActivePage} setdataFormchild={setdataFormchild} />;
-      // case "createclass":
-      //   return <CreateClass user={user} token={token} setActivePage={setActivePage} />;
+        return (
+          <ShowClasses
+            userdata={userdata}
+            setActivePage={setActivePage}
+            setClickedClassId={setClickedClassId}
+          />
+        );
       case "singleclassdetails":
         return (
-          <SingleClassdetails setActivePage={setActivePage} dataFormchild={dataFormchild} />
+          <SingleClassdetails
+            setActivePage={setActivePage}
+            clickedClassId={clickedClassId}
+          />
         );
-      // case "addbulkstudents":
-      //   return <AddBulkStudents data={data.store} setActivePage={setActivePage} />;
-      // case "addsinglestudent":
-      //   return <AddSingleStudent data={data.store} setActivePage={setActivePage} />;
+
       case "assigncase":
         return <CaseAssigneProcess />;
       case "notifications":
@@ -331,7 +340,7 @@ const TeacherDashboard = ({ user, token }) => {
       </header>
       <div
         className="mentor_dashboard"
-      //  id="mentorRegisterBg"
+        //  id="mentorRegisterBg"
       >
         <div className="col-md-flex-center">
           <div className="display-raw">
