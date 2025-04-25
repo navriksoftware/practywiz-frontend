@@ -51,7 +51,7 @@ const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacher
     teacherName: FacDtl.faculty_lastname + " " + FacDtl.faculty_firstname,
     department: FacDtl.faculty_email,
     numberOfCaseStudiesAssigned: FacDtl.faculty_phone_number,
-    facultyDtls_id: FacDtl.faculty_user_dtls_id,
+    facultyDtls_id: FacDtl.faculty_dtls_id,
   }))
 
 

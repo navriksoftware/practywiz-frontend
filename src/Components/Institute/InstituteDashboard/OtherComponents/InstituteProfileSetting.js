@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import collegeData from "../../../data/collegesname.json";
-function InstituteProfileSetting() {
+function InstituteProfileSetting({ instituteDashboardDetails }) {
   const {
     register,
     watch,
@@ -12,11 +12,19 @@ function InstituteProfileSetting() {
     trigger,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      institute_firstname: instituteDashboardDetails[0]?.institute_firstname,
+      institute_lastname: instituteDashboardDetails[0]?.institute_lastname,
+      institute_number: instituteDashboardDetails[0]?.institute_phone_number,
+      institute_email: instituteDashboardDetails[0]?.institute_email,
+      institute_code: instituteDashboardDetails[0]?.institute_code,
+    }
+  });
   const [isEditing, setIsEditing] = useState(false);
   const nameOfInstitute = watch("institute_name");
   //Institute name code start
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(instituteDashboardDetails[0]?.institute_name || "");
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedCollege, setSelectedCollege] = useState(null);
 
@@ -76,12 +84,12 @@ function InstituteProfileSetting() {
                 </label>
                 <input
                   type="text"
-                  onKeyUp={() => trigger("institute_contact_person_first_name")}
+                  onKeyUp={() => trigger("institute_firstname")}
                   className="form-control"
                   disabled={!isEditing}
                   id="contacPersonFirstName"
                   placeholder="First Name"
-                  {...register("institute_contact_person_first_name", {
+                  {...register("institute_firstname", {
                     required: "Enter your first name.",
                     pattern: {
                       value: /^[a-zA-Z]+$/, // Pattern for letters only
@@ -93,9 +101,9 @@ function InstituteProfileSetting() {
                     },
                   })}
                 />
-                {errors.institute_contact_person_first_name && (
+                {errors.institute_firstname && (
                   <p className="Error-meg-login-register">
-                    {errors.institute_contact_person_first_name.message}
+                    {errors.institute_firstname.message}
                   </p>
                 )}
               </div>
@@ -108,12 +116,12 @@ function InstituteProfileSetting() {
                 </label>
                 <input
                   type="text"
-                  onKeyUp={() => trigger("institute_contact_person_last_name")}
+                  onKeyUp={() => trigger("institute_lastname")}
                   className="form-control"
                   disabled={!isEditing}
                   id="contacPersonLastName"
                   placeholder="Last Name"
-                  {...register("institute_contact_person_last_name", {
+                  {...register("institute_lastname", {
                     required: "Enter your last name.",
                     pattern: {
                       value: /^[a-zA-Z]+$/, // Pattern for letters only
@@ -125,9 +133,9 @@ function InstituteProfileSetting() {
                     },
                   })}
                 />
-                {errors.institute_contact_person_last_name && (
+                {errors.institute_lastname && (
                   <p className="Error-meg-login-register">
-                    {errors.institute_contact_person_last_name.message}
+                    {errors.institute_lastname.message}
                   </p>
                 )}
               </div>
@@ -173,17 +181,12 @@ function InstituteProfileSetting() {
                 </label>
                 <PhoneInput
                   country={"in"}
-                  //  value={formData.mentor_phone_number}
+                   value={instituteDashboardDetails[0]?.institute_phone_number}
                   //  onChange={handlePhoneChange}
                   disabled
                 />
               </div>
             </div>
-
-
-
-
-
 
             <div className="col-lg-6" >
               <div className="mb-3">
@@ -238,17 +241,17 @@ function InstituteProfileSetting() {
                 <input
                   type="text"
                   disabled={!isEditing}
-                  onKeyUp={() => trigger("instituteCode")}
+                  onKeyUp={() => trigger("institute_code")}
                   className="form-control"
                   id="contacPersonLastName"
                   placeholder="Institute Code"
-                  {...register("instituteCode", {
+                  {...register("institute_code", {
                     required: "Enter your Institute Code.",
                   })}
                 />
-                {errors.instituteCode && (
+                {errors.institute_code && (
                   <p className="Error-meg-login-register">
-                    {errors.instituteCode.message}
+                    {errors.institute_code.message}
                   </p>
                 )}
               </div>

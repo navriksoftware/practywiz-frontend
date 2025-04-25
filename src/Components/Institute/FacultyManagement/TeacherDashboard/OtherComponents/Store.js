@@ -19,7 +19,6 @@ const Store = ({ user, token, setActivePage }) => {
   const [loading, setLoading] = useState(false);
 
   const url = ApiURL();
-
   // Function to render stars based on rating
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating); // Number of full stars
@@ -51,7 +50,7 @@ const Store = ({ user, token, setActivePage }) => {
         setLoading(true);
 
         const response = await Promise.race([
-          axios.get(`${url}api/v1/case-studies/all-list`),
+          axios.get(`${url}/api/v1/faculty/case-study/list`),
           new Promise(
             (_, reject) =>
               setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout

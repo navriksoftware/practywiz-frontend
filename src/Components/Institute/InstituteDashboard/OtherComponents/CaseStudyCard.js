@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./CaseStudyCard.css";
+import "../../../CaseStudy/CaseStudyCard.css";
 function CaseStudyCard({ data }) {
 console.log("data", data);
   return (
@@ -12,19 +12,19 @@ console.log("data", data);
         className="case-study-card-image"
       /> */}
       <div className="case-study-card-content">
-        <h2 className="card-title">{data.caseTopic}</h2>
-        <div className="meta-info">
+        <h2 className="card-title">{data.case_study_title}</h2>
+        {/* <div className="meta-info">
           <span>Case Author Designation: {data.caseAuthorDesignation}</span>
-        </div>
+        </div> */}
         <div>
-          <span className="case-sub-head">Extract: </span>
-          <p className="card-excerpt">{data.extract}</p>
+          {/* <span className="case-sub-head">Extract: </span> */}
+          <p className="card-excerpt">{data.case_study_content}</p>
         </div>
         <div className="sub-container-date">
-          <span className="case-study-category-badge">
+          {/* <span className="case-study-category-badge">
             {data.subjectCategory}
-          </span>
-          <span>Published: {data.publicationDate}</span>
+          </span> */}
+          {/* <span>Published: {data.publicationDate}</span> */}
         </div>
         {/* <button className="read-more-btn"> */}
         <Link

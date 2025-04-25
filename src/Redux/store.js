@@ -4,6 +4,7 @@ import cartReducer from "./cartSlice";
 import purchasedSlice from "./purchasedSlice";
 import loadingReducer from "./loadingRedux";
 import menteeReducer from "./menteeSlice";
+import instututeSlice from "./instituteSlice";
 import {
   persistStore,
   persistReducer,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   purchased: purchasedSlice,
   mentee: menteeReducer,
+  institute: instututeSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

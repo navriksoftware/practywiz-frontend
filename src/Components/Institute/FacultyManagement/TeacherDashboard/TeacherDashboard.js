@@ -61,7 +61,7 @@ const TeacherDashboard = ({ user, token }) => {
     };
     fetchFacultyDetails();
   }, [url, user?.user_id]);
-
+console.log(userdata, "userdata dfjsdfmhfsduihfas,fasuifmn aggsvagagm")
   // Update localStorage when activePage changes
   useEffect(() => {
     localStorage.setItem("activePage", activePage);

@@ -51,7 +51,6 @@ const SingleTeacherdetailspage = ({ childData }) => {
     fetchMentors();
   }, [url]);
 
-console.log("singleFacultyDetails", singleFacultyDetails)
 
 const firstInitial = singleFacultyDetails[0]?.faculty_firstname?.charAt(0) || "";
 const lastInitial = singleFacultyDetails[0]?.faculty_lastname?.charAt(0) || "";
@@ -184,135 +183,28 @@ const initials = (firstInitial + lastInitial).toUpperCase();
               <thead>
                 <tr>
                   <th>Case Study Title</th>
-                  <th>Subject Area</th>
-                  <th>Assigned Date</th>
+                  <th>Main character</th>
+                  {/* <th>Assigned Date</th> */}
                   {/* <th>Status</th> */}
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>Global Supply Chain Management</td>
-                  <td>Business Studies</td>
-                  <td>Oct 15, 2023</td>
-                  {/* <td>
-                    <span className="teacherPage__statusBadge teacherPage__statusInProgress">In Progress</span>
-                  </td> */}
-                  <td>
-                    <button className="teacherPage__viewButton">View Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Renewable Energy Solutions</td>
-                  <td>Environmental Science</td>
-                  <td>Oct 12, 2023</td>
-                  {/* <td>
-                    <span className="teacherPage__statusBadge teacherPage__statusInProgress">In Progress</span>
-                  </td> */}
-                  <td>
-                    <button className="teacherPage__viewButton">View Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Digital Marketing Strategy</td>
-                  <td>Marketing</td>
-                  <td>Oct 10, 2023</td>
-                  {/* <td>
-                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
-                  </td> */}
-                  <td>
-                    <button className="teacherPage__viewButton">View Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Digital Marketing Strategy</td>
-                  <td>Marketing</td>
-                  <td>Oct 10, 2023</td>
-                  {/* <td>
-                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
-                  </td> */}
-                  <td>
-                    <button className="teacherPage__viewButton">View Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Digital Marketing Strategy</td>
-                  <td>Marketing</td>
-                  <td>Oct 10, 2023</td>
-                  {/* <td>
-                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
-                  </td> */}
-                  <td>
-                    <button className="teacherPage__viewButton">View Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Digital Marketing Strategy</td>
-                  <td>Marketing</td>
-                  <td>Oct 10, 2023</td>
-                  {/* <td>
-                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
-                  </td> */}
-                  <td>
-                    <button className="teacherPage__viewButton">View Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Digital Marketing Strategy</td>
-                  <td>Marketing</td>
-                  <td>Oct 10, 2023</td>
-                  {/* <td>
-                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
-                  </td> */}
-                  <td>
-                    <button className="teacherPage__viewButton">View Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Digital Marketing Strategy</td>
-                  <td>Marketing</td>
-                  <td>Oct 10, 2023</td>
-                  {/* <td>
-                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
-                  </td> */}
-                  <td>
-                    <button className="teacherPage__viewButton">View Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Digital Marketing Strategy</td>
-                  <td>Marketing</td>
-                  <td>Oct 10, 2023</td>
-                  {/* <td>
-                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
-                  </td> */}
-                  <td>
-                    <button className="teacherPage__viewButton">View Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Healthcare Innovation</td>
-                  <td>Healthcare Management</td>
-                  <td>Oct 8, 2023</td>
-                  {/* <td>
-                    <span className="teacherPage__statusBadge teacherPage__statusCompleted">Completed</span>
-                  </td> */}
-                  <td>
-                    <button className="teacherPage__viewButton">View Details</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Artificial Intelligence Ethics</td>
-                  <td>Computer Science</td>
-                  <td>Oct 5, 2023</td>
-                  {/* <td>
-                    <span className="teacherPage__statusBadge teacherPage__statusInProgress">In Progress</span>
-                  </td> */}
-                  <td>
-                    <button className="teacherPage__viewButton">View Details</button>
-                  </td>
-                </tr>
-              </tbody>
+              {singleFacultyDetails.map((item, index) => (
+                <tbody key={index}>
+                  <tr>
+                    <td>{item.case_study_title}</td>
+                    <td>{item.case_study_main_character_role}</td>
+                    {/* <td>{item.case_study_assigned_date}</td> */}
+                    {/* <td>
+                      <span className="teacherPage__statusBadge teacherPage__statusInProgress">In Progress</span>       
+                    </td> */}
+                    <td>
+                      <button className="teacherPage__viewButton">View Details</button>
+                    </td>
+                  </tr>
+                </tbody>
+              
+              ))}
             </table>
           </div>
         </div>
