@@ -66,6 +66,13 @@
   margin: 0 auto;
 }
 
+.intern-heading-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
 .intern-main-content {
   display: grid;
   grid-template-columns: 250px 1fr;
@@ -150,21 +157,37 @@
 .intern-main-content input:focus {
   outline: none;
 }
+.intern-search-filter-container{
+  /* margin: 0; */
+  flex:1;
+  max-width: 70%;
+  /* margin-right: 10px; */
+}
+.applications-mobile-filter-toggle{
+  display: none;
+}
 
 .intern-search-bar {
   background: white;
   padding: 16px;
-  border-radius: 8px;
-  border: 1px solid rgb(204, 204, 204);
-  margin-bottom: 16px;
+  border-radius: 5px;
+  /* border: 1px solid rgb(204, 204, 204); */
+  /* margin-bottom: 16px; */
+  /* height: 100; */
+  /* width: 70%; */
 }
 
 .intern-search-input {
   width: 100%;
   padding: 8px;
   border: 1px solid #e2e8f0;
-  border-radius: 4px;
+  border-radius: 25px 25px;
   font-size: 14px;
+  height: 50px;
+}
+
+.intern-search-input:hover {
+  border: 1px solid blue;
 }
 
 .intern-job-card {
@@ -218,6 +241,29 @@
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 14px;
+ 
+}
+.intern-skills-show{
+  font-size: 14px;
+  cursor: pointer;
+  color: blue;
+  
+}
+
+.intern-skills-show-more{
+  color: blue !important;
+  text-decoration: none;
+  background: #f7fafc;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.intern-skills-show-more:hover{
+  
+  text-decoration: underline !important;
+}
+.hide{
+  display: none;
 }
 
 .intern-status-tag {
@@ -259,14 +305,22 @@
   background: #a1a1a1;
 }
 
+.mobile-filter-heading-section{
+  display: none;
+}
+
+
 @media (max-width: 768px) {
   .intern-main-content {
     grid-template-columns: 1fr;
   }
 
   .intern-filters {
-    order: 2;
+    order: 1;
   }
+    .display-hidden {
+      display: none;
+    }
 
   .intern-job-listings {
     order: 1;
@@ -283,4 +337,59 @@
   .intern-job-rate {
     text-align: left;
   }
+  .mobile-filter-close-btn{
+    cursor: pointer;
+    font-size: large;
+  }
+  .mobile-filter-heading-section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* .intern-outer-container{
+    display: block;
+  } */
+  .intern-heading-container{
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+    flex-direction: column;
+   
+    /* display: grid; */
+    /* grid-row: 1fr; */
+    /* justify-content: center; */
+    /* align-items: center; */
+  }
+  
+    .intern-search-filter-container {
+      min-width: 90%;
+      flex:1;
+      display: flex;      
+      align-items: center;
+      justify-content: space-between; 
+     
+    }
+    .profile-title{
+      min-width: 90%;
+      font-size:2rem;
+      flex:1;
+
+    }
+    .intern-search-bar{
+      flex:2;
+      width: 40%;
+    }
+    .applications-mobile-filter-toggle{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+    }
+
+    .applications-filter-mobile-btn{
+      height: 40px;
+    }
+
 }

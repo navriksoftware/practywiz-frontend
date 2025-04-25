@@ -52,24 +52,23 @@ const EditInternshipPost = ({
       internshipPerks: JSON.parse(
         internPostData.employer_internship_post_perks
       ),
-      taskCategory : internPostData?.employer_internship_post_support,
-      businessObjective : internPostData?.employer_internship_post_project,
-      projectPlan : internPostData?.employer_internship_post_contribution,
-      StartTimeFrom: internPostData?.employer_internship_post_coll_hours?.split('-')[0] || '',
-      endTimeTo: internPostData?.employer_internship_post_coll_hours?.split('-')[1] || '',
+      taskCategory: internPostData?.employer_internship_post_support,
+      businessObjective: internPostData?.employer_internship_post_project,
+      projectPlan: internPostData?.employer_internship_post_contribution,
+      StartTimeFrom:
+        internPostData?.employer_internship_post_coll_hours?.split("-")[0] ||
+        "",
+      endTimeTo:
+        internPostData?.employer_internship_post_coll_hours?.split("-")[1] ||
+        "",
       internshipPostTimezone: internPostData?.employer_internship_post_timezone,
     },
   });
-  
 
-// Initial state setup with more robust default handling
+  // Initial state setup with more robust default handling
   const [formData, setFormData] = useState({
-   
-    internshipDomain: internPostData.employer_internship_post_domain
-    
+    internshipDomain: internPostData.employer_internship_post_domain,
   });
-
-
 
   const dispatch = useDispatch();
   const url = ApiURL();
@@ -78,9 +77,11 @@ const EditInternshipPost = ({
   const [performanceBased, setperformanceBased] = useState(false);
   const [showInternshipStartDate, setshowInternshipStartDate] = useState(false);
   const [selected, setSelected] = useState("Pending");
+  const [internshipModuleType, setInternshipModuleType] = useState(
+    internPostData.employer_internship_post_supervision_type
+  );
 
-
-  // for Domain 
+  // for Domain
   const [selectedDomain, setSelectedDomain] = useState(() => {
     try {
       return JSON.parse(internPostData?.employer_internship_post_domain) || [];
@@ -90,21 +91,19 @@ const EditInternshipPost = ({
     }
   });
 
-   // Language change handler
-   const handleDomainChange = (selectedOption) => {
+  // Language change handler
+  const handleDomainChange = (selectedOption) => {
     setSelectedDomain(selectedOption);
-    setValue("internshipDomain", selectedOption)
+    setValue("internshipDomain", selectedOption);
     setFormData((prev) => ({
       ...prev,
       internshipDomain: selectedOption,
-      
     }));
   };
 
-
   const internshipSkills = JSON.parse(
     internPostData.employer_internship_post_skills
-  )
+  );
 
   const [skillList, setSkillList] = useState(internshipSkills);
   const [skills, setSkills] = useState(""); // For the input field
@@ -191,7 +190,8 @@ const EditInternshipPost = ({
     }
   }, [skillList]);
 
-  const [supervisionType, setSupervisionType] = useState("Self Manage");
+  const [supervisionType, setSupervisionType] = useState(internshipModuleType);
+  // console.log("superviosonType", supervisionType);
 
   // Quill modules configuration
   const quillModules = {
@@ -202,8 +202,6 @@ const EditInternshipPost = ({
       ["clean"],
     ],
   };
-
- 
 
   const quillFormats = [
     "header",
@@ -265,7 +263,6 @@ const EditInternshipPost = ({
   };
 
   const onSubmit = async (data) => {
-
     const payload = {
       ...data,
       supervisionType,
@@ -290,6 +287,7 @@ const EditInternshipPost = ({
       dispatch(hideLoadingHandler());
       if (response.status === 200) {
         toast.success("Internship post updated successfully");
+        // redirecthere
       }
     } catch (error) {
       dispatch(hideLoadingHandler());
@@ -309,8 +307,9 @@ const EditInternshipPost = ({
             <div className="postinternAling">
               <div className="toggle-container">
                 <div
-                  className={`toggle-button ${selected === "Pending" ? "active" : "inactive"
-                    }`}
+                  className={`toggle-button ${
+                    supervisionType === "Self Manage" ? "active" : "inactive"
+                  }`}
                   onClick={() => {
                     setSelected("Pending");
                     setSupervisionType("Self Manage");
@@ -320,11 +319,12 @@ const EditInternshipPost = ({
                   Self Manage internship
                 </div>
                 <div
-                  className={`toggle-button ${selected === "Completed" ? "active" : "inactive"
-                    }`}
+                  className={`toggle-button ${
+                    supervisionType === "Guided" ? "active" : "inactive"
+                  }`}
                   onClick={() => {
                     setSelected("Completed");
-                    setSupervisionType("Value Added");
+                    setSupervisionType("Guided");
                     setValue("internshipStipendType", "Fixed");
                     setamountShow(true);
                     setperformanceBased(false);
@@ -332,7 +332,7 @@ const EditInternshipPost = ({
                   }}
                   title="This is additional information that appears when you hover."
                 >
-                  Value added internship
+                  Guided Internship
                 </div>
               </div>
             </div>
@@ -540,7 +540,6 @@ const EditInternshipPost = ({
                     </label>
                     <div className="dhjwwdk">
                       <select
-                      
                         className="form-select intershipWidth"
                         {...register("StartTimeFrom", {
                           required: "required",
@@ -766,8 +765,6 @@ const EditInternshipPost = ({
                   )}
                 </div>
 
-               
-
                 <div
                   className="col-lg-12 mb-4"
                   style={{
@@ -838,7 +835,7 @@ const EditInternshipPost = ({
                           type="button"
                           onClick={() => removeSkill(index)}
                           className="remove-skill-btn"
-                        // disabled={!isEditing}
+                          // disabled={!isEditing}
                         >
                           &times;
                         </button>
@@ -846,11 +843,6 @@ const EditInternshipPost = ({
                     ))}
                   </div>
                 </div>
-
-
-
-
-
 
                 <div className="row">
                   <div className="col-lg-6 mb-4">
@@ -1407,8 +1399,9 @@ const EditInternshipPost = ({
                       role:
                     </label>
                     <select
-                      className={`form-select ${errors.taskCategory ? "error-input" : ""
-                        }`}
+                      className={`form-select ${
+                        errors.taskCategory ? "error-input" : ""
+                      }`}
                       {...register("taskCategory", {
                         // required: "Please select a task category",
                       })}
@@ -1433,8 +1426,9 @@ const EditInternshipPost = ({
                       What is the expected business objective?
                     </label>
                     <select
-                      className={`form-select ${errors.businessObjective ? "error-input" : ""
-                        }`}
+                      className={`form-select ${
+                        errors.businessObjective ? "error-input" : ""
+                      }`}
                       {...register("businessObjective", {
                         // required: "Please select a business objective",
                       })}

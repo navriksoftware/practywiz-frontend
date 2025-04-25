@@ -17,7 +17,7 @@ const ClassCard = ({
   color,
   class_dtls_id,
   setActivePage,
-  setdataFormchild,
+  setClickedClassId,
   handleCreateClassClick,
   setclassid
 }) => {
@@ -34,7 +34,10 @@ const ClassCard = ({
   };
 
   return (
-    <div className="showclasses-card" style={{ borderTop: `3px solid ${color}` }} >
+    <div
+      className="showclasses-card"
+      style={{ borderTop: `3px solid ${color}` }}
+     >
       <div className="showclasses-card-content">
         <div className="showclasses-card-header">
           <div>
@@ -65,7 +68,10 @@ const ClassCard = ({
           <p className="showclasses-progress-label">Course Progress</p>
           <div className="showclasses-progress-bar-container">
             <div className="showclasses-progress-bar-wrapper">
-              <div className="showclasses-progress-bar" style={{ width: `${progress}%`, backgroundColor: color }}></div>
+              <div
+                className="showclasses-progress-bar"
+                style={{ width: `${progress}%`, backgroundColor: color }}
+              ></div>
             </div>
             <span className="showclasses-progress-text">{progress}%</span>
           </div>
@@ -75,12 +81,23 @@ const ClassCard = ({
           <button
             className="showclasses-details-button"
             onClick={() => {
-              setActivePage('singleclassdetails');
-              setdataFormchild(class_dtls_id);
+              setActivePage("singleclassdetails");
+              setClickedClassId(class_dtls_id);
             }}
           >
             View Details
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="showclasses-arrow-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="showclasses-arrow-icon"
+            >
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>
@@ -90,10 +107,10 @@ const ClassCard = ({
   );
 };
 
-const ShowClasses = ({ userdata, setActivePage, setdataFormchild }) => {
+const ShowClasses = ({ userdata, data, setActivePage, setClickedClassId }) => {
   const dispatch = useDispatch();
   const url = ApiURL();
-  const [classDetails, setClassDetails] = useState([]);
+  const [classDetails, setClassDetails] = useState([]);;
   const [showCreateClassForm, setShowCreateClassForm] = useState(false);
   const [selectedClassId, setSelectedClassId] = useState("");
 
@@ -155,11 +172,22 @@ const ShowClasses = ({ userdata, setActivePage, setdataFormchild }) => {
       <div className="showclasses-wrapper">
         <div className="showclasses-header">
           <h1 className="showclasses-title">My Classes</h1>
-          <button className="showclasses-create-button" onClick={() => {
-            handleCreateClassClick();
-            setSelectedClassId("");
-          }} >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="showclasses-plus-icon">
+          <button
+            className="showclasses-create-button"
+            onClick={handleCreateClassClick}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="showclasses-plus-icon"
+            >
               <line x1="12" y1="5" x2="12" y2="19" />
               <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
@@ -172,10 +200,17 @@ const ShowClasses = ({ userdata, setActivePage, setdataFormchild }) => {
             <ClassCard
               key={index}
               {...cls}
-              setActivePage={setActivePage}
-              setdataFormchild={setdataFormchild}
               handleCreateClassClick={handleCreateClassClick}
               setclassid={setSelectedClassId}
+              title={cls.title}
+              code={cls.code}
+              students={cls.students}
+              schedule={cls.schedule}
+              progress={cls.progress}
+              color={cls.color}
+              class_dtls_id={cls.class_dtls_id}
+              setActivePage={setActivePage} // Pass the setActivePage function to ClassCard
+              setClickedClassId={setClickedClassId} // Pass the setClickedClassId function to ClassCard
             />
           ))}
         </div>

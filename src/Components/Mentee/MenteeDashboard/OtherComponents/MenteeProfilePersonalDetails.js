@@ -235,7 +235,6 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       inputStyle={{
                         border: "1px solid #acaeaf",
                         borderRadius: "0.25rem",
-                        padding: "0.375rem 0.75rem",
                         width: "100%",
                       }}
                       value={formData?.mentee_phone_number}
