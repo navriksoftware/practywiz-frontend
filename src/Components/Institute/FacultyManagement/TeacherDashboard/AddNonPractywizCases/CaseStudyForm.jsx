@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import { BasicInformation } from "./BasicInformation";
 import { QuestionsSection } from "./QuestionsSection";
@@ -25,7 +23,7 @@ export const CaseStudyForm = () => {
     title: "",
     author: "",
     category: "",
-    tags: [],
+    // tags: [],
     questions: [],
   };
 
@@ -54,21 +52,21 @@ export const CaseStudyForm = () => {
     }
   };
 
-  const handleTagAdd = (tag) => {
-    if (!formData.tags.includes(tag) && tag.trim() !== "") {
-      setFormData({
-        ...formData,
-        tags: [...formData.tags, tag],
-      });
-    }
-  };
+  // const handleTagAdd = (tag) => {
+  //   if (!formData.tags.includes(tag) && tag.trim() !== "") {
+  //     setFormData({
+  //       ...formData,
+  //       tags: [...formData.tags, tag],
+  //     });
+  //   }
+  // };
 
-  const handleTagRemove = (tagToRemove) => {
-    setFormData({
-      ...formData,
-      tags: formData.tags.filter((tag) => tag !== tagToRemove),
-    });
-  };
+  // const handleTagRemove = (tagToRemove) => {
+  //   setFormData({
+  //     ...formData,
+  //     tags: formData.tags.filter((tag) => tag !== tagToRemove),
+  //   });
+  // };
 
   const handleQuestionChange = (questionId, field, value) => {
     setFormData({
@@ -79,16 +77,16 @@ export const CaseStudyForm = () => {
     });
   };
 
-  const handleOptionChange = (questionId, optionId, value) => {
+  const handleOptionChange = (questionId, optionIndex, value) => {
     setFormData({
       ...formData,
       questions: formData.questions.map((question) => {
         if (question.id === questionId) {
+          const updatedOptions = [...question.options];
+          updatedOptions[optionIndex] = value;
           return {
             ...question,
-            options: question.options.map((option) =>
-              option.id === optionId ? { ...option, text: value } : option
-            ),
+            options: updatedOptions,
           };
         }
         return question;
@@ -96,74 +94,41 @@ export const CaseStudyForm = () => {
     });
   };
 
-  //   const handleAddOption = (questionId) => {
-  //     const nextOptionId = String.fromCharCode(
-  //       "A".charCodeAt(0) +
-  //         formData.questions.find((q) => q.id === questionId).options.length
-  //     );
+  const handleAnswerChange = (questionId, value) => {
+    setFormData({
+      ...formData,
+      questions: formData.questions.map((question) =>
+        question.id === questionId ? { ...question, answer: value } : question
+      ),
+    });
+  };
 
-  //     setFormData({
-  //       ...formData,
-  //       questions: formData.questions.map((question) => {
-  //         if (question.id === questionId) {
-  //           return {
-  //             ...question,
-  //             options: [...question.options, { id: nextOptionId, text: "" }],
-  //           };
-  //         }
-  //         return question;
-  //       }),
-  //     });
-  //   };
-
-  //   const handleRemoveOption = (questionId, optionId) => {
-  //     setFormData({
-  //       ...formData,
-  //       questions: formData.questions.map((question) => {
-  //         if (question.id === questionId) {
-  //           // Don't remove if there are only 2 options left
-  //           if (question.options.length <= 2) {
-  //             alert("A multiple choice question must have at least 2 options.");
-  //             return question;
-  //           }
-
-  //           return {
-  //             ...question,
-  //             options: question.options
-  //               .filter((option) => option.id !== optionId)
-  //               // Reindex the options after removal
-  //               .map((option, index) => ({
-  //                 ...option,
-  //                 id: String.fromCharCode("A".charCodeAt(0) + index),
-  //               })),
-  //           };
-  //         }
-  //         return question;
-  //       }),
-  //     });
-  //   };
-
-  const handleAddQuestion = (type = "multiple") => {
-    const newQuestionId =
-      formData.questions.length > 0
-        ? Math.max(...formData.questions.map((q) => q.id)) + 1
-        : 1;
-
-    const newQuestion = {
+  const handleAddQuestion = (category) => {
+    // Generate a new question ID in the format "q{number}"
+    const newQuestionId = `q${formData.questions.length + 1}`;
+    
+    let newQuestion = {
       id: newQuestionId,
-      text: "",
-      type: type,
+      category: category,
+      question: "",
     };
 
-    if (type === "multiple") {
-      newQuestion.options = [
-        { id: "A", text: "" },
-        { id: "B", text: "" },
-        { id: "C", text: "" },
-        { id: "D", text: "" },
-      ];
-    } else {
+    // Set default values based on category
+    if (category === "fact") {
+      newQuestion.question_format = "multiple-choice";
+      newQuestion.options = ["", "", "", ""];
       newQuestion.answer = "";
+      newQuestion.marks = 1;
+    } else if (category === "analysis") {
+      newQuestion.question_format = "subjective";
+      newQuestion.answer = "";
+      newQuestion.marks = 5;
+    } else if (category === "research") {
+      // For research, we'll default to multiple-choice but it can be changed
+      newQuestion.question_format = "multiple-choice";
+      newQuestion.options = ["", "", "", ""];
+      newQuestion.answer = "";
+      newQuestion.marks = 5;
     }
 
     setFormData({
@@ -187,34 +152,39 @@ export const CaseStudyForm = () => {
     });
   };
 
-  const handleQuestionTypeChange = (questionId, type) => {
+  const handleQuestionTypeChange = (questionId, newFormat) => {
     setFormData({
       ...formData,
       questions: formData.questions.map((question) => {
         if (question.id === questionId) {
-          if (type === "multiple") {
+          if (newFormat === "multiple-choice") {
             return {
               ...question,
-              type,
-              options: question.options || [
-                { id: "A", text: "" },
-                { id: "B", text: "" },
-                { id: "C", text: "" },
-                { id: "D", text: "" },
-              ],
+              question_format: newFormat,
+              options: question.options || ["", "", "", ""],
+              answer: "",
             };
           } else {
             // Convert to subjective
             const { options, ...rest } = question;
             return {
               ...rest,
-              type,
-              answer: question.answer || "",
+              question_format: newFormat,
+              answer: "",
             };
           }
         }
         return question;
       }),
+    });
+  };
+
+  const handleMarksChange = (questionId, marks) => {
+    setFormData({
+      ...formData,
+      questions: formData.questions.map((question) =>
+        question.id === questionId ? { ...question, marks: parseInt(marks) } : question
+      ),
     });
   };
 
@@ -238,16 +208,16 @@ export const CaseStudyForm = () => {
     formData.questions.forEach((question, index) => {
       const qErrors = {};
 
-      if (!question.text.trim()) {
-        qErrors.text = "Question text is required";
+      if (!question.question || !question.question.trim()) {
+        qErrors.question = "Question text is required";
       }
 
-      if (question.type === "multiple") {
+      if (question.question_format === "multiple-choice") {
         const optionErrors = [];
         let hasEmptyOption = false;
 
         question.options.forEach((option, optIndex) => {
-          if (!option.text.trim()) {
+          if (!option || !option.trim()) {
             hasEmptyOption = true;
             optionErrors[optIndex] = "Option text is required";
           }
@@ -255,6 +225,14 @@ export const CaseStudyForm = () => {
 
         if (hasEmptyOption) {
           qErrors.options = optionErrors;
+        }
+
+        if (!question.answer) {
+          qErrors.answer = "Please select a correct answer";
+        }
+      } else if (question.question_format === "subjective") {
+        if (!question.answer || !question.answer.trim()) {
+          qErrors.answer = "Model answer is required";
         }
       }
 
@@ -304,10 +282,10 @@ export const CaseStudyForm = () => {
         title={formData.title}
         author={formData.author}
         category={formData.category}
-        tags={formData.tags}
+        // tags={formData.tags}
         onInputChange={handleInputChange}
-        onTagAdd={handleTagAdd}
-        onTagRemove={handleTagRemove}
+        // onTagAdd={handleTagAdd}
+        // onTagRemove={handleTagRemove}
         errors={formErrors}
       />
 
@@ -315,21 +293,22 @@ export const CaseStudyForm = () => {
         questions={formData.questions}
         onQuestionChange={handleQuestionChange}
         onOptionChange={handleOptionChange}
-        // onAddOption={handleAddOption}
-        // onRemoveOption={handleRemoveOption}
+        onAnswerChange={handleAnswerChange}
         onAddQuestion={handleAddQuestion}
         onQuestionTypeChange={handleQuestionTypeChange}
         onRemoveQuestion={handleRemoveQuestion}
+        onMarksChange={handleMarksChange}
+        errors={formErrors}
       />
 
       <div className="new-case-add-actions">
-        <button
+        {/* <button
           type="button"
           className="new-case-add-save-draft"
           onClick={() => handleSubmit(true)}
         >
           Save Draft
-        </button>
+        </button> */}
         <button
           type="button"
           className="new-case-add-publish"
