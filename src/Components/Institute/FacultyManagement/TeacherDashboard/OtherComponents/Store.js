@@ -7,7 +7,7 @@ import { setPurchasedItems } from "../../../../../Redux/purchasedSlice";
 import { useDispatch } from "react-redux";
 import CaseStudyCard from "./CaseStudyCard";
 
-const Store = ({ user, token, setActivePage }) => {
+const Store = ({ userdata,setActivePage }) => {
   const dispatch = useDispatch();
 
   // State for case studies data and filters
@@ -48,9 +48,9 @@ const Store = ({ user, token, setActivePage }) => {
     const fetchCaseStudies = async () => {
       try {
         setLoading(true);
-
         const response = await Promise.race([
-          axios.get(`${url}/api/v1/faculty/case-study/list`),
+          axios.post(`${url}api/v1/faculty/case-study/list`,
+           { facultyId : userdata[0]?.faculty_dtls_id}),
           new Promise(
             (_, reject) =>
               setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
@@ -77,24 +77,24 @@ const Store = ({ user, token, setActivePage }) => {
   }, [url]);
 
   // Fetch purchased items
-  const fetchPurchasedItems = async (userId, dispatch) => {
-    try {
-      const response = await axios.get(
-        `${url}api/v1/case-studies/cart/purchased-items/${userId}`
-      );
-      if (response.data.success) {
-        dispatch(setPurchasedItems(response.data.success));
-      }
-    } catch (error) {
-      console.error("Error fetching purchased items:", error);
-    }
-  };
+  // const fetchPurchasedItems = async (userId, dispatch) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${url}api/v1/case-studies/cart/purchased-items/${userId}`
+  //     );
+  //     if (response.data.success) {
+  //       dispatch(setPurchasedItems(response.data.success));
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching purchased items:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (user) {
-      fetchPurchasedItems(user?.user_id, dispatch);
-    }
-  }, [user, dispatch]);
+  // useEffect(() => {
+  //   if (user) {
+  //     fetchPurchasedItems(user?.user_id, dispatch);
+  //   }
+  // }, [user, dispatch]);
 
   // Parse date function for sorting
   const parseDate = (dateString) => {

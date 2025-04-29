@@ -14,19 +14,19 @@ function CaseStudyCard({ data, setActivePage }) {
         <div class="case-study-tags ">
           <span class="tag practywiz-tag">PractyWiz</span>
         </div>
-        <h2 className="card-title">{data.caseTopic}</h2>
+        <h2 className="card-title">{data?.case_study_title}</h2>
         <div className="meta-info">
-          <span>Case Author Designation: {data.caseAuthorDesignation}</span>
+          <span>case study challenge: {data?.case_study_challenge}</span>
         </div>
         <div>
           <span className="case-sub-head">Extract: </span>
-          <p className="card-excerpt">{data.extract}</p>
+          <p className="card-excerpt">{data?.case_study_content}</p>
         </div>
         <div className="sub-container-date">
-          <span className="case-study-category-badge">
+          {/* <span className="case-study-category-badge">
             {data.subjectCategory}
-          </span>
-          <span>Published: {data.publicationDate}</span>
+          </span> */}
+          {/* <span>Published: {data.publicationDate}</span> */}
         </div>
 
         <button
