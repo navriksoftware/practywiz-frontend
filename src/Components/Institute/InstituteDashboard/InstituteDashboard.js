@@ -22,10 +22,9 @@ import InstituteUserList from "./OtherComponents/InstituteUserList";
 import { ApiURL } from "../../../Utils/ApiURL";
 import axios from "axios";
 import CaseStudiesListPage from "./OtherComponents/CaseStudiesListPage";
-import { set } from "react-hook-form";
 import TeacherDetailslistings from "./OtherComponents/TeacherDetailslistings";
 import SingleTeacherdetailspage from "./OtherComponents/SingleTeacherdetailspage";
-import { setinstututeDtls } from "../../../Redux/instituteSlice";
+import { setinstituteDtls } from "../../../Redux/instituteSlice";
 import AllCaseStudies from "./OtherComponents/AllCaseStudies";
 import CaseStudy from "../../CaseStudy/CaseStudy";
 
@@ -594,7 +593,7 @@ const InstituteDashboard = ({ user, token }) => {
         ]);
 
         if (response.data.success) {
-          dispatch(setinstututeDtls(response.data.success));// use this to set the data in redux store
+          dispatch(setinstituteDtls(response.data.success));// use this to set the data in redux store
           setInstituteDashboardDetails(response.data.success);
         } else if (response.data.error) {
           setInstituteDashboardDetails([]);

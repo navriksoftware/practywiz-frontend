@@ -1,20 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { logOut } from "./userRedux";
 const initialState = {
-    instututeDtls: null,
-
+    instituteDtls: null,
 };
 
-const instututeSlice = createSlice({
+const instituteSlice = createSlice({
     name: "institute",
     initialState,
     reducers: {
-        setinstututeDtls: (state, action) => {
-            state.instututeDtls = action.payload;
+        setinstituteDtls: (state, action) => {
+            state.instituteDtls = action.payload;
         }
     },
+    extraReducers: (builder) => {
+        builder.addCase(logOut, (state) => {
+          state.instituteDtls = null;
+        });
+      },
 });
 
-export const { setinstututeDtls } = instututeSlice.actions;
+export const { setinstituteDtls } = instituteSlice.actions;
 
-export default instututeSlice.reducer;
+export default instituteSlice.reducer;

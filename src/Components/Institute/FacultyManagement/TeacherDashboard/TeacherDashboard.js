@@ -15,6 +15,7 @@ import ShowClasses from "./ShowClasses";
 import SingleClassdetails from "./OtherComponents/SingleClassdetails";
 import ChangePassword from "./OtherComponents/ChangePassword";
 import AddNonPractywizCase from "./AddNonPractywizCases/AddNonPractywizCase";
+import { setfacultyDtls } from "../../../../Redux/facultySlice";
 
 const TeacherDashboard = ({ user, token }) => {
   const dispatch = useDispatch();
@@ -46,6 +47,14 @@ const TeacherDashboard = ({ user, token }) => {
         ]);
 
         if (response.data.success) {
+          const facultyRaw = response.data.success[0];
+          const cleanedData = {
+            faculty_id: facultyRaw?.faculty_dtls_id,
+            user_dtls_id: facultyRaw?.user_dtls_id,
+            institute_name: facultyRaw?.faculty_institute_name,
+            institute_code: facultyRaw?.faculty_institute_code
+          };
+          dispatch(setfacultyDtls(cleanedData));// use this to set the data in redux store
           setuserdata(response.data.success);
         } else if (response.data.error) {
           setuserdata([]);
@@ -340,7 +349,7 @@ const TeacherDashboard = ({ user, token }) => {
       </header>
       <div
         className="mentor_dashboard"
-        //  id="mentorRegisterBg"
+      //  id="mentorRegisterBg"
       >
         <div className="col-md-flex-center">
           <div className="display-raw">
