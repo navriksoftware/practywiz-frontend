@@ -1,8 +1,15 @@
+
 import React, { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import { BasicInformation } from "./BasicInformation";
 import { QuestionsSection } from "./QuestionsSection";
-
+import axios from "axios"; 
+import { ApiURL } from "../../../../../Utils/ApiURL";
 export const CaseStudyForm = () => {
+
+
+  const url = ApiURL();
+  
   // Try to load saved form data from localStorage
   const loadSavedData = () => {
     if (typeof window !== "undefined") {
@@ -27,8 +34,12 @@ export const CaseStudyForm = () => {
     questions: [],
   };
 
+  const facultyData = useSelector((state) => state.faculty.facultyDtls);
+  const facultyId = facultyData?.faculty_id;
+
   const [formData, setFormData] = useState(loadSavedData() || defaultFormData);
   const [formErrors, setFormErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   // Save form data to localStorage whenever it changes
   useEffect(() => {
@@ -52,21 +63,7 @@ export const CaseStudyForm = () => {
     }
   };
 
-  // const handleTagAdd = (tag) => {
-  //   if (!formData.tags.includes(tag) && tag.trim() !== "") {
-  //     setFormData({
-  //       ...formData,
-  //       tags: [...formData.tags, tag],
-  //     });
-  //   }
-  // };
-
-  // const handleTagRemove = (tagToRemove) => {
-  //   setFormData({
-  //     ...formData,
-  //     tags: formData.tags.filter((tag) => tag !== tagToRemove),
-  //   });
-  // };
+  // ... (other handlers remain unchanged)
 
   const handleQuestionChange = (questionId, field, value) => {
     setFormData({
@@ -249,10 +246,12 @@ export const CaseStudyForm = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = (isDraft = false) => {
+  // =========================
+  // UPDATED handleSubmit
+  // =========================
+  const handleSubmit = async (isDraft = false) => {
     // For drafts, save without validation
     if (isDraft) {
-      console.log("Saving draft:", formData);
       alert("Case study draft saved successfully!");
       return;
     }
@@ -263,17 +262,47 @@ export const CaseStudyForm = () => {
       return;
     }
 
-    // In a real application, you would send this data to your backend
-    console.log("Publishing case study:", formData);
+    if (!facultyId) {
+      alert("Faculty ID not found. Please login again.");
+      return;
+    }
 
-    // Simulate API call
-    setTimeout(() => {
-      alert("Case study published successfully!");
-      // Clear form after successful submission
-      //   if (confirm("Would you like to create another case study?")) {
-      //     setFormData(defaultFormData);
-      //   }
-    }, 1000);
+    setLoading(true);
+
+    try {
+      // Prepare payload as per backend API
+      const payload = {
+        title: formData.title,
+        author: formData.author,
+        category: formData.category,
+        questions: formData.questions,
+        facultyId: facultyId,
+      };
+
+      // Replace with your actual backend URL
+      const response = await axios.post(
+        `${url}api/v1/faculty/case-study/add-non-practywiz-case`,
+        payload
+      );
+
+      if (response.data && response.data.message) {
+        alert("Case study published successfully!");
+        setFormData(defaultFormData);
+        localStorage.removeItem("caseStudyFormData");
+        setFormErrors({});
+      } else {
+        alert("Unexpected response from server.");
+      }
+    } catch (error) {
+      console.error("Error publishing case study:", error);
+      if (error.response && error.response.data && error.response.data.error) {
+        alert("Error: " + error.response.data.error);
+      } else {
+        alert("Failed to publish case study. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -313,8 +342,9 @@ export const CaseStudyForm = () => {
           type="button"
           className="new-case-add-publish"
           onClick={() => handleSubmit(false)}
+          disabled={loading}
         >
-          Publish Case Study
+          {loading ? "Publishing..." : "Publish Case Study"}
         </button>
       </div>
     </form>
