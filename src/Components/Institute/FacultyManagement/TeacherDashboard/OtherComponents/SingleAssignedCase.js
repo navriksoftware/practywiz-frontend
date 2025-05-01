@@ -57,9 +57,8 @@ const STUDENTS_DATA = [
   ...Array.from({ length: 60 }, (_, i) => ({
     id: i + 6,
     name: `Student ${i + 6}`,
-    avatar: `https://randomuser.me/api/portraits/${
-      i % 2 === 0 ? "women" : "men"
-    }/${(i % 70) + 1}.jpg`,
+    avatar: `https://randomuser.me/api/portraits/${i % 2 === 0 ? "women" : "men"
+      }/${(i % 70) + 1}.jpg`,
     rollNo: `2024${String(i + 6).padStart(3, "0")}`,
     status: ["Completed", "In Progress", "Not Started", "Overdue"][
       Math.floor(Math.random() * 4)
@@ -73,6 +72,7 @@ const STUDENTS_DATA = [
 ];
 
 const SingleAssignedCase = () => {
+
   const [students, setStudents] = useState(STUDENTS_DATA);
   const [filteredStudents, setFilteredStudents] = useState(STUDENTS_DATA);
   const [currentPage, setCurrentPage] = useState(1);
@@ -95,7 +95,7 @@ const SingleAssignedCase = () => {
   });
   const studentsPerPage = 5;
   const dropdownRef = useRef(null);
-
+ 
   // Create a debounced search function
   const debouncedSearch = useRef(
     debounce((term) => {
@@ -180,7 +180,7 @@ const SingleAssignedCase = () => {
   );
   const completionRate = Math.round(
     (students.filter((s) => s.status === "Completed").length / totalStudents) *
-      100
+    100
   );
 
   // Toggle dropdown
@@ -365,21 +365,19 @@ const SingleAssignedCase = () => {
 
       <div className="single-case-details-view-tabs">
         <button
-          className={`single-case-details-view-tab ${
-            selectedTab === "student-list"
+          className={`single-case-details-view-tab ${selectedTab === "student-list"
               ? "single-case-details-view-tab-active"
               : ""
-          }`}
+            }`}
           onClick={() => setSelectedTab("student-list")}
         >
           Student List
         </button>
         <button
-          className={`single-case-details-view-tab ${
-            selectedTab === "case-study-questions"
+          className={`single-case-details-view-tab ${selectedTab === "case-study-questions"
               ? "single-case-details-view-tab-active"
               : ""
-          }`}
+            }`}
           onClick={() => setSelectedTab("case-study-questions")}
         >
           Case Study Questions

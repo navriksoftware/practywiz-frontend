@@ -567,9 +567,6 @@ const InstituteDashboard = ({ user, token }) => {
     );
   };
 
-
-
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userLogoutHandler = () => {

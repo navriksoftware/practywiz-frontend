@@ -38,7 +38,7 @@
 .case-assign-to-student-tag {
   padding: 5px 15px;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 0.8rem;
   font-weight: 500;
 }
 
@@ -47,15 +47,7 @@
   color: #0070f3;
 }
 
-.case-assign-to-student-tag-strategy {
-  background-color: #f0f5ff;
-  color: #2f54eb;
-}
 
-.case-assign-to-student-tag-marketing {
-  background-color: #e6fffb;
-  color: #13c2c2;
-}
 
 .case-assign-to-student-description {
   font-size: 15px;

@@ -1,15 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../../../../CaseStudy/CaseStudyCard.css";
-function CaseStudyCard({ data, setActivePage }) {
+function CaseStudyCard({ key,data,caseStudyId, setActivePage }) {
+  console.log("CaseStudyId", caseStudyId);
+  const handleClick = () => {
+    setActivePage("assigncase")
+    localStorage.setItem("caseStudyId", caseStudyId);
+  }
   return (
     <article className="case-study-card-container">
-      {/* <img
-        src={data.imageLink}
-        alt={data.caseTopic || "Case Study"}
-        loading="lazy"
-        className="case-study-card-image"
-      /> */}
       <div className="case-study-card-content">
         <div class="case-study-tags ">
           <span class="tag practywiz-tag">PractyWiz</span>
@@ -30,7 +29,7 @@ function CaseStudyCard({ data, setActivePage }) {
         </div>
 
         <button
-          onClick={() => setActivePage("assigncase")}
+          onClick={handleClick}
           className="read-more-btn"
         >
           {/* <Link

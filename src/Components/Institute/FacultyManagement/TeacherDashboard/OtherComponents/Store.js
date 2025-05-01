@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../../../CaseStudy/CaseStudyDisplay.css";
 import { ApiURL } from "../../../../../Utils/ApiURL";
-import { setPurchasedItems } from "../../../../../Redux/purchasedSlice";
-import { useDispatch } from "react-redux";
 import CaseStudyCard from "./CaseStudyCard";
-
-const Store = ({ userdata,setActivePage }) => {
-  const dispatch = useDispatch();
-
+import { useSelector } from "react-redux";
+const Store = ({ userdata, setActivePage }) => {
   // State for case studies data and filters
   const [allCaseStudiesData, setAllCaseStudiesData] = useState([]);
   const [filteredCaseStudiesData, setFilteredCaseStudiesData] = useState([]);
@@ -17,31 +12,11 @@ const Store = ({ userdata,setActivePage }) => {
   const [sortOrder, setSortOrder] = useState("newest");
   const [practyWizFilter, setPractyWizFilter] = useState("all");
   const [loading, setLoading] = useState(false);
+  const facultydata = useSelector((state) => state.faculty.facultyDtls);
 
   const url = ApiURL();
   // Function to render stars based on rating
-  const renderStars = (rating) => {
-    const fullStars = Math.floor(rating); // Number of full stars
-    const hasHalfStar = rating % 1 >= 0.5; // If rating has at least 0.5, use a half star
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate remaining empty stars
 
-    return (
-      <>
-        {/* Render full stars */}
-        {[...Array(fullStars)].map((_, i) => (
-          <i key={`full-${i}`} className="fa fa-star full-star" />
-        ))}
-
-        {/* Render half star if needed */}
-        {hasHalfStar && <i className="fa fa-star-half-alt half-star" />}
-
-        {/* Render empty stars */}
-        {[...Array(emptyStars)].map((_, i) => (
-          <i key={`empty-${i}`} className="fa fa-star empty-star" />
-        ))}
-      </>
-    );
-  };
 
   // Fetch case studies data
   useEffect(() => {
@@ -50,7 +25,7 @@ const Store = ({ userdata,setActivePage }) => {
         setLoading(true);
         const response = await Promise.race([
           axios.post(`${url}api/v1/faculty/case-study/list`,
-           { facultyId : userdata[0]?.faculty_dtls_id}),
+            { facultyId: facultydata?.faculty_id }),
           new Promise(
             (_, reject) =>
               setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
@@ -59,6 +34,7 @@ const Store = ({ userdata,setActivePage }) => {
 
         if (response.data.success) {
           setAllCaseStudiesData(response.data.success);
+          console.log("Case studies data fetched successfully:", response.data.success);
         } else if (response.data.error) {
           setAllCaseStudiesData([]);
         }
@@ -76,25 +52,7 @@ const Store = ({ userdata,setActivePage }) => {
     fetchCaseStudies();
   }, [url]);
 
-  // Fetch purchased items
-  // const fetchPurchasedItems = async (userId, dispatch) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `${url}api/v1/case-studies/cart/purchased-items/${userId}`
-  //     );
-  //     if (response.data.success) {
-  //       dispatch(setPurchasedItems(response.data.success));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching purchased items:", error);
-  //   }
-  // };
 
-  // useEffect(() => {
-  //   if (user) {
-  //     fetchPurchasedItems(user?.user_id, dispatch);
-  //   }
-  // }, [user, dispatch]);
 
   // Parse date function for sorting
   const parseDate = (dateString) => {
@@ -266,10 +224,10 @@ const Store = ({ userdata,setActivePage }) => {
           {(searchTerm ||
             sortOrder !== "newest" ||
             practyWizFilter !== "all") && (
-            <button className="case-clear-btn" onClick={clearFilters}>
-              Clear All
-            </button>
-          )}
+              <button className="case-clear-btn" onClick={clearFilters}>
+                Clear All
+              </button>
+            )}
         </div>
 
         <div className="app-container">
@@ -283,6 +241,7 @@ const Store = ({ userdata,setActivePage }) => {
               {filteredCaseStudiesData.map((caseStudy) => (
                 <CaseStudyCard
                   key={caseStudy.id}
+                  caseStudyId={caseStudy.institute_case_assign_case_study_id}
                   data={caseStudy}
                   setActivePage={setActivePage}
                 />
