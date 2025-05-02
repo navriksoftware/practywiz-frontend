@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { ApiURL } from "../../../../../Utils/ApiURL";
 
-export default function ConfigureCasePopup({ setOpen, caseauthor, caseStudyId, facultyID, selectedClasses }) {
+export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, facultyID, selectedClasses }) {
   const [questionType, setQuestionType] = useState("0");
   const [formErrors, setFormErrors] = useState({});
   const [formData, setFormData] = useState({
@@ -43,7 +43,7 @@ export default function ConfigureCasePopup({ setOpen, caseauthor, caseStudyId, f
     // Check required fields
     if (!formData.startDateTime) errors.startDateTime = "Start date and time is required";
     if (!formData.deadline) errors.deadline = "Deadline is required";
-    if (caseauthor === 0) {
+    if (caseType === 1) {
       if (!formData.factQuestions) errors.factQuestions = "Fact questions quantity is required";
       if (!formData.analysisQuestions) errors.analysisQuestions = "Analysis questions quantity is required";
     }
@@ -62,7 +62,7 @@ export default function ConfigureCasePopup({ setOpen, caseauthor, caseStudyId, f
     if (classEndDate <= classStartDate) errors.classEnd = "Class end time must be after start time";
 
     // Number validation
-    if (caseauthor === 0) {
+    if (caseType === 1) {
       if (parseInt(formData.factQuestions) < 1) errors.factQuestions = "Must be at least 1";
       if (parseInt(formData.analysisQuestions) < 1) errors.analysisQuestions = "Must be at least 1";
     }
@@ -94,7 +94,7 @@ export default function ConfigureCasePopup({ setOpen, caseauthor, caseStudyId, f
       factQuestions:formData.factQuestions,
       analysisQuestions: formData.analysisQuestions,
       questionType: questionType,
-      owned_by:caseauthor
+      owned_by:caseType
     };
 
     console.log("Form data to be sent to backend:", dataToSend);
@@ -156,7 +156,7 @@ export default function ConfigureCasePopup({ setOpen, caseauthor, caseStudyId, f
             <p className="error-message">{formErrors.deadline}</p>
           )}
 
-          {caseauthor === 0 && (
+          {caseType === 1 && (
             <>
               <label className="case-assign-label">
                 Fact-Based Questions (Quantity)
@@ -192,7 +192,7 @@ export default function ConfigureCasePopup({ setOpen, caseauthor, caseStudyId, f
             </>
           )}
 
-          {caseauthor === 0 && (
+          {caseType === 1 && (
             <>
               <label className="case-assign-label">Question Distribution</label>
               <div className="case-assign-radio-group">
@@ -274,7 +274,7 @@ export default function ConfigureCasePopup({ setOpen, caseauthor, caseStudyId, f
             <p className="error-message">{formErrors.classEnd}</p>
           )}
 
-          {caseauthor === 0 ? (
+          {caseType === 1 ? (
             <button className="case-assign-btn" type="submit">
               {questionType === "same"
                 ? "Generate Questions"

@@ -1,90 +1,130 @@
-"use client";
-
 import { useState, useEffect, useCallback } from "react";
 import "../DashboardCSS/Profile.css";
 import { debounce, set } from "lodash";
 import { Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { ApiURL } from "../../../../../Utils/ApiURL";
 // Sample data
-const initialCaseStudies = [
-  {
-    id: 1,
-    title: "Competing Against A Product Leader",
-    department: "FIN 301, BUS 202",
-    batch: "2024",
-    students: 45,
-    dueDate: "Feb 28, 2024",
-    progress: 75,
-    status: "Active",
-    class: "MBA",
-    type: "PractyWiz",
-  },
-  {
-    id: 2,
-    title: "Sustainable Development Goals",
-    department: "ECO 101, ENV 202",
-    batch: "2023",
-    students: 32,
-    dueDate: "Mar 05, 2024",
-    progress: 60,
-    status: "Active",
-    class: "Environmental Studies",
-    type: "PractyWiz",
-  },
-  {
-    id: 3,
-    title: "Global Supply Chain Management",
-    department: "MKT 101",
-    batch: "2024",
-    students: 38,
-    dueDate: "Mar 10, 2024",
-    progress: 45,
-    status: "Active",
-    class: "Operations Management",
-    type: "Non-PractyWiz",
-  },
-  {
-    id: 4,
-    title: "Digital Transformation Strategy",
-    department: "ENT 401",
-    batch: "2024",
-    students: 41,
-    dueDate: "Mar 15, 2024",
-    progress: 30,
-    status: "Active",
-    class: "Information Systems",
-    type: "PractyWiz",
-  },
-  {
-    id: 5,
-    title: "Marketing Analytics Project",
-    department: "BUS 202",
-    batch: "2023",
-    students: 35,
-    dueDate: "Mar 20, 2024",
-    progress: 25,
-    status: "Completed",
-    class: "Digital Marketing",
-    type: "Non-PractyWiz",
-  },
-  {
-    id: 6,
-    title: "Financial Risk Assessment",
-    department: "ENT 401",
-    batch: "2024",
-    students: 40,
-    dueDate: "Mar 25, 2024",
-    progress: 15,
-    status: "Active",
-    class: "Finance Management",
-    type: "Non-PractyWiz",
-  },
-];
+// const assignedCase = [
+//   {
+//     id: 1,
+//     title: "Competing Against A Product Leader",
+//     department: "FIN 301, BUS 202",
+//     batch: "2024",
+//     students: 45,
+//     dueDate: "Feb 28, 2024",
+//     progress: 75,
+//     status: "Active",
+//     class: "MBA",
+//     type: "PractyWiz",
+//   },
+//   {
+//     id: 2,
+//     title: "Sustainable Development Goals",
+//     department: "ECO 101, ENV 202",
+//     batch: "2023",
+//     students: 32,
+//     dueDate: "Mar 05, 2024",
+//     progress: 60,
+//     status: "Active",
+//     class: "Environmental Studies",
+//     type: "PractyWiz",
+//   },
+//   {
+//     id: 3,
+//     title: "Global Supply Chain Management",
+//     department: "MKT 101",
+//     batch: "2024",
+//     students: 38,
+//     dueDate: "Mar 10, 2024",
+//     progress: 45,
+//     status: "Active",
+//     class: "Operations Management",
+//     type: "Non-PractyWiz",
+//   },
+//   {
+//     id: 4,
+//     title: "Digital Transformation Strategy",
+//     department: "ENT 401",
+//     batch: "2024",
+//     students: 41,
+//     dueDate: "Mar 15, 2024",
+//     progress: 30,
+//     status: "Active",
+//     class: "Information Systems",
+//     type: "PractyWiz",
+//   },
+//   {
+//     id: 5,
+//     title: "Marketing Analytics Project",
+//     department: "BUS 202",
+//     batch: "2023",
+//     students: 35,
+//     dueDate: "Mar 20, 2024",
+//     progress: 25,
+//     status: "Completed",
+//     class: "Digital Marketing",
+//     type: "Non-PractyWiz",
+//   },
+//   {
+//     id: 6,
+//     title: "Financial Risk Assessment",
+//     department: "ENT 401",
+//     batch: "2024",
+//     students: 40,
+//     dueDate: "Mar 25, 2024",
+//     progress: 15,
+//     status: "Active",
+//     class: "Finance Management",
+//     type: "Non-PractyWiz",
+//   },
+// ];
+
+
 
 const ActiveCaseStudies = ({ setActivePage }) => {
-  const [caseStudies, setCaseStudies] = useState(initialCaseStudies);
+
+  const url = ApiURL();
+
+  const facultyid = useSelector((state) => state.faculty.facultyDtls.faculty_id);
+  const [assignedCase, setassignedCase] = useState([]);
+  useEffect(() => {
+    const fetchAssignCaseStudiesDetails = async () => {
+      try {
+        const response = await Promise.race([
+          axios.post(`${url}api/v1/faculty/dashboard/get-assigned-cases`, {
+            facultyid
+          }),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (response.data.success) {
+          setassignedCase(response.data.success);
+        } else if (response.data.error) {
+          setassignedCase([]);
+        }
+      } catch (error) {
+        setassignedCase([]);
+        if (error.message === "Request timed out") {
+          console.log("Request timed out. Please try again.");
+        } else {
+          console.log("An error occurred. Please try again.");
+        }
+      } finally {
+        console.log("Request completed");
+      }
+    };
+    fetchAssignCaseStudiesDetails();
+  }, [url]);
+
+
+ 
   const [filteredCaseStudies, setFilteredCaseStudies] =
-    useState(initialCaseStudies);
+    useState(assignedCase);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
     class: "All Classes",
@@ -94,7 +134,7 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   });
 
   // Calculate metrics
-  const totalActiveCases = caseStudies.length;
+  const totalActiveCases = assignedCase.length;
   const casesDueThisWeek = 8; // This would be calculated based on actual dates
   const studentParticipation = 17; // This would be calculated from actual data
   const completionRate = 6; // This would be calculated from actual data
@@ -103,19 +143,19 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   const debouncedSearch = useCallback(
     debounce((term) => {
       if (!term) {
-        applyFilters(filters, caseStudies);
+        applyFilters(filters, assignedCase);
         return;
       }
 
-      const filtered = caseStudies.filter(
+      const filtered = assignedCase.filter(
         (caseStudy) =>
-          caseStudy.title.toLowerCase().includes(term.toLowerCase()) ||
-          caseStudy.department.toLowerCase().includes(term.toLowerCase())
+          caseStudy.case_title.toLowerCase().includes(term.toLowerCase()) ||
+          caseStudy.class_name.toLowerCase().includes(term.toLowerCase())
       );
 
       setFilteredCaseStudies(filtered);
     }, 300),
-    [caseStudies, filters]
+    [assignedCase, filters]
   );
 
   // Handle search input change
@@ -151,7 +191,7 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   const handleFilterChange = (filterType, value) => {
     const newFilters = { ...filters, [filterType]: value };
     setFilters(newFilters);
-    applyFilters(newFilters, caseStudies);
+    applyFilters(newFilters, assignedCase);
   };
 
   // Apply search when component mounts or search term changes
@@ -169,6 +209,13 @@ const ActiveCaseStudies = ({ setActivePage }) => {
     if (progress >= 70) return "#4285F4";
     if (progress >= 40) return "#4285F4";
     return "#4285F4";
+  };
+
+  const formatDate = (isoDateStr) => {
+    const date = new Date(isoDateStr);
+    const iso = date.toISOString().split('T')[0]; // "2025-05-24"
+    const [year, month, day] = iso.split('-');
+    return `${day}-${month}-${year}`;
   };
 
   return (
@@ -308,8 +355,8 @@ const ActiveCaseStudies = ({ setActivePage }) => {
             onChange={(e) => handleFilterChange("type", e.target.value)}
           >
             <option>All Cases</option>
-            <option>PractyWiz</option>
-            <option>Non-PractyWiz</option>
+            <option>Practywiz</option>
+            <option>Non-Practywiz</option>
           </select>
 
           <select
@@ -337,19 +384,19 @@ const ActiveCaseStudies = ({ setActivePage }) => {
       <div className="teacher-profile-home-page-case-studies">
         {filteredCaseStudies.map((caseStudy) => (
           <div
-            key={caseStudy.id}
+            key={caseStudy.case_id}
             className="teacher-profile-home-page-case-card"
           >
             <div className="teacher-profile-home-page-case-case-type">
               <span
-                className={`teacher-profile-home-page-case-case-type-tag ${caseStudy.type.toLowerCase()}`}
+                className={`teacher-profile-home-page-case-case-type-tag ${caseStudy?.case_type.toLowerCase()}`}
               >
-                {caseStudy.type}
+                {caseStudy.case_type}
               </span>
             </div>
             <div className="teacher-profile-home-page-case-header">
               <h3 className="teacher-profile-home-page-case-title">
-                {caseStudy.title}
+                {caseStudy.case_title}
               </h3>
               <button className="teacher-profile-home-page-case-menu">
                 <svg
@@ -379,49 +426,56 @@ const ActiveCaseStudies = ({ setActivePage }) => {
               <div className="teacher-profile-home-page-case-detail">
                 <i className="fa-solid fa-graduation-cap" />
                 {/* <span>{caseStudy.department}</span> */}
-                {caseStudy.department.split(", ").map((dept, index) => (
+                {/* {caseStudy.department.split(", ").map((dept, index) => (
                   <span
                     className="teacher-profile-home-page-case-detail-subj-tag"
                     key={index}
                   >
                     {dept}
                   </span>
-                ))}
+                ))} */}
+                <span
+                  className="teacher-profile-home-page-case-detail-subj-tag"
+
+                >
+                  {caseStudy.class_name}({caseStudy.class_code})
+                </span>
+
               </div>
 
               <div className="teacher-profile-home-page-case-detail">
                 <i className="fa-solid fa-user-friends" />
-                <span>{caseStudy.students} Students</span>
+                <span>{caseStudy.number_of_students} Students</span>
               </div>
 
               <div className="teacher-profile-home-page-case-detail">
                 <i className="fa-solid fa-clock" />
-                <span>Due {caseStudy.dueDate}</span>
+                <span>Due {formatDate(caseStudy.due_date)}</span>
               </div>
             </div>
 
             <div className="teacher-profile-home-page-case-progress">
               <div className="teacher-profile-home-page-progress-header">
                 <span>Progress</span>
-                <span>{caseStudy.progress} %</span>
+                <span>50 %</span>
               </div>
               <div className="teacher-profile-home-page-progress-bar">
                 <div
                   className="teacher-profile-home-page-progress-fill"
                   style={{
-                    width: `${caseStudy.progress}%`,
-                    backgroundColor: getProgressColor(caseStudy.progress),
+                    width: `${50}%`,
+                    backgroundColor: getProgressColor(50),
                   }}
                 ></div>
               </div>
             </div>
 
             <div className="teacher-profile-home-page-case-footer">
-              <div
+              {/* <div
                 className={`teacher-profile-home-page-case-status ${caseStudy.status.toLowerCase()}`}
               >
                 {caseStudy.status}
-              </div>
+              </div> */}
               <button
                 onClick={() => setActivePage("singlecase")}
                 className="teacher-profile-home-page-view-details"

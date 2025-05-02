@@ -4,23 +4,27 @@ import "../../../../CaseStudy/CaseStudyDisplay.css";
 import { ApiURL } from "../../../../../Utils/ApiURL";
 import CaseStudyCard from "./CaseStudyCard";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 const Store = ({ userdata, setActivePage }) => {
   // State for case studies data and filters
   const [allCaseStudiesData, setAllCaseStudiesData] = useState([]);
   const [filteredCaseStudiesData, setFilteredCaseStudiesData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("newest");
-  const [practyWizFilter, setPractyWizFilter] = useState("all");
+  const [CaseType, setCaseType] = useState("practywiz");
   const [loading, setLoading] = useState(false);
   const facultydata = useSelector((state) => state.faculty.facultyDtls);
-
+  localStorage.setItem("caseType", CaseType);
+  // const [CaseType, setCaseType] = useState("practywiz");
+  
   const url = ApiURL();
   // Function to render stars based on rating
 
 
   // Fetch case studies data
   useEffect(() => {
-    const fetchCaseStudies = async () => {
+
+    const fetchPractywizCaseStudies = async () => {
       try {
         setLoading(true);
         const response = await Promise.race([
@@ -49,8 +53,44 @@ const Store = ({ userdata, setActivePage }) => {
         setLoading(false);
       }
     };
-    fetchCaseStudies();
-  }, [url]);
+    const fetchNonPractywizCaseStudies = async () => {
+
+      try {
+        setLoading(true);
+        const response = await Promise.race([
+          axios.post(`${url}api/v1/faculty/case-study/list-non-practywiz-case`,
+            { facultyId: facultydata?.faculty_id }),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+
+        if (response.data.success) {
+          setAllCaseStudiesData(response.data.success);
+          console.log("Case studies data fetched successfully:", response.data.success);
+        } else if (response.data.error) {
+          setAllCaseStudiesData([]);
+        }
+      } catch (error) {
+        setAllCaseStudiesData([]);
+        if (error.message === "Request timed out") {
+          console.log("Request timed out. Please try again.");
+        } else {
+          console.log("An error occurred. Please try again.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (CaseType == "practywiz") {
+      fetchPractywizCaseStudies();
+    }
+    if (CaseType == "non-practywiz") {
+      fetchNonPractywizCaseStudies();
+    }
+  }, [url, CaseType]);
 
 
 
@@ -83,6 +123,11 @@ const Store = ({ userdata, setActivePage }) => {
     }
   };
 
+  const handleTabChange = (tab) => {
+    setCaseType(tab);
+  
+  };
+
   // Apply filters and sorting whenever filter values change
   useEffect(() => {
     const filterAndSortData = () => {
@@ -93,12 +138,12 @@ const Store = ({ userdata, setActivePage }) => {
           : true;
 
         // Filter by PractyWiz status
-        const matchesPractyWizFilter =
-          practyWizFilter === "all" ||
-          (practyWizFilter === "practywiz" && caseStudy.isPractyWiz) ||
-          (practyWizFilter === "non-practywiz" && !caseStudy.isPractyWiz);
+        // const matchesCaseType =
+        //   CaseType === "all" ||
+        //   (CaseType === "practywiz" && caseStudy.isPractyWiz) ||
+        //   (CaseType === "non-practywiz" && !caseStudy.isPractyWiz);
 
-        return matchesSearch && matchesPractyWizFilter;
+        return matchesSearch;
       });
 
       // Then sort by date
@@ -115,13 +160,13 @@ const Store = ({ userdata, setActivePage }) => {
     };
 
     filterAndSortData();
-  }, [searchTerm, sortOrder, practyWizFilter, allCaseStudiesData]);
+  }, [searchTerm, sortOrder, CaseType, allCaseStudiesData]);
 
   // Clear all filters
   const clearFilters = () => {
     setSearchTerm("");
     setSortOrder("newest");
-    setPractyWizFilter("all");
+    // setCaseType("all");
   };
 
   // Render the selected sort option text
@@ -137,23 +182,23 @@ const Store = ({ userdata, setActivePage }) => {
   };
 
   // Render the selected PractyWiz filter text
-  const renderSelectedPractyWizText = () => {
-    switch (practyWizFilter) {
-      case "all":
-        return "All Cases";
-      case "practywiz":
-        return "PractyWiz";
-      case "non-practywiz":
-        return "Non-PractyWiz";
-      default:
-        return "Case Type";
-    }
-  };
+  // const renderSelectedPractyWizText = () => {
+  //   switch (CaseType) {
+  //     case "all":
+  //       return "All Cases";
+  //     case "practywiz":
+  //       return "PractyWiz";
+  //     case "non-practywiz":
+  //       return "Non-PractyWiz";
+  //     default:
+  //       return "Case Type";
+  //   }
+  // };
 
   return (
     <>
       <div className="case-study-display-container">
-        <div className="case-filter-container">
+        {/* <div className="case-filter-container">
           <div className="case-search">
             <input
               type="text"
@@ -165,31 +210,27 @@ const Store = ({ userdata, setActivePage }) => {
             <i className="fa fa-search search-icon"></i>
           </div>
 
-          {/* PractyWiz Filter Dropdown */}
+
+         
           <div className="case-sort">
             <div className="case-dropdown">
               <button className="case-dropbtn">
-                {renderSelectedPractyWizText()}
+              
                 <i className="fa fa-chevron-down"></i>
               </button>
               <div className="case-dropdown-content">
+              
                 <button
-                  className={practyWizFilter === "all" ? "active" : ""}
-                  onClick={() => setPractyWizFilter("all")}
-                >
-                  All Cases
-                </button>
-                <button
-                  className={practyWizFilter === "practywiz" ? "active" : ""}
-                  onClick={() => setPractyWizFilter("practywiz")}
+                  className={CaseType === "practywiz" ? "active" : ""}
+                  onClick={() => setCaseType("practywiz")}
                 >
                   PractyWiz
                 </button>
                 <button
                   className={
-                    practyWizFilter === "non-practywiz" ? "active" : ""
+                    CaseType === "non-practywiz" ? "active" : ""
                   }
-                  onClick={() => setPractyWizFilter("non-practywiz")}
+                  onClick={() => setCaseType("non-practywiz")}
                 >
                   Non-PractyWiz
                 </button>
@@ -197,7 +238,7 @@ const Store = ({ userdata, setActivePage }) => {
             </div>
           </div>
 
-          {/* Sort Dropdown */}
+         
           <div className="case-sort">
             <div className="case-dropdown">
               <button className="case-dropbtn">
@@ -223,11 +264,106 @@ const Store = ({ userdata, setActivePage }) => {
 
           {(searchTerm ||
             sortOrder !== "newest" ||
-            practyWizFilter !== "all") && (
+            CaseType !== "all") && (
               <button className="case-clear-btn" onClick={clearFilters}>
                 Clear All
               </button>
             )}
+        </div> */}
+
+<div
+          className="store-case-filter-container"
+          style={{ justifyContent: "space-between" }}
+        >
+          {/* Tab Selection */}
+          <div className="store-case-tabs">
+            <button
+              className={`store-tab-btn ${
+                CaseType === "practywiz" ? "active" : ""
+              }`}
+              onClick={() => handleTabChange("practywiz")}
+              style={{
+                backgroundColor:
+                  CaseType === "practywiz" ? "#2563eb" : "#f1f5f9",
+                color: CaseType === "practywiz" ? "white" : "#333",
+                border: "none",
+                borderRadius: "6px",
+                padding: "10px 20px",
+                fontWeight: "500",
+                cursor: "pointer",
+                marginRight: "10px",
+                transition: "all 0.3s ease",
+              }}
+            >
+              PRACTYWIZ CASE
+            </button>
+            <button
+              className={`store-tab-btn ${
+                CaseType === "non-practywiz" ? "active" : ""
+              }`}
+              onClick={() => handleTabChange("non-practywiz")}
+              style={{
+                backgroundColor:
+                  CaseType === "non-practywiz" ? "#2563eb" : "#f1f5f9",
+                color: CaseType === "non-practywiz" ? "white" : "#333",
+                border: "none",
+                borderRadius: "6px",
+                padding: "10px 20px",
+                fontWeight: "500",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+              }}
+            >
+              NON PRACTYWIZ CASE
+            </button>
+          </div>
+
+          {/* Search and Sort Container */}
+          <div style={{ display: "flex", gap: "15px" }}>
+            {/* Search Input */}
+            <div className="store-case-search">
+              <input
+                type="text"
+                placeholder="Search by topic..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="store-case-search-input"
+              />
+              {searchTerm ? (
+                <i
+                  className="fa fa-times store-search-icon"
+                  // onClick={clearSearch}
+                  style={{ cursor: "pointer" }}
+                ></i>
+              ) : (
+                <i className="fa fa-search store-search-icon"></i>
+              )}
+            </div>
+
+            {/* Sort Dropdown */}
+            <div className="store-case-sort">
+              <div className="store-case-dropdown">
+                <button className="store-case-dropbtn">
+                  {sortOrder === "newest" ? "Newest First" : "Oldest First"}
+                  <i className="fa fa-chevron-down"></i>
+                </button>
+                <div className="store-case-dropdown-content">
+                  <button
+                    className={sortOrder === "newest" ? "active" : ""}
+                    onClick={() => setSortOrder("newest")}
+                  >
+                    Newest First
+                  </button>
+                  <button
+                    className={sortOrder === "oldest" ? "active" : ""}
+                    onClick={() => setSortOrder("oldest")}
+                  >
+                    Oldest First
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="app-container">
@@ -238,14 +374,32 @@ const Store = ({ userdata, setActivePage }) => {
             </div>
           ) : filteredCaseStudiesData.length > 0 ? (
             <div className="case-study-grid">
-              {filteredCaseStudiesData.map((caseStudy) => (
-                <CaseStudyCard
-                  key={caseStudy.id}
-                  caseStudyId={caseStudy.institute_case_assign_case_study_id}
-                  data={caseStudy}
-                  setActivePage={setActivePage}
-                />
-              ))}
+              {filteredCaseStudiesData.map((caseStudy,index) => {
+                if (CaseType === "practywiz") {
+                  return (
+                    <CaseStudyCard
+                      key={index}
+                      caseStudyId={caseStudy?.institute_case_assign_case_study_id}
+                      data={caseStudy}
+                      setActivePage={setActivePage}
+                      CaseType={CaseType}
+                    />
+                  );
+                } else if (CaseType === "non-practywiz") {
+                  return (
+                    <CaseStudyCard
+                      key={index}
+                      caseStudyId={caseStudy?.non_practywiz_case_dtls_id}
+                      data={caseStudy}
+                      setActivePage={setActivePage}
+                      CaseType={CaseType}
+                    />
+                  );
+                } else {
+                  return null; // Optional: return nothing for unmatched filters
+                }
+              })}
+
             </div>
           ) : (
             <div className="no-results">

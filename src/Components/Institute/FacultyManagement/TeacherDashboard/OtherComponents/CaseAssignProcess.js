@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 const CaseAssigneProcess = () => {
   const classid = localStorage.getItem("clickedClassId"); //class id from local storage
   const caseStudyId = localStorage.getItem("caseStudyId"); //case study id from local storage
+  const caseType = localStorage.getItem("caseType") === "practywiz" ? 1 : 0;
   const facultyID = useSelector((state) => state.faculty.facultyDtls.faculty_id);
   const [casestudyDetails, setcasestudyDetails] = useState([])
   const [classDetails, setClassDetails] = useState([]) // State to store class details
@@ -27,7 +28,7 @@ const CaseAssigneProcess = () => {
       try {
         const [caseStudyRes, classListRes] = await Promise.all([
           fetchWithTimeout(
-            axios.post(`${url}api/v1/faculty/case-studies/fetch-caseData`, { caseStudyId })
+            axios.post(`${url}api/v1/faculty/case-studies/fetch-caseData`, { caseStudyId,caseType })
           ),
           fetchWithTimeout(
             axios.post(`${url}api/v1/faculty/case-studies/fetch-classlist`, { facultyID })
@@ -78,7 +79,7 @@ const CaseAssigneProcess = () => {
   const [selectedClasses, setSelectedClasses] = useState([classid]);
   const [showClassDropdown, setShowClassDropdown] = useState(false);
   const [open, setOpen] = useState(false);
-  const [caseauthor, setcaseauthor] = useState(0); //Case Created by: 0 for Practywiz case, 1 for NON-Practywiz case
+  // const [caseType, setcaseType] = useState(0); //Case Created by: 0 for Practywiz case, 1 for NON-Practywiz case
 
 
 
@@ -224,6 +225,8 @@ const CaseAssigneProcess = () => {
   };
 
   return (
+
+
     <div className="case-assign-to-student-container">
       {/* <div className="ye-waala-naya-h-dusra-nevigation-indication">
         <i className="fa-solid fa-home" /> DashBoard
@@ -232,6 +235,8 @@ const CaseAssigneProcess = () => {
       </div> */}
       <div className="case-assign-to-student-dashboard">
         {/* Left Panel */}
+
+        {caseType === 1 ? (
         <div className="case-assign-to-student-left-panel">
           <h1 className="case-assign-to-student-title">
             {casestudyDetails?.case_study_title}
@@ -272,6 +277,49 @@ const CaseAssigneProcess = () => {
             View Full Case Study
           </button>
         </div>
+        ) : (
+          <div className="case-assign-to-student-left-panel">
+          <h1 className="case-assign-to-student-title">
+            {casestudyDetails?.non_practywiz_case_title}
+          </h1>
+
+
+
+
+          <div className="case-assign-to-student-tags">
+
+            {casestudyDetails?.case_study_categories &&
+              JSON.parse(casestudyDetails.case_study_categories).map((tag, index) => (
+                <span
+                  key={index}
+                  className="case-assign-to-student-tag case-assign-to-student-tag-business"
+                >
+                  {tag}
+                </span>
+              ))}
+
+
+          </div>
+
+          <p className="case-assign-to-student-description">
+            {casestudyDetails?.case_study_content} {/* Description of the case study */}
+          </p>
+          <h2 className="case-assign-to-student-subtitle">Preview Content</h2>
+
+          <div className="case-assign-to-student-modules">
+            <div className="case-assign-to-student-module">
+              <p>
+                <strong>Challenge</strong> {casestudyDetails?.case_study_challenge}
+              </p>
+            </div>
+          </div>
+
+          <button className="case-assign-to-student-view-button">
+            View Full Case Study
+          </button>
+        </div>    
+        )}
+
 
         {/* Right Panel */}
         <div className="case-assign-to-student-right-panel">
@@ -432,11 +480,14 @@ const CaseAssigneProcess = () => {
               Assign Case Study
             </button>
             {open && (
-              <ConfigureCasePopup setOpen={setOpen} caseauthor={caseauthor} caseStudyId={caseStudyId} facultyID={facultyID} selectedClasses={selectedClasses}/>
+              <ConfigureCasePopup setOpen={setOpen} caseType={caseType} caseStudyId={caseStudyId} facultyID={facultyID} selectedClasses={selectedClasses}/>
             )}
           </div>
         </div>
       </div>
+
+
+      
     </div>
   );
 };
