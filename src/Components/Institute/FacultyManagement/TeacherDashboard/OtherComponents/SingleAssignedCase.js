@@ -5,7 +5,7 @@ import { debounce } from "lodash";
 const STUDENTS_DATA = [
   {
     id: 1,
-    name: "Student 1",
+    name: "Arjun Mehta",
     avatar: "https://randomuser.me/api/portraits/women/44.jpg",
     rollNo: "2024001",
     status: "Completed",
@@ -15,7 +15,7 @@ const STUDENTS_DATA = [
   },
   {
     id: 2,
-    name: "Tushar",
+    name: "Priya Sharma",
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
     rollNo: "2024002",
     status: "In Progress",
@@ -25,7 +25,7 @@ const STUDENTS_DATA = [
   },
   {
     id: 3,
-    name: "Gagan",
+    name: "Vikram Singh",
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
     rollNo: "2024003",
     status: "Not Started",
@@ -35,7 +35,7 @@ const STUDENTS_DATA = [
   },
   {
     id: 4,
-    name: "Aman",
+    name: "Ananya Patel",
     avatar: "https://randomuser.me/api/portraits/men/22.jpg",
     rollNo: "2024004",
     status: "Overdue",
@@ -45,7 +45,7 @@ const STUDENTS_DATA = [
   },
   {
     id: 5,
-    name: "Tarun Singh",
+    name: "Rohan Kapoor",
     avatar: "https://randomuser.me/api/portraits/women/90.jpg",
     rollNo: "2024005",
     status: "Completed",
@@ -53,26 +53,9 @@ const STUDENTS_DATA = [
     score: 88,
     lastActivity: "1d ago",
   },
-  // Additional students to demonstrate pagination
-  ...Array.from({ length: 60 }, (_, i) => ({
-    id: i + 6,
-    name: `Student ${i + 6}`,
-    avatar: `https://randomuser.me/api/portraits/${i % 2 === 0 ? "women" : "men"
-      }/${(i % 70) + 1}.jpg`,
-    rollNo: `2024${String(i + 6).padStart(3, "0")}`,
-    status: ["Completed", "In Progress", "Not Started", "Overdue"][
-      Math.floor(Math.random() * 4)
-    ],
-    progress: Math.floor(Math.random() * 101),
-    score: Math.floor(Math.random() * 101),
-    lastActivity: ["1h ago", "2h ago", "1d ago", "2d ago", "3d ago"][
-      Math.floor(Math.random() * 5)
-    ],
-  })),
 ];
 
 const SingleAssignedCase = () => {
-
   const [students, setStudents] = useState(STUDENTS_DATA);
   const [filteredStudents, setFilteredStudents] = useState(STUDENTS_DATA);
   const [currentPage, setCurrentPage] = useState(1);
@@ -95,7 +78,7 @@ const SingleAssignedCase = () => {
   });
   const studentsPerPage = 5;
   const dropdownRef = useRef(null);
- 
+
   // Create a debounced search function
   const debouncedSearch = useRef(
     debounce((term) => {
@@ -180,7 +163,7 @@ const SingleAssignedCase = () => {
   );
   const completionRate = Math.round(
     (students.filter((s) => s.status === "Completed").length / totalStudents) *
-    100
+      100
   );
 
   // Toggle dropdown
@@ -201,7 +184,8 @@ const SingleAssignedCase = () => {
 
   // Handle student actions
   const viewStudent = (student) => {
-    alert(`Viewing student: ${student.name}`);
+    console.log(`Viewing student: ${student.name}`);
+    alert(`Viewing details for student: ${student.name}`); // Added alert for visual confirmation
     setActiveDropdown(null);
   };
 
@@ -271,7 +255,7 @@ const SingleAssignedCase = () => {
           </h1>
         </div>
 
-        <div className="single-case-details-view-class-selector">
+        {/* <div className="single-case-details-view-class-selector">
           <label className="single-case-details-view-select-label">
             Select Class
           </label>
@@ -306,7 +290,7 @@ const SingleAssignedCase = () => {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="single-case-details-view-stats">
@@ -365,19 +349,21 @@ const SingleAssignedCase = () => {
 
       <div className="single-case-details-view-tabs">
         <button
-          className={`single-case-details-view-tab ${selectedTab === "student-list"
+          className={`single-case-details-view-tab ${
+            selectedTab === "student-list"
               ? "single-case-details-view-tab-active"
               : ""
-            }`}
+          }`}
           onClick={() => setSelectedTab("student-list")}
         >
           Student List
         </button>
         <button
-          className={`single-case-details-view-tab ${selectedTab === "case-study-questions"
+          className={`single-case-details-view-tab ${
+            selectedTab === "case-study-questions"
               ? "single-case-details-view-tab-active"
               : ""
-            }`}
+          }`}
           onClick={() => setSelectedTab("case-study-questions")}
         >
           Case Study Questions
@@ -428,12 +414,12 @@ const SingleAssignedCase = () => {
                   <tr key={student.id} className="single-case-details-view-tr">
                     <td className="single-case-details-view-td single-case-details-view-student-cell">
                       <div className="single-case-details-view-student-info">
-                        <div className="single-case-details-view-avatar">
+                        {/* <div className="single-case-details-view-avatar">
                           <img
                             src={student.avatar || "/placeholder.svg"}
                             alt={student.name}
                           />
-                        </div>
+                        </div> */}
                         <span className="single-case-details-view-student-name">
                           {student.name}
                         </span>
@@ -460,7 +446,7 @@ const SingleAssignedCase = () => {
                     <td className="single-case-details-view-td single-case-details-view-actions-cell">
                       <div
                         className="single-case-details-view-action-dropdown"
-                        ref={dropdownRef}
+                        ref={activeDropdown === student.id ? dropdownRef : null}
                       >
                         <button
                           className="single-case-details-view-action-btn"
@@ -469,16 +455,31 @@ const SingleAssignedCase = () => {
                           <i className="fa-solid fa-ellipsis-v" />
                         </button>
                         {activeDropdown === student.id && (
-                          <div className="single-case-details-view-dropdown-menu">
-                            <button onClick={() => viewStudent(student)}>
+                          <div
+                            className="single-case-details-view-dropdown-menu"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <button
+                              onClick={() => {
+                                viewStudent(student);
+                              }}
+                            >
                               <i className="fa-solid fa-eye" />
                               <span>View</span>
                             </button>
-                            <button onClick={() => editStudent(student)}>
+                            <button
+                              onClick={() => {
+                                editStudent(student);
+                              }}
+                            >
                               <i className="fa-solid fa-edit" />
                               <span>Edit</span>
                             </button>
-                            <button onClick={() => deleteStudent(student)}>
+                            <button
+                              onClick={() => {
+                                deleteStudent(student);
+                              }}
+                            >
                               <i className="fa-solid fa-trash" />
                               <span>Delete</span>
                             </button>
