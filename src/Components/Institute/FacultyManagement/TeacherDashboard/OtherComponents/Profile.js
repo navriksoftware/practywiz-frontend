@@ -67,6 +67,14 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   // Calculate metrics from actual data
   const totalActiveCases = assignedCase.length;
 
+  // Calculate Practywiz and Non-Practywiz case counts
+  const practywizCount = assignedCase.filter(
+    (cs) => cs.case_type?.toLowerCase() === "practywiz"
+  ).length;
+  const nonPractywizCount = assignedCase.filter((cs) =>
+    cs.case_type?.toLowerCase().includes("non")
+  ).length;
+
   // Calculate cases due this week (next 7 days)
   const calculateCasesDueThisWeek = () => {
     const today = new Date();
@@ -98,6 +106,21 @@ const ActiveCaseStudies = ({ setActivePage }) => {
     return uniqueClasses.size;
   };
 
+  //calculate progress of each case study
+  const calculateProgress = (startDate, endDate) => {
+    if (!startDate || !endDate) return 0;
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const now = new Date();
+
+    if (now < start) return 0; // Not started yet
+    if (now > end) return 100; // Completed
+
+    const totalDuration = end - start;
+    const elapsedDuration = now - start;
+    return Math.round((elapsedDuration / totalDuration) * 100);
+  };
+
   const casesDueThisWeek = calculateCasesDueThisWeek();
   const studentParticipation = calculateTotalStudents();
   const totalClass = calculateUniqueClasses();
@@ -117,9 +140,7 @@ const ActiveCaseStudies = ({ setActivePage }) => {
       // Assuming case_type might be PractyWiz or practywiz in data
       if (currentFilters.type === "Practywiz") {
         result = result.filter(
-          (cs) =>
-            cs.case_type?.toLowerCase().includes("practy") ||
-            cs.case_type?.toLowerCase().includes("practi")
+          (cs) => cs.case_type?.toLowerCase() === "practywiz"
         );
       } else if (currentFilters.type === "Non-Practywiz") {
         result = result.filter((cs) =>
@@ -271,28 +292,28 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   }
 
   // No faculty ID state
-  if (!facultyid) {
-    return (
-      <div className="teacher-profile-home-page-container">
-        <div className="teacher-profile-home-page-header">
-          <h1 className="teacher-profile-home-page-title">
-            Faculty information not available
-          </h1>
-          <p>Please log in again or contact support.</p>
-        </div>
-      </div>
-    );
-  }
+  // if (!facultyid) {
+  //   return (
+  //     <div className="teacher-profile-home-page-container">
+  //       <div className="teacher-profile-home-page-header">
+  //         <h1 className="teacher-profile-home-page-title">
+  //           Faculty information not available
+  //         </h1>
+  //         <p>Please log in again or contact support.</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="teacher-profile-home-page-container">
       <div className="teacher-profile-home-page-header">
         <div>
           <h1 className="teacher-profile-home-page-title">
-            Active Case Studies
+            Case Studies Dashboard
           </h1>
           <p className="teacher-profile-home-page-subtitle">
-            Managing {totalActiveCases} active cases across different classes
+            Manage your assigned case studies and track progress.
           </p>
         </div>
         <div className="teacher-profile-home-page-actions">
@@ -315,13 +336,30 @@ const ActiveCaseStudies = ({ setActivePage }) => {
           </div>
           <div className="teacher-profile-home-page-metric-content">
             <p className="teacher-profile-home-page-metric-label">
-              Total Active Cases
+              PractyWiz Cases
             </p>
             <h2 className="teacher-profile-home-page-metric-value">
-              {totalActiveCases}
+              {practywizCount}
             </h2>
             <p className="teacher-profile-home-page-metric-change positive">
-              +12% from last month
+              Assigned PractyWiz Cases
+            </p>
+          </div>
+        </div>
+
+        <div className="teacher-profile-home-page-metric-card">
+          <div className="teacher-profile-home-page-metric-icon">
+            <i className="fa-solid fa-users" />
+          </div>
+          <div className="teacher-profile-home-page-metric-content">
+            <p className="teacher-profile-home-page-metric-label">
+              Case Assessment
+            </p>
+            <h2 className="teacher-profile-home-page-metric-value">
+              {nonPractywizCount}
+            </h2>
+            <p className="teacher-profile-home-page-metric-change positive">
+              Assigned Non Practywiz Cases
             </p>
           </div>
         </div>
@@ -347,7 +385,7 @@ const ActiveCaseStudies = ({ setActivePage }) => {
           </div>
         </div>
 
-        <div className="teacher-profile-home-page-metric-card">
+        {/* <div className="teacher-profile-home-page-metric-card">
           <div className="teacher-profile-home-page-metric-icon">
             <i className="fa-solid fa-users" />
           </div>
@@ -362,7 +400,7 @@ const ActiveCaseStudies = ({ setActivePage }) => {
               +5% from last month
             </p>
           </div>
-        </div>
+        </div> */}
 
         <div className="teacher-profile-home-page-metric-card">
           <div className="teacher-profile-home-page-metric-icon">
@@ -489,6 +527,10 @@ const ActiveCaseStudies = ({ setActivePage }) => {
 
                 <div className="teacher-profile-home-page-case-detail">
                   <i className="fa-solid fa-clock" />
+                  <span>
+                    Started{" "}
+                    {formatDate(caseStudy.faculty_case_assign_start_date)}
+                  </span>
                   <span>Due {formatDate(caseStudy.due_date)}</span>
                 </div>
               </div>
@@ -496,14 +538,28 @@ const ActiveCaseStudies = ({ setActivePage }) => {
               <div className="teacher-profile-home-page-case-progress">
                 <div className="teacher-profile-home-page-progress-header">
                   <span>Progress</span>
-                  <span>50 %</span>
+                  <span>
+                    {calculateProgress(
+                      caseStudy.faculty_case_assign_start_date,
+                      caseStudy.due_date
+                    )}
+                    %
+                  </span>
                 </div>
                 <div className="teacher-profile-home-page-progress-bar">
                   <div
                     className="teacher-profile-home-page-progress-fill"
                     style={{
-                      width: `${50}%`,
-                      backgroundColor: getProgressColor(50),
+                      width: `${calculateProgress(
+                        caseStudy.faculty_case_assign_start_date,
+                        caseStudy.due_date
+                      )}%`,
+                      backgroundColor: getProgressColor(
+                        calculateProgress(
+                          caseStudy.faculty_case_assign_start_date,
+                          caseStudy.due_date
+                        )
+                      ),
                     }}
                   ></div>
                 </div>

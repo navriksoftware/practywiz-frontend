@@ -6,6 +6,17 @@
   color: #333;
 }
 
+.single-case-details-view-navigation {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.single-case-details-view-breadcrumbs-item {
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+}
+
 /* Header styles */
 .single-case-details-view-header {
   margin-bottom: 20px;

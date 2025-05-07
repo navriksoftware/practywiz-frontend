@@ -16,20 +16,19 @@ const Store = ({ userdata, setActivePage }) => {
   const facultydata = useSelector((state) => state.faculty.facultyDtls);
   localStorage.setItem("caseType", CaseType);
   // const [CaseType, setCaseType] = useState("practywiz");
-  
+
   const url = ApiURL();
   // Function to render stars based on rating
 
-
   // Fetch case studies data
   useEffect(() => {
-
     const fetchPractywizCaseStudies = async () => {
       try {
         setLoading(true);
         const response = await Promise.race([
-          axios.post(`${url}api/v1/faculty/case-study/list`,
-            { facultyId: facultydata?.faculty_id }),
+          axios.post(`${url}api/v1/faculty/case-study/list`, {
+            facultyId: facultydata?.faculty_id,
+          }),
           new Promise(
             (_, reject) =>
               setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
@@ -38,7 +37,10 @@ const Store = ({ userdata, setActivePage }) => {
 
         if (response.data.success) {
           setAllCaseStudiesData(response.data.success);
-          console.log("Case studies data fetched successfully:", response.data.success);
+          console.log(
+            "Case studies data fetched successfully:",
+            response.data.success
+          );
         } else if (response.data.error) {
           setAllCaseStudiesData([]);
         }
@@ -54,12 +56,13 @@ const Store = ({ userdata, setActivePage }) => {
       }
     };
     const fetchNonPractywizCaseStudies = async () => {
-
       try {
         setLoading(true);
         const response = await Promise.race([
-          axios.post(`${url}api/v1/faculty/case-study/list-non-practywiz-case`,
-            { facultyId: facultydata?.faculty_id }),
+          axios.post(
+            `${url}api/v1/faculty/case-study/list-non-practywiz-case`,
+            { facultyId: facultydata?.faculty_id }
+          ),
           new Promise(
             (_, reject) =>
               setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
@@ -68,7 +71,10 @@ const Store = ({ userdata, setActivePage }) => {
 
         if (response.data.success) {
           setAllCaseStudiesData(response.data.success);
-          console.log("Case studies data fetched successfully:", response.data.success);
+          console.log(
+            "Case studies data fetched successfully:",
+            response.data.success
+          );
         } else if (response.data.error) {
           setAllCaseStudiesData([]);
         }
@@ -91,8 +97,6 @@ const Store = ({ userdata, setActivePage }) => {
       fetchNonPractywizCaseStudies();
     }
   }, [url, CaseType]);
-
-
 
   // Parse date function for sorting
   const parseDate = (dateString) => {
@@ -125,7 +129,6 @@ const Store = ({ userdata, setActivePage }) => {
 
   const handleTabChange = (tab) => {
     setCaseType(tab);
-  
   };
 
   // Apply filters and sorting whenever filter values change
@@ -271,7 +274,7 @@ const Store = ({ userdata, setActivePage }) => {
             )}
         </div> */}
 
-<div
+        <div
           className="store-case-filter-container"
           style={{ justifyContent: "space-between" }}
         >
@@ -374,12 +377,14 @@ const Store = ({ userdata, setActivePage }) => {
             </div>
           ) : filteredCaseStudiesData.length > 0 ? (
             <div className="case-study-grid">
-              {filteredCaseStudiesData.map((caseStudy,index) => {
+              {filteredCaseStudiesData.map((caseStudy, index) => {
                 if (CaseType === "practywiz") {
                   return (
                     <CaseStudyCard
                       key={index}
-                      caseStudyId={caseStudy?.institute_case_assign_case_study_id}
+                      caseStudyId={
+                        caseStudy?.institute_case_assign_case_study_id
+                      }
                       data={caseStudy}
                       setActivePage={setActivePage}
                       CaseType={CaseType}
@@ -399,7 +404,6 @@ const Store = ({ userdata, setActivePage }) => {
                   return null; // Optional: return nothing for unmatched filters
                 }
               })}
-
             </div>
           ) : (
             <div className="no-results">

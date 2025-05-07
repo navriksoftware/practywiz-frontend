@@ -171,6 +171,8 @@
 
 /* Filters section */
 .teacher-profile-home-page-filters {
+  position: sticky;
+  top: 65px;
   display: flex;
   align-items: center;
   margin-bottom: 24px;

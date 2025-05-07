@@ -55,7 +55,7 @@ const STUDENTS_DATA = [
   },
 ];
 
-const SingleAssignedCase = () => {
+const SingleAssignedCase = ({ setActivePage }) => {
   const [students, setStudents] = useState(STUDENTS_DATA);
   const [filteredStudents, setFilteredStudents] = useState(STUDENTS_DATA);
   const [currentPage, setCurrentPage] = useState(1);
@@ -242,6 +242,30 @@ const SingleAssignedCase = () => {
 
   return (
     <div className="single-case-details-view-container">
+      <div className="single-case-details-view-navigation">
+        <div className="single-case-details-view-breadcrumbs">
+          <span
+            onClick={() => {
+              setActivePage("profile");
+            }}
+            className="single-case-details-view-breadcrumbs-item"
+          >
+            <i className="fa fa-home"></i> Dashboard
+          </span>
+          <span className="single-case-details-view-breadcrumbs-separator">
+            &gt;
+          </span>
+          {/* <span className="single-case-details-view-breadcrumbs-item">
+            Assigned Cases
+          </span>
+          <span className="single-case-details-view-breadcrumbs-separator">
+            &gt;
+          </span> */}
+          <span className="single-case-details-view-breadcrumbs-item active">
+            Environmental Impact Analysis
+          </span>
+        </div>
+      </div>
       <div className="single-case-details-view-header">
         <h1 className="single-case-details-view-title">
           Case Study: Environmental Impact Analysis
