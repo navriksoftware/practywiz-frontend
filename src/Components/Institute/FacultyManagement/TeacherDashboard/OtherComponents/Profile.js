@@ -106,6 +106,22 @@ const ActiveCaseStudies = ({ setActivePage }) => {
     return uniqueClasses.size;
   };
 
+  // Calculate days remaining until due date
+  const getDaysRemaining = (dueDate) => {
+    if (!dueDate) return null;
+    try {
+      const now = new Date();
+      const due = new Date(dueDate);
+      const diffTime = due - now;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays < 0) return "Overdue";
+      if (diffDays === 0) return "Due today";
+      return `${diffDays} day${diffDays !== 1 ? "s" : ""} left`;
+    } catch (error) {
+      return null;
+    }
+  };
   //calculate progress of each case study
   const calculateProgress = (startDate, endDate) => {
     if (!startDate || !endDate) return 0;
@@ -539,11 +555,12 @@ const ActiveCaseStudies = ({ setActivePage }) => {
                 <div className="teacher-profile-home-page-progress-header">
                   <span>Progress</span>
                   <span>
-                    {calculateProgress(
+                    {/* {calculateProgress(
                       caseStudy.faculty_case_assign_start_date,
                       caseStudy.due_date
-                    )}
-                    %
+                    )} */}
+                    {getDaysRemaining(caseStudy.due_date) || "N/A"}
+                    {/* % */}
                   </span>
                 </div>
                 <div className="teacher-profile-home-page-progress-bar">

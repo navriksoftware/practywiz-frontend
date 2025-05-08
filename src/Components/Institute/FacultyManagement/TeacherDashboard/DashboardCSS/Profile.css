@@ -370,6 +370,11 @@
 }
 
 /* Responsive styles */
+@media (max-width: 992px) {
+  .teacher-profile-home-page-filters {
+    position: static;
+  }
+}
 @media (max-width: 768px) {
   .teacher-profile-home-page-header {
     flex-direction: column;
