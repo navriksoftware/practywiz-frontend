@@ -10,6 +10,7 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
   const url = ApiURL();
   const [SignleClassDetails, setSignleClassDetails] = useState([]);
   const [studentsList, setStudentsList] = useState([]);
+  const [CaseStudiesList, setCaseStudiesList] = useState([])
   useEffect(() => {
     const fetchClassDetails = async () => {
       try {
@@ -67,8 +68,37 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
         console.log("Request completed");
       }
     };
+    const fetchCaseStudiesListOfClass = async () => {
+      try {
+        const response = await Promise.race([
+          axios.post(`${url}api/v1/faculty/class/CaseStudiesList`, {
+            classId: clickedClassId,
+          }),
+          new Promise(
+            (_, reject) =>
+              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+          ),
+        ]);
+        if (response.data.success) {
+          setCaseStudiesList(response.data.success);
+        } else if (response.data.error) {
+          setCaseStudiesList([]);
+        }
+      } catch (error) {
+        setCaseStudiesList([]);
+        if (error.message === "Request timed out") {
+          console.log("Request timed out. Please try again.");
+        } else {
+          console.log("An error occurred. Please try again.");
+        }
+      } finally {
+        console.log("Request completed");
+      }
+    };
+
     fetchStudentlistOfClass();
     fetchClassDetails();
+    fetchCaseStudiesListOfClass();
   }, [url, clickedClassId]);
 
   const [activeCases, setActiveCases] = useState([
@@ -106,7 +136,7 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
       average: "85%",
     },
   ]);
-
+  // console.log("SignleClassDetails", CaseStudiesList);
   // TODO: Create an endpoint for removing student from class
   // const handleRemoveStudent = (studentId) => {
   // };
@@ -120,6 +150,20 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
   const handleAddBulkStudents = () => {
     setshowAddBulkStudent(true);
   };
+
+  const formatDate = (isoDateStr) => {
+    if (!isoDateStr) return "N/A";
+    try {
+      const date = new Date(isoDateStr);
+      const iso = date.toISOString().split("T")[0]; // "2025-05-24"
+      const [year, month, day] = iso.split("-");
+      return `${day}-${month}-${year}`;
+    } catch (error) {
+      return "Invalid Date";
+    }
+  };
+
+
   return (
     <div className="single-class-details-container">
       {showAddSingleform && (
@@ -176,14 +220,14 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
                     <line x1="8" y1="2" x2="8" y2="6"></line>
                     <line x1="3" y1="10" x2="21" y2="10"></line>
                   </svg>
-                  {new Date("2025-05-15").toLocaleDateString()}
+                  {formatDate(SignleClassDetails[0]?.class_sem_end_date)}
                 </span>
               </div>
             </div>
             <div className="action-buttons">
               <button
                 className="assigned-case"
-                onClick={() => setActivePage("assigncase")}
+                onClick={() => setActivePage("store")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -327,43 +371,86 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
               <div className="active-cases">
                 <h2>Active Case Studies</h2>
                 <div className="cases-list">
-                  {activeCases.map((caseItem) => (
+                  {CaseStudiesList.map((caseItem) => (
                     <div className="case-item" key={caseItem.id}>
-                      <div className="case-header">
-                        <h3>{caseItem.title}</h3>
-                        <div className="submission-count">
-                          {caseItem.submitted} submitted
+                      {caseItem.faculty_case_assign_owned_by_practywiz  ?
+                        <><div className="case-header">
+                          <h3>{caseItem.case_study_title}</h3>
+                          <div className="submission-count">
+                           PractyWiz
+                          </div>
                         </div>
-                      </div>
-                      <div className="case-due-date">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          height="14"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                        Due {caseItem.dueDate}
-                      </div>
-                      <div className="progress-bar">
-                        <div
-                          className="progress"
-                          style={{
-                            width: `${
-                              (parseInt(caseItem.submitted.split("/")[0]) /
-                                parseInt(caseItem.submitted.split("/")[1])) *
-                              100
-                            }%`,
-                          }}
-                        ></div>
-                      </div>
+                          <div className="case-due-date">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="14"
+                              height="14"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <circle cx="12" cy="12" r="10"></circle>
+                              <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            Due {formatDate(caseItem.faculty_case_assign_end_date)}
+                          </div>
+                          <div className="progress-bar">
+                            <div
+                              className="progress"
+                              // style={{
+                              //   width: `${(parseInt(caseItem.submitted.split("/")[0]) /
+                              //     parseInt(caseItem.submitted.split("/")[1])) *
+                              //     100
+                              //     }%`,
+                              // }}
+                            ></div>
+                          </div>
+                        </> :
+                        <>
+
+                          <div className="case-header">
+                            <h3>{caseItem.non_practywiz_case_title}</h3>
+                            <div className="submission-count">
+                           Non-PractyWiz
+                            </div>
+                          </div>
+                          <div className="case-due-date">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="14"
+                              height="14"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <circle cx="12" cy="12" r="10"></circle>
+                              <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            Due {formatDate(caseItem.faculty_case_assign_end_date)}
+                          </div>
+                          <div className="progress-bar">
+                            <div
+                              className="progress"
+                              // style={{
+                              //   width: `${(parseInt(caseItem.submitted.split("/")[0]) /
+                              //       parseInt(caseItem.submitted.split("/")[1])) *
+                              //     100
+                              //     }%`,
+                              // }}
+                            ></div>
+                          </div>
+
+
+                        </>}
+
+
+
                     </div>
                   ))}
                 </div>

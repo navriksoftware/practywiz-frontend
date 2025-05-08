@@ -5,7 +5,7 @@ import { BasicInformation } from "./BasicInformation";
 import { QuestionsSection } from "./QuestionsSection";
 import axios from "axios"; 
 import { ApiURL } from "../../../../../Utils/ApiURL";
-export const CaseStudyForm = () => {
+export const CaseStudyForm = ({setActivePage}) => {
 
 
   const url = ApiURL();
@@ -290,6 +290,7 @@ export const CaseStudyForm = () => {
         setFormData(defaultFormData);
         localStorage.removeItem("caseStudyFormData");
         setFormErrors({});
+        setActivePage("store")
       } else {
         alert("Unexpected response from server.");
       }

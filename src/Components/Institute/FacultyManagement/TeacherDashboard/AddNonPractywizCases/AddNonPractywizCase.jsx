@@ -3,7 +3,7 @@ import "./AddNonPractywizCases.css"; // Import your CSS file here
 
 import { CaseStudyForm } from "./CaseStudyForm";
 
-const AddNonPractywizCase = () => {
+const AddNonPractywizCase = ({setActivePage}) => {
   return (
     <div className="new-case-add-dashboard">
       <div className="new-case-add-content">
@@ -13,7 +13,7 @@ const AddNonPractywizCase = () => {
             Create a new non Practywiz case study for students
           </p>
         </header>
-        <CaseStudyForm />
+        <CaseStudyForm   setActivePage={setActivePage} />
       </div>
     </div>
   );

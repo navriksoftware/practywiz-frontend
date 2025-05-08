@@ -5,14 +5,15 @@
     max-width: 100%;
     background-color: #f5f5f7;
     padding: 20px;
-    min-height: 100vh;
+    /* min-height: 100vh; */
   }
   .AddBulkStudentModal{
     position: fixed;
-    top: 5rem;
+    top: 3rem;
     left: 5%;
     width: 90%;
-    height: auto;
+    height: 85vh !important;
+    overflow-y: scroll;
     background-color: white;
     padding: 1rem;
     border-radius: 14px;

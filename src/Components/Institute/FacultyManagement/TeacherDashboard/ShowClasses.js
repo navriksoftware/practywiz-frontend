@@ -37,7 +37,7 @@ const ClassCard = ({
     <div
       className="showclasses-card"
       style={{ borderTop: `3px solid ${color}` }}
-     >
+    >
       <div className="showclasses-card-content">
         <div className="showclasses-card-header">
           <div>
@@ -113,11 +113,12 @@ const ShowClasses = ({ userdata, data, setActivePage, setClickedClassId }) => {
   const [classDetails, setClassDetails] = useState([]);;
   const [showCreateClassForm, setShowCreateClassForm] = useState(false);
   const [selectedClassId, setSelectedClassId] = useState("");
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchClassDetails = async () => {
       try {
-        dispatch(showLoadingHandler());
+        setLoading(true);
+        // dispatch(showLoadingHandler());
         const response = await Promise.race([
           axios.post(`${url}api/v1/faculty/class/get`, {
             FacultyUserId: userdata[0]?.faculty_dtls_id
@@ -137,7 +138,8 @@ const ShowClasses = ({ userdata, data, setActivePage, setClickedClassId }) => {
         setClassDetails([]);
       }
       finally {
-        dispatch(hideLoadingHandler());
+        setLoading(false);
+        // dispatch(hideLoadingHandler());
       }
     };
 
@@ -159,63 +161,76 @@ const ShowClasses = ({ userdata, data, setActivePage, setClickedClassId }) => {
   }));
 
   return (
-    <div className="showclasses-container">
-      {showCreateClassForm && (
-        <CreateClass
-          userdata={userdata}
-          setActivePage={setActivePage}
-          setShowCreateclassform={setShowCreateClassForm}
-          classid={selectedClassId}
-        />
-      )}
-
-      <div className="showclasses-wrapper">
-        <div className="showclasses-header">
-          <h1 className="showclasses-title">My Classes</h1>
-          <button
-            className="showclasses-create-button"
-            onClick={handleCreateClassClick}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="showclasses-plus-icon"
-            >
-              <line x1="12" y1="5" x2="12" y2="19" />
-              <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-            Create New Class
-          </button>
-        </div>
-
-        <div className="showclasses-grid">
-          {formattedClassDetails.reverse().map((cls, index) => (
-            <ClassCard
-              key={index}
-              {...cls}
-              handleCreateClassClick={handleCreateClassClick}
-              setclassid={setSelectedClassId}
-              title={cls.title}
-              code={cls.code}
-              students={cls.students}
-              schedule={cls.schedule}
-              progress={cls.progress}
-              color={cls.color}
-              class_dtls_id={cls.class_dtls_id}
-              setActivePage={setActivePage} // Pass the setActivePage function to ClassCard
-              setClickedClassId={setClickedClassId} // Pass the setClickedClassId function to ClassCard
+   
+      
+        <div className="showclasses-container">
+          {showCreateClassForm && (
+            <CreateClass
+              userdata={userdata}
+              setActivePage={setActivePage}
+              setShowCreateclassform={setShowCreateClassForm}
+              classid={selectedClassId}
             />
-          ))}
-        </div>
-      </div>
-    </div >
+          )}
+
+          <div className="showclasses-wrapper">
+            <div className="showclasses-header">
+              <h1 className="showclasses-title">My Classes</h1>
+              <button
+                className="showclasses-create-button"
+                onClick={handleCreateClassClick}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="showclasses-plus-icon"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Create New Class
+              </button>
+            </div>
+
+
+            {loading ?
+        <div className="loading-container" >
+          <div className="loading-spinner"></div>
+          <p>Loading classes...</p>
+        </div >
+        :
+            <div className="showclasses-grid">
+              {formattedClassDetails.reverse().map((cls, index) => (
+                <ClassCard
+                  key={index}
+                  {...cls}
+                  handleCreateClassClick={handleCreateClassClick}
+                  setclassid={setSelectedClassId}
+                  title={cls.title}
+                  code={cls.code}
+                  students={cls.students}
+                  schedule={cls.schedule}
+                  progress={cls.progress}
+                  color={cls.color}
+                  class_dtls_id={cls.class_dtls_id}
+                  setActivePage={setActivePage} // Pass the setActivePage function to ClassCard
+                  setClickedClassId={setClickedClassId} // Pass the setClickedClassId function to ClassCard
+                />
+              ))}
+            </div>
+}
+            
+          </div>
+        </div >
+       
+
   );
 };
 

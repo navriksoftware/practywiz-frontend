@@ -1,6 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 // Sample data
+import axios from "axios";
 import { debounce, set } from "lodash";
+import { ApiURL } from "../../../../Utils/ApiURL"
+import { useSelector } from "react-redux";
+import "../DashboardCSS/CaseStudyAssignList.css"
 const initialCaseStudies = [
     {
         id: 1,
@@ -75,24 +79,67 @@ const initialCaseStudies = [
         type: "Non-PractyWiz",
     },
 ];
-const CaseStudyAssignList = ({ setActivePage }) => {
-    const [caseStudies, setCaseStudies] = useState(initialCaseStudies);
-    const [filteredCaseStudies, setFilteredCaseStudies] =
-        useState(initialCaseStudies);
+
+const CaseStudyAssignList = () => {
+
+    const menteeId = useSelector((state) => state.mentee.singleMentee[0]?.mentee_dtls_id);
+
     const [searchTerm, setSearchTerm] = useState("");
+    const [fetchAssignCaseStudiesDetails, setfetchAssignCaseStudiesDetails] = useState([])
     const [filters, setFilters] = useState({
         class: "All Classes",
         type: "All Cases",
         dueDate: "Due Date",
         status: "All Status",
     });
+    const formatDate = (isoDateStr) => {
+        if (!isoDateStr) return "N/A";
+        try {
+            const date = new Date(isoDateStr);
+            const iso = date.toISOString().split("T")[0]; // "2025-05-24"
+            const [year, month, day] = iso.split("-");
+            return `${day}-${month}-${year}`;
+        } catch (error) {
+            return "Invalid Date";
+        }
+    };
+    const url = ApiURL();
+    useEffect(() => {
+        const fetchAssignCaseStudiesDetailsCall = async () => {
+            try {
+                const response = await Promise.race([
+                    axios.post(`${url}api/v1/mentee/dashboard/case-studies-details`, {
+                        menteeId
+                    }),
+                    new Promise(
+                        (_, reject) =>
+                            setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+                    ),
+                ]);
 
-    // Calculate metrics
-    const totalActiveCases = caseStudies.length;
-    const casesDueThisWeek = 8; // This would be calculated based on actual dates
-    const studentParticipation = 17; // This would be calculated from actual data
-    const completionRate = 6; // This would be calculated from actual data
+                if (response.data.success) {
+                    setfetchAssignCaseStudiesDetails(response.data.success);
+                } else if (response.data.error) {
+                    setfetchAssignCaseStudiesDetails([]);
+                }
+            } catch (error) {
+                setfetchAssignCaseStudiesDetails([]);
+                if (error.message === "Request timed out") {
+                    console.log("Request timed out. Please try again.");
+                } else {
+                    console.log("An error occurred. Please try again.");
+                }
+            } finally {
+                console.log("Request completed");
+            }
+        };
+        fetchAssignCaseStudiesDetailsCall();
+    }, [url]);
 
+    console.log(fetchAssignCaseStudiesDetails)
+    const [caseStudies, setCaseStudies] = useState(fetchAssignCaseStudiesDetails);
+    const [filteredCaseStudies, setFilteredCaseStudies] =
+        useState(fetchAssignCaseStudiesDetails);
     // Debounced search function
     const debouncedSearch = useCallback(
         debounce((term) => {
@@ -165,15 +212,13 @@ const CaseStudyAssignList = ({ setActivePage }) => {
         return "#4285F4";
     };
 
-
-
     return (
-        <div className="teacher-profile-home-page-container">
-            <div className="teacher-profile-home-page-filters">
-                <div className="teacher-profile-home-page-filter-label">
+        <div className="CaseShow-Mentee-container">
+            <div className="CaseShow-Mentee-filters">
+                <div className="CaseShow-Mentee-filter-label">
                     <i className="fa-solid fa-filter" /> Filters:
                 </div>
-                <div className="teacher-profile-home-page-filter-dropdowns">
+                <div className="CaseShow-Mentee-filter-dropdowns">
                     <select
                         value={filters.class}
                         onChange={(e) => handleFilterChange("class", e.target.value)}
@@ -218,24 +263,29 @@ const CaseStudyAssignList = ({ setActivePage }) => {
                 </div>
             </div>
 
-            <div className="teacher-profile-home-page-case-studies">
-                {filteredCaseStudies.map((caseStudy) => (
-                    <div
-                        key={caseStudy.id}
-                        className="teacher-profile-home-page-case-card"
-                    >
-                        <div className="teacher-profile-home-page-case-case-type">
-                            <span
-                                className={`teacher-profile-home-page-case-case-type-tag ${caseStudy.type.toLowerCase()}`}
+            <div className="CaseShow-Mentee-case-studies">
+                {fetchAssignCaseStudiesDetails.map((caseStudy) => (
+                    <div>
+
+                        {caseStudy.faculty_case_assign_owned_by_practywiz == 0 ?
+
+                            <div
+                                key={caseStudy.id}
+                                className="CaseShow-Mentee-case-card"
                             >
-                                {caseStudy.type}
-                            </span>
-                        </div>
-                        <div className="teacher-profile-home-page-case-header">
-                            <h3 className="teacher-profile-home-page-case-title">
-                                {caseStudy.title}
-                            </h3>
-                            {/* <button className="teacher-profile-home-page-case-menu">
+                                <div className="CaseShow-Mentee-case-case-type">
+                                    <span
+                                        className={`CaseShow-Mentee-case-case-type-tag ${"practywiz"}`}
+                                    >
+                                        PractyWiz
+                                        {/* {caseStudy.faculty_case_assign_owned_by_practywiz === 1 ? "PractyWiz" : "Non-PractyWiz"} */}
+                                    </span>
+                                </div>
+                                <div className="CaseShow-Mentee-case-header">
+                                    <h3 className="CaseShow-Mentee-case-title">
+                                        {caseStudy.case_study_title.toUpperCase()}
+                                    </h3>
+                                    {/* <button className="CaseShow-Mentee-case-menu">
                                 <svg
                                     width="24"
                                     height="24"
@@ -257,63 +307,160 @@ const CaseStudyAssignList = ({ setActivePage }) => {
                                     />
                                 </svg>
                             </button> */}
-                        </div>
+                                </div>
 
-                        <div className="teacher-profile-home-page-case-info">
-                            <div className="teacher-profile-home-page-case-detail">
-                                <i className="fa-solid fa-graduation-cap" />
-                                {/* <span>{caseStudy.department}</span> */}
-                                {caseStudy.department.split(", ").map((dept, index) => (
+                                <div className="CaseShow-Mentee-case-info">
+                                    <div className="CaseShow-Mentee-case-detail">
+                                        <i className="fa-solid fa-graduation-cap" />
+                                        <span>{caseStudy.class_name}</span>
+                                        {/* {caseStudy.department.split(", ").map((dept, index) => (
                                     <span
-                                        className="teacher-profile-home-page-case-detail-subj-tag"
+                                        className="CaseShow-Mentee-case-detail-subj-tag"
                                         key={index}
                                     >
                                         {dept}
                                     </span>
-                                ))}
-                            </div>
+                                ))} */}
+                                    </div>
 
-                            {/* <div className="teacher-profile-home-page-case-detail">
+                                    {/* <div className="CaseShow-Mentee-case-detail">
                                 <i className="fa-solid fa-user-friends" />
                                 <span>{caseStudy.students} Students</span>
                             </div> */}
 
-                            <div className="teacher-profile-home-page-case-detail">
-                                <i className="fa-solid fa-clock" />
-                                <span>Due {caseStudy.dueDate}</span>
-                            </div>
-                        </div>
+                                    <div className="CaseShow-Mentee-case-detail">
+                                        <i className="fa-solid fa-clock" />
+                                        <span>Due {formatDate(caseStudy.faculty_case_assign_end_date)}</span>
+                                    </div>
+                                </div>
 
-                        <div className="teacher-profile-home-page-case-progress">
-                            <div className="teacher-profile-home-page-progress-header">
+                                {/* <div className="CaseShow-Mentee-case-progress">
+                            <div className="CaseShow-Mentee-progress-header">
                                 <span>Progress</span>
                                 <span>{caseStudy.progress} %</span>
                             </div>
-                            <div className="teacher-profile-home-page-progress-bar">
+                            <div className="CaseShow-Mentee-progress-bar">
                                 <div
-                                    className="teacher-profile-home-page-progress-fill"
+                                    className="CaseShow-Mentee-progress-fill"
                                     style={{
                                         width: `${caseStudy.progress}%`,
                                         backgroundColor: getProgressColor(caseStudy.progress),
                                     }}
                                 ></div>
                             </div>
-                        </div>
+                        </div> */}
 
-                        <div className="teacher-profile-home-page-case-footer">
-                            <div
-                                className={`teacher-profile-home-page-case-status ${caseStudy.status.toLowerCase()}`}
-                            >
-                                {caseStudy.status}
+                                <div className="CaseShow-Mentee-case-footer">
+                                    <div
+                                        className={`CaseShow-Mentee-case-status ${caseStudy.class_status}`}
+                                    >
+                                        {caseStudy.class_status ? "Active" : "Inactive"}
+                                    </div>
+                                    <button
+                                        className="CaseShow-Mentee-view-details"
+                                    >
+                                        View Case Study
+                                    </button>
+                                </div>
                             </div>
-                            <button
-                                onClick={() => setActivePage("singlecase")}
-                                className="teacher-profile-home-page-view-details"
+                            :
+                            <div
+                                key={caseStudy.id}
+                                className="CaseShow-Mentee-case-card"
                             >
-                                View Case Study
-                            </button>
-                        </div>
+                                <div className="CaseShow-Mentee-case-case-type">
+                                    <span
+                                        className={`CaseShow-Mentee-case-case-type-tag ${"non-practywiz"}`}
+                                    >
+                                        Non-PractyWiz
+
+                                    </span>
+                                </div>
+                                <div className="CaseShow-Mentee-case-header">
+                                    <h3 className="CaseShow-Mentee-case-title">
+                                        {caseStudy.non_practywiz_case_title}
+                                    </h3>
+                                    {/* <button className="CaseShow-Mentee-case-menu">
+                        <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
+                                fill="currentColor"
+                            />
+                            <path
+                                d="M19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13Z"
+                                fill="currentColor"
+                            />
+                            <path
+                                d="M5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13Z"
+                                fill="currentColor"
+                            />
+                        </svg>
+                    </button> */}
+                                </div>
+
+                                <div className="CaseShow-Mentee-case-info">
+                                    <div className="CaseShow-Mentee-case-detail">
+                                        <i className="fa-solid fa-graduation-cap" />
+                                        <span>{caseStudy.class_name}</span>
+                                        {/* {caseStudy.department.split(", ").map((dept, index) => (
+                            <span
+                                className="CaseShow-Mentee-case-detail-subj-tag"
+                                key={index}
+                            >
+                                {dept}
+                            </span>
+                        ))} */}
+                                    </div>
+
+                                    {/* <div className="CaseShow-Mentee-case-detail">
+                        <i className="fa-solid fa-user-friends" />
+                        <span>{caseStudy.students} Students</span>
+                    </div> */}
+
+                                    <div className="CaseShow-Mentee-case-detail">
+                                        <i className="fa-solid fa-clock" />
+                                        <span>Due {formatDate(caseStudy.faculty_case_assign_end_date)}</span>
+                                    </div>
+                                </div>
+
+                                {/* <div className="CaseShow-Mentee-case-progress">
+                    <div className="CaseShow-Mentee-progress-header">
+                        <span>Progress</span>
+                        <span>{caseStudy.progress} %</span>
                     </div>
+                    <div className="CaseShow-Mentee-progress-bar">
+                        <div
+                            className="CaseShow-Mentee-progress-fill"
+                            style={{
+                                width: `${caseStudy.progress}%`,
+                                backgroundColor: getProgressColor(caseStudy.progress),
+                            }}
+                        ></div>
+                    </div>
+                </div> */}
+
+                                <div className="CaseShow-Mentee-case-footer">
+                                    <div
+                                        className={`CaseShow-Mentee-case-status ${caseStudy.class_status}`}
+                                    >
+                                        {caseStudy.class_status ? "Active" : "Inactive"}
+                                    </div>
+                                    <button
+                                        className="CaseShow-Mentee-view-details"
+                                    >
+                                        View Case Study
+                                    </button>
+                                </div>
+                            </div>}
+
+                    </div>
+
                 ))}
             </div>
         </div>

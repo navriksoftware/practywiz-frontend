@@ -129,6 +129,7 @@ const Store = ({ userdata, setActivePage }) => {
 
   const handleTabChange = (tab) => {
     setCaseType(tab);
+
   };
 
   // Apply filters and sorting whenever filter values change
@@ -281,9 +282,8 @@ const Store = ({ userdata, setActivePage }) => {
           {/* Tab Selection */}
           <div className="store-case-tabs">
             <button
-              className={`store-tab-btn ${
-                CaseType === "practywiz" ? "active" : ""
-              }`}
+              className={`store-tab-btn ${CaseType === "practywiz" ? "active" : ""
+                }`}
               onClick={() => handleTabChange("practywiz")}
               style={{
                 backgroundColor:
@@ -301,9 +301,8 @@ const Store = ({ userdata, setActivePage }) => {
               PRACTYWIZ CASE
             </button>
             <button
-              className={`store-tab-btn ${
-                CaseType === "non-practywiz" ? "active" : ""
-              }`}
+              className={`store-tab-btn ${CaseType === "non-practywiz" ? "active" : ""
+                }`}
               onClick={() => handleTabChange("non-practywiz")}
               style={{
                 backgroundColor:
