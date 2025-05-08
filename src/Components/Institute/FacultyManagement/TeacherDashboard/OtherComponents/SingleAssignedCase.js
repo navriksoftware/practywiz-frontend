@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "../DashboardCSS/SingleAssignedCase.css";
 import { debounce } from "lodash";
 
@@ -56,6 +57,8 @@ const STUDENTS_DATA = [
 ];
 
 const SingleAssignedCase = ({ setActivePage }) => {
+  const navigate = useNavigate();
+
   const [students, setStudents] = useState(STUDENTS_DATA);
   const [filteredStudents, setFilteredStudents] = useState(STUDENTS_DATA);
   const [currentPage, setCurrentPage] = useState(1);
@@ -185,8 +188,10 @@ const SingleAssignedCase = ({ setActivePage }) => {
   // Handle student actions
   const viewStudent = (student) => {
     console.log(`Viewing student: ${student.name}`);
-    alert(`Viewing details for student: ${student.name}`); // Added alert for visual confirmation
+    const caseStudyId = 2;
     setActiveDropdown(null);
+    // Navigate to result page with student ID and case study ID
+    navigate(`/result/${student.id}/${caseStudyId || 'default'}`);
   };
 
   const editStudent = (student) => {

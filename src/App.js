@@ -85,6 +85,7 @@ import PrivacyPolicyPage from "./Pages/LegalPages/PrivacyPolicyPage";
 import SingleApplicantProfilePage from "./Pages/InternshipPages/SingleApplicantProfilePage";
 import TeacherDashboardPage from "./Pages/InstitutePages/TeacherDashboard/TeacherDashboardPage";
 import SingleAssignedCase from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleAssignedCase";
+import DemoResultPage from "./Pages/CaseStudyPages/DemoResultPage";
 
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
@@ -104,6 +105,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/image/test" element={<Test />} />
+          <Route path="/result/:menteeId/:caseStudyId" element={<DemoResultPage />} />
           <Route path="/" exact element={<Homepage />} />
           <Route path="/aboutus" exact element={<AboutusPage />} />
           <Route path="/contact" exact element={<ContactusPage />} />
