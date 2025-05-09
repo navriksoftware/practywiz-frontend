@@ -283,7 +283,7 @@ const CaseStudyAssignList = () => {
                                 </div>
                                 <div className="CaseShow-Mentee-case-header">
                                     <h3 className="CaseShow-Mentee-case-title">
-                                        {caseStudy.case_study_title.toUpperCase()}
+                                        {caseStudy.case_study_title}
                                     </h3>
                                     {/* <button className="CaseShow-Mentee-case-menu">
                                 <svg
