@@ -188,7 +188,7 @@ const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacher
             </thead>
             <tbody>
               {caseStudies.length > 0 ? (
-                caseStudies.map((caseStudy, index) => (
+                caseStudies.reverse().map((caseStudy, index) => (
                   <tr key={index}>
                     <td>{caseStudy.teacherName}</td>
                     <td>{caseStudy.department}</td>

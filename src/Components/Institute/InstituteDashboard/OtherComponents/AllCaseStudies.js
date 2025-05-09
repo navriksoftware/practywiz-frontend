@@ -42,7 +42,7 @@ const AllCaseStudies = ({ user, token }) => {
         }
     };
 
-    const formData = useSelector((state) => state.institute.instututeDtls);
+    const formData = useSelector((state) => state.institute.instituteDtls);
 const instituteId = formData[0]?.institute_dtls_id;
 
     useEffect(() => {

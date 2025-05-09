@@ -55,7 +55,17 @@ const SingleTeacherdetailspage = ({ childData }) => {
 const firstInitial = singleFacultyDetails[0]?.faculty_firstname?.charAt(0) || "";
 const lastInitial = singleFacultyDetails[0]?.faculty_lastname?.charAt(0) || "";
 const initials = (firstInitial + lastInitial).toUpperCase();
-
+const formatDate = (isoDateStr) => {
+  if (!isoDateStr) return "N/A";
+  try {
+    const date = new Date(isoDateStr);
+    const iso = date.toISOString().split("T")[0]; // "2025-05-24"
+    const [year, month, day] = iso.split("-");
+    return `${day}-${month}-${year}`;
+  } catch (error) {
+    return "Invalid Date";
+  }
+};
 
 
 
@@ -109,11 +119,11 @@ const initials = (firstInitial + lastInitial).toUpperCase();
               <h3 className="teacherPage__sectionTitle">Faculty Details</h3>
               <div className="teacherPage__detailItem">
                 <span className="teacherPage__detailLabel">Department:</span>
-                <span className="teacherPage__detailValue">Multi-disciplinary Studies</span>
+                <span className="teacherPage__detailValue">Finance</span>
               </div>
               <div className="teacherPage__detailItem">
                 <span className="teacherPage__detailLabel">Join Date:</span>
-                <span className="teacherPage__detailValue">{singleFacultyDetails[0]?.faculty_dtls_cr_date}</span>
+                <span className="teacherPage__detailValue">{formatDate(singleFacultyDetails[0]?.faculty_dtls_cr_date)}</span>
               </div>
               <div className="teacherPage__detailItem">
                 {/* <span className="teacherPage__detailLabel">Faculty ID:</span>

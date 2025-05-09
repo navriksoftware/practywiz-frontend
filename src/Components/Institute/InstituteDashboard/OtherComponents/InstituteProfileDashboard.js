@@ -13,23 +13,23 @@ const InstituteProfileDashboard = ({ HandleSingleTeacherDetails }) => {
 
   // Sample data
   const caseStudies = [
-    { id: 1, title: 'Global Supply Chain Management', subject: 'Business Studies', assignedTo: 'Gagan verma', assignedDate: 'Oct 15, 2023', status: 'Active' },
-    { id: 2, title: 'Renewable Energy Solutions', subject: 'Environmental Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 12, 2023', status: 'Completed' },
-    { id: 3, title: 'Digital Marketing Strategy', subject: 'Marketing', assignedTo: 'Gagan verma', assignedDate: 'Oct 10, 2023', status: 'Pending' },
+    { id: 1, title: 'Handling Mid to Senior Management Attrition', subject: 'Management Studies', assignedTo: 'Dr. Ramani', assignedDate: 'May 09, 2025', status: 'Active' },
+    { id: 2, title: 'Renewable Energy Solutions', subject: 'Environmental Science', assignedTo: 'Dr. Ravi', assignedDate: 'Oct 12, 2023', status: 'Completed' },
+    { id: 3, title: 'Digital Marketing Strategy', subject: 'Marketing', assignedTo: 'Tushar', assignedDate: 'Oct 10, 2023', status: 'Pending' },
     { id: 4, title: 'Healthcare Innovation', subject: 'Healthcare Management', assignedTo: 'Gagan verma', assignedDate: 'Oct 8, 2023', status: 'Active' },
-    { id: 5, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
-    { id: 6, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
-    { id: 7, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
-    { id: 8, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
-    { id: 9, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
-    { id: 10, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
+    // { id: 5, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
+    // { id: 6, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
+    // { id: 7, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
+    // { id: 8, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
+    // { id: 9, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
+    // { id: 10, title: 'Artificial Intelligence Ethics', subject: 'Computer Science', assignedTo: 'Gagan verma', assignedDate: 'Oct 5, 2023', status: 'Completed' },
   ];
 
   // Dashboard metrics
   const totalCases = 30;
   const activeCases = 24;
   const completedCases = 6;
-  const pendingReview = 23;
+  const pendingReview = 7;
 
   // Get unique subjects
   const subjects = [...new Set(caseStudies.map(cs => cs.subject))];
