@@ -260,6 +260,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
           <span className="single-case-details-view-breadcrumbs-separator">
             &gt;
           </span>
+
           {/* <span className="single-case-details-view-breadcrumbs-item">
             Assigned Cases
           </span>
@@ -267,20 +268,20 @@ const SingleAssignedCase = ({ setActivePage }) => {
             &gt;
           </span> */}
           <span className="single-case-details-view-breadcrumbs-item active">
-            Environmental Impact Analysis
+            DESIGNING A CUSTOMER RETENTION PLAN
           </span>
         </div>
       </div>
       <div className="single-case-details-view-header">
         <h1 className="single-case-details-view-title">
-          Case Study: Environmental Impact Analysis
+          Case Study: DESIGNING A CUSTOMER RETENTION PLAN
         </h1>
       </div>
 
       <div className="single-case-details-view-course-info">
         <div className="single-case-details-view-course-details">
           <h1 className="single-case-details-view-course-name">
-            {selectedClass}
+           FINANCIAL ACCOUNTING
           </h1>
         </div>
 
@@ -393,7 +394,8 @@ const SingleAssignedCase = ({ setActivePage }) => {
               ? "single-case-details-view-tab-active"
               : ""
           }`}
-          onClick={() => setSelectedTab("case-study-questions")}
+          // onClick={() => setSelectedTab("case-study-questions")}
+          onClick={() => navigate('/case-study')}
         >
           Case Study Questions
         </button>

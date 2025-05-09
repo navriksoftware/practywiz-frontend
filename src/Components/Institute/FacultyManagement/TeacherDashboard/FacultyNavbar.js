@@ -175,7 +175,7 @@ const NavBar = ({ user, activePage, setActivePage }) => {
               </div>
             )}
             <span className="faculty-navbar-username">
-              {user?.user_firstname || "Sarah Wilson"}
+              {user?.user_firstname || "Dr. Ramani"}
             </span>
             <i className="fa-solid fa-chevron-down faculty-navbar-dropdown-icon"></i>
           </button>

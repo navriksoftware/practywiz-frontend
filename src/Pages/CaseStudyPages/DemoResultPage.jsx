@@ -228,7 +228,7 @@ const DemoResultPage = () => {
                       </div>
 
                       {/* Follow-up Questions */}
-                      {evaluation.followUps?.map((followUp, fIdx) => {
+                      {/* {evaluation.followUps?.map((followUp, fIdx) => {
                         return (
                           <div
                             key={fIdx}
@@ -277,7 +277,8 @@ const DemoResultPage = () => {
                             </div>
                           </div>
                         );
-                      })}
+                      })} */}
+                      
                     </div>
                   );
                 })}
