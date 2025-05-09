@@ -51,10 +51,6 @@ const SingleNonPractywizCaseStudy = () => {
   // Function to render questions based on their format
   const renderQuestion = (question, index) => {
     return (
-        <>
-        <div className="nav-bar-for-npc">
-            <NavBar />
-        </div>
         <div className="npcs-question-card" key={question.id}>
         <div className="npcs-question-header">
           <h5>Question {index + 1}</h5>
@@ -82,7 +78,7 @@ const SingleNonPractywizCaseStudy = () => {
           
           {question.question_format === 'subjective' && (
             <div className="npcs-subjective-answer">
-              <h6>Model Answer:</h6>
+              <h6>Answer:</h6>
               <p className="npcs-answer-text">
                 {question.answer.split('\\n\\n').map((paragraph, i) => (
                   <React.Fragment key={i}>
@@ -99,7 +95,6 @@ const SingleNonPractywizCaseStudy = () => {
           </div>
         </div>
       </div>
-        </>
     );
   };
 
@@ -167,14 +162,14 @@ const SingleNonPractywizCaseStudy = () => {
           </span>
         </div>
         
-        <div className="npcs-case-meta">
+        {/* <div className="npcs-case-meta">
           <div className="npcs-meta-item">
             <p><strong>Created:</strong> {formatDate(caseStudy.non_practywiz_case_cr_date)}</p>
           </div>
           <div className="npcs-meta-item">
             <p><strong>Last Updated:</strong> {formatDate(caseStudy.non_practywiz_case_update_date)}</p>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <h3 className="npcs-questions-section-title">Case Study Questions</h3>
