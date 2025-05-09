@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
-import "./intituteRegForm.css"
+import "./intituteRegForm.css";
 import "react-phone-input-2/lib/style.css";
 import "../Mentee/Phone-input-style.css";
 import "../MentorUpdatedReg/PhoneNumberOTP.css";
@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import web96 from "../../../../Images/icons8-account-96.webp";
-
+import { loginSuccess } from "../../../../Redux/userRedux";
 
 const InstituteForm = () => {
   const {
@@ -27,31 +27,58 @@ const InstituteForm = () => {
     getValues,
     trigger,
     control,
+    reset,
     formState: { errors },
   } = useForm();
+  
   const password = watch("password");
   const nameOfInstitute = watch("organization_name");
+  const phone = watch("phone");
+  
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const url = ApiURL();
+  
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
 
-  //Institute name code start
+  // Institute name search code
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedCollege, setSelectedCollege] = useState(null);
+
+  // OTP verification states
+  const [otp, setOtp] = useState("");
+  const [sendOtp, setSendOtp] = useState(false);
+  const [buttonState, setButtonState] = useState("send");
+  const [isLoading, setIsLoading] = useState(false);
+  const [verifyState, setVerifyState] = useState("Verify");
+  const [isLoadingVerify, setIsLoadingVerify] = useState(false);
+  const [resendAvailable, setResendAvailable] = useState(false);
+
+  // Reset OTP states when phone number changes
+  useEffect(() => {
+    if (phone) {
+      setSendOtp(false);
+      setButtonState("send");
+      setIsLoading(false);
+      setVerifyState("Verify");
+      setIsLoadingVerify(false);
+      setResendAvailable(false);
+    }
+  }, [phone]);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
     setValue("organization_name", value);
-    setDropdownVisible(value !== "");
+    setDropdownVisible(value.trim() !== "");
   };
 
   const filteredColleges = collegeData.filter((item) =>
     item["College Name"].toLowerCase().includes(searchTerm.toLowerCase())
   );
-  const dispatch = useDispatch();
-  const url = ApiURL();
+
   const handleOptionClick = (college) => {
     setSelectedCollege(college);
     setSearchTerm(college["College Name"]);
@@ -59,44 +86,29 @@ const InstituteForm = () => {
     setValue("organization_name", college["College Name"]);
   };
 
-
-
   const cleanPhoneNumber = (phone) => {
-    return phone.replace(/\D/g, "");
+    return phone ? phone.replace(/\D/g, "") : "";
   };
-  const phone = getValues("phone");
-  useEffect(() => {
-    setSendotp(false);
-    setButtonState("send");
-    setIsLoading(false);
-    setVerifyState("Verify");
-    setIsLoadingVerify(false);
-    setResendAvailable(false);
-  }, [phone]);
-
-  const [otp, setOtp] = useState("");
-  const [Sendotp, setSendotp] = useState(false);
-  const [buttonState, setButtonState] = useState("send");
-  const [isLoading, setIsLoading] = useState(false);
-  const [VerifyState, setVerifyState] = useState("Verify");
-  const [isLoadingVerify, setIsLoadingVerify] = useState(false);
-  const [resendAvailable, setResendAvailable] = useState(false);
-
 
   const handleSendOtp = async () => {
+    // Validate phone number first
+    const isPhoneValid = await trigger("phone");
+    if (!isPhoneValid) return;
+
     setButtonState("send");
     setIsLoading(true);
 
     try {
+      const cleanedPhone = cleanPhoneNumber(getValues("phone"));
       // Make Axios POST request to send OTP
       const response = await axios.post(
         `${url}api/v1/otpvarification/request-otp`,
-        { phone }
+        { phone: cleanedPhone }
       );
 
       if (response.data.success) {
         setButtonState("sended");
-        setSendotp(true);
+        setSendOtp(true);
         setResendAvailable(true);
 
         // Enable resend after 1 minute
@@ -105,12 +117,12 @@ const InstituteForm = () => {
         }, 60000); // 1 minute timeout
       } else {
         setButtonState("send");
-        alert(response.data.message || "Failed to send OTP");
+        toast.error(response.data.message || "Failed to send OTP");
       }
     } catch (error) {
       console.error("Error sending OTP:", error);
       setButtonState("send");
-      alert(
+      toast.error(
         error.response?.data?.message || "An error occurred while sending OTP"
       );
     } finally {
@@ -119,29 +131,36 @@ const InstituteForm = () => {
   };
 
   const handleVerifyOtp = async () => {
+    if (!otp || otp.length < 4) {
+      toast.error("Please enter a valid OTP");
+      return;
+    }
+
     setVerifyState("Verify");
     setIsLoadingVerify(true);
+    
     try {
+      const cleanedPhone = cleanPhoneNumber(getValues("phone"));
       // Make Axios POST request to verify OTP
       const response = await axios.post(
         `${url}api/v1/otpvarification/validate-otp`,
         {
-          phone,
+          phone: cleanedPhone,
           otp,
         }
       );
 
       if (response.data.success) {
         setVerifyState("Verified");
-        alert("OTP Verified Successfully!");
+        toast.success("OTP Verified Successfully!");
       } else {
         setVerifyState("Verify");
-        alert(response.data.message || "OTP Verification Failed");
+        toast.error(response.data.message || "OTP Verification Failed");
       }
     } catch (error) {
       console.error("Error verifying OTP:", error);
       setVerifyState("Verify");
-      alert(
+      toast.error(
         error.response?.data?.message || "An error occurred while verifying OTP"
       );
     } finally {
@@ -151,7 +170,7 @@ const InstituteForm = () => {
 
   const handleResendOtp = async () => {
     if (resendAvailable) {
-      alert("You can resend OTP after 1 minute.");
+      toast.warning("You can resend OTP after 1 minute.");
       return;
     }
 
@@ -159,15 +178,16 @@ const InstituteForm = () => {
     setIsLoading(true);
 
     try {
+      const cleanedPhone = cleanPhoneNumber(getValues("phone"));
       // Make Axios POST request to resend OTP
       const response = await axios.post(
         `${url}api/v1/otpvarification/resend-otp`,
-        { phone }
+        { phone: cleanedPhone }
       );
 
       if (response.data.success) {
         setButtonState("sended");
-        setSendotp(true);
+        setSendOtp(true);
         setResendAvailable(true);
 
         // Enable resend after 1 minute
@@ -176,12 +196,12 @@ const InstituteForm = () => {
         }, 60000); // 1 minute timeout
       } else {
         setButtonState("send");
-        alert(response.data.message || "Failed to resend OTP");
+        toast.error(response.data.message || "Failed to resend OTP");
       }
     } catch (error) {
       console.error("Error resending OTP:", error);
       setButtonState("send");
-      alert(
+      toast.error(
         error.response?.data?.message || "An error occurred while resending OTP"
       );
     } finally {
@@ -189,50 +209,71 @@ const InstituteForm = () => {
     }
   };
 
-
-
-
+  const parseJwt = (token) => {
+    try {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map((c) => {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+      return JSON.parse(jsonPayload);
+    } catch (error) {
+      console.error("Error parsing token:", error);
+      return null;
+    }
+  };
 
   const onSubmit = async (data) => {
-    // console.log(data);
+    // Clean the phone number before submitting
     const cleanedData = {
       ...data,
-      phone: cleanPhoneNumber(data.phone), // Clean the phone number
+      phone: cleanPhoneNumber(data.phone),
     };
-    console.log("clean data", cleanedData);
+    
+    if (verifyState !== "Verified") {
+      toast.error("Please verify your phone number first");
+      return;
+    }
 
-    if (VerifyState === "Verified") {
-
-      try {
-        dispatch(showLoadingHandler());
-        const res = await axios.post(`${url}api/v1/institute/register`, {
-          data: cleanedData
-        });
+    try {
+      dispatch(showLoadingHandler());
+      const res = await axios.post(`${url}api/v1/institute/register`, {
+        data: cleanedData
+      });
+      
+      if (res.data.success) {
         dispatch(hideLoadingHandler());
-        if (res.data.success) {
-          dispatch(hideLoadingHandler());
-          toast.success(
-            "You have been successfully register. Please login again."
-          );
-          if (data.user_type === "institute") {
-            
-            navigate("/institute/dashboard");
+        reset();
+        
+        const token = res.data.token;
+        const accessToken = res.data.accessToken;
+        const userData = parseJwt(token);
+        
+        localStorage.setItem("token", JSON.stringify(token));
+        localStorage.setItem("accessToken", JSON.stringify(accessToken));
 
-          }
-          else {
-            navigate("/faculty/dashboard");
-          }
+        toast.success("You have been successfully registered. Redirecting to dashboard.");
+        
+        dispatch(loginSuccess(userData));
+        
+        if (data.user_type === "institute") {
+          navigate("/institute/dashboard");
+        } else {
+          navigate("/faculty/dashboard");
         }
-        if (res.data.error) {
-          dispatch(hideLoadingHandler());
-          toast.error(res.data.error);
-        }
-      } catch (error) {
+      } else if (res.data.error) {
         dispatch(hideLoadingHandler());
-        toast.error("There is some error while register.");
+        toast.error(res.data.error);
       }
-    } else {
-      toast.error("please verify your phone number first");
+    } catch (error) {
+      dispatch(hideLoadingHandler());
+      toast.error("There was an error while registering. Please try again.");
+      console.error("Registration error:", error);
     }
   };
 
@@ -245,7 +286,6 @@ const InstituteForm = () => {
         </h4>
 
         <div className="ihduwfr_form_wrapper mt-3">
-
           <div className="csfvgdtrfs cihseriniewr mb-3 position-relative">
             <label htmlFor="exampleInputEmail1" className="form-label">
               I Am A
@@ -255,9 +295,8 @@ const InstituteForm = () => {
               type="radio"
               id="rdo4"
               className="radio-input"
-              value={"institute"}
+              value="institute"
               defaultChecked
-
               {...register("user_type", {
                 required: "Please select one of the options",
               })}
@@ -270,8 +309,7 @@ const InstituteForm = () => {
               type="radio"
               id="rdo5"
               className="radio-input"
-              value={"faculty"}
-
+              value="faculty"
               {...register("user_type", {
                 required: "Please select one of the options",
               })}
@@ -286,12 +324,9 @@ const InstituteForm = () => {
             )}
           </div>
 
-
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="row">
-
               <div className="col-lg-12 intituteRegForm-dFlex">
-
                 <div className="col-lg-6">
                   <div className="mb-3">
                     <label htmlFor="contacPersonFirstName" className="form-label">
@@ -299,17 +334,17 @@ const InstituteForm = () => {
                     </label>
                     <input
                       type="text"
-                      onKeyUp={() => trigger("contact_person_first_name")}
                       className="form-control"
                       id="contacPersonFirstName"
                       placeholder="First Name"
                       {...register("contact_person_first_name", {
                         required: "Enter your first name.",
                         pattern: {
-                          value: /^[a-zA-Z.\s]+$/, // Pattern for letters only
-                          message: "Last name should contain only letters",
+                          value: /^[a-zA-Z.\s]+$/,
+                          message: "First name should contain only letters",
                         }
                       })}
+                      onBlur={() => trigger("contact_person_first_name")}
                     />
                     {errors.contact_person_first_name && (
                       <p className="Error-meg-login-register">
@@ -326,17 +361,17 @@ const InstituteForm = () => {
                     </label>
                     <input
                       type="text"
-                      onKeyUp={() => trigger("contact_person_last_name")}
                       className="form-control"
                       id="contacPersonLastName"
                       placeholder="Last Name"
                       {...register("contact_person_last_name", {
                         required: "Enter your last name.",
                         pattern: {
-                          value: /^[a-zA-Z.\s]+$/, // Pattern for letters only
+                          value: /^[a-zA-Z.\s]+$/,
                           message: "Last name should contain only letters",
                         }
                       })}
+                      onBlur={() => trigger("contact_person_last_name")}
                     />
                     {errors.contact_person_last_name && (
                       <p className="Error-meg-login-register">
@@ -347,8 +382,6 @@ const InstituteForm = () => {
                 </div>
               </div>
 
-
-
               <div className="col-lg-12">
                 <div className="mb-3">
                   <label htmlFor="emailId" className="form-label">
@@ -356,18 +389,17 @@ const InstituteForm = () => {
                   </label>
                   <input
                     type="email"
-                    onKeyUp={() => trigger("email")}
                     className="form-control"
                     id="emailId"
                     placeholder="Enter Email Id"
                     {...register("email", {
                       required: "Enter your Email Id.",
                       pattern: {
-                        value:
-                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                         message: "Must be a valid email address.",
                       },
                     })}
+                    onBlur={() => trigger("email")}
                   />
                   {errors.email && (
                     <p className="Error-meg-login-register">
@@ -381,9 +413,6 @@ const InstituteForm = () => {
                 <div className="mb-3">
                   <div className="h-25">
                     <Controller
-                      onKeyUp={() => {
-                        trigger("phone");
-                      }}
                       name="phone"
                       control={control}
                       defaultValue=""
@@ -391,8 +420,8 @@ const InstituteForm = () => {
                         required: "Phone number is required",
                         // validate: {
                         //   minLength: (value) =>
-                        //     value.replace(/\D/g, "").length >= 10 ||
-                        //     "Enter a valid phone number",
+                        //     cleanPhoneNumber(value).length >= 10 ||
+                        //     "Enter a valid phone number with at least 10 digits",
                         // },
                       }}
                       render={({
@@ -401,8 +430,7 @@ const InstituteForm = () => {
                         <div>
                           <div className="OtpSendOnWhatsappTaxt-Dflex">
                             <label htmlFor="phone" className="form-label">
-                              Phone Number{" "}
-                              <span className="RedColorStarMark">*</span>
+                              Phone Number <span className="RedColorStarMark">*</span>
                             </label>
                             <p className="ghhduenee OtpSendOnWhatsappTaxt">(OTP will be sent on WhatsApp)</p>
                           </div>
@@ -412,15 +440,13 @@ const InstituteForm = () => {
                               value={value}
                               country="in"
                               countryCodeEditable={false}
-                              onChange={(
-                                value,
-                                country,
-                                event,
-                                formattedValue
-                              ) => {
+                              onChange={(value, country, event, formattedValue) => {
                                 onChange(formattedValue);
                               }}
-                              onBlur={onBlur}
+                              onBlur={() => {
+                                onBlur();
+                                trigger("phone");
+                              }}
                               inputProps={{
                                 autoFocus: false,
                                 name,
@@ -430,9 +456,8 @@ const InstituteForm = () => {
                             <button
                               type="button"
                               onClick={handleSendOtp}
-                              disabled={isLoading}
-                              className={`otp-button ${isLoading ? "loading" : ""
-                                } ${buttonState}`}
+                              disabled={isLoading || !getValues("phone")}
+                              className={`otp-button ${isLoading ? "loading" : ""} ${buttonState}`}
                             >
                               {isLoading ? (
                                 <div className="button-content">
@@ -446,8 +471,7 @@ const InstituteForm = () => {
                             </button>
                           </div>
                           <div className="aftersendOTP">
-                            {" "}
-                            {Sendotp && (
+                            {sendOtp && (
                               <>
                                 <input
                                   type="number"
@@ -458,17 +482,16 @@ const InstituteForm = () => {
                                 <button
                                   type="button"
                                   onClick={handleVerifyOtp}
-                                  disabled={isLoadingVerify}
+                                  disabled={isLoadingVerify || !otp}
                                   style={{ fontSize: "11px" }}
-                                  className={`otp-buttonVerify ${isLoadingVerify ? "loadingVerify" : ""
-                                    } ${VerifyState}`}
+                                  className={`otp-buttonVerify ${isLoadingVerify ? "loadingVerify" : ""} ${verifyState}`}
                                 >
                                   {isLoadingVerify ? (
                                     <div className="button-contentVerify">
                                       <div className="spinnerVerifyOTP"></div>
                                       Loading
                                     </div>
-                                  ) : VerifyState === "Verify" ? (
+                                  ) : verifyState === "Verify" ? (
                                     "Verify OTP"
                                   ) : (
                                     "OTP Verified"
@@ -477,7 +500,6 @@ const InstituteForm = () => {
                               </>
                             )}
                             {buttonState === "sended" && (
-
                               <button
                                 type="button"
                                 onClick={handleResendOtp}
@@ -488,7 +510,6 @@ const InstituteForm = () => {
                                   ? "Resend OTP Available in one min"
                                   : "Resend OTP"}
                               </button>
-
                             )}
                           </div>
                           {errors.phone && (
@@ -504,10 +525,6 @@ const InstituteForm = () => {
               </div>
 
               <div className="col-lg-12 intituteRegForm-dFlex">
-
-
-
-
                 <div className="col-lg-12" style={{ width: "60%" }}>
                   <div className="mb-3">
                     <label htmlFor="forName" className="form-label">
@@ -524,7 +541,7 @@ const InstituteForm = () => {
                             required: "Institute Name is required",
                           })}
                           onChange={handleInputChange}
-                          onFocus={() => setDropdownVisible(searchTerm !== "")}
+                          onFocus={() => setDropdownVisible(searchTerm.trim() !== "")}
                           onBlur={() => setTimeout(() => setDropdownVisible(false), 200)}
                         />
                         {dropdownVisible && filteredColleges.length > 0 && (
@@ -545,27 +562,26 @@ const InstituteForm = () => {
 
                     {errors.organization_name && (
                       <p className="Error-meg-login-register">
-                        {!nameOfInstitute && errors.organization_name.message}
+                        {errors.organization_name.message}
                       </p>
                     )}
                   </div>
                 </div>
 
-
                 <div className="col-lg-6" style={{ width: "40%" }}>
                   <div className="mb-3">
-                    <label htmlFor="contacPersonLastName" className="form-label">
+                    <label htmlFor="organizationCode" className="form-label">
                       Institute Code <span className="RedColorStarMark">*</span>
                     </label>
                     <input
                       type="text"
-                      onKeyUp={() => trigger("organization_code")}
                       className="form-control"
-                      id="contacPersonLastName"
+                      id="organizationCode"
                       placeholder="Institute Code is required"
                       {...register("organization_code", {
                         required: "Institute Code is required",
                       })}
+                      onBlur={() => trigger("organization_code")}
                     />
                     {errors.organization_code && (
                       <p className="Error-meg-login-register">
@@ -574,7 +590,6 @@ const InstituteForm = () => {
                     )}
                   </div>
                 </div>
-
               </div>
 
               <div className="col-lg-12">
@@ -583,17 +598,15 @@ const InstituteForm = () => {
                     Password <span className="RedColorStarMark">*</span>
                   </label>
                   <input
-                    onKeyUp={() => trigger("password")}
                     className="form-control"
-                    // id="exampleInputEmail1"
+                    id="password"
                     placeholder="Password must be at least 8 characters"
-                    aria-describedby="emailHelp"
+                    aria-describedby="passwordHelp"
                     type={showIcon ? "text" : "password"}
                     {...register("password", {
-                      required: "password is required",
+                      required: "Password is required",
                       pattern: {
-                        value:
-                          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
+                        value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
                         message:
                           "Password must be at least 8 characters long and include at least one letter, one number, and one special character (e.g., @, #, $, etc.)",
                       },
@@ -602,10 +615,10 @@ const InstituteForm = () => {
                         message: "Must be less than 16 characters.",
                       },
                     })}
+                    onBlur={() => trigger("password")}
                   />
 
                   <i
-                    i="true"
                     onClick={() => setShowIcon(!showIcon)}
                     className={
                       showIcon
@@ -624,27 +637,24 @@ const InstituteForm = () => {
 
               <div className="col-lg-12">
                 <div className="mb-3 csfvgdtrfs position-relative">
-                  <label htmlFor="cPassword" className="form-label">
+                  <label htmlFor="confirmPassword" className="form-label">
                     Confirm Password <span className="RedColorStarMark">*</span>
                   </label>
                   <input
-                    onKeyUp={() => trigger("Institute_confirm_password")}
-                    // type="text"
                     className="form-control"
-                    // id="exampleInputEmail1"
+                    id="confirmPassword"
                     placeholder="Type your password again"
-                    aria-describedby="emailHelp"
+                    aria-describedby="confirmPasswordHelp"
                     type={showIcons ? "text" : "password"}
-                    //onChange={(e) => setConfirmPassword(e.target.value)}
                     {...register("Institute_confirm_password", {
                       required: "Password is Required",
                       validate: (value) =>
-                        value === password || "Password must be matched",
+                        value === password || "Password must match",
                     })}
+                    onBlur={() => trigger("Institute_confirm_password")}
                   />
 
                   <i
-                    i="true"
                     onClick={() => setShowIcons(!showIcons)}
                     className={
                       showIcons
@@ -669,14 +679,12 @@ const InstituteForm = () => {
                 </p>
               </div>
             </div>
-            <div className="d-flex justify-content-between pt-3" style={{ width: "fit-content" }}
-            >
+            <div className="d-flex justify-content-between pt-3" style={{ width: "fit-content" }}>
               <button type="submit" className="btn dgheuih_btn_next btn-main">
                 Create Account
               </button>
             </div>
           </form>
-
         </div>
       </div>
     </main>

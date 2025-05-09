@@ -3,7 +3,7 @@ import "../DashboardCSS/TeacherDetailslistings.css";
 import { ApiURL } from "../../../../Utils/ApiURL.js";
 import axios from "axios";
 
-const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacherDetails ,setchildData}) => {
+const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacherDetails, setchildData }) => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [departmentFilter, setDepartmentFilter] = useState('');
@@ -12,12 +12,13 @@ const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacher
   const [showDepartmentDropdown, setShowDepartmentDropdown] = useState(false);
   const [showDateDropdown, setShowDateDropdown] = useState(false);
   const [facultyDetails, setfacultyDetails] = useState([])
-
+  const [loading, setLoading] = useState(false);
   const url = ApiURL();
-  
+
   useEffect(() => {
     const fetchMentors = async () => {
       try {
+        setLoading(true);
         const response = await Promise.race([
           axios.post(`${url}api/v1/institute/dashboard/faculty-list`, {
             instituteCode: instituteDashboardDetails[0]?.institute_code,
@@ -41,7 +42,7 @@ const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacher
           console.log("An error occurred. Please try again.");
         }
       } finally {
-        console.log("Request completed");
+        setLoading(false);
       }
     };
     fetchMentors();
@@ -123,7 +124,7 @@ const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacher
           </button> */}
         </div>
 
-        <div className="instituteDashboard-filter-buttons">
+        {/* <div className="instituteDashboard-filter-buttons">
           <div className="instituteDashboard-filter-dropdown">
             <button
               className="instituteDashboard-filter-btn"
@@ -131,7 +132,7 @@ const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacher
             >
               {departmentFilter || 'Department'}
             </button>
-            {/* {showDepartmentDropdown && (
+            {showDepartmentDropdown && (
               <div className="instituteDashboard-dropdown-content">
                 <div
                   className="instituteDashboard-dropdown-item"
@@ -155,7 +156,7 @@ const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacher
                   </div>
                 ))}
               </div>
-            )} */}
+            )}
           </div>
 
           {(departmentFilter || dateRangeFilter) && (
@@ -166,50 +167,55 @@ const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacher
               Clear Filters
             </button>
           )}
-        </div>
+        </div> */}
       </div>
-
-      <div className="instituteDashboard-table-container">
-        <table className="teacherPage__case-studies-table">
-          <thead>
-            <tr>
-              <th>Faculty Name</th>
-              <th>Department</th>
-              <th>No. of CaseStudies Assign</th>
-              {/* <th>No. of Students</th> */}
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {caseStudies.length > 0 ? (
-              caseStudies.map((caseStudy, index) => (
-                <tr key={index}>
-                  <td>{caseStudy.teacherName}</td>
-                  <td>{caseStudy.department}</td>
-                  <td>{caseStudy.numberOfCaseStudiesAssigned}</td>
-                  <td>
-                    <button
-                      className="instituteDashboard-action-btn instituteDashboard-view-btn"
-                      onClick={() => {
-                        HandleSingleTeacherDetails();
-                        setchildData(caseStudy.facultyDtls_id);
-                      }}
-                    >
-                      View
-                    </button>
+      {loading ?
+        <div className="loading-container" >
+          <div className="loading-spinner"></div>
+          <p>Loading...</p>
+        </div >
+        :
+        <div className="instituteDashboard-table-container">
+          <table className="teacherPage__case-studies-table">
+            <thead>
+              <tr>
+                <th>Faculty Name</th>
+                <th>Department</th>
+                <th>No. of CaseStudies Assign</th>
+                {/* <th>No. of Students</th> */}
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {caseStudies.length > 0 ? (
+                caseStudies.map((caseStudy, index) => (
+                  <tr key={index}>
+                    <td>{caseStudy.teacherName}</td>
+                    <td>{caseStudy.department}</td>
+                    <td>{caseStudy.numberOfCaseStudiesAssigned}</td>
+                    <td>
+                      <button
+                        className="instituteDashboard-action-btn instituteDashboard-view-btn"
+                        onClick={() => {
+                          HandleSingleTeacherDetails();
+                          setchildData(caseStudy.facultyDtls_id);
+                        }}
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="instituteDashboard-no-results">
+                    No case studies found matching your filters.
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="instituteDashboard-no-results">
-                  No case studies found matching your filters.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+              )}
+            </tbody>
+          </table>
+        </div>}
     </div>
   );
 };

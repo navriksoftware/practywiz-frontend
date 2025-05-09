@@ -142,6 +142,7 @@
 }
 
 .case-assign-to-student-class-filter {
+  width: 40%;
   position: relative;
   padding: 10px 15px;
   border: 1px solid #ddd;

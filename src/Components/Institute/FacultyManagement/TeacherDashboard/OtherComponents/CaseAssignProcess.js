@@ -260,11 +260,12 @@ const CaseAssigneProcess = () => {
 
           </div>
 
-          <p className="case-assign-to-student-description">
-            {casestudyDetails?.case_study_content} {/* Description of the case study */}
-          </p>
+         
           <h2 className="case-assign-to-student-subtitle">Preview Content</h2>
-
+ <p className="case-assign-to-student-description">
+          {casestudyDetails?.case_study_content?.slice(0, 500) + '...'}
+          {/* Description of the case study */}
+          </p>
           <div className="case-assign-to-student-modules">
             <div className="case-assign-to-student-module">
               <p>
