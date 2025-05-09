@@ -11,7 +11,7 @@ const STUDENTS_DATA = [
     rollNo: "2024001",
     status: "Completed",
     progress: 100,
-    score: 92,
+    score: 90.33,
     lastActivity: "2h ago",
   },
   {
@@ -19,9 +19,9 @@ const STUDENTS_DATA = [
     name: "Priya Sharma",
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
     rollNo: "2024002",
-    status: "In Progress",
-    progress: 65,
-    score: 78,
+    status: "Completed",
+    progress: 100,
+    score: 50.33,
     lastActivity: "4h ago",
   },
   {
@@ -29,9 +29,9 @@ const STUDENTS_DATA = [
     name: "Vikram Singh",
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
     rollNo: "2024003",
-    status: "Not Started",
-    progress: 0,
-    score: 0,
+    status: "In Progress",
+    progress: 70,
+    score: 20.5,
     lastActivity: "1d ago",
   },
   {
@@ -39,9 +39,9 @@ const STUDENTS_DATA = [
     name: "Ananya Patel",
     avatar: "https://randomuser.me/api/portraits/men/22.jpg",
     rollNo: "2024004",
-    status: "Overdue",
-    progress: 45,
-    score: 56,
+    status: "completed",
+    progress: 100,
+    score: 70.33,
     lastActivity: "3d ago",
   },
   {
@@ -49,9 +49,9 @@ const STUDENTS_DATA = [
     name: "Rohan Kapoor",
     avatar: "https://randomuser.me/api/portraits/women/90.jpg",
     rollNo: "2024005",
-    status: "Completed",
-    progress: 100,
-    score: 88,
+    status: "In Progress",
+    progress: 50,
+    score: 10.5,
     lastActivity: "1d ago",
   },
 ];
@@ -467,7 +467,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
                       </span>
                     </td>
                     <td className="single-case-details-view-td">
-                      {student.score}
+                      {student.score}%
                     </td>
                     <td className="single-case-details-view-td">
                       {student.lastActivity}

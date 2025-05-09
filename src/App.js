@@ -86,6 +86,7 @@ import SingleApplicantProfilePage from "./Pages/InternshipPages/SingleApplicantP
 import TeacherDashboardPage from "./Pages/InstitutePages/TeacherDashboard/TeacherDashboardPage";
 import SingleAssignedCase from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleAssignedCase";
 import DemoResultPage from "./Pages/CaseStudyPages/DemoResultPage";
+import SingleNonPractywizCaseStudy from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleNonPractywizCaseStudy";
 
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
@@ -106,6 +107,9 @@ function App() {
         <Routes>
           <Route path="/image/test" element={<Test />} />
           <Route path="/result/:menteeId/:caseStudyId" element={<DemoResultPage />} />
+          <Route path="/case-study/:id" element={<SingleNonPractywizCaseStudy />} />
+          <Route path="/case-study" element={<SingleNonPractywizCaseStudy />} /> {/* Default route without ID */}
+
           <Route path="/" exact element={<Homepage />} />
           <Route path="/aboutus" exact element={<AboutusPage />} />
           <Route path="/contact" exact element={<ContactusPage />} />

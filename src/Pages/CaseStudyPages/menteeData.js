@@ -759,7 +759,7 @@ export const menteeData = {
     title: "DESIGNING A CUSTOMER RETENTION PLAN",
     // Mentee 1 in Case Study 2 (Excellent performance)
     1: {
-      name: "Priya Sharma",
+      name: "Arjun Mehta",
       program: "MBA - Marketing Management",
       university: "ISB Hyderabad",
       batch: "2023-25",
@@ -912,7 +912,7 @@ export const menteeData = {
     },
     // Mentee 2 in Case Study 2 (Average Performance)
     2: {
-      name: "Vikram Singh",
+      name: "Priya Sharma",
       program: "MBA - Marketing Strategy",
       university: "XLRI Jamshedpur",
       batch: "2023-25",
@@ -1065,7 +1065,7 @@ export const menteeData = {
     },
     // Mentee 3 in Case Study 2 (Below Average Performance)
     3: {
-      name: "Rahul Kapoor",
+      name: "Vikram Singh",
       program: "MBA - General Management",
       university: "FMS Delhi",
       batch: "2024-26",
@@ -1371,7 +1371,7 @@ export const menteeData = {
     },
     // Mentee 5 in Case Study 2 (Poor Performance)
     5: {
-      name: "Karan Malhotra",
+      name: "Rohan Kapoor",
       program: "MBA - Finance",
       university: "MDI Gurgaon",
       batch: "2024-26",
