@@ -10,6 +10,7 @@ const NavBar = ({ user, activePage, setActivePage }) => {
   const navigate = useNavigate();
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const profileDropdownRef = useRef(null);
   const navbarRef = useRef(null);
   const mobileMenuRef = useRef(null);
@@ -58,7 +59,7 @@ const NavBar = ({ user, activePage, setActivePage }) => {
         !mobileMenuRef.current.contains(event.target) &&
         !event.target.classList.contains("faculty-navbar-burger-menu")
       ) {
-        setMobileMenuOpen(false);
+        closeMobileMenu();
       }
     }
 
@@ -71,7 +72,7 @@ const NavBar = ({ user, activePage, setActivePage }) => {
   // Handle mobile menu item click
   const handleMobileMenuItemClick = (page) => {
     setActivePage(page);
-    setMobileMenuOpen(false);
+    closeMobileMenu();
   };
 
   // Toggle profile dropdown
@@ -81,7 +82,21 @@ const NavBar = ({ user, activePage, setActivePage }) => {
 
   // Toggle mobile menu
   const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
+    if (mobileMenuOpen) {
+      closeMobileMenu();
+    } else {
+      setMobileMenuOpen(true);
+      setIsClosing(false);
+    }
+  };
+
+  // Close mobile menu with animation
+  const closeMobileMenu = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setMobileMenuOpen(false);
+      setIsClosing(false);
+    }, 400); // This matches the CSS animation duration
   };
 
   const userLogoutHandler = () => {
@@ -229,7 +244,7 @@ const NavBar = ({ user, activePage, setActivePage }) => {
       <div
         className={`faculty-navbar-mobile-menu ${
           mobileMenuOpen ? "active" : ""
-        }`}
+        } ${isClosing ? "closing" : ""}`}
       >
         <div className="faculty-navbar-mobile-menu-content" ref={mobileMenuRef}>
           <div className="faculty-navbar-mobile-menu-header">

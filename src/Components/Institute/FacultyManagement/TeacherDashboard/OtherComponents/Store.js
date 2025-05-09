@@ -5,6 +5,7 @@ import { ApiURL } from "../../../../../Utils/ApiURL";
 import CaseStudyCard from "./CaseStudyCard";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+
 const Store = ({ userdata, setActivePage }) => {
   // State for case studies data and filters
   const [allCaseStudiesData, setAllCaseStudiesData] = useState([]);
@@ -14,11 +15,10 @@ const Store = ({ userdata, setActivePage }) => {
   const [CaseType, setCaseType] = useState("practywiz");
   const [loading, setLoading] = useState(false);
   const facultydata = useSelector((state) => state.faculty.facultyDtls);
+
   localStorage.setItem("caseType", CaseType);
-  // const [CaseType, setCaseType] = useState("practywiz");
 
   const url = ApiURL();
-  // Function to render stars based on rating
 
   // Fetch case studies data
   useEffect(() => {
@@ -55,6 +55,7 @@ const Store = ({ userdata, setActivePage }) => {
         setLoading(false);
       }
     };
+
     const fetchNonPractywizCaseStudies = async () => {
       try {
         setLoading(true);
@@ -90,13 +91,13 @@ const Store = ({ userdata, setActivePage }) => {
       }
     };
 
-    if (CaseType == "practywiz") {
+    if (CaseType === "practywiz") {
       fetchPractywizCaseStudies();
     }
-    if (CaseType == "non-practywiz") {
+    if (CaseType === "non-practywiz") {
       fetchNonPractywizCaseStudies();
     }
-  }, [url, CaseType]);
+  }, [url, CaseType, facultydata?.faculty_id]);
 
   // Parse date function for sorting
   const parseDate = (dateString) => {
@@ -129,7 +130,6 @@ const Store = ({ userdata, setActivePage }) => {
 
   const handleTabChange = (tab) => {
     setCaseType(tab);
-
   };
 
   // Apply filters and sorting whenever filter values change
@@ -137,23 +137,101 @@ const Store = ({ userdata, setActivePage }) => {
     const filterAndSortData = () => {
       // First filter by search term
       let filtered = allCaseStudiesData.filter((caseStudy) => {
-        const matchesSearch = searchTerm
-          ? caseStudy.caseTopic.toLowerCase().includes(searchTerm.toLowerCase())
-          : true;
+        if (!searchTerm) return true; // If no search term, include all
 
-        // Filter by PractyWiz status
-        // const matchesCaseType =
-        //   CaseType === "all" ||
-        //   (CaseType === "practywiz" && caseStudy.isPractyWiz) ||
-        //   (CaseType === "non-practywiz" && !caseStudy.isPractyWiz);
+        const searchTermLower = searchTerm.toLowerCase();
 
-        return matchesSearch;
+        // Handle different field names based on case type
+        if (CaseType === "practywiz") {
+          // For practywiz case studies
+
+          // Check case_study_title (or fallback to caseTopic)
+          const title =
+            caseStudy?.case_study_title || caseStudy?.caseTopic || "";
+          if (title.toLowerCase().includes(searchTermLower)) return true;
+
+          // Check case_study_categories
+          try {
+            // Handle categories if they exist
+            if (caseStudy?.case_study_categories) {
+              // Handle both string JSON format and array format
+              let categories = caseStudy.case_study_categories;
+
+              // Parse if it's a JSON string
+              if (typeof categories === "string") {
+                try {
+                  categories = JSON.parse(categories);
+                } catch (e) {
+                  // If can't parse as JSON array, just use as string
+                  if (categories.toLowerCase().includes(searchTermLower))
+                    return true;
+                }
+              }
+
+              // If it's an array, check each category
+              if (Array.isArray(categories)) {
+                for (const category of categories) {
+                  if (category.toLowerCase().includes(searchTermLower))
+                    return true;
+                }
+              }
+            }
+
+            // Check author if available
+            const author = caseStudy?.case_study_author || "";
+            if (author.toLowerCase().includes(searchTermLower)) return true;
+          } catch (error) {
+            console.log("Error checking practywiz fields:", error);
+          }
+        } else {
+          // For non-practywiz case studies
+
+          // Check non_practywiz_case_title
+          const title = caseStudy?.non_practywiz_case_title || "";
+          if (title.toLowerCase().includes(searchTermLower)) return true;
+
+          // Check non_practywiz_case_category
+          try {
+            // Handle categories if they exist
+            if (caseStudy?.non_practywiz_case_category) {
+              // Handle both string JSON format and array format
+              let categories = caseStudy.non_practywiz_case_category;
+
+              // Parse if it's a JSON string
+              if (typeof categories === "string") {
+                try {
+                  categories = JSON.parse(categories);
+                } catch (e) {
+                  // If can't parse as JSON array, just use as string
+                  if (categories.toLowerCase().includes(searchTermLower))
+                    return true;
+                }
+              }
+
+              // If it's an array, check each category
+              if (Array.isArray(categories)) {
+                for (const category of categories) {
+                  if (category.toLowerCase().includes(searchTermLower))
+                    return true;
+                }
+              }
+            }
+
+            // Check non_practywiz_case_author
+            const author = caseStudy?.non_practywiz_case_author || "";
+            if (author.toLowerCase().includes(searchTermLower)) return true;
+          } catch (error) {
+            console.log("Error checking non-practywiz fields:", error);
+          }
+        }
+
+        return false;
       });
 
       // Then sort by date
       filtered = [...filtered].sort((a, b) => {
-        const dateA = parseDate(a.publicationDate);
-        const dateB = parseDate(b.publicationDate);
+        const dateA = parseDate(a?.publicationDate);
+        const dateB = parseDate(b?.publicationDate);
 
         return sortOrder === "newest"
           ? dateB - dateA // Newest first
@@ -170,111 +248,16 @@ const Store = ({ userdata, setActivePage }) => {
   const clearFilters = () => {
     setSearchTerm("");
     setSortOrder("newest");
-    // setCaseType("all");
   };
 
-  // Render the selected sort option text
-  const renderSelectedOptionText = () => {
-    switch (sortOrder) {
-      case "newest":
-        return "Newest First";
-      case "oldest":
-        return "Oldest First";
-      default:
-        return "Sort By";
-    }
+  // Handle clearing the search input
+  const clearSearch = () => {
+    setSearchTerm("");
   };
-
-  // Render the selected PractyWiz filter text
-  // const renderSelectedPractyWizText = () => {
-  //   switch (CaseType) {
-  //     case "all":
-  //       return "All Cases";
-  //     case "practywiz":
-  //       return "PractyWiz";
-  //     case "non-practywiz":
-  //       return "Non-PractyWiz";
-  //     default:
-  //       return "Case Type";
-  //   }
-  // };
 
   return (
     <>
       <div className="case-study-display-container">
-        {/* <div className="case-filter-container">
-          <div className="case-search">
-            <input
-              type="text"
-              placeholder="Search by topic..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="case-search-input"
-            />
-            <i className="fa fa-search search-icon"></i>
-          </div>
-
-
-         
-          <div className="case-sort">
-            <div className="case-dropdown">
-              <button className="case-dropbtn">
-              
-                <i className="fa fa-chevron-down"></i>
-              </button>
-              <div className="case-dropdown-content">
-              
-                <button
-                  className={CaseType === "practywiz" ? "active" : ""}
-                  onClick={() => setCaseType("practywiz")}
-                >
-                  PractyWiz
-                </button>
-                <button
-                  className={
-                    CaseType === "non-practywiz" ? "active" : ""
-                  }
-                  onClick={() => setCaseType("non-practywiz")}
-                >
-                  Non-PractyWiz
-                </button>
-              </div>
-            </div>
-          </div>
-
-         
-          <div className="case-sort">
-            <div className="case-dropdown">
-              <button className="case-dropbtn">
-                {renderSelectedOptionText()}
-                <i className="fa fa-chevron-down"></i>
-              </button>
-              <div className="case-dropdown-content">
-                <button
-                  className={sortOrder === "newest" ? "active" : ""}
-                  onClick={() => setSortOrder("newest")}
-                >
-                  Newest First
-                </button>
-                <button
-                  className={sortOrder === "oldest" ? "active" : ""}
-                  onClick={() => setSortOrder("oldest")}
-                >
-                  Oldest First
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {(searchTerm ||
-            sortOrder !== "newest" ||
-            CaseType !== "all") && (
-              <button className="case-clear-btn" onClick={clearFilters}>
-                Clear All
-              </button>
-            )}
-        </div> */}
-
         <div
           className="store-case-filter-container"
           style={{ justifyContent: "space-between" }}
@@ -282,8 +265,9 @@ const Store = ({ userdata, setActivePage }) => {
           {/* Tab Selection */}
           <div className="store-case-tabs">
             <button
-              className={`store-tab-btn ${CaseType === "practywiz" ? "active" : ""
-                }`}
+              className={`store-tab-btn ${
+                CaseType === "practywiz" ? "active" : ""
+              }`}
               onClick={() => handleTabChange("practywiz")}
               style={{
                 backgroundColor:
@@ -301,8 +285,9 @@ const Store = ({ userdata, setActivePage }) => {
               PRACTYWIZ CASE
             </button>
             <button
-              className={`store-tab-btn ${CaseType === "non-practywiz" ? "active" : ""
-                }`}
+              className={`store-tab-btn ${
+                CaseType === "non-practywiz" ? "active" : ""
+              }`}
               onClick={() => handleTabChange("non-practywiz")}
               style={{
                 backgroundColor:
@@ -334,7 +319,7 @@ const Store = ({ userdata, setActivePage }) => {
               {searchTerm ? (
                 <i
                   className="fa fa-times store-search-icon"
-                  // onClick={clearSearch}
+                  onClick={clearSearch}
                   style={{ cursor: "pointer" }}
                 ></i>
               ) : (
@@ -406,7 +391,7 @@ const Store = ({ userdata, setActivePage }) => {
             </div>
           ) : (
             <div className="no-results">
-              <h3>No case studies found </h3>
+              <h3>No case studies found</h3>
             </div>
           )}
         </div>

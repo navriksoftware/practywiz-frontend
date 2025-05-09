@@ -223,7 +223,10 @@
   width: 100%;
   height: 100%;
   /* background-color: rgba(0, 0, 0, 0.5); */
+  background-color: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0px);
   z-index: 2000;
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .faculty-navbar-mobile-menu-content {
@@ -234,7 +237,7 @@
   height: 100%;
   background-color: #ffffff;
   box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
-  transition: right 0.3s ease;
+  transition: right 0.3s cubic-bezier(0.23, 1, 0.32, 1);
   overflow-y: auto;
   z-index: 2001;
 }
@@ -253,11 +256,12 @@
   border: none;
   cursor: pointer;
   color: #666;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .faculty-navbar-mobile-close:hover {
-  transform: rotate(180deg);
-  transition: transform 0.3s ease;
+  transform: rotate(90deg);
+  color: #0078d4;
 }
 
 .faculty-navbar-mobile-nav-links {
@@ -359,13 +363,21 @@
 
   .faculty-navbar-mobile-menu.active {
     display: block;
-    animation: slideIn 0.3s ease;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease forwards;
   }
 
   .faculty-navbar-mobile-menu.active .faculty-navbar-mobile-menu-content {
     right: 0;
+    animation: slideInRight 0.3s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+
+  .faculty-navbar-mobile-menu.closing {
+    display: block;
+    animation: fadeOut 0.3s ease forwards;
+  }
+
+  .faculty-navbar-mobile-menu.closing .faculty-navbar-mobile-menu-content {
+    animation: slideOutRight 0.3s ease-in-out forwards;
   }
 
   .faculty-navbar-mobile-menu {
@@ -382,20 +394,42 @@
   }
 }
 
-@keyframes slideIn {
+@keyframes fadeIn {
   from {
-    transform: translateX(100%);
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
   }
   to {
-    transform: translateX(0);
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
   }
 }
 
-@keyframes slideOut {
+@keyframes fadeOut {
   from {
-    transform: translateX(0);
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
   }
   to {
-    transform: translateX(100%);
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    right: -300px;
+  }
+  to {
+    right: 0;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    right: 0;
+  }
+  to {
+    right: -300px;
   }
 }
