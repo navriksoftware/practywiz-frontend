@@ -6,59 +6,6 @@ import { ApiURL } from '../../../../../Utils/ApiURL';
 import NavBar from '../FacultyNavbar';
 
 const SingleNonPractywizCaseStudy = () => {
-
-// *****************************************
-
-  const renderPage = () => {
-    switch (activePage) {
-      case "profile":
-        return <Profile userdata={userdata} setActivePage={setActivePage} />;
-      case "singlecase":
-        return (
-          <SingleAssignedCase
-            userdata={userdata}
-            setActivePage={setActivePage}
-          />
-        );
-      case "settings":
-        return <Setting userdata={userdata} />;
-      case "ChangePwd":
-        return <ChangePassword user={user} token={token} />;
-      case "store":
-        return <Store userdata={userdata} setActivePage={setActivePage} />;
-      case "AddCaseStudy":
-        return (
-          <AddNonPractywizCase
-            userdata={userdata}
-            setActivePage={setActivePage}
-          />
-        );
-      case "showclasses":
-        return (
-          <ShowClasses
-            userdata={userdata}
-            setActivePage={setActivePage}
-            setClickedClassId={setClickedClassId}
-          />
-        );
-      case "singleclassdetails":
-        return (
-          <SingleClassdetails
-            setActivePage={setActivePage}
-            clickedClassId={clickedClassId}
-          />
-        );
-      case "assigncase":
-        return <CaseAssigneProcess />;
-      case "notifications":
-        return <Notification />;
-      default:
-        return <Profile />;
-    }
-  };
-// *****************************************
-
-
   const [caseStudy, setCaseStudy] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -104,6 +51,10 @@ const SingleNonPractywizCaseStudy = () => {
   // Function to render questions based on their format
   const renderQuestion = (question, index) => {
     return (
+        <>
+        <div className="nav-bar-for-npc">
+            <NavBar />
+        </div>
         <div className="npcs-question-card" key={question.id}>
         <div className="npcs-question-header">
           <h5>Question {index + 1}</h5>
@@ -148,6 +99,7 @@ const SingleNonPractywizCaseStudy = () => {
           </div>
         </div>
       </div>
+        </>
     );
   };
 
