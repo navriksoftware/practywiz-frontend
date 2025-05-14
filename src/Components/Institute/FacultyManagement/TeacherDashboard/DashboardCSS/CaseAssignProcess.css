@@ -157,10 +157,7 @@
 }
 
 .case-assign-to-student-class-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
+  padding: 10px 15px;
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 6px;

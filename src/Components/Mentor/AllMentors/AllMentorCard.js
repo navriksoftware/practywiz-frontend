@@ -2,7 +2,7 @@ import StarRating from "../../../Utils/StartRating";
 import "./AllMentorsMobile.css";
 import React, { useEffect, useState } from "react";
 import { countryCurrencyMapping } from "../../data/Currency_Convertion.js";
-const AllMentorCard = ({ mentor }) => {
+const AllMentorCard = ({ mentor,DefaultCurruncyType}) => {
   let mentorName = mentor.user_firstname + " " + mentor.user_lastname;
 
   function toTitleCase(str) {
@@ -14,27 +14,27 @@ const AllMentorCard = ({ mentor }) => {
       .join(" ");
   }
 
-  const API_KEY = process.env.REACT_APP_API_KEY;
+  // const API_KEY = process.env.REACT_APP_API_KEY;
 
-  const [DefaultCurruncyType, setDefaultCurruncyType] = useState("IN");
+  // const [DefaultCurruncyType, setDefaultCurruncyType] = useState("IN");
 
-  const fetchLocationData = async () => {
-    try {
-      const response = await fetch(`https://ipinfo.io?token=${API_KEY}`);
-      const data = await response.json();
-      setDefaultCurruncyType(data.country);
+  // const fetchLocationData = async () => {
+  //   try {
+  //     const response = await fetch(`https://ipinfo.io?token=${API_KEY}`);
+  //     const data = await response.json();
+  //     setDefaultCurruncyType(data.country);
 
-    } catch (error) {
-      setDefaultCurruncyType("IN");
+  //   } catch (error) {
+  //     setDefaultCurruncyType("IN");
 
-      console.error("Error fetching location data:", error);
-    }
-  };
+  //     console.error("Error fetching location data:", error);
+  //   }
+  // };
 
-  // Fetch the location data when the component mounts
-  useEffect(() => {
-    fetchLocationData();
-  }, []);
+  // // Fetch the location data when the component mounts
+  // useEffect(() => {
+  //   fetchLocationData();
+  // }, []);
 
   const convertCurrency = (amount, fromCurrency, toCurrency) => {
     const FCurrency = fromCurrency.slice(0, -1);

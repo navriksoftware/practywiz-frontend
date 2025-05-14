@@ -267,9 +267,9 @@ const CaseStudyAssignList = () => {
                 {fetchAssignCaseStudiesDetails.map((caseStudy) => (
                     <div>
 
-                        {caseStudy.faculty_case_assign_owned_by_practywiz == 0 ?
+                        {caseStudy.faculty_case_assign_owned_by_practywiz == 1 ?
 
-                            <div
+                            <div 
                                 key={caseStudy.id}
                                 className="CaseShow-Mentee-case-card"
                             >
