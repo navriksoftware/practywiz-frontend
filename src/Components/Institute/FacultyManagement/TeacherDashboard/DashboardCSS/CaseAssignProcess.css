@@ -344,6 +344,12 @@
   background-color: #1d4ed8;
 }
 
+.Non-practywiz-case-assign-to-student-question {
+ 
+    max-height: 46vh;
+    overflow: hidden;
+}
+
 /* Responsive Styles */
 @media (max-width: 1024px) {
   .case-assign-to-student-dashboard {

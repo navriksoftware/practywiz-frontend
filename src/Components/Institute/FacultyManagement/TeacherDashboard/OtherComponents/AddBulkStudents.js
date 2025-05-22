@@ -4,11 +4,7 @@ import "../DashboardCSS/AddBulkStudents.css";
 import axios from "axios";
 import { ApiURL } from "../../../../../Utils/ApiURL";
 
-const AddBulkStudents = ({
-  setshowAddBulkStudent,
-  instituteName,
-  clickedClassId,
-}) => {
+const AddBulkStudents = ({setshowAddBulkStudent,instituteName,clickedClassId}) => {
   const url = ApiURL();
 
   const [columns, setColumns] = useState([]);

@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../DashboardCSS/SingleAssignedCase.css";
 import { debounce } from "lodash";
+import axios from "axios";
+import { ApiURL } from "../../../../../Utils/ApiURL";
 
 const STUDENTS_DATA = [
   {
@@ -71,6 +73,55 @@ const SingleAssignedCase = ({ setActivePage }) => {
   const [selectedClass, setSelectedClass] = useState(
     "Global Economics - ECO 201"
   );
+const [resultdata, setresultdata] = useState();
+
+  const caseStudyId = localStorage.getItem("caseStudyId");
+  const class_id = localStorage.getItem("ClassId");
+  const caseType = localStorage.getItem("caseType");
+  const url = ApiURL();
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch assigned case studies when facultyid is available
+  useEffect(() => {
+    const fetchAssignCaseStudiesDetails = async () => {
+      setIsLoading(true);
+      try {
+        const response = await Promise.race([
+          axios.post(`${url}api/v1/faculty/dashboard/get-assigned-single-cases`, {
+            
+            class_id: class_id,
+            case_study_id: caseStudyId,
+            case_type: caseType,
+          }),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Request timed out")), 45000)
+          ),
+        ]);
+
+        if (response.data.success) {
+          setresultdata(response.data.success[0]);
+          console.log("response.data.success[0]", response.data.success[0]);
+        
+        } else if (response.data.error) {
+          setresultdata([]);
+         
+        }
+      } catch (error) {
+        setresultdata([]);
+        
+        if (error.message === "Request timed out") {
+          console.log("Request timed out. Please try again.");
+        } else {
+          console.log("An error occurred. Please try again.", error);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAssignCaseStudiesDetails();
+  }, [ url]);
+
   const [newStudent, setNewStudent] = useState({
     name: "",
     rollNo: "",
@@ -166,7 +217,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
   );
   const completionRate = Math.round(
     (students.filter((s) => s.status === "Completed").length / totalStudents) *
-      100
+    100
   );
 
   // Toggle dropdown
@@ -268,20 +319,20 @@ const SingleAssignedCase = ({ setActivePage }) => {
             &gt;
           </span> */}
           <span className="single-case-details-view-breadcrumbs-item active">
-            DESIGNING A CUSTOMER RETENTION PLAN
+           {resultdata?.case_study_title}
           </span>
         </div>
       </div>
       <div className="single-case-details-view-header">
         <h1 className="single-case-details-view-title">
-          Case Study: DESIGNING A CUSTOMER RETENTION PLAN
+          Case Study: {resultdata?.case_study_title}
         </h1>
       </div>
 
       <div className="single-case-details-view-course-info">
         <div className="single-case-details-view-course-details">
           <h1 className="single-case-details-view-course-name">
-           FINANCIAL ACCOUNTING
+           {resultdata?.class_name}
           </h1>
         </div>
 
@@ -379,21 +430,19 @@ const SingleAssignedCase = ({ setActivePage }) => {
 
       <div className="single-case-details-view-tabs">
         <button
-          className={`single-case-details-view-tab ${
-            selectedTab === "student-list"
+          className={`single-case-details-view-tab ${selectedTab === "student-list"
               ? "single-case-details-view-tab-active"
               : ""
-          }`}
+            }`}
           onClick={() => setSelectedTab("student-list")}
         >
           Student List
         </button>
         <button
-          className={`single-case-details-view-tab ${
-            selectedTab === "case-study-questions"
+          className={`single-case-details-view-tab ${selectedTab === "case-study-questions"
               ? "single-case-details-view-tab-active"
               : ""
-          }`}
+            }`}
           // onClick={() => setSelectedTab("case-study-questions")}
           onClick={() => navigate('/case-study')}
         >

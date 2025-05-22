@@ -76,7 +76,7 @@ const CaseAssigneProcess = () => {
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [filters, setFilters] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedClasses, setSelectedClasses] = useState([classid]);
+  const [selectedClass, setselectedClass] = useState([classid]);
   const [showClassDropdown, setShowClassDropdown] = useState(false);
   const [open, setOpen] = useState(false);
   // const [caseType, setcaseType] = useState(0); //Case Created by: 0 for Practywiz case, 1 for NON-Practywiz case
@@ -85,7 +85,7 @@ const CaseAssigneProcess = () => {
 
   // Fetch student of the selected class by id`s
   useEffect(() => {
-    // if (selectedClasses) return;
+    // if (selectedClass) return;
 
     const fetchStudentDetails = async () => {
       setLoading(true);
@@ -95,7 +95,7 @@ const CaseAssigneProcess = () => {
 
         const response = await axios.post(
           `${url}api/v1/faculty/Student/fetch-student`,
-          { selectedClasses },
+          { selectedClass },
           { signal: controller.signal }
         );
 
@@ -122,7 +122,7 @@ const CaseAssigneProcess = () => {
     };
 
     fetchStudentDetails();
-  }, [url, selectedClasses]);
+  }, [url, selectedClass]);
 
   // Filter students based on search term, class filters, and other filters
   // useEffect(() => {
@@ -140,9 +140,9 @@ const CaseAssigneProcess = () => {
   //     }
 
   //     // Apply class filters if any are selected
-  //     if (selectedClasses.length > 0) {
+  //     if (selectedClass.length > 0) {
   //       result = result.filter((student) =>
-  //         selectedClasses.includes(student.class)
+  //         selectedClass.includes(student.class)
   //       );
   //     }
 
@@ -155,13 +155,13 @@ const CaseAssigneProcess = () => {
   //   }, 300);
 
   //   return () => clearTimeout(debounceTimer);
-  // }, [searchTerm, selectedClasses, students]);
+  // }, [searchTerm, selectedClass, students]);
 
   // Handle toggling class selection
   const handleToggleClass = (classObj) => {
     const { class_dtls_id, class_name } = classObj;
 
-    setSelectedClasses((prev) => {
+    setselectedClass((prev) => {
       if (prev.includes(class_dtls_id)) {
         // Remove both ID from selected and filter by name
         setFilters((filters) => filters.filter((filter) => filter.name !== class_name));
@@ -184,10 +184,10 @@ const CaseAssigneProcess = () => {
     const filterToRemove = filters.find((filter) => filter.id === filterId);
 
     if (filterToRemove) {
-      // If removing a class filter, update the selectedClasses state
+      // If removing a class filter, update the selectedClass state
       if (filterToRemove.type === "class") {
-        setSelectedClasses(
-          selectedClasses.filter((c) => c !== filterToRemove.name)
+        setselectedClass(
+          selectedClass.filter((c) => c !== filterToRemove.name)
         );
       }
 
@@ -230,14 +230,12 @@ const CaseAssigneProcess = () => {
 
   const handleshowNon_PzQuestions = () => {
     alert("This is a Non-Practywiz case study. Questions are not available.");
+
+
   };
 
   return (
-
-
-
     <div className="case-assign-to-student-container">
-
       {/* <div className="ye-waala-naya-h-dusra-nevigation-indication">
         <i className="fa-solid fa-home" /> DashBoard
         <i className="fa-solid fa-chevron-right" /> case studie
@@ -251,12 +249,7 @@ const CaseAssigneProcess = () => {
             <h1 className="case-assign-to-student-title">
               {casestudyDetails?.case_study_title}
             </h1>
-
-
-
-
             <div className="case-assign-to-student-tags">
-
               {casestudyDetails?.case_study_categories &&
                 JSON.parse(casestudyDetails.case_study_categories).map((tag, index) => (
                   <span
@@ -266,11 +259,7 @@ const CaseAssigneProcess = () => {
                     {tag}
                   </span>
                 ))}
-
-
             </div>
-
-
             <h2 className="case-assign-to-student-subtitle">Preview Content</h2>
             <p className="case-assign-to-student-description">
               {casestudyDetails?.case_study_content?.slice(0, 500) + '...'}
@@ -293,38 +282,33 @@ const CaseAssigneProcess = () => {
             <h1 className="case-assign-to-student-title">
               {casestudyDetails?.non_practywiz_case_title}
             </h1>
-
-
-
-
             <div className="case-assign-to-student-tags">
-
               <span
-
                 className="case-assign-to-student-tag case-assign-to-student-tag-business"
               >
                 {casestudyDetails?.non_practywiz_case_category}
               </span>
-
-
-
             </div>
             <h2 className="case-assign-to-student-subtitle">Author</h2>
             <p className="case-assign-to-student-description">
               {casestudyDetails?.non_practywiz_case_author} {/* Description of the case study */}
             </p>
-
-
-            {/* <div className="case-assign-to-student-modules">
-              <div className="case-assign-to-student-module">
+            {casestudyDetails?.non_practywiz_case_question && <div className="Non-practywiz-case-assign-to-student-question">
+               <h2 className="case-assign-to-student-subtitle">Questions</h2>
                 <p>
-                  <strong>Challenge</strong> {casestudyDetails?.case_study_challenge}
+               
+                  <ol>
+                    {JSON.parse(casestudyDetails.non_practywiz_case_question).map((q, index) => (
+                      <li key={index}>{q.question}</li>
+                    ))}
+                  </ol>
                 </p>
-              </div>
-            </div> */}
+             
+            </div>}
+
 
             <button className="case-assign-to-student-view-button" onClick={handleshowNon_PzQuestions}>
-              See Questions
+              See all Questions
             </button>
           </div>
         )}
@@ -345,11 +329,11 @@ const CaseAssigneProcess = () => {
                 className="case-assign-to-student-class-filter"
                 onClick={() => setShowClassDropdown(!showClassDropdown)}
               >
-                {selectedClasses.length === 0
+                {selectedClass.length === 0
                   ? "All Classes"
-                  : selectedClasses.length === 1
+                  : selectedClass.length === 1
                     ? "1 class"
-                    : `${selectedClasses.length} Classes`}
+                    : `${selectedClass.length} Classes`}
                 <i className="fa-solid fa-chevron-down" />
                 {showClassDropdown && (
                   <div className="case-assign-to-student-class-dropdown">
@@ -357,7 +341,7 @@ const CaseAssigneProcess = () => {
                       className="case-assign-to-student-class-option"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setSelectedClasses([]);
+                        setselectedClass([]);
                         setFilters(
                           filters.filter((filter) => filter.type !== "class")
                         );
@@ -377,7 +361,7 @@ const CaseAssigneProcess = () => {
                       >
                         <input
                           type="checkbox"
-                          checked={selectedClasses.includes(cls.class_dtls_id)}
+                          checked={selectedClass.includes(cls.class_dtls_id)}
                           onChange={() => { }} // Prevent React warning
                           onClick={(e) => e.stopPropagation()}
                         />
@@ -392,9 +376,9 @@ const CaseAssigneProcess = () => {
               </div> */}
               <select
                 className="case-assign-to-student-class-dropdown"
-                value={selectedClasses}
+                value={selectedClass}
                 onChange={(e) => {
-                  setSelectedClasses(e.target.value);
+                  setselectedClass(e.target.value);
                 }}>
                 <option value="">Select Class</option>
                 {classDetails?.map((cls) => (
@@ -505,7 +489,7 @@ const CaseAssigneProcess = () => {
 
           <div className="case-assign-to-student-table-footer">
             <div className="case-assign-to-student-selection-info">
-            Total students : {filteredStudents.length}            </div>
+              Total students : {filteredStudents.length}            </div>
 
 
             <button
@@ -515,7 +499,7 @@ const CaseAssigneProcess = () => {
               Assign Case Study
             </button>
             {open && (
-              <ConfigureCasePopup setOpen={setOpen} caseType={caseType} caseStudyId={caseStudyId} facultyID={facultyID} selectedClasses={selectedClasses} />
+              <ConfigureCasePopup setOpen={setOpen} caseType={caseType} caseStudyId={caseStudyId} facultyID={facultyID} selectedClass={selectedClass} />
             )}
           </div>
         </div>

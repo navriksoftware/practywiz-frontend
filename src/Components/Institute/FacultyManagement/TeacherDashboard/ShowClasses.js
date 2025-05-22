@@ -171,7 +171,9 @@ const ShowClasses = ({ userdata, data, setActivePage, setClickedClassId }) => {
   }, [url, userdata, showCreateClassForm]);
 
   const handleCreateClassClick = () => {
+
     setShowCreateClassForm(true);
+    setSelectedClassId("");
   };
 
   // Fixed calculateProgress function moved outside the ClassCard component

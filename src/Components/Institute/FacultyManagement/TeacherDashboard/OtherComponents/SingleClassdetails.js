@@ -167,7 +167,7 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
   return (
     <div className="single-class-details-container">
       {showAddSingleform && (
-        <AddSingleStudent setshowAddSingleform={setshowAddSingleform} />
+        <AddSingleStudent setshowAddSingleform={setshowAddSingleform} clickedClassId={clickedClassId} />
       )}
       {showAddBulkStudent && (
         <AddBulkStudents

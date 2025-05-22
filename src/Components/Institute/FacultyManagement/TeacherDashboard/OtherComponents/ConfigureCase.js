@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { ApiURL } from "../../../../../Utils/ApiURL";
 
-export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, facultyID, selectedClasses }) {
+export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, facultyID, selectedClass }) {
   const [questionType, setQuestionType] = useState("0");
   const [formErrors, setFormErrors] = useState({});
   const [formData, setFormData] = useState({
@@ -84,7 +84,7 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
     const dataToSend = {
       caseStudyId,
       facultyID,
-      selectedClasses,
+      selectedClass,
       startDateTime: formData.startDateTime,
       deadline: formData.deadline,
       factTiming: formData.factTiming,

@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import '../DashboardCSS/AddSingleStudent.css';
+import axios from "axios";
+import { ApiURL } from "../../../../../Utils/ApiURL";
+import { toast } from 'react-toastify';
 
-const AddSingleStudent = ({ setshowAddSingleform }) => {
+const AddSingleStudent = ({ setshowAddSingleform, instituteName, clickedClassId }) => {
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const url = ApiURL();
   const [formData, setFormData] = useState({
     rollNumber: '',
     firstName: '',
@@ -18,11 +25,60 @@ const AddSingleStudent = ({ setshowAddSingleform }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    // Add your form submission logic here
+
+    const dataToSend = {
+      "Email Id": formData.emailAddress,
+      "Name": `${formData.firstName} ${formData.lastName}`,
+      "Phone Number": formData.phoneNumber,
+      "Roll Number": formData.rollNumber,
+    };
+
+    const payload = {
+      instituteName: instituteName || "",
+      students: [dataToSend],
+      classId: clickedClassId,
+    };
+
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const response = await axios.post(
+        `${url}api/v1/faculty/bulk-register-mentees`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const result = response.data;
+
+      if (Array.isArray(result.failed) && result.failed.length > 0) {
+        toast.error(`Failed to register.Reason:${result.failed[0].reason}`);
+      }
+
+      if (Array.isArray(result.registered) && result.registered.length > 0) {
+        toast.success(`Student registered successfully.`);
+        setshowAddSingleform(false);
+      }
+
+    } catch (err) {
+      toast.error("Failed to add student. Please try again.");
+      setError(
+        err.response?.data?.error ||
+        "Failed to upload students. Please try again."
+      );
+      console.error("Upload error:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
 
   return (
     <>
