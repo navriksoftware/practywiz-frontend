@@ -60,7 +60,7 @@ const MenteeDashboard = ({ user, token }) => {
   const [mobProfileSubMenu, setMobProfileSubMenu] = useState(false);
   const [mySessionInfo, setMySessionInfo] = useState(false);
   const [loading, setLoading] = useState(false); // State for loading
-  const [caseStudyShowList, setcaseStudyShowList] = useState(false)
+  const [caseStudyShowList, setcaseStudyShowList] = useState(false);
 
   const MenteeNotificationHandler = () => {
     if (!showNotification) {
@@ -79,7 +79,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+      setMenteeInternshipPage(false),
+      setcaseStudyShowList(false)
     );
   };
 
@@ -100,7 +101,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeProfile(false),
       setShowMenteePaymentHistory(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+      setMenteeInternshipPage(false),
+      setcaseStudyShowList(false)
     );
   };
   const HandleAppliedInternshipmenu = () => {
@@ -120,7 +122,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeProfile(false),
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
-      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+      setMenteeInternshipPage(false),
+      setcaseStudyShowList(false)
     );
   };
   const HandleMenteeInternshipPageHandler = () => {
@@ -140,7 +143,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeProfile(false),
       setShowMenteePaymentHistory(false),
       setAppliedInternship(false),
-      setinternshipMenu(false),setcaseStudyShowList(false)
+      setinternshipMenu(false),
+      setcaseStudyShowList(false)
     );
   };
   const MenteeChangePwdHandler = () => {
@@ -160,7 +164,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+      setMenteeInternshipPage(false),
+      setcaseStudyShowList(false)
     );
   };
   const MenteeSavedJobsHandler = () => {
@@ -180,7 +185,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+      setMenteeInternshipPage(false),
+      setcaseStudyShowList(false)
     );
   };
   const MenteeCourseProgressHandler = () => {
@@ -200,7 +206,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+      setMenteeInternshipPage(false),
+      setcaseStudyShowList(false)
     );
   };
   const MenteeCompCourseHandler = () => {
@@ -220,7 +227,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+      setMenteeInternshipPage(false),
+      setcaseStudyShowList(false)
     );
   };
   const MenteePsettingsHandler = () => {
@@ -240,7 +248,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+      setMenteeInternshipPage(false),
+      setcaseStudyShowList(false)
     );
   };
   const MenteeMessageHandler = () => {
@@ -260,7 +269,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+      setMenteeInternshipPage(false),
+      setcaseStudyShowList(false)
     );
   };
   const ShowMenteeProfileHandler = () => {
@@ -280,7 +290,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+      setMenteeInternshipPage(false),
+      setcaseStudyShowList(false)
     );
   };
   const ShowMenteeUpcomingHandler = () => {
@@ -300,7 +311,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+      setMenteeInternshipPage(false),
+      setcaseStudyShowList(false)
     );
   };
   const ShowMenteeCompletedHandler = () => {
@@ -320,7 +332,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteePaymentHistory(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+      setMenteeInternshipPage(false),
+      setcaseStudyShowList(false)
     );
   };
   const ShowMenteePaymentHistoryHandler = () => {
@@ -340,7 +353,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeProfile(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false),setcaseStudyShowList(false)
+      setMenteeInternshipPage(false),
+      setcaseStudyShowList(false)
     );
   };
   const ShowCaseStudyShowList = () => {
@@ -363,7 +377,6 @@ const MenteeDashboard = ({ user, token }) => {
       setMenteeInternshipPage(false)
     );
   };
-
 
   const menteeDtlsId = user?.user_id;
   useEffect(() => {
@@ -484,19 +497,16 @@ const MenteeDashboard = ({ user, token }) => {
                   ></i>
                 </button>
 
-
-
-
-
-
                 <div
                   className="navbarmenucollapse navbar-collapse"
                   id="navbarSupportedContent"
                 >
                   <form className="d-flex iugeuirrr align-items-center">
-
                     <span>
-                      <a className="Mentee-MentorconnectNavbar" href="/mentor-club">
+                      <a
+                        className="Mentee-MentorconnectNavbar"
+                        href="/mentor-club"
+                      >
                         Mentor Connect
                         <i
                           className="fa-solid fa-plus"
@@ -592,9 +602,13 @@ const MenteeDashboard = ({ user, token }) => {
                         className="dashboard-side-bar"
                         id="responsive-side-bar"
                       >
-                        <i class="fa-solid fa-bars" style={{ fontSize: "1.5rem" }} onClick={() => {
-                          setMobMenu(true);
-                        }}></i>
+                        <i
+                          class="fa-solid fa-bars"
+                          style={{ fontSize: "1.5rem" }}
+                          onClick={() => {
+                            setMobMenu(true);
+                          }}
+                        ></i>
 
                         {/* Menu Items */}
                         {mobMenu && (
@@ -726,7 +740,9 @@ const MenteeDashboard = ({ user, token }) => {
                               <span>Notifications </span>
                             </li>
                             <li onClick={LogoutHandler} className="menu-items">
-                              <span><i class="fa-solid fa-right-from-bracket"></i></span>
+                              <span>
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                              </span>
                               <span>Log Out</span>
                             </li>
                             <li></li>
@@ -741,84 +757,85 @@ const MenteeDashboard = ({ user, token }) => {
           </div>
         </header>
 
-        {
-          loading ? (<Spinner />) : (
-            <div className="mentor_dashboard">
-              {/* <div className=""> */}
-              <div className="display-raw mob-hide">
+        {loading ? (
+          <Spinner />
+        ) : (
+          <div className="mentor_dashboard">
+            {/* <div className=""> */}
+            <div className="display-raw mob-hide">
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                onClick={ShowMenteeProfileHandler}
+              >
+                <span className="d-block bg-white position-relative m-auto ">
+                  <i className="fa-solid fa-user"></i>
+                </span>
+
+                <h5>Dashboard</h5>
+              </button>
+              <div className="Baseposition" onMouseLeave={toggleOffProfile}>
                 <button
                   className="btn btn-transparent text-center py-3 seeeett"
-                  onClick={ShowMenteeProfileHandler}
+                  onMouseOver={toggleNoProfile}
                 >
                   <span className="d-block bg-white position-relative m-auto ">
-                    <i className="fa-solid fa-user"></i>
+                    <i className="fa-solid fa-bars"></i>
+                  </span>
+                  <h5>
+                    Profile Settings
+                    <i className="fa-solid fa-chevron-down downarrowsize"></i>
+                  </h5>
+                </button>
+                {profilemenu && (
+                  <div className="submenu1">
+                    <button
+                      className="submenu-item1"
+                      onClick={MenteePsettingsHandler}
+                    >
+                      <h5>Profile Change</h5>
+                    </button>
+                    <button
+                      className="submenu-item1"
+                      onClick={MenteeChangePwdHandler}
+                    >
+                      <h5>Change Password</h5>
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className="Baseposition" onMouseLeave={toggleOffSession}>
+                <button
+                  className="btn btn-transparent text-center py-3 seeeett"
+                  onMouseOver={toggleNosession}
+                >
+                  <span className="d-block bg-white position-relative m-auto ">
+                    {/* <i className="fa-solid fa-bars-progress"></i> */}
+                    <i className="fa-solid fa-tv"></i>
                   </span>
 
-                  <h5>Dashboard</h5>
+                  <h5>
+                    My Session Info
+                    <i className="fa-solid fa-chevron-down downarrowsize"></i>
+                  </h5>
                 </button>
-                <div className="Baseposition" onMouseLeave={toggleOffProfile}>
-                  <button
-                    className="btn btn-transparent text-center py-3 seeeett"
-                    onMouseOver={toggleNoProfile}
-                  >
-                    <span className="d-block bg-white position-relative m-auto ">
-                      <i className="fa-solid fa-bars"></i>
-                    </span>
-                    <h5>
-                      Profile Settings
-                      <i className="fa-solid fa-chevron-down downarrowsize"></i>
-                    </h5>
-                  </button>
-                  {profilemenu && (
-                    <div className="submenu1">
-                      <button
-                        className="submenu-item1"
-                        onClick={MenteePsettingsHandler}
-                      >
-                        <h5>Profile Change</h5>
-                      </button>
-                      <button
-                        className="submenu-item1"
-                        onClick={MenteeChangePwdHandler}
-                      >
-                        <h5>Change Password</h5>
-                      </button>
-                    </div>
-                  )}
-                </div>
-                <div className="Baseposition" onMouseLeave={toggleOffSession}>
-                  <button
-                    className="btn btn-transparent text-center py-3 seeeett"
-                    onMouseOver={toggleNosession}
-                  >
-                    <span className="d-block bg-white position-relative m-auto ">
-                      {/* <i className="fa-solid fa-bars-progress"></i> */}
-                      <i className="fa-solid fa-tv"></i>
-                    </span>
-
-                    <h5>
-                      My Session Info
-                      <i className="fa-solid fa-chevron-down downarrowsize"></i>
-                    </h5>
-                  </button>
-                  {Sessionmenu && (
-                    <div className="submenu1">
-                      <button
-                        className="submenu-item1"
-                        onClick={ShowMenteeUpcomingHandler}
-                      >
-                        <h5>Upcomig Session</h5>
-                      </button>
-                      <button
-                        className="submenu-item1"
-                        onClick={ShowMenteeCompletedHandler}
-                      >
-                        <h5>Completed Session</h5>
-                      </button>
-                    </div>
-                  )}
-                </div>
-                {/* <div className="Baseposition" onMouseLeave={toggleOffCourse}>
+                {Sessionmenu && (
+                  <div className="submenu1">
+                    <button
+                      className="submenu-item1"
+                      onClick={ShowMenteeUpcomingHandler}
+                    >
+                      <h5>Upcomig Session</h5>
+                    </button>
+                    <button
+                      className="submenu-item1"
+                      onClick={ShowMenteeCompletedHandler}
+                    >
+                      <h5>Completed Session</h5>
+                    </button>
+                  </div>
+                )}
+              </div>
+              {/* <div className="Baseposition" onMouseLeave={toggleOffCourse}>
                 <button
                   className="btn btn-transparent text-center py-3 seeeett"
                   onMouseOver={toggleNoCourse}
@@ -849,24 +866,24 @@ const MenteeDashboard = ({ user, token }) => {
                   </div>
                 )}
               </div> */}
-                <button
-                  className="btn btn-transparent text-center py-3 seeeett"
-                  onClick={ShowMenteePaymentHistoryHandler}
-                >
-                  <span className="d-block bg-white position-relative m-auto ">
-                    <i className="fa-solid fa-clock-rotate-left"></i>
-                  </span>
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                onClick={ShowMenteePaymentHistoryHandler}
+              >
+                <span className="d-block bg-white position-relative m-auto ">
+                  <i className="fa-solid fa-clock-rotate-left"></i>
+                </span>
 
-                  <h5>Payment History</h5>
-                </button>
-                {/* <button className="btn btn-transparent text-center py-3 seeeett">
+                <h5>Payment History</h5>
+              </button>
+              {/* <button className="btn btn-transparent text-center py-3 seeeett">
                 <span className="d-block bg-white position-relative m-auto ">
                   <i className="fa-regular fa-building"></i>
                 </span>
 
                 <h5>Saved Institute</h5>
               </button> */}
-                {/* <button
+              {/* <button
                 className="btn btn-transparent text-center py-3 seeeett"
                 onClick={MenteeSavedJobsHandler}
               >
@@ -877,105 +894,105 @@ const MenteeDashboard = ({ user, token }) => {
 
                 <h5>Saved Jobs</h5>
               </button> */}
-                <div className="Baseposition" onMouseLeave={toggleOffCourse}>
-                  <button
-                    className="btn btn-transparent text-center py-3 seeeett"
-                    // onMouseOver={toggleNoCourse}
-                    onClick={HandleMenteeInternshipPageHandler}
-                  >
-                    <span className="d-block bg-white position-relative m-auto ">
-                      <i className="fa-solid fa-briefcase"></i>
-                    </span>
-                    <h5>
-                      Internship
-                      {/* <i className="fa-solid fa-chevron-down downarrowsize"></i> */}
-                    </h5>
-                  </button>
-                  {/* {Coursemenu && (
-                <div className="submenu1">
-                  <button
-                    className="submenu-item1"
-                    onClick={HandleInternshipmenu}
-                  >
-                    <h5> Apply for Internship</h5>
-                  </button>
-                  <button
-                    className="submenu-item1"
-                    onClick={HandleAppliedInternshipmenu}
-                  >
-                    <h5>Applied Internship</h5>
-                  </button>
-                  <button
-                    className="submenu-item1"
-                    onClick={HandleMenteeInternshipPageHandler}
-                  >
-                    <h5>Stipend Info</h5>
-                  </button>
-                </div>
-              )} */}
-                </div>
-                <div className="Baseposition" onMouseLeave={toggleOffCourse}>
-                  <button
-                    className="btn btn-transparent text-center py-3 seeeett"
-                    // onMouseOver={toggleNoCourse}
-                    onClick={ShowCaseStudyShowList}
-                  >
-                    <span className="d-block bg-white position-relative m-auto ">
-                    <i className="fa-solid fa-book"></i>
-                    </span>
-                    <h5>
-                    Case Studies info
-                      {/* <i className="fa-solid fa-chevron-down downarrowsize"></i> */}
-                    </h5>
-                  </button>
-                  {/* {Coursemenu && (
-                <div className="submenu1">
-                  <button
-                    className="submenu-item1"
-                    onClick={HandleInternshipmenu}
-                  >
-                    <h5> Apply for Internship</h5>
-                  </button>
-                  <button
-                    className="submenu-item1"
-                    onClick={HandleAppliedInternshipmenu}
-                  >
-                    <h5>Applied Internship</h5>
-                  </button>
-                  <button
-                    className="submenu-item1"
-                    onClick={HandleMenteeInternshipPageHandler}
-                  >
-                    <h5>Stipend Info</h5>
-                  </button>
-                </div>
-              )} */}
-                </div>
+              <div className="Baseposition" onMouseLeave={toggleOffCourse}>
                 <button
                   className="btn btn-transparent text-center py-3 seeeett"
-                  onClick={MenteeNotificationHandler}
+                  // onMouseOver={toggleNoCourse}
+                  onClick={HandleMenteeInternshipPageHandler}
                 >
                   <span className="d-block bg-white position-relative m-auto ">
-                    <i className="fa-solid fa-bell"></i>
-                    {hasUnreadNotifications && (
-                      <span
-                        style={{
-                          position: "absolute",
-                          top: "-3px",
-                          right: "-5px",
-                          width: "12px",
-                          height: "12px",
-                          backgroundColor: "red",
-                          borderRadius: "50%",
-                          border: "2px solid white",
-                        }}
-                      />
-                    )}
+                    <i className="fa-solid fa-briefcase"></i>
                   </span>
-                  <h5>Notifications</h5>
+                  <h5>
+                    Internship
+                    {/* <i className="fa-solid fa-chevron-down downarrowsize"></i> */}
+                  </h5>
                 </button>
+                {/* {Coursemenu && (
+                <div className="submenu1">
+                  <button
+                    className="submenu-item1"
+                    onClick={HandleInternshipmenu}
+                  >
+                    <h5> Apply for Internship</h5>
+                  </button>
+                  <button
+                    className="submenu-item1"
+                    onClick={HandleAppliedInternshipmenu}
+                  >
+                    <h5>Applied Internship</h5>
+                  </button>
+                  <button
+                    className="submenu-item1"
+                    onClick={HandleMenteeInternshipPageHandler}
+                  >
+                    <h5>Stipend Info</h5>
+                  </button>
+                </div>
+              )} */}
+              </div>
+              <div className="Baseposition" onMouseLeave={toggleOffCourse}>
+                <button
+                  className="btn btn-transparent text-center py-3 seeeett"
+                  // onMouseOver={toggleNoCourse}
+                  onClick={ShowCaseStudyShowList}
+                >
+                  <span className="d-block bg-white position-relative m-auto ">
+                    <i className="fa-solid fa-book"></i>
+                  </span>
+                  <h5>
+                    Case Studies info
+                    {/* <i className="fa-solid fa-chevron-down downarrowsize"></i> */}
+                  </h5>
+                </button>
+                {/* {Coursemenu && (
+                <div className="submenu1">
+                  <button
+                    className="submenu-item1"
+                    onClick={HandleInternshipmenu}
+                  >
+                    <h5> Apply for Internship</h5>
+                  </button>
+                  <button
+                    className="submenu-item1"
+                    onClick={HandleAppliedInternshipmenu}
+                  >
+                    <h5>Applied Internship</h5>
+                  </button>
+                  <button
+                    className="submenu-item1"
+                    onClick={HandleMenteeInternshipPageHandler}
+                  >
+                    <h5>Stipend Info</h5>
+                  </button>
+                </div>
+              )} */}
+              </div>
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                onClick={MenteeNotificationHandler}
+              >
+                <span className="d-block bg-white position-relative m-auto ">
+                  <i className="fa-solid fa-bell"></i>
+                  {hasUnreadNotifications && (
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: "-3px",
+                        right: "-5px",
+                        width: "12px",
+                        height: "12px",
+                        backgroundColor: "red",
+                        borderRadius: "50%",
+                        border: "2px solid white",
+                      }}
+                    />
+                  )}
+                </span>
+                <h5>Notifications</h5>
+              </button>
 
-                {/* <div className="Baseposition" onMouseLeave={toggleOffCourse}>
+              {/* <div className="Baseposition" onMouseLeave={toggleOffCourse}>
               <button
                 className="btn btn-transparent text-center py-3 seeeett"
                 onMouseOver={toggleNoCourse}
@@ -1012,122 +1029,121 @@ const MenteeDashboard = ({ user, token }) => {
               )}
             </div> */}
 
-                {/* </div> */}
-              </div>
-              {/* </div>
+              {/* </div> */}
+            </div>
+            {/* </div>
         <div className="mob-main"> */}
-              {showMenteeProfile && (
-                <MenteeProfileDashboard
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                  MenteePsettingsHandler={MenteePsettingsHandler}
-
-                />
-              )}
-              {showMenteePsettings && (
-                <MenteeProfileSettings
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                />
-              )}
-              {showChangePwd && (
-                <MenteeChangePwd
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                />
-              )}
-              {showMenteeCompletedSessions && (
-                <MenteeCompletedSessions
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                />
-              )}
-              {showMenteeUpcomingSessions && (
-                <MenteeUpcomingSessions
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                />
-              )}
-              {showMenteeCourseProgress && (
-                <MenteeCourseProgress
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                />
-              )}
-              {showCompletedCourse && (
-                <MenteeCompletedCourses
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                />
-              )}
-              {showMenteeSavedJobs && (
-                <MenteeSavedJobs
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                />
-              )}
-              {showMenteeMessage && (
-                <MenteeMessages
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                />
-              )}
-              {showNotification && (
-                <MenteeNotifications
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                />
-              )}
-              {showMenteePaymentHistory && (
-                <MenteePaymentHistory
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                />
-              )}
-              {/* {internshipMenu && <MenteeInternshipListing/>} */}
-              {internshipMenu && (
-                <InternshipListing
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                />
-              )}
-              {AppliedInternship && (
-                <AppliedInternships
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                />
-              )}
-              {caseStudyShowList && (
-                <CaseStudyAssignList
-                  singleMentee={singleMentee}
-                  user={user}
-                  token={token}
-                />
-              )}
-              {MenteeInternshipPage && (
-                <InternshipProfileMain
-                  singleMentee={singleMentee}
-                  appliedInternships={appliedInternships}
-                  user={user}
-                  token={token}
-                />
-              )}
-            </div>)
-        }
-
+            {showMenteeProfile && (
+              <MenteeProfileDashboard
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+                MenteePsettingsHandler={MenteePsettingsHandler}
+              />
+            )}
+            {showMenteePsettings && (
+              <MenteeProfileSettings
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+              />
+            )}
+            {showChangePwd && (
+              <MenteeChangePwd
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+              />
+            )}
+            {showMenteeCompletedSessions && (
+              <MenteeCompletedSessions
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+              />
+            )}
+            {showMenteeUpcomingSessions && (
+              <MenteeUpcomingSessions
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+              />
+            )}
+            {showMenteeCourseProgress && (
+              <MenteeCourseProgress
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+              />
+            )}
+            {showCompletedCourse && (
+              <MenteeCompletedCourses
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+              />
+            )}
+            {showMenteeSavedJobs && (
+              <MenteeSavedJobs
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+              />
+            )}
+            {showMenteeMessage && (
+              <MenteeMessages
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+              />
+            )}
+            {showNotification && (
+              <MenteeNotifications
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+              />
+            )}
+            {showMenteePaymentHistory && (
+              <MenteePaymentHistory
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+              />
+            )}
+            {/* {internshipMenu && <MenteeInternshipListing/>} */}
+            {internshipMenu && (
+              <InternshipListing
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+              />
+            )}
+            {AppliedInternship && (
+              <AppliedInternships
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+              />
+            )}
+            {caseStudyShowList && (
+              <CaseStudyAssignList
+                singleMentee={singleMentee}
+                user={user}
+                token={token}
+              />
+            )}
+            {MenteeInternshipPage && (
+              <InternshipProfileMain
+                singleMentee={singleMentee}
+                appliedInternships={appliedInternships}
+                user={user}
+                token={token}
+                MenteePsettingsHandler={MenteePsettingsHandler}
+              />
+            )}
+          </div>
+        )}
       </div>
     </>
   );

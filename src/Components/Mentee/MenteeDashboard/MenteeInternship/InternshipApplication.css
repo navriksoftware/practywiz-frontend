@@ -143,8 +143,12 @@
   background: #e9ecef;
 }
 
-.mentee-intern-apply-success {
+/* .mentee-intern-apply-success  {
   text-align: center;
+  padding: 2rem 1rem;
+}
+.mentee-intern-apply-denial{
+text-align: center;
   padding: 2rem 1rem;
 }
 
@@ -160,9 +164,25 @@
   font-size: 1.5rem;
   margin: 0 auto 1rem;
 }
+.mentee-intern-apply-denial-icon {
+  width: 48px;
+  height: 48px;
+  background: #d61824;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 1rem;
+}
 
 .mentee-intern-apply-success h2 {
   color: #28a745;
+  margin-bottom: 0.5rem;
+}
+.mentee-intern-apply-denial h2 {
+  color: #d61824;
   margin-bottom: 0.5rem;
 }
 
@@ -170,6 +190,10 @@
   color: #666;
   margin: 0;
 }
+.mentee-intern-apply-denial p {
+  color: #666;
+  margin: 0;
+} */
 
 @media (max-width: 640px) {
   .mentee-intern-apply-card {

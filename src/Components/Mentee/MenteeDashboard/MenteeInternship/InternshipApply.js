@@ -43,7 +43,7 @@ const InternshipApplication = ({ user, token }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // if (selectedResume) {
-    setIsSubmitted(true);
+
     try {
       dispatch(showLoadingHandler());
       const response = await Promise.race([
@@ -60,14 +60,18 @@ const InternshipApplication = ({ user, token }) => {
       if (response.data.success) {
         dispatch(hideLoadingHandler());
         toast.success("Application submitted successfully");
-        setIsSubmitted(true);
+        // setIsSubmitted(true);
         setTimeout(() => {
           navigate("/mentee/dashboard");
         }, 2000);
+        // setIsSubmitted(true);
+        // ShowMenteeProfileHandler();
       }
       if (response.data.error) {
         dispatch(hideLoadingHandler());
-        toast.error("There is some error while submitting the application");
+        toast.error(
+          "There is some error while submitting the application Try Again Later"
+        );
       }
     } catch (error) {
       toast.error(
@@ -79,21 +83,6 @@ const InternshipApplication = ({ user, token }) => {
     }
     // }
   };
-
-  if (isSubmitted) {
-    return (
-      <div className="mentee-intern-apply-card">
-        <div className="mentee-intern-apply-success">
-          <div className="mentee-intern-apply-success-icon">✓</div>
-          <h2>Application Submitted Successfully!</h2>
-          <p>
-            Thank you for applying. We'll review your application and get back
-            to you soon.
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="mentee-intern-apply-card">

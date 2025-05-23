@@ -1,15 +1,20 @@
 import React from "react";
 import "./InternshipOverview.css";
 
-const InternshipOverview = ({ singleMentee }) => {
+const InternshipOverview = ({ singleMentee, MenteePsettingsHandler }) => {
   return (
     <div className="mentee-int-profile-overview-container">
       <div className="mentee-int-prof-profile-section-header">
         <h2 className="mentee-int-prof-profile-title">Profile Overview</h2>
-        {/* <div className="mentee-int-prof-profile-actions">
-          <button className="mentee-int-prof-btn-outline">Edit Profile</button>
-          <button className="mentee-int-btn-default">Download</button>
-        </div> */}
+        <div className="mentee-int-prof-profile-actions">
+          <button
+            onClick={MenteePsettingsHandler}
+            className="mentee-int-prof-btn-outline "
+          >
+            Edit Profile
+          </button>
+          {/* <button className="mentee-int-btn-default">Download</button> */}
+        </div>
       </div>
 
       {singleMentee?.map((mentee, index) => (

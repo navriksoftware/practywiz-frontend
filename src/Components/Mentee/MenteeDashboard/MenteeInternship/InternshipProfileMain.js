@@ -14,6 +14,7 @@ const InternshipProfileMain = ({
   token,
   singleMentee,
   appliedInternships,
+  MenteePsettingsHandler,
 }) => {
   const [activeTab, setActiveTab] = useState("Overview");
   const [appliedInternshipsID, setAppliedInternshipsID] = useState([]);
@@ -47,6 +48,7 @@ const InternshipProfileMain = ({
             singleMentee={singleMentee}
             user={user}
             token={token}
+            MenteePsettingsHandler={MenteePsettingsHandler}
           />
         );
       case "Resume":

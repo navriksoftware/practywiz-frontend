@@ -1,22 +1,86 @@
-import React, { useState } from "react";
+// LAKSHAY WORK TO DO
+
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import "./InternshipResume.css";
+import axios from "axios";
+import { ApiURL } from "../../../../Utils/ApiURL";
 
 const InternshipResume = ({ singleMentee, user, token }) => {
-  const [resume, setResume] = useState(null);
+  const [resume, setResume] = useState({});
+  const [dbResume, setDbResume] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const menteeId = singleMentee?.mentee_user_dtls_id;
+  const menteeId = singleMentee?.mentee_dtls_id;
+  const { user_id } = user;
+  const url = ApiURL();
+
+  useEffect(() => {
+    function getValueAfterHyphen(str) {
+      const index = str.indexOf("-");
+      if (index === -1) return null; // no hyphen found
+      return str.slice(index + 1).trim();
+    }
+    const fetchResume = async () => {
+      try {
+        const res = await axios.get(
+          `${url}api/v1/mentee/dashboard/resume/download`,
+          { params: { user_id } }
+        );
+        const resumeUrl = res.data.url;
+        console.log("line 23");
+        console.log(res);
+        if (res) {
+          const resumeName = getValueAfterHyphen(resumeUrl);
+          console.log("dgsdf", resumeName);
+          setDbResume(true);
+          console.log("response", res.data);
+          console.log(res.data.url);
+          setResume({ url: res.data.url, name: resumeName });
+
+          console.log("res url", resume.url);
+        }
+      } catch (error) {
+        toast.error("Failed to download resume. Please try again.");
+      }
+    };
+    fetchResume();
+  }, [setResume]);
 
   // TODO: Implement this function to upload the file to the server
-  // const uploadFileToServer = async (file) => {
+  const uploadFileToServer = async (file) => {
+    try {
+      setIsUploading(true);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("menteeId", menteeId);
+
+      const response = await fetch("/api/resume/upload", {
+        method: "POST",
+        body: formData,
+      });
+      console.log("line 49");
+      if (!response.status == 200) {
+        throw new Error("Upload failed");
+      }
+      console.log("line 53");
+      const data = await response.json();
+      console.log(data);
+      toast.success("Resume uploaded successfully!");
+      return data;
+    } catch (error) {
+      console.error("Upload error:", error);
+      toast.error("Failed to upload resume. Please try again.");
+      throw error;
+    } finally {
+      setIsUploading(false);
+    }
+  };
+  // const getMenteeResume = async () => {
   //   try {
   //     setIsUploading(true);
-  //     const formData = new FormData();
-  //     formData.append("file", file);
-  //     formData.append("menteeId", menteeId);
 
-  //     const response = await fetch("/api/resume/upload", {
-  //       method: "POST",
-  //       body: formData,
+  //     const response = await get("/api/resume/upload", {
+  //       method: "get",
   //     });
 
   //     if (!response.ok) {
@@ -24,7 +88,7 @@ const InternshipResume = ({ singleMentee, user, token }) => {
   //     }
 
   //     const data = await response.json();
-  //     toast.success("Resume uploaded successfully!");
+  //     toast.success("Resume Downloaded successfully!");
   //     return data;
   //   } catch (error) {
   //     console.error("Upload error:", error);
@@ -36,12 +100,14 @@ const InternshipResume = ({ singleMentee, user, token }) => {
   // };
 
   const handleFileChange = async (event) => {
+    setDbResume(null);
     const file = event.target.files[0];
+
     if (file) {
       try {
-        // await uploadFileToServer(file);
-        const currentTime = new Date().toLocaleString();
-        setResume({ name: file.name, uploadTime: currentTime });
+        const uploadTime = new Date().toLocaleString();
+        const name = file.name;
+        setResume({ file, name, uploadTime });
       } catch (error) {
         // Error already handled by uploadFileToServer
         setResume(null);
@@ -59,6 +125,44 @@ const InternshipResume = ({ singleMentee, user, token }) => {
     }
   };
 
+  const handleUpload = async () => {
+    if (!resume) {
+      toast.error("Please select a file first.");
+      return;
+    }
+    try {
+      console.log(resume.file);
+      // console.log("userid", singleMentee);
+      console.log("userid", user_id);
+
+      const formData = new FormData();
+      formData.append("file", resume.file);
+      formData.append("name", resume.name);
+      formData.append("uploadTime", resume.uploadTime);
+      formData.append("id", user_id);
+
+      const res = await axios.post(
+        `${url}api/v1/mentee/dashboard/resume/upload`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      toast.success("Resume created successfully");
+      // setResume(false);
+    } catch (error) {
+      toast.error("Failed to Upload resume. Please try again.");
+    }
+  };
+
+  const handleDownload = () => {
+    try {
+      window.open(resume.url, "_blank", "noopener,noreferrer");
+      toast.success("Resume downnloaded successfully");
+    } catch (error) {
+      toast.error("Failed to download resume. Please try again.");
+    }
+  };
   return (
     <div className="ir-container">
       <h2 className="ir-main-title">Upload your recent resume or CV</h2>
@@ -97,252 +201,95 @@ const InternshipResume = ({ singleMentee, user, token }) => {
 
       <div className="ir-resume-list-container">
         <h3 className="ir-resume-list-title">Current Resume</h3>
-        {resume ? (
-          <div className="ir-resume-list">
-            <div className="ir-resume-item">
-              <div className="ir-resume-info">
-                <span className="ir-resume-name">{resume.name}</span>
-                <span className="ir-upload-time">
-                  Uploaded on: {resume.uploadTime}
-                </span>
+        {
+          dbResume ? (
+            <div className="ir-resume-list">
+              <div className="ir-resume-item">
+                <div className="ir-resume-info">
+                  <span className="ir-resume-name">{resume.name}</span>
+                  <span className="ir-upload-time">
+                    {/* Uploaded on: {resume.uploadTime} */}
+                  </span>
+                </div>
+                <a
+                  href={isUploading ? undefined : resume.url}
+                  onClick={(e) => {
+                    if (isUploading) {
+                      e.preventDefault(); // block click
+                      return;
+                    }
+                    e.preventDefault();
+                    handleDownload();
+                  }}
+                  className={`ir-upload-button ${
+                    isUploading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  View
+                </a>
               </div>
-              <button className="ir-upload-button" disabled={isUploading}>
-                Upload
-              </button>
-              <button
-                onClick={handleRemove}
-                className="ir-remove-button"
-                disabled={isUploading}
-              >
-                Remove
-              </button>
             </div>
-          </div>
-        ) : (
-          <p className="ir-no-resumes">No resume uploaded yet.</p>
-        )}
+          ) : resume ? (
+            <div className="ir-resume-list">
+              <div className="ir-resume-item">
+                <div className="ir-resume-info">
+                  <span className="ir-resume-name">{resume.name}</span>
+                  <span className="ir-upload-time">
+                    Uploaded on: {resume.uploadTime}
+                  </span>
+                </div>
+                <button
+                  onClick={handleUpload}
+                  className="ir-upload-button"
+                  disabled={isUploading}
+                >
+                  Upload
+                </button>
+                <button
+                  onClick={handleRemove}
+                  className="ir-remove-button"
+                  disabled={isUploading}
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p className="ir-no-resumes">No resume uploaded yet.</p>
+          )
+
+          // resume ? (
+          //   <div className="ir-resume-list">
+          //     <div className="ir-resume-item">
+          //       <div className="ir-resume-info">
+          //         <span className="ir-resume-name">{resume.name}</span>
+          //         <span className="ir-upload-time">
+          //           Uploaded on: {resume.uploadTime}
+          //         </span>
+          //       </div>
+          //       <button
+          //         onClick={handleUpload}
+          //         className="ir-upload-button"
+          //         disabled={isUploading}
+          //       >
+          //         Upload
+          //       </button>
+          //       <button
+          //         onClick={handleRemove}
+          //         className="ir-remove-button"
+          //         disabled={isUploading}
+          //       >
+          //         Remove
+          //       </button>
+          //     </div>
+          //   </div>
+          // ) : (
+          //   <p className="ir-no-resumes">No resume uploaded yet.</p>
+          // )
+        }
       </div>
 
-      <style>
-        {`
-          .ir-container {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            box-sizing: border-box;
-          }
-
-          .ir-main-title {
-            text-align: left;
-            margin-bottom: 10px;
-            font-size: 1.5rem;
-            font-weight: bold;
-          }
-
-          .ir-main-description {
-            text-align: left;
-            margin-bottom: 20px;
-            color: #555;
-            font-size: 1rem;
-          }
-
-          .ir-upload-section {
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            flex-wrap: wrap;
-          }
-
-          .ir-instructions {
-            flex: 1;
-            min-width: 250px;
-          }
-
-          .ir-instructions-title {
-            text-align: left;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-          }
-
-          .ir-instructions-text {
-            text-align: left;
-            color: #555;
-            margin-bottom: 20px;
-          }
-
-          .ir-upload-box {
-            flex: 1;
-            text-align: center;
-            padding: 20px;
-            border: 2px dashed #ccc;
-            border-radius: 8px;
-            min-width: 250px;
-            transition: background-color 0.3s ease;
-          }
-
-          .ir-upload-box:hover {
-            background-color: #f8f9fa;
-          }
-
-          .ir-file-label {
-            display: inline-block;
-            margin-bottom: 10px;
-            color: #007BFF;
-            text-decoration: underline;
-            cursor: pointer;
-            padding: 8px 16px;
-            transition: color 0.3s ease;
-            opacity: ${isUploading ? "0.7" : "1"};
-          }
-
-          .ir-file-label:hover {
-            color: #0056b3;
-          }
-
-          .ir-file-input {
-            display: none;
-          }
-
-          .ir-upload-text {
-            margin-bottom: 10px;
-            color: #888;
-          }
-
-          .ir-resume-list-container {
-            margin-top: 20px;
-          }
-
-          .ir-resume-list-title {
-            text-align: left;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-          }
-
-          .ir-resume-list {
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-          }
-
-          .ir-resume-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-radius: 4px;
-          }
-
-          .ir-resume-info {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            flex: 1;
-            min-width: 200px;
-          }
-
-          .ir-resume-name {
-            font-weight: 500;
-            word-break: break-all;
-          }
-
-          .ir-upload-time {
-            font-size: 12px;
-            color: #777;
-          }
-            .ir-upload-button{
-            margin-left: 10px;
-            padding: 8px 16px;
-            background-color:rgba(77, 255, 92, 0.83);
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            white-space: nowrap;
-            }
-
-          .ir-remove-button {
-            margin-left: 10px;
-            padding: 8px 16px;
-            background-color: #FF4D4D;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            white-space: nowrap;
-          }
-
-          .ir-remove-button:hover {
-            background-color: #ff3333;
-          }
-
-          .ir-remove-button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-          }
-
-          .ir-no-resumes {
-            color: #555;
-            text-align: center;
-            padding: 20px;
-          }
-
-          @media screen and (max-width: 768px) {
-            .ir-container {
-              padding: 15px;
-            }
-
-            .ir-upload-section {
-              flex-direction: column;
-              gap: 15px;
-            }
-
-            .ir-instructions, .ir-upload-box {
-              flex: none;
-              width: 100%;
-            }
-
-            .ir-main-title {
-              font-size: 1.25rem;
-            }
-
-            .ir-instructions-title {
-              font-size: 18px;
-            }
-          }
-
-          @media screen and (max-width: 480px) {
-            .ir-container {
-              padding: 10px;
-            }
-
-            .ir-resume-item {
-              flex-direction: column;
-              align-items: flex-start;
-            }
-
-            .ir-remove-button {
-              margin-left: 0;
-              width: 100%;
-              text-align: center;
-            }
-
-            .ir-upload-time {
-              font-size: 11px;
-            }
-          }
-        `}
-      </style>
+      {/* <p className="ir-resumes-uploaded">Resume Uploaded successfully</p> */}
     </div>
   );
 };

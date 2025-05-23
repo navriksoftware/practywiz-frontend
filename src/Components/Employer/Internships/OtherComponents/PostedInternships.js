@@ -53,27 +53,32 @@ const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
   }, [internshipList, searchQuery]);
 
   const handleStatusChange = async (id, newStatus) => {
-    await axios
-      .post(`${url}api/v1/employer/internship/status-internship`, {
-        status: newStatus,
-        id: id,
-      })
-      .then((res) => {
-        console.log("new data", res.data);
-        toast.success("Status changed Successfully");
-        setInternshipList((prevInternships) => {
-          const updatedList = prevInternships.map((internship) =>
-            internship.id === id
-              ? { ...internship, status: newStatus }
-              : internship
-          );
+    if (newStatus == "open") {
+      newStatus = "closed";
+      toast.error("Once Internship closed It can't be Open again");
+    } else {
+      await axios
+        .post(`${url}api/v1/employer/internship/status-internship`, {
+          status: newStatus,
+          id: id,
+        })
+        .then((res) => {
+          console.log("new data", res.data);
+          toast.success("Status changed Successfully");
+          setInternshipList((prevInternships) => {
+            const updatedList = prevInternships.map((internship) =>
+              internship.id === id
+                ? { ...internship, status: newStatus }
+                : internship
+            );
 
-          return updatedList;
+            return updatedList;
+          });
+        })
+        .catch((error) => {
+          toast.error("Something went Wrong.");
         });
-      })
-      .catch((error) => {
-        toast.error("Something went Wrong.");
-      });
+    }
   };
 
   const updateStatusInDb = async (id, newStatus) => {};
