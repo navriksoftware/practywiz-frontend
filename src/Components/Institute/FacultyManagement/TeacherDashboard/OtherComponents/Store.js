@@ -5,6 +5,7 @@ import { ApiURL } from "../../../../../Utils/ApiURL";
 import CaseStudyCard from "./CaseStudyCard";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import CaseRequestForm from "./CaseRequestForm";
 
 const Store = ({ userdata, setActivePage }) => {
   // State for case studies data and filters
@@ -15,6 +16,8 @@ const Store = ({ userdata, setActivePage }) => {
   const [CaseType, setCaseType] = useState("practywiz");
   const [loading, setLoading] = useState(false);
   const facultydata = useSelector((state) => state.faculty.facultyDtls);
+
+  const [isCaseReqFormOpem, setCaseReqFormOpem] = useState(false);
 
   localStorage.setItem("caseType", CaseType);
 
@@ -130,6 +133,14 @@ const Store = ({ userdata, setActivePage }) => {
 
   const handleTabChange = (tab) => {
     setCaseType(tab);
+  };
+
+  const openPopup = () => {
+    setCaseReqFormOpem(true);
+  };
+
+  const closePopup = () => {
+    setCaseReqFormOpem(false);
   };
 
   // Apply filters and sorting whenever filter values change
@@ -306,7 +317,10 @@ const Store = ({ userdata, setActivePage }) => {
           </div>
 
           {/* Search and Sort Container */}
-          <div style={{ display: "flex", gap: "15px" }}>
+          <div
+            className="store-case-filter-tabs"
+            style={{ display: "flex", gap: "15px" }}
+          >
             {/* Search Input */}
             <div className="store-case-search">
               <input
@@ -329,7 +343,7 @@ const Store = ({ userdata, setActivePage }) => {
 
             {/* Sort Dropdown */}
             <div className="store-case-sort">
-              <div className="store-case-dropdown">
+              {/* <div className="store-case-dropdown">
                 <button className="store-case-dropbtn">
                   {sortOrder === "newest" ? "Newest First" : "Oldest First"}
                   <i className="fa fa-chevron-down"></i>
@@ -348,6 +362,20 @@ const Store = ({ userdata, setActivePage }) => {
                     Oldest First
                   </button>
                 </div>
+              </div> */}
+              <div className="store-case-request-container">
+                <button
+                  className="store-case-request-btn"
+                  onClick={() => {
+                    setCaseReqFormOpem(true);
+                  }}
+                >
+                  <i className="fa-solid fa-plus"></i> Request Case
+                </button>
+                <CaseRequestForm
+                  isOpen={isCaseReqFormOpem}
+                  onClose={closePopup}
+                />
               </div>
             </div>
           </div>

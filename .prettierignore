@@ -1,0 +1,21 @@
+# Build outputs
+build/
+dist/
+
+# Dependencies
+node_modules/
+
+# Generated files
+coverage/
+*.min.js
+*.min.css
+
+# Configuration files
+package-lock.json
+yarn.lock
+
+# Public assets
+public/
+
+# Generated HTML
+*.html

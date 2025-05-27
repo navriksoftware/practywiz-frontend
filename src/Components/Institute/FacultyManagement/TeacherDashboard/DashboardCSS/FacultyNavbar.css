@@ -7,7 +7,7 @@
 }
 
 .faculty-navbar-new-nav-bar-comp.sticky {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -363,7 +363,7 @@
 
   .faculty-navbar-mobile-menu.active {
     display: block;
-    animation: fadeIn 0.3s ease forwards;
+    animation: navbar-fadeIn 0.3s ease forwards;
   }
 
   .faculty-navbar-mobile-menu.active .faculty-navbar-mobile-menu-content {
@@ -394,7 +394,7 @@
   }
 }
 
-@keyframes fadeIn {
+@keyframes navbar-fadeIn {
   from {
     background-color: rgba(0, 0, 0, 0);
     backdrop-filter: blur(0px);

@@ -120,6 +120,20 @@
   font-weight: 500;
 }
 
+.store-case-request-btn {
+  padding: 11px 20px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.store-case-request-btn:hover {
+  background-color: #1d4ed8;
+}
+
 /* Clear filters button */
 .case-clear-btn {
   background: none;
@@ -379,7 +393,6 @@
   }
 }
 
-
 /* new */
 
 /* Filter container styles */
@@ -454,6 +467,8 @@
 /* Sort dropdown styles */
 .store-case-sort {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .store-case-dropdown {
@@ -540,12 +555,13 @@
   .store-case-sort {
     width: 100%;
   }
-
+  .store-case-filter-tabs {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 480px) {
   .store-case-tabs {
     flex-direction: column;
   }
-
 }

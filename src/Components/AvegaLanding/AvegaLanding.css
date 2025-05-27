@@ -1,0 +1,1171 @@
+.avega-theme {
+  --primary-color: #2563eb;
+  /* PractyWiz indigo/purple */
+  --secondary-color: #f59e0b; /* PractyWiz amber/orange */
+  --accent-color: #10b981; /* PractyWiz emerald/green */
+  --background-gradient-start: #eef2ff; /* Light indigo */
+  --background-gradient-end: #ecfdf5; /* Light emerald */
+  --button-background: #6366f1; /* PractyWiz primary */
+  --button-text: #ffffff;
+  --card-background: #ffffff;
+  --border-radius: 12px;
+  --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --section-spacing: 100px;
+}
+
+.avega-page-background {
+  background: linear-gradient(
+    135deg,
+    var(--background-gradient-start),
+    var(--background-gradient-end)
+  );
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: #333;
+}
+
+/* Container */
+.avega-landing-page-new-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+  padding-top: 5rem;
+}
+
+/* Header */
+.avega-landing-page-new-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.avega-landing-page-new-logo {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.avega-landing-page-new-nav {
+  display: flex;
+  gap: 30px;
+}
+
+.avega-landing-page-new-nav-item {
+  cursor: pointer;
+  font-size: 15px;
+  position: relative;
+}
+
+.avega-landing-page-new-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.avega-landing-page-new-dropdown-arrow {
+  font-size: 10px;
+}
+
+.avega-landing-page-new-sign-in {
+  background: transparent;
+  border: 1px solid var(--primary-color);
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--primary-color);
+}
+
+.avega-landing-page-new-sign-in:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Hero Section */
+.avega-landing-page-new-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 0;
+  position: relative;
+}
+
+.avega-landing-page-new-content {
+  flex: 1;
+  max-width: 500px;
+}
+
+.avega-landing-page-new-title {
+  font-size: 42px;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  font-weight: 700;
+}
+
+.avega-landing-page-new-ai-text {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.avega-landing-page-new-description {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.avega-landing-page-new-cta-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.avega-landing-page-new-start-button {
+  background: var(--primary-color);
+  color: var(--button-text);
+  border: none;
+  border-radius: 30px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.avega-landing-page-new-start-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+  background: #5254d3;
+}
+
+.avega-landing-page-new-secondary-button {
+  background: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 30px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.avega-landing-page-new-secondary-button:hover {
+  background: rgba(99, 102, 241, 0.1);
+  transform: translateY(-2px);
+}
+
+.avega-landing-page-new-tertiary-button {
+  background: transparent;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.avega-landing-page-new-tertiary-button:hover {
+  background: rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Image Section */
+.avega-landing-page-new-image-container {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 500px;
+}
+
+.avega-landing-page-new-background-circle {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.2),
+    rgba(16, 185, 129, 0.2)
+  );
+  z-index: 0;
+}
+
+.avega-landing-page-new-person-image {
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+}
+
+/* Speech Card */
+.avega-landing-page-new-speech-card {
+  position: absolute;
+  top: 80px;
+  right: 50px;
+  background: var(--card-background);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  box-shadow: var(--box-shadow);
+  z-index: 2;
+  min-width: 150px;
+}
+
+.avega-landing-page-new-speech-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.avega-landing-page-new-speech-value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+.avega-landing-page-new-speech-icon {
+  color: var(--primary-color);
+  font-size: 20px;
+}
+
+/* Feedback Card */
+.avega-landing-page-new-feedback-card {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  background: var(--card-background);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  box-shadow: var(--box-shadow);
+  z-index: 2;
+  min-width: 250px;
+}
+
+.avega-landing-page-new-feedback-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.avega-landing-page-new-feedback-content {
+  display: flex;
+  gap: 10px;
+}
+
+.avega-landing-page-new-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avega-landing-page-new-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avega-landing-page-new-feedback-text {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* Section Header */
+.avega-landing-page-new-section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.avega-landing-page-new-section-header h2 {
+  font-size: 36px;
+  margin-bottom: 16px;
+  color: var(--primary-color);
+}
+
+.avega-landing-page-new-section-header p {
+  font-size: 18px;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Who It's For Section */
+.avega-landing-page-new-who-its-for {
+  padding: var(--section-spacing) 0;
+}
+
+.avega-landing-page-new-audience-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.avega-landing-page-new-audience-card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+
+.avega-landing-page-new-audience-card:hover {
+  transform: translateY(-5px);
+}
+
+.avega-landing-page-new-audience-icon {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.avega-landing-page-new-audience-card h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+.avega-landing-page-new-audience-card p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Features Section */
+.avega-landing-page-new-features {
+  padding: var(--section-spacing) 0;
+}
+
+.avega-landing-page-new-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.avega-landing-page-new-feature-card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s ease;
+}
+
+.avega-landing-page-new-feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.avega-landing-page-new-feature-icon {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.avega-landing-page-new-feature-card h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+.avega-landing-page-new-feature-list {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.avega-landing-page-new-feature-list li {
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 10px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.avega-landing-page-new-feature-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+/* Case Study Types Section */
+.avega-landing-page-new-case-types {
+  padding: var(--section-spacing) 0;
+}
+
+.avega-landing-page-new-case-types-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.avega-landing-page-new-case-type-card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s ease;
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.avega-landing-page-new-case-type-card:hover {
+  transform: translateY(-5px);
+}
+
+.avega-landing-page-new-case-type-card h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+.avega-landing-page-new-case-type-card p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.avega-landing-page-new-case-type-features {
+  list-style: none;
+}
+
+.avega-landing-page-new-case-type-features li {
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.avega-landing-page-new-case-type-features li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+/* For Faculty Section */
+.avega-landing-page-new-for-faculty {
+  padding: var(--section-spacing) 0;
+  background: rgba(99, 102, 241, 0.05);
+  margin: 0 -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.avega-landing-page-new-faculty-features {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.avega-landing-page-new-faculty-image {
+  flex: 1;
+  min-width: 300px;
+}
+
+.avega-landing-page-new-dashboard-image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.avega-landing-page-new-faculty-content {
+  flex: 1;
+  min-width: 300px;
+}
+
+.avega-landing-page-new-faculty-list {
+  list-style: none;
+  margin-bottom: 30px;
+}
+
+.avega-landing-page-new-faculty-list li {
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #333;
+}
+
+.avega-landing-page-new-faculty-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.avega-landing-page-new-faculty-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.avega-landing-page-new-faculty-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+  background: #5254d3;
+}
+
+/* For Students Section */
+.avega-landing-page-new-for-students {
+  padding: var(--section-spacing) 0;
+}
+
+.avega-landing-page-new-student-features {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.avega-landing-page-new-student-content {
+  flex: 1;
+  min-width: 300px;
+}
+
+.avega-landing-page-new-student-image {
+  flex: 1;
+  min-width: 300px;
+}
+
+.avega-landing-page-new-student-list {
+  list-style: none;
+  margin-bottom: 30px;
+}
+
+.avega-landing-page-new-student-list li {
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #333;
+}
+
+.avega-landing-page-new-student-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.avega-landing-page-new-student-button {
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.avega-landing-page-new-student-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(245, 158, 11, 0.2);
+  background: #e69009;
+}
+
+/* Flexible Section */
+.avega-landing-page-new-flexible {
+  padding: var(--section-spacing) 0;
+  background: rgba(16, 185, 129, 0.05);
+  margin: 0 -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.avega-landing-page-new-flexible-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.avega-landing-page-new-flexible-card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--box-shadow);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.avega-landing-page-new-flexible-card:hover {
+  transform: translateY(-5px);
+}
+
+.avega-landing-page-new-flexible-icon {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.avega-landing-page-new-flexible-card p {
+  color: #333;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* How It Works Section */
+.avega-landing-page-new-how-it-works {
+  padding: var(--section-spacing) 0;
+}
+
+.avega-landing-page-new-steps {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.avega-landing-page-new-step {
+  text-align: center;
+  flex: 1;
+  min-width: 150px;
+  margin-bottom: 30px;
+}
+
+.avega-landing-page-new-step-number {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 auto 20px;
+}
+
+.avega-landing-page-new-step h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+.avega-landing-page-new-step p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.avega-landing-page-new-step-connector {
+  height: 2px;
+  background: #ddd;
+  flex: 1;
+  max-width: 50px;
+  margin: 0 10px;
+  align-self: center;
+}
+
+/* Resources Section */
+.avega-landing-page-new-resources {
+  padding: var(--section-spacing) 0;
+}
+
+.avega-landing-page-new-resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.avega-landing-page-new-resource-card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--box-shadow);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.avega-landing-page-new-resource-card:hover {
+  transform: translateY(-5px);
+}
+
+.avega-landing-page-new-resource-icon {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.avega-landing-page-new-resource-card h3 {
+  font-size: 18px;
+  color: var(--primary-color);
+  line-height: 1.4;
+}
+
+/* Testimonials Section */
+.avega-landing-page-new-testimonials {
+  padding: var(--section-spacing) 0;
+}
+
+.avega-landing-page-new-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.avega-landing-page-new-testimonial-card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--box-shadow);
+}
+
+.avega-landing-page-new-testimonial-content {
+  margin-bottom: 20px;
+}
+
+.avega-landing-page-new-testimonial-content p {
+  font-style: italic;
+  line-height: 1.6;
+  color: #555;
+}
+
+.avega-landing-page-new-testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.avega-landing-page-new-testimonial-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avega-landing-page-new-testimonial-info h4 {
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: var(--primary-color);
+}
+
+.avega-landing-page-new-testimonial-info p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* CTA Section */
+.avega-landing-page-new-cta {
+  padding: var(--section-spacing) 0;
+  text-align: center;
+}
+
+.avega-landing-page-new-cta-content {
+  background: linear-gradient(135deg, var(--primary-color), #4f46e5);
+  border-radius: var(--border-radius);
+  padding: 60px;
+  color: white;
+  box-shadow: var(--box-shadow);
+}
+
+.avega-landing-page-new-cta-content h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.avega-landing-page-new-cta-content p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.9;
+}
+
+.avega-landing-page-new-cta-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.avega-landing-page-new-cta-button {
+  background: white;
+  color: var(--primary-color);
+  border: none;
+  border-radius: 30px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.avega-landing-page-new-cta-button:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.avega-landing-page-new-cta-button-secondary {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid white;
+  border-radius: 30px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.avega-landing-page-new-cta-button-secondary:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.avega-landing-page-new-cta-button-tertiary {
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 30px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.avega-landing-page-new-cta-button-tertiary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Footer */
+.avega-landing-page-new-footer {
+  background: white;
+  padding: 80px 0 30px;
+  margin-top: 50px;
+}
+
+.avega-landing-page-new-footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 50px;
+}
+
+.avega-landing-page-new-footer-logo {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.avega-landing-page-new-footer-description {
+  color: #666;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.avega-landing-page-new-social-links {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.avega-landing-page-new-social-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.avega-landing-page-new-social-link:hover {
+  color: #4f46e5;
+}
+
+.avega-landing-page-new-footer-column h3 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+.avega-landing-page-new-footer-links {
+  list-style: none;
+}
+
+.avega-landing-page-new-footer-links li {
+  margin-bottom: 10px;
+}
+
+.avega-landing-page-new-footer-links a {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.avega-landing-page-new-footer-links a:hover {
+  color: var(--primary-color);
+}
+
+.avega-landing-page-new-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+}
+
+.avega-landing-page-new-footer-bottom p {
+  color: #666;
+  font-size: 14px;
+}
+
+.avega-landing-page-new-footer-legal {
+  display: flex;
+  gap: 20px;
+}
+
+.avega-landing-page-new-footer-legal a {
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.avega-landing-page-new-footer-legal a:hover {
+  color: var(--primary-color);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .avega-landing-page-new-hero {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+  }
+
+  .avega-landing-page-new-content {
+    max-width: 100%;
+  }
+
+  .avega-landing-page-new-image-container {
+    width: 100%;
+  }
+
+  .avega-landing-page-new-cta-buttons {
+    justify-content: center;
+  }
+
+  .avega-landing-page-new-faculty-features,
+  .avega-landing-page-new-student-features {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .avega-landing-page-new-faculty-list,
+  .avega-landing-page-new-student-list {
+    text-align: left;
+  }
+
+  .avega-landing-page-new-steps {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .avega-landing-page-new-step-connector {
+    width: 2px;
+    height: 30px;
+    margin: 0;
+  }
+
+  .avega-landing-page-new-footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .avega-landing-page-new-nav {
+    display: none;
+  }
+
+  .avega-landing-page-new-speech-card,
+  .avega-landing-page-new-feedback-card {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin: 10px auto;
+  }
+
+  .avega-landing-page-new-image-container {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+
+  .avega-landing-page-new-background-circle {
+    width: 300px;
+    height: 300px;
+  }
+
+  .avega-landing-page-new-footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .avega-landing-page-new-footer-bottom {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .avega-landing-page-new-cta-content {
+    padding: 40px 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .avega-landing-page-new-title {
+    font-size: 32px;
+  }
+
+  .avega-landing-page-new-section-header h2 {
+    font-size: 28px;
+  }
+
+  .avega-landing-page-new-cta-content h2 {
+    font-size: 28px;
+  }
+
+  .avega-landing-page-new-cta-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .avega-landing-page-new-cta-button,
+  .avega-landing-page-new-cta-button-secondary,
+  .avega-landing-page-new-cta-button-tertiary {
+    width: 100%;
+  }
+}
+
+/* Microinteractions */
+.avega-landing-page-new-nav-item {
+  position: relative;
+}
+
+.avega-landing-page-new-nav-item::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.avega-landing-page-new-nav-item:hover::after {
+  width: 100%;
+}
+
+.avega-landing-page-new-start-button,
+.avega-landing-page-new-secondary-button,
+.avega-landing-page-new-tertiary-button,
+.avega-landing-page-new-sign-in,
+.avega-landing-page-new-faculty-button,
+.avega-landing-page-new-student-button,
+.avega-landing-page-new-cta-button,
+.avega-landing-page-new-cta-button-secondary,
+.avega-landing-page-new-cta-button-tertiary {
+  position: relative;
+  overflow: hidden;
+}
+
+.avega-landing-page-new-start-button::after,
+.avega-landing-page-new-secondary-button::after,
+.avega-landing-page-new-tertiary-button::after,
+.avega-landing-page-new-sign-in::after,
+.avega-landing-page-new-faculty-button::after,
+.avega-landing-page-new-student-button::after,
+.avega-landing-page-new-cta-button::after,
+.avega-landing-page-new-cta-button-secondary::after,
+.avega-landing-page-new-cta-button-tertiary::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
+}
+
+.avega-landing-page-new-start-button:active::after,
+.avega-landing-page-new-secondary-button:active::after,
+.avega-landing-page-new-tertiary-button:active::after,
+.avega-landing-page-new-sign-in:active::after,
+.avega-landing-page-new-faculty-button:active::after,
+.avega-landing-page-new-student-button:active::after,
+.avega-landing-page-new-cta-button:active::after,
+.avega-landing-page-new-cta-button-secondary:active::after,
+.avega-landing-page-new-cta-button-tertiary:active::after {
+  width: 300px;
+  height: 300px;
+  opacity: 1;
+}
+
+.avega-landing-page-new-audience-card,
+.avega-landing-page-new-feature-card,
+.avega-landing-page-new-case-type-card,
+.avega-landing-page-new-flexible-card,
+.avega-landing-page-new-testimonial-card,
+.avega-landing-page-new-resource-card {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    box-shadow 0.3s ease;
+}
+
+.avega-landing-page-new-audience-card:hover,
+.avega-landing-page-new-feature-card:hover,
+.avega-landing-page-new-case-type-card:hover,
+.avega-landing-page-new-flexible-card:hover,
+.avega-landing-page-new-testimonial-card:hover,
+.avega-landing-page-new-resource-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.avega-landing-page-new-step-number {
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.avega-landing-page-new-step:hover .avega-landing-page-new-step-number {
+  transform: scale(1.1);
+  background-color: #5254d3;
+}
+
+.avega-landing-page-new-speech-card,
+.avega-landing-page-new-feedback-card {
+  transition: transform 0.3s ease;
+}
+
+.avega-landing-page-new-speech-card:hover,
+.avega-landing-page-new-feedback-card:hover {
+  transform: translateY(-5px);
+}
