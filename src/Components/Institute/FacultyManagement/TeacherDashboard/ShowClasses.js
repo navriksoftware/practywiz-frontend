@@ -34,6 +34,36 @@ const ClassCard = ({
     setDropdownVisible(false);
   };
 
+  const url = ApiURL();
+  const handleClassDelete =async () => {
+    // Implement class deletion logic here
+    console.log(`Deleting class with ID: ${class_dtls_id}`);
+    try {
+     
+      // dispatch(showLoadingHandler());
+      const response = await Promise.race([
+        axios.post(`${url}api/v1/faculty/class/delete-class`, {
+          classId:class_dtls_id
+        }),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Request timed out")), 45000)
+        ),
+      ]);
+
+      if (response.data.success) {
+       
+      } else {
+       
+      }
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      
+      // dispatch(hideLoadingHandler());
+    }
+
+  }
+
   return (
     <div
       className="showclasses-card"
@@ -78,7 +108,7 @@ const ClassCard = ({
                 >
                   Edit
                 </div>
-                <div className="showclasses-options-dropdown-item">Delete</div>
+                <div className="showclasses-options-dropdown-item" onClick={handleClassDelete}>Delete</div>
               </div>
             )}
           </div>

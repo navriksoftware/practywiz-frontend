@@ -18,11 +18,11 @@
 }
 
 /* Header styles */
-.single-case-details-view-header {
+/* .single-case-details-view-header {
   margin-bottom: 20px;
   border-bottom: 1px solid #eaeaea;
   padding-bottom: 15px;
-}
+} */
 
 .single-case-details-view-title {
   font-size: 24px;
@@ -35,7 +35,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
 }
 
 .single-case-details-view-course-name {
@@ -170,6 +170,7 @@
 .single-case-details-view-student-list-container {
   background-color: #fff;
   border-radius: 8px;
+  padding: 1rem;
 }
 
 .single-case-details-view-list-header {

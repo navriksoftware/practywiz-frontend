@@ -87,6 +87,7 @@ import TeacherDashboardPage from "./Pages/InstitutePages/TeacherDashboard/Teache
 import SingleAssignedCase from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleAssignedCase";
 import DemoResultPage from "./Pages/CaseStudyPages/DemoResultPage";
 import SingleNonPractywizCaseStudy from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleNonPractywizCaseStudy";
+import SingleStudentAssessmentPage from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleStudentAssessmentPage";
 
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
@@ -280,6 +281,10 @@ function App() {
           <Route
             path="/faculty/dashboard"
             element={<TeacherDashboardPage user={user} token={token} />}
+          />
+          <Route
+            path="/faculty/Single-Student-Assessment-Page/mentee/:Mid/assignedCase/:ACid"
+            element={<SingleStudentAssessmentPage />}
           />
           {/* teacher dashboard end */}
 

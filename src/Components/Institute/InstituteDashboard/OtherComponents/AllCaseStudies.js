@@ -86,7 +86,7 @@ const instituteId = formData[0]?.institute_dtls_id;
             // First filter by search term
             let filtered = allCaseStudiesData.filter((caseStudy) => {
                 const matchesSearch = searchTerm
-                    ? caseStudy.caseTopic.toLowerCase().includes(searchTerm.toLowerCase())
+                    ? caseStudy.case_study_title.toLowerCase().includes(searchTerm.toLowerCase())
                     : true;
 
                 return matchesSearch;

@@ -590,6 +590,7 @@ const ActiveCaseStudies = ({ setActivePage }) => {
                     localStorage.setItem("caseStudyId", caseStudy.case_id);
                     localStorage.setItem("ClassId", caseStudy.class_id);
                     localStorage.setItem("caseType", caseStudy.case_type);
+                    localStorage.setItem("facultyCaseAssignId", caseStudy.faculty_case_assign_dtls_id);
                     setActivePage("singlecase");
 
                   }}
