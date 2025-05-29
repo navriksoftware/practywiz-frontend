@@ -129,6 +129,14 @@ const Navbar = () => {
                         <li className="nav-item">
                           <Link to="/case-studies">
                             Case Studies
+                            {/* <span className="ai-button">
+                              AI<i className="fas fa-bolt"></i>
+                            </span> */}
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link to="/avega">
+                            Avega
                             <span className="ai-button">
                               AI<i className="fas fa-bolt"></i>
                             </span>
@@ -199,6 +207,14 @@ const Navbar = () => {
                         <li className="nav-item">
                           <Link to="/case-studies">
                             Case Studies
+                            {/* <span className="ai-button">
+                              AI<i className="fas fa-bolt"></i>
+                            </span> */}
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link to="/avega">
+                            Avega
                             <span className="ai-button">
                               AI<i className="fas fa-bolt"></i>
                             </span>
@@ -298,6 +314,20 @@ const Navbar = () => {
                         }}
                       >
                         Case Studies
+                        {/* <span className="ai-button">
+                          AI<i className="fas fa-bolt"></i>
+                        </span> */}
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a
+                        className="nav-link"
+                        href="/avega"
+                        onMouseOver={() => {
+                          setmenutoggle(false);
+                        }}
+                      >
+                        Avega{" "}
                         <span className="ai-button">
                           AI<i className="fas fa-bolt"></i>
                         </span>

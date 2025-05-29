@@ -88,6 +88,7 @@ import SingleAssignedCase from "./Components/Institute/FacultyManagement/Teacher
 import DemoResultPage from "./Pages/CaseStudyPages/DemoResultPage";
 import SingleNonPractywizCaseStudy from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleNonPractywizCaseStudy";
 import SingleStudentAssessmentPage from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleStudentAssessmentPage";
+import AvegaLandingPage from "./Pages/OtherLandingPages/AvegaLandingPage";
 
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
@@ -107,11 +108,18 @@ function App() {
       <Router>
         <Routes>
           <Route path="/image/test" element={<Test />} />
-          <Route path="/result/:menteeId/:caseStudyId" element={<DemoResultPage />} />
-          <Route path="/case-study/:id" element={<SingleNonPractywizCaseStudy />} />
-          <Route path="/case-study" element={<SingleNonPractywizCaseStudy />} /> {/* Default route without ID */}
-
+          <Route
+            path="/result/:menteeId/:caseStudyId"
+            element={<DemoResultPage />}
+          />
+          <Route
+            path="/case-study/:id"
+            element={<SingleNonPractywizCaseStudy />}
+          />
+          <Route path="/case-study" element={<SingleNonPractywizCaseStudy />} />{" "}
+          {/* Default route without ID */}
           <Route path="/" exact element={<Homepage />} />
+          <Route path="/avega" exact element={<AvegaLandingPage />} />
           <Route path="/aboutus" exact element={<AboutusPage />} />
           <Route path="/contact" exact element={<ContactusPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
@@ -276,7 +284,6 @@ function App() {
           />
           <Route path="/simulation" element={<SimulationPage />} />
           <Route path="/cart" element={<Cart user={user} token={token} />} />
-
           {/* teacher dashboard start */}
           <Route
             path="/faculty/dashboard"
@@ -287,7 +294,6 @@ function App() {
             element={<SingleStudentAssessmentPage />}
           />
           {/* teacher dashboard end */}
-
           {/* internship section start */}
           <Route
             path="/employer/dashboard"
@@ -332,7 +338,6 @@ function App() {
             element={<ApplicationsReceivedPage />}
           />
           {/* internship end */}
-
           <Route path="/legal/terms" element={<TermsConditionsPage />} />
           <Route path="/legal/privacy-policy" element={<PrivacyPolicyPage />} />
         </Routes>
