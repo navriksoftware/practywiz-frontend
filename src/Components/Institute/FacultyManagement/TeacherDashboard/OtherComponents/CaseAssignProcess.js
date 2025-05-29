@@ -4,13 +4,70 @@ import "../DashboardCSS/CaseAssignProcess.css";
 import ConfigureCasePopup from "./ConfigureCase.js";
 import { ApiURL } from "../../../../../Utils/ApiURL";
 import { useSelector } from "react-redux";
+
+function parseNonPractywizQuestions(nonPractywizCaseQuestion) {
+  if (!nonPractywizCaseQuestion) return [];
+
+  let parsed;
+  try {
+    parsed = JSON.parse(nonPractywizCaseQuestion);
+  } catch (e) {
+    return [];
+  }
+
+  // Old format: Array of questions
+  if (Array.isArray(parsed)) {
+    // Optionally, group by category if you want to show sections
+    const grouped = {};
+    parsed.forEach((q) => {
+      const cat = (q.category || "Other").toLowerCase();
+      if (!grouped[cat]) grouped[cat] = [];
+      grouped[cat].push(q);
+    });
+    return Object.entries(grouped).map(([type, questions]) => ({
+      type,
+      questions,
+    }));
+  }
+
+  // New format: Object with keys
+  if (typeof parsed === "object") {
+    const result = [];
+    if (parsed.factBasedQuestions && Array.isArray(parsed.factBasedQuestions)) {
+      result.push({ type: "Fact Based", questions: parsed.factBasedQuestions });
+    }
+    if (
+      parsed.analysisBasedQuestions &&
+      Array.isArray(parsed.analysisBasedQuestions)
+    ) {
+      result.push({
+        type: "Analysis Based",
+        questions: parsed.analysisBasedQuestions,
+      });
+    }
+    if (
+      parsed.researchBasedQuestions &&
+      Array.isArray(parsed.researchBasedQuestions)
+    ) {
+      result.push({
+        type: "Research Based",
+        questions: parsed.researchBasedQuestions,
+      });
+    }
+    return result;
+  }
+
+  return [];
+}
 const CaseAssigneProcess = () => {
   const classid = localStorage.getItem("clickedClassId"); //class id from local storage
   const caseStudyId = localStorage.getItem("caseStudyId"); //case study id from local storage
   const caseType = localStorage.getItem("caseType") === "practywiz" ? 1 : 0;
-  const facultyID = useSelector((state) => state.faculty.facultyDtls.faculty_id);
-  const [casestudyDetails, setcasestudyDetails] = useState([])
-  const [classDetails, setClassDetails] = useState([]) // State to store class details
+  const facultyID = useSelector(
+    (state) => state.faculty.facultyDtls.faculty_id
+  );
+  const [casestudyDetails, setcasestudyDetails] = useState([]);
+  const [classDetails, setClassDetails] = useState([]); // State to store class details
 
   // Fetch case studies data
   const url = ApiURL();
@@ -28,17 +85,25 @@ const CaseAssigneProcess = () => {
       try {
         const [caseStudyRes, classListRes] = await Promise.all([
           fetchWithTimeout(
-            axios.post(`${url}api/v1/faculty/case-studies/fetch-caseData`, { caseStudyId, caseType })
+            axios.post(`${url}api/v1/faculty/case-studies/fetch-caseData`, {
+              caseStudyId,
+              caseType,
+            })
           ),
           fetchWithTimeout(
-            axios.post(`${url}api/v1/faculty/case-studies/fetch-classlist`, { facultyID })
+            axios.post(`${url}api/v1/faculty/case-studies/fetch-classlist`, {
+              facultyID,
+            })
           ),
         ]);
 
         // Handle case study response
         if (caseStudyRes.data?.success) {
           setcasestudyDetails(caseStudyRes.data.success[0]);
-          console.log("Case studies fetched successfully:", caseStudyRes.data.success);
+          console.log(
+            "Case studies fetched successfully:",
+            caseStudyRes.data.success
+          );
         } else {
           setcasestudyDetails([]);
           console.warn("No case studies found.");
@@ -47,12 +112,14 @@ const CaseAssigneProcess = () => {
         // Handle class list response
         if (classListRes.data?.success) {
           setClassDetails(classListRes.data.success);
-          console.log("Class list fetched successfully:", classListRes.data.success);
+          console.log(
+            "Class list fetched successfully:",
+            classListRes.data.success
+          );
         } else {
           setClassDetails([]);
           console.warn("No class list data found.");
         }
-
       } catch (error) {
         // Set both to empty if any request fails
         setcasestudyDetails([]);
@@ -61,7 +128,10 @@ const CaseAssigneProcess = () => {
         if (error.message === "Request timed out") {
           console.error("One of the requests timed out.");
         } else {
-          console.error("An error occurred while fetching data:", error.message);
+          console.error(
+            "An error occurred while fetching data:",
+            error.message
+          );
         }
       }
     };
@@ -80,8 +150,6 @@ const CaseAssigneProcess = () => {
   const [showClassDropdown, setShowClassDropdown] = useState(false);
   const [open, setOpen] = useState(false);
   // const [caseType, setcaseType] = useState(0); //Case Created by: 0 for Practywiz case, 1 for NON-Practywiz case
-
-
 
   // Fetch student of the selected class by id`s
   useEffect(() => {
@@ -164,7 +232,9 @@ const CaseAssigneProcess = () => {
     setselectedClass((prev) => {
       if (prev.includes(class_dtls_id)) {
         // Remove both ID from selected and filter by name
-        setFilters((filters) => filters.filter((filter) => filter.name !== class_name));
+        setFilters((filters) =>
+          filters.filter((filter) => filter.name !== class_name)
+        );
         return prev.filter((id) => id !== class_dtls_id);
       } else {
         const newFilter = {
@@ -177,7 +247,6 @@ const CaseAssigneProcess = () => {
       }
     });
   };
-
 
   // Handle removing a filter
   const removeFilter = (filterId) => {
@@ -230,8 +299,6 @@ const CaseAssigneProcess = () => {
 
   const handleshowNon_PzQuestions = () => {
     alert("This is a Non-Practywiz case study. Questions are not available.");
-
-
   };
 
   return (
@@ -251,24 +318,27 @@ const CaseAssigneProcess = () => {
             </h1>
             <div className="case-assign-to-student-tags">
               {casestudyDetails?.case_study_categories &&
-                JSON.parse(casestudyDetails.case_study_categories).map((tag, index) => (
-                  <span
-                    key={index}
-                    className="case-assign-to-student-tag case-assign-to-student-tag-business"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                JSON.parse(casestudyDetails.case_study_categories).map(
+                  (tag, index) => (
+                    <span
+                      key={index}
+                      className="case-assign-to-student-tag case-assign-to-student-tag-business"
+                    >
+                      {tag}
+                    </span>
+                  )
+                )}
             </div>
             <h2 className="case-assign-to-student-subtitle">Preview Content</h2>
             <p className="case-assign-to-student-description">
-              {casestudyDetails?.case_study_content?.slice(0, 500) + '...'}
+              {casestudyDetails?.case_study_content?.slice(0, 500) + "..."}
               {/* Description of the case study */}
             </p>
             <div className="case-assign-to-student-modules">
               <div className="case-assign-to-student-module">
                 <p>
-                  <strong>Challenge</strong> {casestudyDetails?.case_study_challenge}
+                  <strong>Challenge</strong>{" "}
+                  {casestudyDetails?.case_study_challenge}
                 </p>
               </div>
             </div>
@@ -283,36 +353,56 @@ const CaseAssigneProcess = () => {
               {casestudyDetails?.non_practywiz_case_title}
             </h1>
             <div className="case-assign-to-student-tags">
-              <span
-                className="case-assign-to-student-tag case-assign-to-student-tag-business"
-              >
+              <span className="case-assign-to-student-tag case-assign-to-student-tag-business">
                 {casestudyDetails?.non_practywiz_case_category}
               </span>
             </div>
             <h2 className="case-assign-to-student-subtitle">Author</h2>
             <p className="case-assign-to-student-description">
-              {casestudyDetails?.non_practywiz_case_author} {/* Description of the case study */}
+              {casestudyDetails?.non_practywiz_case_author}{" "}
+              {/* Description of the case study */}
             </p>
-            {casestudyDetails?.non_practywiz_case_question && <div className="Non-practywiz-case-assign-to-student-question">
-               <h2 className="case-assign-to-student-subtitle">Questions</h2>
-                <p>
-               
-                  <ol>
-                    {JSON.parse(casestudyDetails.non_practywiz_case_question).map((q, index) => (
-                      <li key={index}>{q.question}</li>
-                    ))}
-                  </ol>
-                </p>
-             
-            </div>}
+            {casestudyDetails?.non_practywiz_case_question && (
+              <div className="Non-practywiz-case-assign-to-student-question">
+                <h2 className="case-assign-to-student-subtitle">Questions</h2>
+                {parseNonPractywizQuestions(
+                  casestudyDetails.non_practywiz_case_question
+                ).map((section, idx) => (
+                  <div key={idx} style={{ marginBottom: "1em" }}>
+                    <strong>
+                      {section.type.charAt(0).toUpperCase() +
+                        section.type.slice(1)}{" "}
+                      Questions
+                    </strong>
+                    <ol>
+                      {section.questions.map((q, qIdx) => (
+                        <li key={q.id || qIdx}>
+                          {/* Try to support both old and new keys */}
+                          {q.question || q.Question}
+                          {/* Optionally, show options if present */}
+                          {q.options && Array.isArray(q.options) && (
+                            <ul style={{ marginTop: "0.5em" }}>
+                              {q.options.map((opt, optIdx) => (
+                                <li key={optIdx}>{opt}</li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                ))}
+              </div>
+            )}
 
-
-            <button className="case-assign-to-student-view-button" onClick={handleshowNon_PzQuestions}>
+            <button
+              className="case-assign-to-student-view-button"
+              onClick={handleshowNon_PzQuestions}
+            >
               See all Questions
             </button>
           </div>
         )}
-
 
         {/* Right Panel */}
         <div className="case-assign-to-student-right-panel">
@@ -379,7 +469,8 @@ const CaseAssigneProcess = () => {
                 value={selectedClass}
                 onChange={(e) => {
                   setselectedClass(e.target.value);
-                }}>
+                }}
+              >
                 <option value="">Select Class</option>
                 {classDetails?.map((cls) => (
                   <option
@@ -391,9 +482,6 @@ const CaseAssigneProcess = () => {
                   </option>
                 ))}
               </select>
-
-
-
             </div>
 
             {/* <div className="case-assign-to-student-active-filters">
@@ -441,56 +529,61 @@ const CaseAssigneProcess = () => {
               className="case-assign-to-student-table-body"
               style={{ maxHeight: "300px", overflowY: "auto" }}
             >
-
-              {loading ? <div className="loading-container">
-                <div className="loading-spinner"></div>
-                <p>Loading...</p>
-              </div> : <>  {filteredStudents.length > 0 ? (
-                filteredStudents.map((student) => (
-                  <div
-                    key={student.id}
-                    className="case-assign-to-student-table-row"
-                  >
-                    <div className="case-assign-to-student-checkbox-cell">
-                      {/* <input
+              {loading ? (
+                <div className="loading-container">
+                  <div className="loading-spinner"></div>
+                  <p>Loading...</p>
+                </div>
+              ) : (
+                <>
+                  {" "}
+                  {filteredStudents.length > 0 ? (
+                    filteredStudents.map((student) => (
+                      <div
+                        key={student.id}
+                        className="case-assign-to-student-table-row"
+                      >
+                        <div className="case-assign-to-student-checkbox-cell">
+                          {/* <input
                         type="checkbox"
                         checked={selectedStudents.includes(student.id)}
                         onChange={() => handleSelectStudent(student.id)}
                       /> */}
-                    </div>
-                    <div className="case-assign-to-student-name-cell">
-                      {student?.user_firstname}{" "}{student?.user_lastname}
-                    </div>
-                    <div className="case-assign-to-student-id-cell">
-                      {student.mentee_roll_no}
-                    </div>
-                    <div className="case-assign-to-student-class-cell">
-                      {student.class_name}
-                    </div>
-                    <div className="case-assign-to-student-email-cell">
-                      {student.user_email}
-                    </div>
-                    {/* <div className="case-assign-to-student-action-cell">
+                        </div>
+                        <div className="case-assign-to-student-name-cell">
+                          {student?.user_firstname} {student?.user_lastname}
+                        </div>
+                        <div className="case-assign-to-student-id-cell">
+                          {student.mentee_roll_no}
+                        </div>
+                        <div className="case-assign-to-student-class-cell">
+                          {student.class_name}
+                        </div>
+                        <div className="case-assign-to-student-email-cell">
+                          {student.user_email}
+                        </div>
+                        {/* <div className="case-assign-to-student-action-cell">
                       <i
                         className="fa-solid fa-trash case-assign-to-student-delete-icon"
                         onClick={() => deleteStudent(student.id)}
                       />
                     </div> */}
-                  </div>
-                ))
-              ) : (
-                <div className="case-assign-to-student-no-students">
-                  No students match the current filters.
-                </div>
-              )}</>}
-
+                      </div>
+                    ))
+                  ) : (
+                    <div className="case-assign-to-student-no-students">
+                      No students match the current filters.
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </div>
 
           <div className="case-assign-to-student-table-footer">
             <div className="case-assign-to-student-selection-info">
-              Total students : {filteredStudents.length}            </div>
-
+              Total students : {filteredStudents.length}{" "}
+            </div>
 
             <button
               className="case-assign-to-student-assign-button"
@@ -499,14 +592,17 @@ const CaseAssigneProcess = () => {
               Assign Case Study
             </button>
             {open && (
-              <ConfigureCasePopup setOpen={setOpen} caseType={caseType} caseStudyId={caseStudyId} facultyID={facultyID} selectedClass={selectedClass} />
+              <ConfigureCasePopup
+                setOpen={setOpen}
+                caseType={caseType}
+                caseStudyId={caseStudyId}
+                facultyID={facultyID}
+                selectedClass={selectedClass}
+              />
             )}
           </div>
         </div>
       </div>
-
-
-
     </div>
   );
 };
