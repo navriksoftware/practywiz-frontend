@@ -269,10 +269,7 @@ const Store = ({ userdata, setActivePage }) => {
   return (
     <>
       <div className="case-study-display-container">
-        <div
-          className="store-case-filter-container"
-          style={{ justifyContent: "space-between" }}
-        >
+        <div className="store-case-filter-container">
           {/* Tab Selection */}
           <div className="store-case-tabs">
             <button
@@ -284,13 +281,6 @@ const Store = ({ userdata, setActivePage }) => {
                 backgroundColor:
                   CaseType === "practywiz" ? "#2563eb" : "#f1f5f9",
                 color: CaseType === "practywiz" ? "white" : "#333",
-                border: "none",
-                borderRadius: "6px",
-                padding: "10px 20px",
-                fontWeight: "500",
-                cursor: "pointer",
-                marginRight: "10px",
-                transition: "all 0.3s ease",
               }}
             >
               PRACTYWIZ CASE
@@ -317,10 +307,7 @@ const Store = ({ userdata, setActivePage }) => {
           </div>
 
           {/* Search and Sort Container */}
-          <div
-            className="store-case-filter-tabs"
-            style={{ display: "flex", gap: "15px" }}
-          >
+          <div className="store-case-filter-tabs">
             {/* Search Input */}
             <div className="store-case-search">
               <input

@@ -321,9 +321,6 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   //   );
   // }
 
-
-
-
   return (
     <div className="teacher-profile-home-page-container">
       <div className="teacher-profile-home-page-header">
@@ -395,8 +392,9 @@ const ActiveCaseStudies = ({ setActivePage }) => {
               {casesDueThisWeek}
             </h2>
             <p
-              className={`teacher-profile-home-page-metric-change ${casesDueThisWeek > 0 ? "negative" : "positive"
-                }`}
+              className={`teacher-profile-home-page-metric-change ${
+                casesDueThisWeek > 0 ? "negative" : "positive"
+              }`}
             >
               {casesDueThisWeek > 0 ? "Urgent" : "None urgent"}
             </p>
@@ -437,7 +435,10 @@ const ActiveCaseStudies = ({ setActivePage }) => {
 
       <div className="teacher-profile-home-page-filters">
         <div className="teacher-profile-home-page-filter-label">
-          <i className="fa-solid fa-filter" /> Filters:
+          <i className="fa-solid fa-filter " />{" "}
+          <span class="teacher-profile-home-page-filter-label-data">
+            Filters:
+          </span>
         </div>
         <div className="teacher-profile-home-page-filter-dropdowns">
           <select
@@ -494,8 +495,9 @@ const ActiveCaseStudies = ({ setActivePage }) => {
             >
               <div className="teacher-profile-home-page-case-case-type">
                 <span
-                  className={`teacher-profile-home-page-case-case-type-tag ${caseStudy?.case_type?.toLowerCase() || ""
-                    }`}
+                  className={`teacher-profile-home-page-case-case-type-tag ${
+                    caseStudy?.case_type?.toLowerCase() || ""
+                  }`}
                 >
                   {caseStudy.case_type || "Unknown"}
                 </span>
@@ -586,15 +588,12 @@ const ActiveCaseStudies = ({ setActivePage }) => {
               <div className="teacher-profile-home-page-case-footer">
                 <button
                   onClick={() => {
-                    
                     localStorage.setItem("caseStudyId", caseStudy.case_id);
                     localStorage.setItem("ClassId", caseStudy.class_id);
                     localStorage.setItem("caseType", caseStudy.case_type);
                     localStorage.setItem("facultyCaseAssignId", caseStudy.faculty_case_assign_dtls_id);
                     setActivePage("singlecase");
-
                   }}
-
                   className="teacher-profile-home-page-view-details"
                 >
                   View Case Study
@@ -612,9 +611,8 @@ const ActiveCaseStudies = ({ setActivePage }) => {
               : "No cases assigned yet."}
           </p>
         </div>
-      )
-      }
-    </div >
+      )}
+    </div>
   );
 };
 

@@ -20,6 +20,7 @@ const ChangePassword = ({ user, token }) => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     mode: "onBlur",
@@ -49,7 +50,9 @@ const ChangePassword = ({ user, token }) => {
       ]);
       if (response.data.success) {
         dispatch(hideLoadingHandler());
+
         toast.success("Password change successfully");
+        reset();
       }
       if (response.data.error) {
         dispatch(hideLoadingHandler());
@@ -69,7 +72,7 @@ const ChangePassword = ({ user, token }) => {
         <div className="container">
           <div className="mentor-prf-settings py-5">
             <h3 className="mb-3">Change Your Password</h3>
-            
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 position-relative">
                 <label className="label-control">New Password</label>

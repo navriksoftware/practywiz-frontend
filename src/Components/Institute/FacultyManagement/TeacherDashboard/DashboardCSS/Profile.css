@@ -193,26 +193,33 @@
 }
 
 .teacher-profile-home-page-filter-dropdowns {
-  display: flex;
-  gap: 12px;
+  display: flex; 
+   gap: 12px;
   flex-wrap: wrap;
   flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  white-space: nowrap; 
 }
 
+
 .teacher-profile-home-page-filter-dropdowns select {
-  padding: 8px 12px;
+  padding: 8px 8px;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   font-size: 14px;
   background-color: white;
-  min-width: 140px;
+  min-width: 120px;
   outline: none;
   cursor: pointer;
+  border-radius:20px;
 }
 
 .teacher-profile-home-page-filter-dropdowns select:focus {
   border-color: #4285f4;
 }
+
 
 /* Case studies grid */
 .teacher-profile-home-page-case-studies {
@@ -380,7 +387,9 @@
     flex-direction: column;
     align-items: flex-start;
   }
-
+  .teacher-profile-home-page-filter-label-data{
+    display: none;
+  }
   .teacher-profile-home-page-actions {
     width: 100%;
     flex-direction: column;
@@ -396,18 +405,26 @@
   }
 
   .teacher-profile-home-page-filters {
-    flex-direction: column;
-    align-items: flex-start;
+    /* flex-direction: column; */
+    /* align-items: flex-start; */
   }
 
-  .teacher-profile-home-page-filter-dropdowns {
-    width: 100%;
-  }
-
-  .teacher-profile-home-page-filter-dropdowns select {
-    flex: 1;
-    min-width: 0;
-  }
+    .teacher-profile-home-page-filter-dropdowns {
+      display: inline-block;
+      width: 100%;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    
+   .teacher-profile-home-page-filter-dropdowns::-webkit-scrollbar {
+          display: none;
+        }
+    .teacher-profile-home-page-filter-dropdowns select {
+      display: inline-block;
+      border-radius: 20px;
+      min-width: 150px;
+      margin-right: 10px;
+    }
 
   .teacher-profile-home-page-case-studies {
     grid-template-columns: 1fr;
@@ -420,6 +437,17 @@
   }
 
   .teacher-profile-home-page-filter-dropdowns {
-    flex-direction: column;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    white-space: nowrap; 
   }
+    .teacher-profile-home-page-filter-dropdowns::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .teacher-profile-home-page-filter-dropdowns select{
+      display: inline-block;
+    }
 }
