@@ -1,10 +1,9 @@
 /* Container and Layout */
 .question-show-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f9fafb 0%, #e0f2fe 100%);
 }
 
-.question-show-wrapper {
+/* .question-show-wrapper {
   max-width: 1152px;
   margin: 0 auto;
   padding: 1rem;
@@ -20,7 +19,7 @@
   .question-show-wrapper {
     padding: 2rem;
   }
-}
+} */
 
 /* Header */
 .question-show-header {

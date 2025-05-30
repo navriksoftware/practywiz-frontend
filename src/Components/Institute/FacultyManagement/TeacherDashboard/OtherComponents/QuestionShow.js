@@ -155,7 +155,7 @@ const QuestionShow = ({data}) => {
         </div>
 
         {/* Question Type Summary */}
-        <div className="question-show-summary-grid">
+        {/* <div className="question-show-summary-grid">
           <div className="question-show-summary-card">
             <div className="question-show-summary-number">{questions.length}</div>
             <div className="question-show-summary-label">Total Questions</div>
@@ -172,7 +172,7 @@ const QuestionShow = ({data}) => {
             <div className="question-show-summary-number question-show-summary-purple">{totalMarks}</div>
             <div className="question-show-summary-label">Total Marks</div>
           </div>
-        </div>
+        </div> */}
 
         {/* Questions List */}
         <div className="question-show-questions-list">

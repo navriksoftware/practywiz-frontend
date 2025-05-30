@@ -297,13 +297,10 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   // Loading state
   if (isLoading) {
     return (
-      <div className="teacher-profile-home-page-container">
-        <div className="teacher-profile-home-page-header">
-          <h1 className="teacher-profile-home-page-title">
-            Loading Case Studies...
-          </h1>
-        </div>
-      </div>
+       <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p>Loading classes...</p>
+          </div>
     );
   }
 
