@@ -94,41 +94,57 @@ const CreateClass = ({ userdata, setActivePage, setShowCreateclassform, classid 
     }
   };
 
+
+ const isFormValid = (data) => {
+  return (
+    data.Name?.trim() &&
+    data.SemisterEnd?.trim() &&
+    data.SubjectCode?.trim() &&
+    data.SubjectName?.trim() &&
+    data.facultyId !== undefined &&
+    data.facultyId !== null
+  ) ? true : false;
+};
+
   const handleUpdateClassDetails = async () => {
-    try {
-      const response = await Promise.race([
-        axios.post(`${url}api/v1/faculty/class/singledetail-Update`, {
-          singleClassId: classid,
-          formData,
-        }),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Request timed out')), 45000)
-        ),
-      ]);
+    console.log('Updating class details:', formData);
+    if (isFormValid(formData)) {
+      try {
+        const response = await Promise.race([
+          axios.post(`${url}api/v1/faculty/class/singledetail-Update`, {
+            singleClassId: classid,
+            formData,
+          }),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Request timed out')), 45000)
+          ),
+        ]);
 
-      if (response.data && response.data.success) {
-        // You can update state or show success notification here
-        setShowCreateclassform(false)
-        toast.success("Class details updated successfully!")
+        if (response.data && response.data.success) {
+          // You can update state or show success notification here
+          setShowCreateclassform(false)
+          toast.success("Class details updated successfully!")
 
-        // Example: toast.success("Class details updated!");
-      } else {
+          // Example: toast.success("Class details updated!");
+        } else {
 
-        toast.error("Failed to update class details. Please try again.");
-        // Optionally show user feedback here
+          toast.error("Failed to update class details. Please try again.");
+          // Optionally show user feedback here
+        }
+      } catch (error) {
+        console.error(
+          error.message === 'Request timed out'
+            ? 'Request timed out. Please try again.'
+            : 'An error occurred. Please try again.'
+        );
+        // Optionally show error notification
       }
-    } catch (error) {
-      console.error(
-        error.message === 'Request timed out'
-          ? 'Request timed out. Please try again.'
-          : 'An error occurred. Please try again.'
-      );
-      // Optionally show error notification
     }
+    else {
+      toast.error("Please fill all the fields correctly.");
+    }
+
   };
-
-
-
   return (
     <div className="CreateClass-modal-overlay">
       <div className="CreateClass-modal-container">
