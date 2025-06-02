@@ -118,7 +118,7 @@ const Navbar = () => {
                     {BurgerMenu && (
                       <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
                         <li>
-                          <Link to={"/mentor-club"}>
+                          <Link to={"/mentor-connect"}>
                             Mentor Connect{" "}
                             <i
                               className="fa-solid fa-plus"
@@ -148,7 +148,7 @@ const Navbar = () => {
                         {/* <li>
                           <Link
                             target="_blanks"
-                            to={`/mentor-club/mentor-profile/${
+                            to={`/mentor-connect/mentor-profile/${
                               user?.user_firstname +
                               "-" +
                               user.user_lastname.replace(" ", "-").toLowerCase()
@@ -196,7 +196,7 @@ const Navbar = () => {
                     {BurgerMenu && (
                       <ul className="djioerr_dpdwn bg-white position-absolute d-none p-3">
                         <li>
-                          <Link to={"/mentor-club"}>
+                          <Link to={"/mentor-connect"}>
                             Mentor Connect{" "}
                             <i
                               className="fa-solid fa-plus"
@@ -277,7 +277,7 @@ const Navbar = () => {
                       //   setmenutoggle(true);
                       // }}
                     >
-                      <a className="nav-link" href="/mentor-club">
+                      <a className="nav-link" href="/mentor-connect">
                         Mentor Connect
                         <i
                           className="fa-solid fa-plus"
@@ -293,7 +293,7 @@ const Navbar = () => {
                               <div className="MenuBox-item2">
                                 <h6>
                                   <Link
-                                    to={`/mentor-club/${option.value.toLowerCase()}`}
+                                    to={`/mentor-connect/${option.value.toLowerCase()}`}
                                   >
                                     {option.label}
                                   </Link>
@@ -353,7 +353,7 @@ const Navbar = () => {
                         {/* <li>
                           <Link
                             target="_blanks"
-                            to={`/mentor-club/mentor-profile/${
+                            to={`/mentor-connect/mentor-profile/${
                               user?.user_firstname +
                               "-" +
                               user.user_lastname.replace(" ", "-").toLowerCase()

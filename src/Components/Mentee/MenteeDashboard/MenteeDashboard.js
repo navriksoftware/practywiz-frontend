@@ -505,7 +505,7 @@ const MenteeDashboard = ({ user, token }) => {
                     <span>
                       <a
                         className="Mentee-MentorconnectNavbar"
-                        href="/mentor-club"
+                        href="/mentor-connect"
                       >
                         Mentor Connect
                         <i

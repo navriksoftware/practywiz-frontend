@@ -119,7 +119,7 @@ const MenteeCompletedSessionCard = ({ allCompletedBookingSessions, user }) => {
                                 <button className="btn-main me-1">
                                   <Link
                                     target="_blank"
-                                    to={`/mentor-club/mentor-profile/${
+                                    to={`/mentor-connect/mentor-profile/${
                                       session.mentor_firstname +
                                       "-" +
                                       session.mentor_lastname

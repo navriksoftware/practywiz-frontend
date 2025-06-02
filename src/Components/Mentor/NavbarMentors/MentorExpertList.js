@@ -196,9 +196,9 @@ const MentorExpertList = () => {
             style={{ color: "#1b63de" }}
           ></i>
         </h2>
-        <h4 style={{ textAlign: "center" }}>
+        {/* <h4 style={{ textAlign: "center" }}>
           Learn From The Corporate, Step Into Corporate World!
-        </h4>
+        </h4> */}
       </div>
 
       <div className="kghfbgfgbhfg pb-0 " style={{ paddingTop: "2rem" }}>

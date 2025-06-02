@@ -144,26 +144,26 @@ function App() {
           />
           <Route path="/courses" exact element={<AllCoursePage />} />
           {/* Mentor Links starts */}
-          <Route path="/mentor-club" element={<AllMentorsPage />} />
+          <Route path="/mentor-connect" element={<AllMentorsPage />} />
           <Route
-            path="/mentor-club/business-mentors"
+            path="/mentor-connect/business-mentors"
             element={<BusinessMentorsPage />}
           />
           <Route
-            path="/mentor-club/technology-mentors"
+            path="/mentor-connect/technology-mentors"
             element={<TechnologyMentorsPage />}
           />
-          <Route path="/mentor-club" element={<AllMentorsPage />} />
+          <Route path="/mentor-connect" element={<AllMentorsPage />} />
           <Route
-            path="/mentor-club/:expert"
+            path="/mentor-connect/:expert"
             element={<MentorExpertListPage />}
           />
           <Route
-            path="/mentor-club/mentor-profile/:name/:id"
+            path="/mentor-connect/mentor-profile/:name/:id"
             element={<SingleMentorProfilePage />}
           />
           <Route
-            path="/mentor-club/mentor-profile/private/:name/:id"
+            path="/mentor-connect/mentor-profile/private/:name/:id"
             element={
               <AdminMentorPrivateProfilePage user={user} token={token} />
             }

@@ -143,7 +143,7 @@ const Section2 = () => {
                                   <button className="btn small-btn-main">
                                     <Link
                                       target="_blanks"
-                                      to={`/mentor-club/mentor-profile/${
+                                      to={`/mentor-connect/mentor-profile/${
                                         mentor.mentor_firstname +
                                         "-" +
                                         mentor.mentor_lastname
@@ -168,7 +168,7 @@ const Section2 = () => {
 
           <div className="dhhfff text-center">
             <button className="btn btn-main">
-              <Link to="/mentor-club" target="_blanks">
+              <Link to="/mentor-connect" target="_blanks">
                 VIEW ALL MENTORS <i className="fa-solid fa-circle-right"></i>
               </Link>
             </button>

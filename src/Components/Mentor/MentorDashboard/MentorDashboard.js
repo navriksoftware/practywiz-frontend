@@ -448,7 +448,7 @@ const MentorDashboard = ({ user, token }) => {
                         <li>
                           <Link
                             target="_blanks"
-                            to={`/mentor-club/mentor-profile/${user?.user_firstname +
+                            to={`/mentor-connect/mentor-profile/${user?.user_firstname +
                               "-" +
                               user.user_lastname.replace(" ", "-").toLowerCase()
                               }/${user?.user_id}`}

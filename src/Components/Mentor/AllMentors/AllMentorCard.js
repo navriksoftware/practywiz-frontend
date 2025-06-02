@@ -215,7 +215,7 @@ const AllMentorCard = ({ mentor,DefaultCurruncyType}) => {
           </span>
         </div>
         {/* <div className="AllMentorCard-BookNow-Btn" onClick={() =>
-        (window.location.href = `/mentor-club/mentor-profile/${mentorName
+        (window.location.href = `/mentor-connect/mentor-profile/${mentorName
           .replace(/\s+/g, "-")
           .toLowerCase()}/${mentor.user_dtls_id}`)
         }>
@@ -223,7 +223,7 @@ const AllMentorCard = ({ mentor,DefaultCurruncyType}) => {
          
         </div> */}
         <span className="MentorCard-Booknow-Btn" onClick={() =>
-        (window.location.href = `/mentor-club/mentor-profile/${mentorName
+        (window.location.href = `/mentor-connect/mentor-profile/${mentorName
           .replace(/\s+/g, "-")
           .toLowerCase()}/${mentor.user_dtls_id}`)
         }>Book Now<i className="fa-solid fa-arrow-right"></i></span>

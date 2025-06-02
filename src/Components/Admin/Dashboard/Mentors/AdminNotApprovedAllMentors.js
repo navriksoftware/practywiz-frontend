@@ -130,7 +130,7 @@ const AdminNotApprovedAllMentors = () => {
                               {mentor.total_progress >= 80 ? (
                                 <Link
                                   target="_blank"
-                                  to={`/mentor-club/mentor-profile/private/${
+                                  to={`/mentor-connect/mentor-profile/private/${
                                     mentor.mentor_firstname.toLowerCase() +
                                     "-" +
                                     mentor.mentor_lastname
