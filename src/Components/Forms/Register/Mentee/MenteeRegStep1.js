@@ -288,7 +288,6 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                       Phone Number{" "} 
                       <span className="RedColorStarMark">*</span>
                     </label>
-                    // <p className="ghhduenee OtpSendOnWhatsappTaxt">(OTP will be sent on WhatsApp)</p>
                     </div>
 
                 <div className="d-flex">
