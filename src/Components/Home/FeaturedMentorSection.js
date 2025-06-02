@@ -40,7 +40,7 @@ const FeaturedMentorSection = () => {
     <div className="featured-mentor-card">
       <Link
         target="_blank"
-        to={`/mentor-club/mentor-profile/${
+        to={`/mentor-connect/mentor-profile/${
           mentor.mentor_firstname
         }-${mentor.mentor_lastname.toLowerCase()}/${mentor.user_dtls_id}`}
       >
@@ -127,7 +127,7 @@ const FeaturedMentorSection = () => {
                   your professional journey.
                 </p>
               </div>
-              <Link to="/mentor-club" className="featured-mentor-view-all">
+              <Link to="/mentor-connect" className="featured-mentor-view-all">
                 View all Mentors
               </Link>
             </div>
@@ -154,7 +154,7 @@ const FeaturedMentorSection = () => {
                 </SwiperSlide>
               ))}
             </Swiper>
-            <Link to="/mentor-club" className="featured-mentor-view-all-mobile">
+            <Link to="/mentor-connect" className="featured-mentor-view-all-mobile">
               View all Mentors
             </Link>
           </div>

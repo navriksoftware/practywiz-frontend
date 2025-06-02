@@ -427,7 +427,7 @@ const EmployerDashboard = ({ user, token }) => {
                           {/* <li>
                           <Link
                             target="_blanks"
-                            to={`/mentor-club/mentor-profile/${
+                            to={`/mentor-connect/mentor-profile/${
                               user?.user_firstname +
                               "-" +
                               user.user_lastname.replace(" ", "-").toLowerCase()

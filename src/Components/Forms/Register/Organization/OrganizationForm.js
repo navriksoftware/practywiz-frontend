@@ -77,132 +77,171 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
     return regex.test(phone);
   }
 
-  const handleSendOtp = async () => {
-    setButtonState("send");
-    setIsLoading(true);
+  // const handleSendOtp = async () => {
+  //   setButtonState("send");
+  //   setIsLoading(true);
 
-    if (validatePhoneNumber(phone)) {
-      try {
-        // Make Axios POST request to send OTP
-        const response = await axios.post(
-          `${url}api/v1/otpvarification/request-otp`,
-          { phone }
-        );
+  //   if (validatePhoneNumber(phone)) {
+  //     try {
+  //       // Make Axios POST request to send OTP
+  //       const response = await axios.post(
+  //         `${url}api/v1/otpvarification/request-otp`,
+  //         { phone }
+  //       );
 
-        if (response.data.success) {
-          setButtonState("sended");
-          setSendotp(true);
-          setResendAvailable(true);
+  //       if (response.data.success) {
+  //         setButtonState("sended");
+  //         setSendotp(true);
+  //         setResendAvailable(true);
 
-          // Enable resend after 1 minute
-          setTimeout(() => {
-            setResendAvailable(false);
-          }, 60000); // 1 minute timeout
-        } else {
-          setButtonState("send");
-          alert(response.data.message || "Failed to send OTP");
-        }
-      } catch (error) {
-        console.error("Error sending OTP:", error);
-        setButtonState("send");
-        alert(
-          error.response?.data?.message || "An error occurred while sending OTP"
-        );
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      setIsLoading(false);
-      toast.error("Please Enter Valid Phone Number");
-    }
-  };
+  //         // Enable resend after 1 minute
+  //         setTimeout(() => {
+  //           setResendAvailable(false);
+  //         }, 60000); // 1 minute timeout
+  //       } else {
+  //         setButtonState("send");
+  //         alert(response.data.message || "Failed to send OTP");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error sending OTP:", error);
+  //       setButtonState("send");
+  //       alert(
+  //         error.response?.data?.message || "An error occurred while sending OTP"
+  //       );
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   } else {
+  //     setIsLoading(false);
+  //     toast.error("Please Enter Valid Phone Number");
+  //   }
+  // };
 
-  const handleVerifyOtp = async () => {
-    setVerifyState("Verify");
-    setIsLoadingVerify(true);
-    if (otp.length === 6) {
-      try {
-        // Make Axios POST request to verify OTP
-        const response = await axios.post(
-          `${url}api/v1/otpvarification/validate-otp`,
-          {
-            phone,
-            otp,
-          }
-        );
+  // const handleVerifyOtp = async () => {
+  //   setVerifyState("Verify");
+  //   setIsLoadingVerify(true);
+  //   if (otp.length === 6) {
+  //     try {
+  //       // Make Axios POST request to verify OTP
+  //       const response = await axios.post(
+  //         `${url}api/v1/otpvarification/validate-otp`,
+  //         {
+  //           phone,
+  //           otp,
+  //         }
+  //       );
 
-        if (response.data.success) {
-          setVerifyState("Verified");
-          alert("OTP Verified Successfully!");
-          setValue("mentee_OTPValid", "true");
-        } else {
-          setVerifyState("Verify");
+  //       if (response.data.success) {
+  //         setVerifyState("Verified");
+  //         alert("OTP Verified Successfully!");
+  //         setValue("mentee_OTPValid", "true");
+  //       } else {
+  //         setVerifyState("Verify");
 
-          alert(response.data.message || "OTP Verification Failed");
-        }
-      } catch (error) {
-        console.error("Error verifying OTP:", error);
-        setVerifyState("Verify");
-        alert(
-          error.response?.data?.message ||
-            "An error occurred while verifying OTP"
-        );
-      } finally {
-        setIsLoadingVerify(false);
-      }
-    } else {
-      setIsLoadingVerify(false);
-      toast.error("Please Enter Valid OTP");
-    }
-  };
+  //         alert(response.data.message || "OTP Verification Failed");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error verifying OTP:", error);
+  //       setVerifyState("Verify");
+  //       alert(
+  //         error.response?.data?.message ||
+  //           "An error occurred while verifying OTP"
+  //       );
+  //     } finally {
+  //       setIsLoadingVerify(false);
+  //     }
+  //   } else {
+  //     setIsLoadingVerify(false);
+  //     toast.error("Please Enter Valid OTP");
+  //   }
+  // };
 
-  const handleResendOtp = async () => {
-    if (resendAvailable) {
-      alert("You can resend OTP after 1 minute.");
-      return;
-    }
+  // const handleResendOtp = async () => {
+  //   if (resendAvailable) {
+  //     alert("You can resend OTP after 1 minute.");
+  //     return;
+  //   }
 
-    setButtonState("send");
-    setIsLoading(true);
+  //   setButtonState("send");
+  //   setIsLoading(true);
 
-    try {
-      // Make Axios POST request to resend OTP
-      const response = await axios.post(
-        `${url}api/v1/otpvarification/resend-otp`,
-        { phone }
-      );
+  //   try {
+  //     // Make Axios POST request to resend OTP
+  //     const response = await axios.post(
+  //       `${url}api/v1/otpvarification/resend-otp`,
+  //       { phone }
+  //     );
 
-      if (response.data.success) {
-        setButtonState("sended");
-        setSendotp(true);
-        setResendAvailable(true);
+  //     if (response.data.success) {
+  //       setButtonState("sended");
+  //       setSendotp(true);
+  //       setResendAvailable(true);
 
-        // Enable resend after 1 minute
-        setTimeout(() => {
-          setResendAvailable(false);
-        }, 60000); // 1 minute timeout
-      } else {
-        setButtonState("send");
-        alert(response.data.message || "Failed to resend OTP");
-      }
-    } catch (error) {
-      console.error("Error resending OTP:", error);
-      setButtonState("send");
-      alert(
-        error.response?.data?.message || "An error occurred while resending OTP"
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //       // Enable resend after 1 minute
+  //       setTimeout(() => {
+  //         setResendAvailable(false);
+  //       }, 60000); // 1 minute timeout
+  //     } else {
+  //       setButtonState("send");
+  //       alert(response.data.message || "Failed to resend OTP");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error resending OTP:", error);
+  //     setButtonState("send");
+  //     alert(
+  //       error.response?.data?.message || "An error occurred while resending OTP"
+  //     );
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   const onSubmit = async (data) => {
     const cleanedData = {
       ...data,
       employer_phone: cleanPhoneNumber(data.employer_phone),
     };
-    if (VerifyState === "Verified") {
-      try {
+    // if (VerifyState === "Verified") {
+    //   try {
+    //     dispatch(showLoadingHandler());
+    //     const res = await Promise.race([
+    //       axios.post(`${url}api/v1/employer/register`, cleanedData),
+    //       new Promise((_, reject) =>
+    //         setTimeout(() => reject(new Error("Request timed out")), 45000)
+    //       ),
+    //     ]);
+    //     dispatch(hideLoadingHandler());
+    //     if (res.data.success) {
+    //       reset();
+    //       const token = res.data.token;
+    //       const accessToken = res.data.accessToken;
+    //       const userData = parseJwt(token);
+    //       localStorage.setItem("token", JSON.stringify(token));
+    //       localStorage.setItem("accessToken", JSON.stringify(accessToken));
+    //       return (
+    //         toast.success(
+    //           "Account created successfully, Redirecting to the Dashboard"
+    //         ),
+    //         dispatch(loginSuccess(userData)),
+    //         navigate(`/redirect`)
+    //       );
+    //     } else if (res.data.error) {
+    //       toast.error("There is some error while registering as a employer.");
+    //     }
+    //   } catch (error) {
+    //     if (error.message === "Request timed out") {
+    //       toast.error("Request timed out. Please try again.");
+    //     } else {
+    //       toast.error("There is some error while signing as a employer.");
+    //     }
+    //   } finally {
+    //     dispatch(hideLoadingHandler());
+    //   }
+    // } else {
+    //   toast.error("please verify your phone number first");
+    // }
+
+     try {
         dispatch(showLoadingHandler());
         const res = await Promise.race([
           axios.post(`${url}api/v1/employer/register`, cleanedData),
@@ -237,9 +276,6 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
       } finally {
         dispatch(hideLoadingHandler());
       }
-    } else {
-      toast.error("please verify your phone number first");
-    }
   };
 
   return (
@@ -388,9 +424,9 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
                               ref,
                             }}
                           />{" "}
-                          <button
+                          {/* <button
                             type="button"
-                            onClick={handleSendOtp}
+                            // onClick={handleSendOtp}
                             disabled={isLoading}
                             className={`otp-button ${
                               isLoading ? "loading" : ""
@@ -405,9 +441,9 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
                             ) : (
                               "OTP Sent"
                             )}
-                          </button>
+                          </button> */}
                         </div>
-                        <div className="aftersendOTP">
+                        {/* <div className="aftersendOTP">
                           {" "}
                           {Sendotp && (
                             <>
@@ -451,7 +487,7 @@ const OrganizationForm = ({ OrganizationPreviousHandler }) => {
                                 : "Resend OTP"}
                             </button>
                           )}
-                        </div>
+                        </div> */}
                         {errors.employer_phone && (
                           <p className="Error-meg-login-register">
                             {errors.employer_phone.message}

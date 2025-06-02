@@ -1,0 +1,389 @@
+/* CaseAssignment.css */
+/* Base container */
+
+
+.IntAssignCaseFaculty-modal-overlay {
+
+    align-items: center;
+    background-color: #000000bf;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1200;
+}
+
+.IntAssignCaseFaculty-container {
+    padding: 20px;
+    /* color: #333; */
+    animation: CreateClassSlideDown .3s ease-out forwards;
+    background-color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px #00000040;
+    height: 80vh;
+    overflow: scroll;
+    left: 5%;
+    position: fixed;
+    top: 100px;
+    width: 90%;
+    z-index: 1000;
+}
+
+/* Breadcrumb navigation */
+.IntAssignCaseFaculty-breadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #666;
+
+    justify-content: flex-end;
+}
+
+.IntAssignCaseFaculty-breadcrumb-separator {
+    margin: 0 8px;
+}
+
+/* Page title */
+.IntAssignCaseFaculty-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 24px 0;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Main content layout */
+.IntAssignCaseFaculty-content {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+}
+
+/* Case details card */
+.IntAssignCaseFaculty-case-details {
+    flex: 1;
+    background-color: #f9f9fb;
+    border-radius: 8px;
+    padding: 24px;
+    position: relative;
+}
+
+/* Status label */
+.IntAssignCaseFaculty-status-label {
+    display: inline-block;
+    background-color: #fff5e6;
+    color: #e67700;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+}
+
+/* Case title */
+.IntAssignCaseFaculty-case-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+}
+
+/* Case meta information */
+.IntAssignCaseFaculty-case-meta {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 16px;
+}
+
+/* Sections within case details */
+.IntAssignCaseFaculty-section {
+    margin-bottom: 24px;
+}
+
+.IntAssignCaseFaculty-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+}
+
+/* Learning objectives list */
+.IntAssignCaseFaculty-objectives {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.IntAssignCaseFaculty-objectives li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 8px;
+}
+
+.IntAssignCaseFaculty-objectives li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 14px;
+    height: 14px;
+    background-color: #e6f7eb;
+    border-radius: 50%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8' viewBox='0 0 10 8' fill='none'%3E%3Cpath d='M1 3.5L4 6.5L9 1.5' stroke='%2336B37E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Info grid layout */
+.IntAssignCaseFaculty-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.IntAssignCaseFaculty-info-item {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+/* Resource list */
+.IntAssignCaseFaculty-resources {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.IntAssignCaseFaculty-resource {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #eee;
+}
+
+.IntAssignCaseFaculty-file-size {
+    color: #999;
+    font-size: 13px;
+}
+
+/* Faculty selection section */
+.IntAssignCaseFaculty-faculty-selection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Search and filter bar */
+.IntAssignCaseFaculty-search-bar {
+    display: flex;
+    padding: 16px;
+    gap: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.IntAssignCaseFaculty-search-input {
+    flex: 1;
+    position: relative;
+}
+
+.IntAssignCaseFaculty-search-input input {
+    width: 100%;
+    padding: 10px 10px 10px 36px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.IntAssignCaseFaculty-department-filter {
+    padding: 0 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    min-width: 180px;
+}
+
+/* Table styles */
+.IntAssignCaseFaculty-faculty-table {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.IntAssignCaseFaculty-table-header {
+    display: grid;
+    grid-template-columns: 40px 2fr 1fr 2fr 0.5fr;
+    background-color: #f9f9fb;
+    padding: 12px 16px;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+}
+
+.IntAssignCaseFaculty-table-row {
+    display: grid;
+    grid-template-columns: 40px 2fr 1fr 2fr 0.5fr;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.IntAssignCaseFaculty-table-row:hover {
+    background-color: #f9f9fb;
+}
+
+/* Checkbox styling */
+.IntAssignCaseFaculty-checkbox-cell input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Selected faculty info and action buttons */
+.IntAssignCaseFaculty-selection-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #f9f9fb;
+    border-top: 1px solid #eee;
+}
+
+.IntAssignCaseFaculty-selected-count {
+    font-size: 14px;
+    color: #666;
+}
+
+.IntAssignCaseFaculty-action-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.IntAssignCaseFaculty-clear-button {
+    padding: 8px 16px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.IntAssignCaseFaculty-clear-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.IntAssignCaseFaculty-assign-button {
+    padding: 8px 16px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.IntAssignCaseFaculty-assign-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: #6b7280;
+}
+
+/* Icons */
+.IntAssignCaseFaculty-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.IntAssignCaseFaculty-icon-search {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M14 14L11.1 11.1' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.IntAssignCaseFaculty-icon-document {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M9.33333 1.33334H4C3.64638 1.33334 3.30724 1.47382 3.05719 1.72387C2.80714 1.97392 2.66667 2.31305 2.66667 2.66667V13.3333C2.66667 13.687 2.80714 14.0261 3.05719 14.2762C3.30724 14.5262 3.64638 14.6667 4 14.6667H12C12.3536 14.6667 12.6928 14.5262 12.9428 14.2762C13.1929 14.0261 13.3333 13.687 13.3333 13.3333V5.33334L9.33333 1.33334Z' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M9.33334 1.33334V5.33334H13.3333' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.IntAssignCaseFaculty-icon-calendar {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M12.6667 2.66666H3.33333C2.59695 2.66666 2 3.26361 2 3.99999V13.3333C2 14.0697 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0697 14 13.3333V3.99999C14 3.26361 13.403 2.66666 12.6667 2.66666Z' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M10.6667 1.33334V4.00001' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M5.33333 1.33334V4.00001' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M2 6.66666H14' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.IntAssignCaseFaculty-icon-industry {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M13.3333 14V5.33333L8 2L2.66667 5.33333V14H13.3333Z' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M6 14V8H10V14' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.IntAssignCaseFaculty-icon-graduate {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M14 6.66667L8.00001 9.33334L2.00001 6.66667L8.00001 4.00001L14 6.66667Z' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M3.33333 8V11.3333C3.33333 11.3333 5.33333 13.3333 8 13.3333C10.6667 13.3333 12.6667 11.3333 12.6667 11.3333V8' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* Responsive styles */
+@media screen and (max-width: 900px) {
+    .IntAssignCaseFaculty-content {
+        flex-direction: column;
+    }
+
+    .IntAssignCaseFaculty-info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 768px) {
+
+    .IntAssignCaseFaculty-table-header,
+    .IntAssignCaseFaculty-table-row {
+        grid-template-columns: 40px 2fr 1fr;
+    }
+
+    .IntAssignCaseFaculty-email-cell,
+    .IntAssignCaseFaculty-cases-cell {
+        display: none;
+    }
+
+    .IntAssignCaseFaculty-selection-info {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .IntAssignCaseFaculty-action-buttons {
+        width: 100%;
+    }
+
+    .IntAssignCaseFaculty-clear-button,
+    .IntAssignCaseFaculty-assign-button {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .IntAssignCaseFaculty-search-bar {
+        flex-direction: column;
+    }
+
+    .IntAssignCaseFaculty-department-filter {
+        width: 100%;
+    }
+
+    .IntAssignCaseFaculty-table-header,
+    .IntAssignCaseFaculty-table-row {
+        grid-template-columns: 40px 1fr;
+    }
+
+    .IntAssignCaseFaculty-department-cell {
+        display: none;
+    }
+}

@@ -82,7 +82,7 @@ function ListsForGuestMentors({ data }) {
               <td>
                 <button className="profile-button">
                   <Link
-                    to={`/mentor-club/mentor-profile/${
+                    to={`/mentor-connect/mentor-profile/${
                       mentor.user_firstname +
                       mentor.user_lastname.replace(" ", "-").toLowerCase()
                     }/${mentor.user_dtls_id}`}
@@ -211,7 +211,7 @@ function ListsForOtherMentors({ data }) {
               <td>
                 <button className="profile-button">
                   <Link
-                    to={`/mentor-club/mentor-profile/${
+                    to={`/mentor-connect/mentor-profile/${
                       mentor.user_firstname +
                       mentor.user_lastname.replace(" ", "-").toLowerCase()
                     }/${mentor.user_dtls_id}`}

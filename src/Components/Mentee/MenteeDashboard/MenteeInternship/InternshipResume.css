@@ -1,0 +1,223 @@
+.ir-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ir-main-title {
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.ir-main-description {
+    text-align: left;
+    margin-bottom: 20px;
+    color: #555;
+    font-size: 1rem;
+}
+
+.ir-upload-section {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    flex-wrap: wrap;
+}
+
+.ir-instructions {
+    flex: 1;
+    min-width: 250px;
+}
+
+.ir-instructions-title {
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.ir-instructions-text {
+    text-align: left;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.ir-upload-box {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    min-width: 250px;
+    transition: background-color 0.3s ease;
+}
+
+.ir-upload-box:hover {
+    background-color: #f8f9fa;
+}
+
+.ir-file-label {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #007BFF;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 8px 16px;
+    transition: color 0.3s ease;
+
+    /* opacity: $ {
+        isUploading ? "0.7": "1"
+    }
+
+    ; */
+}
+
+.ir-file-label:hover {
+    color: #0056b3;
+}
+
+.ir-file-input {
+    display: none;
+}
+
+.ir-upload-text {
+    margin-bottom: 10px;
+    color: #888;
+}
+
+.ir-resume-list-container {
+    margin-top: 20px;
+}
+
+.ir-resume-list-title {
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.ir-resume-list {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.ir-resume-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+.ir-resume-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.ir-resume-name {
+    font-weight: 500;
+    word-break: break-all;
+}
+
+.ir-upload-time {
+    font-size: 12px;
+    color: #777;
+}
+
+.ir-upload-button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    /* background-color: rgba(77, 255, 92, 0.83); */
+    color: #007BFF !important;
+    /* border: none; */
+    /* border-radius: 4px; */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.ir-remove-button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    background-color: #FF4D4D;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.ir-remove-button:hover {
+    background-color: #ff3333;
+}
+
+.ir-remove-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.ir-no-resumes {
+    color: #555;
+    text-align: center;
+    padding: 20px;
+}
+
+@media screen and (max-width: 768px) {
+    .ir-container {
+        padding: 15px;
+    }
+
+    .ir-upload-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .ir-instructions,
+    .ir-upload-box {
+        flex: none;
+        width: 100%;
+    }
+
+    .ir-main-title {
+        font-size: 1.25rem;
+    }
+
+    .ir-instructions-title {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .ir-container {
+        padding: 10px;
+    }
+
+    .ir-resume-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .ir-remove-button {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .ir-upload-time {
+        font-size: 11px;
+    }
+}

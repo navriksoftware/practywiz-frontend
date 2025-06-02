@@ -19,6 +19,7 @@ const MenteeChangePwd = ({ user, token }) => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     mode: "onBlur",
@@ -46,9 +47,11 @@ const MenteeChangePwd = ({ user, token }) => {
           setTimeout(() => reject(new Error("Request timed out")), 45000)
         ),
       ]);
+
       if (response.data.success) {
         dispatch(hideLoadingHandler());
         toast.success("Password change successfully");
+        reset();
       }
       if (response.data.error) {
         dispatch(hideLoadingHandler());
@@ -99,13 +102,12 @@ const MenteeChangePwd = ({ user, token }) => {
                   className="password-toggle"
                   onClick={() => setShowNewPassword(!showNewPassword)}
                 >
-                  {showNewPassword ? < FaEye/> : < FaEyeSlash/>}
+                  {showNewPassword ? <FaEye /> : <FaEyeSlash />}
                 </button>
-               
               </div>
               {errors.newPassword && (
-                  <p className="text-danger">{errors.newPassword.message}</p>
-                )}
+                <p className="text-danger">{errors.newPassword.message}</p>
+              )}
               <div className="mb-3 position-relative">
                 <label className="label-control">Confirm New Password</label>
                 <input
@@ -126,15 +128,14 @@ const MenteeChangePwd = ({ user, token }) => {
                     setShowConfirmNewPassword(!showConfirmNewPassword)
                   }
                 >
-                  {showConfirmNewPassword ?<FaEye />  :<FaEyeSlash /> }
+                  {showConfirmNewPassword ? <FaEye /> : <FaEyeSlash />}
                 </button>
-               
               </div>
               {errors.confirmNewPassword && (
-                  <p className="text-danger">
-                    {errors.confirmNewPassword.message}
-                  </p>
-                )}
+                <p className="text-danger">
+                  {errors.confirmNewPassword.message}
+                </p>
+              )}
               <button className="btn btn-main" type="submit">
                 Change Password
               </button>

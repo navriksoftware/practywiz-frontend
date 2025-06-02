@@ -16,8 +16,10 @@ const ApplicationsReceived = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [selectedLocations, setSelectedLocations] = useState([]);
+  const [selectedYears, setSelectedYear] = useState([]);
   const [skillInput, setSkillInput] = useState("");
   const [locationInput, setLocationInput] = useState("");
+  const [yearInput, setYearInput] = useState();
   const [showShortlistedOnly, setShowShortlistedOnly] = useState(false);
   const [isMobileFiltersVisible, setIsMobileFiltersVisible] = useState(false);
   const [applicants, setApplicants] = useState([]);
@@ -45,7 +47,7 @@ const ApplicationsReceived = () => {
       }
     };
     fetchAppliedInternships();
-  }, [id, url]);
+  }, [id, url, showShortlistedOnly]);
 
   // Handle shortlisting
   const handleShortlist = async (applicantId) => {
@@ -59,6 +61,9 @@ const ApplicationsReceived = () => {
           status: "shortlisted",
         }
       );
+      if (response.data.success) {
+        toast.success("Applicant is shortlisted");
+      }
       if (!response.data.success) {
         toast.error("Failed to shortlist applicant. Please try again.");
         throw new Error("Failed to shortlist applicant. Please try again.");
@@ -82,6 +87,43 @@ const ApplicationsReceived = () => {
       setError("Failed to shortlist applicant. Please try again.");
     }
   };
+  const handleHiring = async (applicantId) => {
+    try {
+      // Make POST request to update status
+      const response = await axios.post(
+        `${url}api/v1/employer/dashboard/update-applicant-status`,
+        {
+          internshipId: id,
+          applicantId: applicantId,
+          status: "hired",
+        }
+      );
+      if (response.data.success) {
+        toast.success("Applicant is hired");
+      }
+      if (!response.data.success) {
+        toast.error("Failed to hire applicant. Please try again.");
+        throw new Error("Failed to hire applicant. Please try again.");
+      }
+
+      // Update local state
+      const updatedApplicants = applicants.map((applicant) => {
+        if (applicant.mentee_dtls_id === applicantId) {
+          return {
+            ...applicant,
+            mentee_internship_applied_status: "hired",
+            isShortlisted: true,
+          };
+        }
+        return applicant;
+      });
+
+      setApplicants(updatedApplicants);
+      setFilteredData(updatedApplicants);
+    } catch (err) {
+      setError("Failed to hire applicant. Please try again.");
+    }
+  };
 
   // Debounced search function
   const debouncedSearch = (value) => {
@@ -95,9 +137,11 @@ const ApplicationsReceived = () => {
   const clearFilters = () => {
     setSelectedSkills([]);
     setSelectedLocations([]);
+    setSelectedYear([]);
     setSearchTerm("");
     setSkillInput("");
     setLocationInput("");
+    setYearInput("");
     setShowShortlistedOnly(false);
   };
 
@@ -110,6 +154,9 @@ const ApplicationsReceived = () => {
       } else if (type === "location" && !selectedLocations.includes(value)) {
         setSelectedLocations([...selectedLocations, value]);
         setLocationInput("");
+      } else if (type === "year" && !selectedYears.includes(value)) {
+        setSelectedYear([...selectedYears, value]);
+        setYearInput("");
       }
     }
   };
@@ -121,6 +168,8 @@ const ApplicationsReceived = () => {
       setSelectedLocations(
         selectedLocations.filter((location) => location !== value)
       );
+    } else if (type === "year") {
+      setSelectedYear(selectedYears.filter((year) => year !== value));
     }
   };
 
@@ -128,13 +177,22 @@ const ApplicationsReceived = () => {
   useEffect(() => {
     let result = applicants || [];
 
-    if (showShortlistedOnly) {
+    if (showShortlistedOnly === false) {
       result = result.filter(
         (applicant) =>
-          applicant.mentee_internship_applied_status === "shortlisted"
+          applicant.mentee_internship_applied_status === "shortlisted" ||
+          applicant.mentee_internship_applied_status === "hired" ||
+          applicant.mentee_internship_applied_status === "applied"
       );
     }
 
+    if (showShortlistedOnly === true) {
+      result = result.filter(
+        (applicant) =>
+          applicant.mentee_internship_applied_status === "shortlisted" ||
+          applicant.mentee_internship_applied_status === "hired"
+      );
+    }
     if (selectedSkills.length > 0) {
       result = result.filter((applicant) =>
         selectedSkills.every((skill) =>
@@ -151,6 +209,15 @@ const ApplicationsReceived = () => {
           applicant.employer_internship_post_location
             .toLowerCase()
             .includes(location.toLowerCase())
+        )
+      );
+    }
+    if (selectedYears.length > 0) {
+      result = result.filter((applicant) =>
+        selectedYears.every((year) =>
+          JSON.parse(
+            applicant.mentee_institute_details
+          )[0].mentee_institute_End_Year.includes(year)
         )
       );
     }
@@ -180,10 +247,12 @@ const ApplicationsReceived = () => {
     }
 
     setFilteredData(result);
+    console.log("filtered data", result);
   }, [
     applicants,
     selectedSkills,
     selectedLocations,
+    selectedYears,
     searchTerm,
     showShortlistedOnly,
   ]);
@@ -191,16 +260,17 @@ const ApplicationsReceived = () => {
   if (isLoading) {
     return <div className="applications-card">Loading applicants...</div>;
   }
-  console.log("applicants", applicants);
   return (
     <div className="col-lg-10 ps-0">
       <div className="gtyfdgfgf">
         <div className="applications-received-board">
           <div className="applications-outer-container">
+            {/* TOP HEADING */}
             <div style={{ textAlign: "center" }}>
               <h2>{profile}</h2>
             </div>
 
+            {/* RECEIVED APPLICATIONS */}
             <div className="applications-type">
               <div
                 className={`applications-type-header ${
@@ -210,6 +280,7 @@ const ApplicationsReceived = () => {
               >
                 All Applicants
               </div>
+              {/* SHORTLISTED APPLICATIONS */}
               <div
                 className={`applications-type-header ${
                   showShortlistedOnly ? "active" : "inactive"
@@ -298,6 +369,31 @@ const ApplicationsReceived = () => {
                   </div>
                 </div>
 
+                <div className="applications-filter-section">
+                  <h3>Year</h3>
+                  <input
+                    type="number"
+                    className="applications-filter-input"
+                    placeholder="Add a year and press Enter..."
+                    value={yearInput}
+                    onChange={(e) => setYearInput(e.target.value)}
+                    onKeyPress={(e) => handleKeyPress(e, "year")}
+                  />
+                  <div className="applications-selected-filters">
+                    {selectedYears.map((year, index) => (
+                      <span key={index} className="applications-filter-tag">
+                        {year}
+                        <span
+                          className="applications-remove-tag"
+                          onClick={() => removeFilter(year, "year")}
+                        >
+                          ×
+                        </span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
                 <button
                   className="applications-clear-filters"
                   onClick={clearFilters}
@@ -370,7 +466,6 @@ const ApplicationsReceived = () => {
                             </div>
                           </div>
                         </div>
-
                         <div className="applications-skills-list">
                           {JSON.parse(applicant.mentee_skills)
                             .slice(0, 6)
@@ -383,7 +478,7 @@ const ApplicationsReceived = () => {
                               </span>
                             ))}
                         </div>
-
+                        {/* </div> */}
                         <div className="applications-action-section">
                           <span
                             className="applications-view-profile-btn"
@@ -398,23 +493,72 @@ const ApplicationsReceived = () => {
                           >
                             View Profile
                           </span>
-                          {applicant.mentee_internship_applied_status !==
-                            "shortlisted" && (
-                            <button
-                              className="applications-shortlist-btn"
-                              onClick={() =>
-                                handleShortlist(applicant.mentee_dtls_id)
-                              }
-                            >
-                              Shortlist
-                            </button>
-                          )}
-                          {applicant.mentee_internship_applied_status ===
-                            "shortlisted" && (
-                            <span className="applications-status-tag shortlisted">
-                              Shortlisted
-                            </span>
-                          )}
+                          {/* SHOW APPLICATIONS ON ALL APPLICATION TAB */}
+                          {/* {!showShortlistedOnly &&
+                            (applicant.mentee_internship_applied_status ===
+                              "shortlisted" ||
+                              applicant.mentee_internship_applied_status ===
+                                "hired") && (
+                              <span className="applications-status-tag shortlisted">
+                                Shortlisted
+                              </span>
+                            )} */}
+                          {/* {!showShortlistedOnly &&
+                            applicant.mentee_internship_applied_status !==
+                              "shortlisted" &&
+                            applicant.mentee_internship_applied_status !==
+                              "hired" && (
+                              <button
+                                className="applications-shortlist-btn"
+                                onClick={() =>
+                                  handleShortlist(applicant.mentee_dtls_id)
+                                }
+                              >
+                                Shortlist
+                              </button>
+                            )} */}
+
+                          {/* new code try */}
+                          {/* SHOW APPLICATIONS ON ALL APPLICATION TAB */}
+                          {!showShortlistedOnly &&
+                            (applicant.mentee_internship_applied_status ===
+                              "shortlisted" ||
+                            applicant.mentee_internship_applied_status ===
+                              "hired" ? (
+                              <span className="applications-status-tag shortlisted">
+                                Shortlisted
+                              </span>
+                            ) : (
+                              <button
+                                className="applications-shortlist-btn"
+                                onClick={() =>
+                                  handleShortlist(applicant.mentee_dtls_id)
+                                }
+                              >
+                                Shortlist
+                              </button>
+                            ))}
+
+                          {/* SHOW APPLICATIONS ON SHORTLISTED CANDIDATES */}
+                          {showShortlistedOnly &&
+                            applicant.mentee_internship_applied_status !==
+                              "hired" && (
+                              <button
+                                className="applications-hiring-btn"
+                                onClick={() =>
+                                  handleHiring(applicant.mentee_dtls_id)
+                                }
+                              >
+                                Hire
+                              </button>
+                            )}
+                          {showShortlistedOnly &&
+                            applicant.mentee_internship_applied_status ===
+                              "hired" && (
+                              <span className="applications-status-tag hired">
+                                Hired
+                              </span>
+                            )}
                         </div>
                       </div>
                     ))

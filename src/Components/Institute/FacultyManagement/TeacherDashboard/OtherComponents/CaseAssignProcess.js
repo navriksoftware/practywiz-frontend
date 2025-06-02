@@ -1,282 +1,249 @@
-"use client";
-
 import { useEffect, useState } from "react";
+import axios from "axios";
 import "../DashboardCSS/CaseAssignProcess.css";
 import ConfigureCasePopup from "./ConfigureCase.js";
+import { ApiURL } from "../../../../../Utils/ApiURL";
+import { useSelector } from "react-redux";
 
+function parseNonPractywizQuestions(nonPractywizCaseQuestion) {
+  if (!nonPractywizCaseQuestion) return [];
+
+  let parsed;
+  try {
+    parsed = JSON.parse(nonPractywizCaseQuestion);
+  } catch (e) {
+    return [];
+  }
+
+  // Old format: Array of questions
+  if (Array.isArray(parsed)) {
+    // Optionally, group by category if you want to show sections
+    const grouped = {};
+    parsed.forEach((q) => {
+      const cat = (q.category || "Other").toLowerCase();
+      if (!grouped[cat]) grouped[cat] = [];
+      grouped[cat].push(q);
+    });
+    return Object.entries(grouped).map(([type, questions]) => ({
+      type,
+      questions,
+    }));
+  }
+
+  // New format: Object with keys
+  if (typeof parsed === "object") {
+    const result = [];
+    if (parsed.factBasedQuestions && Array.isArray(parsed.factBasedQuestions)) {
+      result.push({ type: "Fact Based", questions: parsed.factBasedQuestions });
+    }
+    if (
+      parsed.analysisBasedQuestions &&
+      Array.isArray(parsed.analysisBasedQuestions)
+    ) {
+      result.push({
+        type: "Analysis Based",
+        questions: parsed.analysisBasedQuestions,
+      });
+    }
+    if (
+      parsed.researchBasedQuestions &&
+      Array.isArray(parsed.researchBasedQuestions)
+    ) {
+      result.push({
+        type: "Research Based",
+        questions: parsed.researchBasedQuestions,
+      });
+    }
+    return result;
+  }
+
+  return [];
+}
 const CaseAssigneProcess = () => {
+  const classid = localStorage.getItem("clickedClassId"); //class id from local storage
+  const caseStudyId = localStorage.getItem("caseStudyId"); //case study id from local storage
+  const caseType = localStorage.getItem("caseType") === "practywiz" ? 1 : 0;
+  const facultyID = useSelector(
+    (state) => state.faculty.facultyDtls.faculty_id
+  );
+  const [casestudyDetails, setcasestudyDetails] = useState([]);
+  const [classDetails, setClassDetails] = useState([]); // State to store class details
+
+  // Fetch case studies data
+  const url = ApiURL();
+  useEffect(() => {
+    const fetchWithTimeout = (axiosPromise, timeout = 45000) => {
+      return Promise.race([
+        axiosPromise,
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Request timed out")), timeout)
+        ),
+      ]);
+    };
+
+    const fetchData = async () => {
+      try {
+        const [caseStudyRes, classListRes] = await Promise.all([
+          fetchWithTimeout(
+            axios.post(`${url}api/v1/faculty/case-studies/fetch-caseData`, {
+              caseStudyId,
+              caseType,
+            })
+          ),
+          fetchWithTimeout(
+            axios.post(`${url}api/v1/faculty/case-studies/fetch-classlist`, {
+              facultyID,
+            })
+          ),
+        ]);
+
+        // Handle case study response
+        if (caseStudyRes.data?.success) {
+          setcasestudyDetails(caseStudyRes.data.success[0]);
+          console.log(
+            "Case studies fetched successfully:",
+            caseStudyRes.data.success
+          );
+        } else {
+          setcasestudyDetails([]);
+          console.warn("No case studies found.");
+        }
+
+        // Handle class list response
+        if (classListRes.data?.success) {
+          setClassDetails(classListRes.data.success);
+          console.log(
+            "Class list fetched successfully:",
+            classListRes.data.success
+          );
+        } else {
+          setClassDetails([]);
+          console.warn("No class list data found.");
+        }
+      } catch (error) {
+        // Set both to empty if any request fails
+        setcasestudyDetails([]);
+        setClassDetails([]);
+
+        if (error.message === "Request timed out") {
+          console.error("One of the requests timed out.");
+        } else {
+          console.error(
+            "An error occurred while fetching data:",
+            error.message
+          );
+        }
+      }
+    };
+
+    fetchData();
+  }, [url]);
+
   // State
   const [students, setStudents] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [filters, setFilters] = useState([]);
-  const [availableClasses, setAvailableClasses] = useState([
-    "ECO 201",
-    "ECO 101",
-    "ECO 102",
-  ]);
-  const [selectedClasses, setSelectedClasses] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedClass, setselectedClass] = useState([classid]);
   const [showClassDropdown, setShowClassDropdown] = useState(false);
   const [open, setOpen] = useState(false);
-  const [caseauthor, setcaseauthor] = useState(0); //Case Created by: 0 for Practywiz case, 1 for NON-Practywiz case
+  // const [caseType, setcaseType] = useState(0); //Case Created by: 0 for Practywiz case, 1 for NON-Practywiz case
 
-  // Initial data
+  // Fetch student of the selected class by id`s
   useEffect(() => {
-    // const initialStudents = [
-    //   {
-    //     id: "STU001",
-    //     name: "Alice Johnson",
-    //     class: "ECO 201",
-    //     email: "alice.j@example.com",
-    //   },
-    //   {
-    //     id: "STU002",
-    //     name: "Bob Smith",
-    //     class: "ECO 201",
-    //     email: "bob.s@example.com",
-    //   },
-    //   {
-    //     id: "STU003",
-    //     name: "Carol Williams",
-    //     class: "ECO 101",
-    //     email: "carol.w@example.com",
-    //   },
-    //   {
-    //     id: "STU004",
-    //     name: "David Brown",
-    //     class: "ECO 101",
-    //     email: "david.b@example.com",
-    //   },
-    //   {
-    //     id: "STU005",
-    //     name: "Emma Davis",
-    //     class: "ECO 102",
-    //     email: "emma.d@example.com",
-    //   },
-    //   {
-    //     id: "STU006",
-    //     name: "Alice Johnson",
-    //     class: "ECO 201",
-    //     email: "alice.j@example.com",
-    //   },
-    //   {
-    //     id: "STU007",
-    //     name: "Bob Smith",
-    //     class: "ECO 201",
-    //     email: "bob.s@example.com",
-    //   },
-    //   {
-    //     id: "STU008",
-    //     name: "Carol Williams",
-    //     class: "ECO 101",
-    //     email: "carol.w@example.com",
-    //   },
-    //   {
-    //     id: "STU009",
-    //     name: "David Brown",
-    //     class: "ECO 101",
-    //     email: "david.b@example.com",
-    //   },
-    //   {
-    //     id: "STU010",
-    //     name: "Emma Davis",
-    //     class: "ECO 102",
-    //     email: "emma.d@example.com",
-    //   },
-    //   {
-    //     id: "STU011",
-    //     name: "Frank Jones",
-    //     class: "ECO 102",
-    //     email: "frank.j@example.com",
-    //   },
-    //   {
-    //     id: "STU012",
-    //     name: "Grace Lee",
-    //     class: "ECO 102",
-    //     email: "grace.l@example.com",
-    //   },
-    //   {
-    //     id: "STU013",
-    //     name: "Henry Miller",
-    //     class: "ECO 102",
-    //     email: "henry.m@example.com",
-    //   },
-    //   {
-    //     id: "STU014",
-    //     name: "Isla Parker",
-    //     class: "ECO 102",
-    //     email: "isla.p@example.com",
-    //   },
-    //   {
-    //     id: "STU015",
-    //     name: "Jack Wilson",
-    //     class: "ECO 102",
-    //     email: "jack.w@example.com",
-    //   },
-    //   {
-    //     id: "STU016",
-    //     name: "Katie Adams",
-    //     class: "ECO 102",
-    //     email: "katie.a@example.com",
-    //   },
-    // ];
-    const initialStudents = [
-      {
-        id: "STU001",
-        name: "Aarav Sharma",
-        class: "ECO 201",
-        email: "aarav.s@example.in",
-      },
-      {
-        id: "STU002",
-        name: "Bhavya Patel",
-        class: "ECO 201",
-        email: "bhavya.p@example.in",
-      },
-      {
-        id: "STU003",
-        name: "Chirag Verma",
-        class: "ECO 101",
-        email: "chirag.v@example.in",
-      },
-      {
-        id: "STU004",
-        name: "Deepak Yadav",
-        class: "ECO 101",
-        email: "deepak.y@example.in",
-      },
-      {
-        id: "STU005",
-        name: "Esha Mehta",
-        class: "ECO 102",
-        email: "esha.m@example.in",
-      },
-      {
-        id: "STU006",
-        name: "Aarav Sharma",
-        class: "ECO 201",
-        email: "aarav.s@example.in",
-      },
-      {
-        id: "STU007",
-        name: "Bhavya Patel",
-        class: "ECO 201",
-        email: "bhavya.p@example.in",
-      },
-      {
-        id: "STU008",
-        name: "Chirag Verma",
-        class: "ECO 101",
-        email: "chirag.v@example.in",
-      },
-      {
-        id: "STU009",
-        name: "Deepak Yadav",
-        class: "ECO 101",
-        email: "deepak.y@example.in",
-      },
-      {
-        id: "STU010",
-        name: "Esha Mehta",
-        class: "ECO 102",
-        email: "esha.m@example.in",
-      },
-      {
-        id: "STU011",
-        name: "Farhan Khan",
-        class: "ECO 102",
-        email: "farhan.k@example.in",
-      },
-      {
-        id: "STU012",
-        name: "Gauri Iyer",
-        class: "ECO 102",
-        email: "gauri.i@example.in",
-      },
-      {
-        id: "STU013",
-        name: "Harsh Tiwari",
-        class: "ECO 102",
-        email: "harsh.t@example.in",
-      },
-      {
-        id: "STU014",
-        name: "Ishita Reddy",
-        class: "ECO 102",
-        email: "ishita.r@example.in",
-      },
-      {
-        id: "STU015",
-        name: "Jayant Deshmukh",
-        class: "ECO 102",
-        email: "jayant.d@example.in",
-      },
-      {
-        id: "STU016",
-        name: "Kavya Nair",
-        class: "ECO 102",
-        email: "kavya.n@example.in",
-      },
-    ];
+    // if (selectedClass) return;
 
-    setStudents(initialStudents);
-    setFilteredStudents(initialStudents);
+    const fetchStudentDetails = async () => {
+      setLoading(true);
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 45000); // 45s timeout
 
-    // Set initial filters
-    setFilters([]);
-  }, []);
-
-  // Filter students based on search term, class filters, and other filters
-  useEffect(() => {
-    const filterStudents = () => {
-      let result = [...students];
-
-      // Apply search filter
-      if (searchTerm.trim() !== "") {
-        result = result.filter(
-          (student) =>
-            student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            student.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            student.email.toLowerCase().includes(searchTerm.toLowerCase())
+        const response = await axios.post(
+          `${url}api/v1/faculty/Student/fetch-student`,
+          { selectedClass },
+          { signal: controller.signal }
         );
-      }
 
-      // Apply class filters if any are selected
-      if (selectedClasses.length > 0) {
-        result = result.filter((student) =>
-          selectedClasses.includes(student.class)
-        );
-      }
+        clearTimeout(timeout);
 
-      setFilteredStudents(result);
+        if (response.data.success) {
+          setFilteredStudents(response.data.success);
+          setLoading(false);
+        } else {
+          setFilteredStudents([]);
+          setLoading(false);
+          console.warn("API returned an error response:", response.data.error);
+        }
+      } catch (error) {
+        setFilteredStudents([]);
+        if (error.name === "AbortError") {
+          console.error("Request timed out.");
+          setLoading(false);
+        } else {
+          console.error("An error occurred:", error.message);
+          setLoading(false);
+        }
+      }
     };
 
-    // Debounce the filtering
-    const debounceTimer = setTimeout(() => {
-      filterStudents();
-    }, 300);
+    fetchStudentDetails();
+  }, [url, selectedClass]);
 
-    return () => clearTimeout(debounceTimer);
-  }, [searchTerm, selectedClasses, students]);
+  // Filter students based on search term, class filters, and other filters
+  // useEffect(() => {
+  //   const filterStudents = () => {
+  //     let result = [...students];
+
+  //     // Apply search filter
+  //     if (searchTerm.trim() !== "") {
+  //       result = result.filter(
+  //         (student) =>
+  //           student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //           student.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //           student.email.toLowerCase().includes(searchTerm.toLowerCase())
+  //       );
+  //     }
+
+  //     // Apply class filters if any are selected
+  //     if (selectedClass.length > 0) {
+  //       result = result.filter((student) =>
+  //         selectedClass.includes(student.class)
+  //       );
+  //     }
+
+  //     setFilteredStudents(result);
+  //   };
+
+  //   // Debounce the filtering
+  //   const debounceTimer = setTimeout(() => {
+  //     filterStudents();
+  //   }, 300);
+
+  //   return () => clearTimeout(debounceTimer);
+  // }, [searchTerm, selectedClass, students]);
 
   // Handle toggling class selection
-  const handleToggleClass = (className) => {
-    setSelectedClasses((prev) => {
-      // If the class is already selected, remove it
-      if (prev.includes(className)) {
-        // Remove the class filter
-        setFilters(filters.filter((filter) => filter.name !== className));
-        return prev.filter((c) => c !== className);
+  const handleToggleClass = (classObj) => {
+    const { class_dtls_id, class_name } = classObj;
+
+    setselectedClass((prev) => {
+      if (prev.includes(class_dtls_id)) {
+        // Remove both ID from selected and filter by name
+        setFilters((filters) =>
+          filters.filter((filter) => filter.name !== class_name)
+        );
+        return prev.filter((id) => id !== class_dtls_id);
       } else {
-        // Add the class as a filter
         const newFilter = {
-          id: `class-${Date.now()}`,
-          name: className,
+          id: `class-${class_dtls_id}`, // use real ID to make unique
+          name: class_name,
           type: "class",
         };
-        setFilters([...filters, newFilter]);
-        return [...prev, className];
+        setFilters((filters) => [...filters, newFilter]);
+        return [...prev, class_dtls_id];
       }
     });
   };
@@ -286,10 +253,10 @@ const CaseAssigneProcess = () => {
     const filterToRemove = filters.find((filter) => filter.id === filterId);
 
     if (filterToRemove) {
-      // If removing a class filter, update the selectedClasses state
+      // If removing a class filter, update the selectedClass state
       if (filterToRemove.type === "class") {
-        setSelectedClasses(
-          selectedClasses.filter((c) => c !== filterToRemove.name)
+        setselectedClass(
+          selectedClass.filter((c) => c !== filterToRemove.name)
         );
       }
 
@@ -330,6 +297,10 @@ const CaseAssigneProcess = () => {
     setSelectedStudents(selectedStudents.filter((id) => id !== studentId));
   };
 
+  const handleshowNon_PzQuestions = () => {
+    alert("This is a Non-Practywiz case study. Questions are not available.");
+  };
+
   return (
     <div className="case-assign-to-student-container">
       {/* <div className="ye-waala-naya-h-dusra-nevigation-indication">
@@ -339,83 +310,120 @@ const CaseAssigneProcess = () => {
       </div> */}
       <div className="case-assign-to-student-dashboard">
         {/* Left Panel */}
-        <div className="case-assign-to-student-left-panel">
-          <h1 className="case-assign-to-student-title">
-            Marketing Strategy Analysis
-          </h1>
 
-          <div className="case-assign-to-student-tags">
-            <span className="case-assign-to-student-tag case-assign-to-student-tag-business">
-              Business
-            </span>
-            <span className="case-assign-to-student-tag case-assign-to-student-tag-strategy">
-              Strategy
-            </span>
-            <span className="case-assign-to-student-tag case-assign-to-student-tag-marketing">
-              Marketing
-            </span>
+        {caseType === 1 ? (
+          <div className="case-assign-to-student-left-panel">
+            <h1 className="case-assign-to-student-title">
+              {casestudyDetails?.case_study_title}
+            </h1>
+            <div className="case-assign-to-student-tags">
+              {casestudyDetails?.case_study_categories &&
+                JSON.parse(casestudyDetails.case_study_categories).map(
+                  (tag, index) => (
+                    <span
+                      key={index}
+                      className="case-assign-to-student-tag case-assign-to-student-tag-business"
+                    >
+                      {tag}
+                    </span>
+                  )
+                )}
+            </div>
+            <h2 className="case-assign-to-student-subtitle">Preview Content</h2>
+            <p className="case-assign-to-student-description">
+              {casestudyDetails?.case_study_content?.slice(0, 500) + "..."}
+              {/* Description of the case study */}
+            </p>
+            <div className="case-assign-to-student-modules">
+              <div className="case-assign-to-student-module">
+                <p>
+                  <strong>Challenge</strong>{" "}
+                  {casestudyDetails?.case_study_challenge}
+                </p>
+              </div>
+            </div>
+
+            <button className="case-assign-to-student-view-button">
+              View Full Case Study
+            </button>
           </div>
+        ) : (
+          <div className="case-assign-to-student-left-panel">
+            <h1 className="case-assign-to-student-title">
+              {casestudyDetails?.non_practywiz_case_title}
+            </h1>
+            <div className="case-assign-to-student-tags">
+              <span className="case-assign-to-student-tag case-assign-to-student-tag-business">
+                {casestudyDetails?.non_practywiz_case_category}
+              </span>
+            </div>
+            <h2 className="case-assign-to-student-subtitle">Author</h2>
+            <p className="case-assign-to-student-description">
+              {casestudyDetails?.non_practywiz_case_author}{" "}
+              {/* Description of the case study */}
+            </p>
+            {casestudyDetails?.non_practywiz_case_question && (
+              <div className="Non-practywiz-case-assign-to-student-question">
+                <h2 className="case-assign-to-student-subtitle">Questions</h2>
+                {parseNonPractywizQuestions(
+                  casestudyDetails.non_practywiz_case_question
+                ).map((section, idx) => (
+                  <div key={idx} style={{ marginBottom: "1em" }}>
+                    <strong>
+                      {section.type.charAt(0).toUpperCase() +
+                        section.type.slice(1)}{" "}
+                      Questions
+                    </strong>
+                    <ol>
+                      {section.questions.map((q, qIdx) => (
+                        <li key={q.id || qIdx}>
+                          {/* Try to support both old and new keys */}
+                          {q.question || q.Question}
+                          {/* Optionally, show options if present */}
+                          {q.options && Array.isArray(q.options) && (
+                            <ul style={{ marginTop: "0.5em" }}>
+                              {q.options.map((opt, optIdx) => (
+                                <li key={optIdx}>{opt}</li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                ))}
+              </div>
+            )}
 
-          <p className="case-assign-to-student-description">
-            A comprehensive analysis of modern marketing strategies in the
-            digital age. Students will learn about customer acquisition,
-            retention, and brand building through real-world examples and
-            practical exercises.
-          </p>
-
-          <div className="case-assign-to-student-course-info">
-            <div className="case-assign-to-student-info-item">
-              <i className="fa-solid fa-clock case-assign-to-student-icon" />
-              <span>2 weeks</span>
-            </div>
-            <div className="case-assign-to-student-info-item">
-              <i className="fa-solid fa-signal case-assign-to-student-icon" />
-              <span>Intermediate</span>
-            </div>
-            <div className="case-assign-to-student-info-item">
-              <i className="fa-solid fa-book case-assign-to-student-icon" />
-              <span>5 modules</span>
-            </div>
+            <button
+              className="case-assign-to-student-view-button"
+              onClick={handleshowNon_PzQuestions}
+            >
+              See all Questions
+            </button>
           </div>
-
-          <h2 className="case-assign-to-student-subtitle">Preview Content</h2>
-
-          <div className="case-assign-to-student-modules">
-            <div className="case-assign-to-student-module">
-              <p>
-                <strong>Key Learning Objective</strong> Learn the fundamentals
-                of contemporary marketing strategies and how they've evolved in
-                the digital age. Understand key concepts and frameworks that
-                drive successful marketing campaigns.
-              </p>
-            </div>
-          </div>
-
-          <button className="case-assign-to-student-view-button">
-            View Full Case Study
-          </button>
-        </div>
+        )}
 
         {/* Right Panel */}
         <div className="case-assign-to-student-right-panel">
           <div className="case-assign-to-student-search-section">
             <div className="case-assign-to-student-search-container">
-              <input
+              {/* <input
                 type="text"
                 placeholder="Search students..."
                 className="case-assign-to-student-search-input"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <div
+              /> */}
+              {/* <div
                 className="case-assign-to-student-class-filter"
                 onClick={() => setShowClassDropdown(!showClassDropdown)}
               >
-                {selectedClasses.length === 0
+                {selectedClass.length === 0
                   ? "All Classes"
-                  : selectedClasses.length === 1
-                  ? selectedClasses[0]
-                  : `${selectedClasses.length} Classes`}
+                  : selectedClass.length === 1
+                    ? "1 class"
+                    : `${selectedClass.length} Classes`}
                 <i className="fa-solid fa-chevron-down" />
                 {showClassDropdown && (
                   <div className="case-assign-to-student-class-dropdown">
@@ -423,7 +431,7 @@ const CaseAssigneProcess = () => {
                       className="case-assign-to-student-class-option"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setSelectedClasses([]);
+                        setselectedClass([]);
                         setFilters(
                           filters.filter((filter) => filter.type !== "class")
                         );
@@ -432,30 +440,51 @@ const CaseAssigneProcess = () => {
                     >
                       All Classes
                     </div>
-                    {availableClasses.map((cls) => (
+                    {classDetails?.map((cls) => (
                       <div
-                        key={cls}
+                        key={cls?.class_dtls_id}
                         className="case-assign-to-student-class-option"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleToggleClass(cls);
+                          handleToggleClass(cls); // pass whole object
                         }}
                       >
                         <input
                           type="checkbox"
-                          checked={selectedClasses.includes(cls)}
-                          onChange={() => {}}
+                          checked={selectedClass.includes(cls.class_dtls_id)}
+                          onChange={() => { }} // Prevent React warning
                           onClick={(e) => e.stopPropagation()}
                         />
-                        {cls}
+                        {cls?.class_name}
                       </div>
                     ))}
+
                   </div>
                 )}
-              </div>
+
+
+              </div> */}
+              <select
+                className="case-assign-to-student-class-dropdown"
+                value={selectedClass}
+                onChange={(e) => {
+                  setselectedClass(e.target.value);
+                }}
+              >
+                <option value="">Select Class</option>
+                {classDetails?.map((cls) => (
+                  <option
+                    className="case-assign-to-student-class-option"
+                    key={cls?.class_dtls_id}
+                    value={cls?.class_dtls_id}
+                  >
+                    {cls?.class_name}
+                  </option>
+                ))}
+              </select>
             </div>
 
-            <div className="case-assign-to-student-active-filters">
+            {/* <div className="case-assign-to-student-active-filters">
               {filters.map((filter) => (
                 <div
                   key={filter.id}
@@ -468,7 +497,7 @@ const CaseAssigneProcess = () => {
                   />
                 </div>
               ))}
-            </div>
+            </div> */}
 
             {/* <button className="case-assign-to-student-add-button">
               <i className="fa-solid fa-plus" /> Add Student
@@ -478,14 +507,14 @@ const CaseAssigneProcess = () => {
           <div className="case-assign-to-student-students-table">
             <div className="case-assign-to-student-table-header">
               <div className="case-assign-to-student-checkbox-cell">
-                <input
+                {/* <input
                   type="checkbox"
                   checked={
                     selectedStudents.length === filteredStudents.length &&
                     filteredStudents.length > 0
                   }
                   onChange={handleSelectAll}
-                />
+                /> */}
               </div>
               <div className="case-assign-to-student-name-cell">
                 Student Name
@@ -500,53 +529,62 @@ const CaseAssigneProcess = () => {
               className="case-assign-to-student-table-body"
               style={{ maxHeight: "300px", overflowY: "auto" }}
             >
-              {filteredStudents.length > 0 ? (
-                filteredStudents.map((student) => (
-                  <div
-                    key={student.id}
-                    className="case-assign-to-student-table-row"
-                  >
-                    <div className="case-assign-to-student-checkbox-cell">
-                      <input
+              {loading ? (
+                <div className="loading-container">
+                  <div className="loading-spinner"></div>
+                  <p>Loading...</p>
+                </div>
+              ) : (
+                <>
+                  {" "}
+                  {filteredStudents.length > 0 ? (
+                    filteredStudents.map((student) => (
+                      <div
+                        key={student.id}
+                        className="case-assign-to-student-table-row"
+                      >
+                        <div className="case-assign-to-student-checkbox-cell">
+                          {/* <input
                         type="checkbox"
                         checked={selectedStudents.includes(student.id)}
                         onChange={() => handleSelectStudent(student.id)}
-                      />
-                    </div>
-                    <div className="case-assign-to-student-name-cell">
-                      {student.name}
-                    </div>
-                    <div className="case-assign-to-student-id-cell">
-                      {student.id}
-                    </div>
-                    <div className="case-assign-to-student-class-cell">
-                      {student.class}
-                    </div>
-                    <div className="case-assign-to-student-email-cell">
-                      {student.email}
-                    </div>
-                    <div className="case-assign-to-student-action-cell">
+                      /> */}
+                        </div>
+                        <div className="case-assign-to-student-name-cell">
+                          {student?.user_firstname} {student?.user_lastname}
+                        </div>
+                        <div className="case-assign-to-student-id-cell">
+                          {student.mentee_roll_no}
+                        </div>
+                        <div className="case-assign-to-student-class-cell">
+                          {student.class_name}
+                        </div>
+                        <div className="case-assign-to-student-email-cell">
+                          {student.user_email}
+                        </div>
+                        {/* <div className="case-assign-to-student-action-cell">
                       <i
                         className="fa-solid fa-trash case-assign-to-student-delete-icon"
                         onClick={() => deleteStudent(student.id)}
                       />
+                    </div> */}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="case-assign-to-student-no-students">
+                      No students match the current filters.
                     </div>
-                  </div>
-                ))
-              ) : (
-                <div className="case-assign-to-student-no-students">
-                  No students match the current filters.
-                </div>
+                  )}
+                </>
               )}
             </div>
           </div>
 
           <div className="case-assign-to-student-table-footer">
             <div className="case-assign-to-student-selection-info">
-              {selectedStudents.length} students selected
+              Total students : {filteredStudents.length}{" "}
             </div>
 
-          
             <button
               className="case-assign-to-student-assign-button"
               onClick={() => setOpen(true)}
@@ -554,7 +592,13 @@ const CaseAssigneProcess = () => {
               Assign Case Study
             </button>
             {open && (
-              <ConfigureCasePopup setOpen={setOpen} caseauthor={caseauthor} />
+              <ConfigureCasePopup
+                setOpen={setOpen}
+                caseType={caseType}
+                caseStudyId={caseStudyId}
+                facultyID={facultyID}
+                selectedClass={selectedClass}
+              />
             )}
           </div>
         </div>

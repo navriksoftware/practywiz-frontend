@@ -26,7 +26,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
   
   useEffect(() => {
     setSendotp(false);
-    setValue("mentee_OTPValid", false);
+    // setValue("mentee_OTPValid", false);
     setButtonState("send");
     setIsLoading(false);
     setVerifyState("Verify");
@@ -39,126 +39,108 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [VerifyState, setVerifyState] = useState("Verify");
   const [isLoadingVerify, setIsLoadingVerify] = useState(false);
-
   const [resendAvailable, setResendAvailable] = useState(false);
 
 
-  
-    const handleSendOtp = async () => {
-    setButtonState("send");
-    setIsLoading(true);
+  //       // Enable resend after 1 minute
+  //       setTimeout(() => {
+  //         setResendAvailable(false);
+  //       }, 60000); // 1 minute timeout
+  //     } else {
+  //       setButtonState("send");
+  //       alert(response.data.message || "Failed to send OTP");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error sending OTP:", error);
+  //     setButtonState("send");
+  //     alert(
+  //       error.response?.data?.message || "An error occurred while sending OTP"
+  //     );
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
-    try {
-      // Make Axios POST request to send OTP
-      const response = await axios.post(
-        `${url}api/v1/otpvarification/request-otp`,
-        { phone }
-      );
+  // const handleVerifyOtp = async () => {
+  //   setVerifyState("Verify");
+  //   setIsLoadingVerify(true);
+  //   if (otp.length === 6) {
+  //     try {
+  //       // Make Axios POST request to verify OTP
+  //       const response = await axios.post(
+  //         `${url}api/v1/otpvarification/validate-otp`,
+  //         {
+  //           phone,
+  //           otp,
+  //         }
+  //       );
 
-      if (response.data.success) {
-        setButtonState("sended");
-        setSendotp(true);
-        setResendAvailable(true);
-
-        // Enable resend after 1 minute
-        setTimeout(() => {
-          setResendAvailable(false);
-        }, 60000); // 1 minute timeout
-      } else {
-        setButtonState("send");
-        alert(response.data.message || "Failed to send OTP");
-      }
-    } catch (error) {
-      console.error("Error sending OTP:", error);
-      setButtonState("send");
-      alert(
-        error.response?.data?.message || "An error occurred while sending OTP"
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleVerifyOtp = async () => {
-    setVerifyState("Verify");
-    setIsLoadingVerify(true);
-    if (otp.length === 6) {
-      try {
-        // Make Axios POST request to verify OTP
-        const response = await axios.post(
-          `${url}api/v1/otpvarification/validate-otp`,
-          {
-            phone,
-            otp,
-          }
-        );
-
-        if (response.data.success) {
-          setVerifyState("Verified");
-          setValue("mentee_OTPValid", true); // Store as boolean ✅
-          alert("OTP Verified Successfully!");
-        } else {
-          setVerifyState("Verify");
-          alert(response.data.message || "OTP Verification Failed");
-        }
+  //       if (response.data.success) {
+  //         setVerifyState("Verified");
+  //         setValue("mentee_OTPValid", true); // Store as boolean ✅
+  //         alert("OTP Verified Successfully!");
+  //       } else {
+  //         setVerifyState("Verify");
+  //         alert(response.data.message || "OTP Verification Failed");
+  //       }
         
-      } catch (error) {
-        console.error("Error verifying OTP:", error);
-        setVerifyState("Verify");
-        alert(
-          error.response?.data?.message ||
-            "An error occurred while verifying OTP"
-        );
-      } finally {
-        setIsLoadingVerify(false);
-      }
-    }
-    else{
-      setIsLoadingVerify(false);
-      toast.error("Please Enter Valid OTP");
-    }
-  };
+  //     } catch (error) {
+  //       console.error("Error verifying OTP:", error);
+  //       setVerifyState("Verify");
+  //       alert(
+  //         error.response?.data?.message ||
+  //           "An error occurred while verifying OTP"
+  //       );
+  //     } finally {
+  //       setIsLoadingVerify(false);
+  //     }
+  //   }
+  //   else{
+  //     setIsLoadingVerify(false);
+  //     toast.error("Please Enter Valid OTP");
+  //   }
+  // };
 
-  const handleResendOtp = async () => {
-    if (resendAvailable) {
-      alert("You can resend OTP after 1 minute.");
-      return;
-    }
+  // const handleResendOtp = async () => {
+  //   if (resendAvailable) {
+  //     alert("You can resend OTP after 1 minute.");
+  //     return;
+  //   }
 
-    setButtonState("send");
-    setIsLoading(true);
+  //   setButtonState("send");
+  //   setIsLoading(true);
 
-    try {
-      // Make Axios POST request to resend OTP
-      const response = await axios.post(
-        `${url}api/v1/otpvarification/resend-otp`,
-        { phone }
-      );
+  //   try {
+  //     // Make Axios POST request to resend OTP
+  //     const response = await axios.post(
+  //       `${url}api/v1/otpvarification/resend-otp`,
+  //       { phone }
+  //     );
 
-      if (response.data.success) {
-        setButtonState("sended");
-        setSendotp(true);
-        setResendAvailable(true);
+  //     if (response.data.success) {
+  //       setButtonState("sended");
+  //       setSendotp(true);
+  //       setResendAvailable(true);
 
-        // Enable resend after 1 minute
-        setTimeout(() => {
-          setResendAvailable(false);
-        }, 60000); // 1 minute timeout
+  //       // Enable resend after 1 minute
+  //       setTimeout(() => {
+  //         setResendAvailable(false);
+  //       }, 60000); // 1 minute timeout
         
-      } else {
-        setButtonState("send");
-        alert(response.data.message || "Failed to resend OTP");
-      }
-    } catch (error) {
-      console.error("Error resending OTP:", error);
-      setButtonState("send");
-      alert(
-        error.response?.data?.message || "An error occurred while resending OTP"
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     } else {
+  //       setButtonState("send");
+  //       alert(response.data.message || "Failed to resend OTP");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error resending OTP:", error);
+  //     setButtonState("send");
+  //     alert(
+  //       error.response?.data?.message || "An error occurred while resending OTP"
+  //     );
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   return (
     <><div className="ihduwfr_form_wrapper mt-4">
@@ -294,7 +276,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
               // validate: {
               //   minLength: (value) =>
               //     value.replace(/\D/g, "").length >= 10 ||
-              //     "Enter a valid phone number",
+              //     "Please Enter a valid phone number",
               // },
             }}
             render={({
@@ -324,9 +306,9 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                       ref,
                     }}
                   />{" "}
-                  <button
+                  {/* <button
                     type="button"
-                    onClick={handleSendOtp}
+                    // onClick={handleSendOtp}
                     disabled={isLoading}
                     className={`otp-button ${
                       isLoading ? "loading" : ""
@@ -341,9 +323,9 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                     ) : (
                       "OTP Sent"
                     )}
-                  </button>
+                  </button> */}
                 </div>
-                <div className="aftersendOTP">
+                {/* <div className="aftersendOTP">
                       {" "}
                       {Sendotp && (
                         <>
@@ -355,7 +337,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                           />
                           <button
                             type="button"
-                            onClick={handleVerifyOtp}
+                            // onClick={handleVerifyOtp}
                             disabled={isLoadingVerify}
                             style={{fontSize:"11px"}}
                             className={`otp-buttonVerify ${
@@ -379,7 +361,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                         
                           <button
                             type="button"
-                            onClick={handleResendOtp}
+                            // onClick={handleResendOtp}
                             disabled={resendAvailable}
                             className="resendOtpBtn"
                           >
@@ -389,7 +371,7 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
                           </button>
                         
                       )}
-                    </div>
+                    </div> */}
 
                 {errors.mentee_phone && (
                   <p className="Error-meg-login-register">

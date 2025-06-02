@@ -133,7 +133,7 @@ function MentorList({ filters }) {
                 <td>
                   <button className="profile-button">
                     <Link
-                      to={`/mentor-club/mentor-profile/${
+                      to={`/mentor-connect/mentor-profile/${
                         mentor.user_firstname +
                         "-" +
                         mentor.user_lastname.replace(" ", "-").toLowerCase()

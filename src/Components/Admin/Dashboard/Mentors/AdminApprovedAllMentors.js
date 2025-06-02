@@ -228,7 +228,7 @@ const AdminApprovedAllMentors = () => {
                             <button className="profile-button">
                               <Link
                                 target="_blank"
-                                to={`/mentor-club/mentor-profile/private/${
+                                to={`/mentor-connect/mentor-profile/private/${
                                   mentor.user_firstname +
                                   "-" +
                                   mentor.user_lastname

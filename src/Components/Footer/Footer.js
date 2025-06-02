@@ -35,7 +35,7 @@
 //                       </div>
 
 //                       <div className="nbffg position-relative mb-3">
-//                         <a href="/mentor-club">
+//                         <a href="/mentor-connect">
 //                           <i className="fa-solid fa-angle-right"></i> Mentor
 //                           Club
 //                         </a>
@@ -298,7 +298,7 @@ const Footer = () => {
                   <a href="/">Home</a>
                 </li>
                 <li>
-                  <a href="/mentor-club">Mentor Club</a>
+                  <a href="/mentor-connect">Mentor Connect</a>
                 </li>
                 <li>
                   <a href="/case-study">AI Case Study</a>

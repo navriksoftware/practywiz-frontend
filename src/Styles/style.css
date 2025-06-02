@@ -1637,8 +1637,6 @@ header .suggestion:hover {
   margin-bottom: 0 !important;
 }
 
-
-
 .gfhgf {
   font-size: 16px;
   color: #000;
@@ -2219,12 +2217,12 @@ header .suggestion:hover {
 }
 
 .djioerr_dpdwn {
-  width: 12.8rem;
+  width: 15rem;
   right: 5%;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   z-index: 9;
-  top: 45px;
+  top: 50px;
 }
 
 .djioerr_dpdwn li {
@@ -2233,6 +2231,11 @@ header .suggestion:hover {
   border-bottom: 1px solid var(--light-grey-border);
   padding: 5px 0;
   font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-family-lato);
+  font-size: 0.9rem;
+  color: #3e3e3e;
+
   transition: background-color 0.3s ease;
 }
 .djioerr_dpdwn li:hover {
@@ -6015,5 +6018,3 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
-

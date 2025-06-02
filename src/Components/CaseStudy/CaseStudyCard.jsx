@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./CaseStudyCard.css";
 function CaseStudyCard({ data }) {
+console.log("data", data);
   return (
     <article className="case-study-card-container">
       {/* <img

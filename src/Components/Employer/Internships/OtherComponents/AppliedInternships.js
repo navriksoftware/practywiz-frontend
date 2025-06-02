@@ -44,7 +44,7 @@ const MyApplications = ({ appliedInternships }) => {
 
   const getStatusClass = (status) => {
     switch (status.toLowerCase()) {
-      case "accepted":
+      case "hired":
         return "my-app-status-accepted";
       case "rejected":
         return "my-app-status-rejected";

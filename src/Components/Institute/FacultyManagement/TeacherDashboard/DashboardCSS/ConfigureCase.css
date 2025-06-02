@@ -9,7 +9,7 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
   overflow: hidden;
-  z-index: 100;
+  z-index: 1000;
 }
 
 /* Main container */

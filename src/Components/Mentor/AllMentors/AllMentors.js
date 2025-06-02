@@ -42,6 +42,33 @@ const AllMentors = () => {
     };
     fetchMentors();
   }, [url]);
+
+const API_KEY = process.env.REACT_APP_API_KEY;
+
+  const [DefaultCurruncyType, setDefaultCurruncyType] = useState("IN");
+
+  const fetchLocationData = async () => {
+    try {
+      const response = await fetch(`https://ipinfo.io?token=${API_KEY}`);
+      const data = await response.json();
+      setDefaultCurruncyType(data.country);
+
+    } catch (error) {
+      setDefaultCurruncyType("IN");
+
+      console.error("Error fetching location data:", error);
+    }
+  };
+
+  // Fetch the location data when the component mounts
+  useEffect(() => {
+    fetchLocationData();
+  }, []);
+
+
+
+
+
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -208,9 +235,9 @@ const AllMentors = () => {
             style={{ color: "#1b63de" }}
           ></i>
         </h2>
-        <h4 style={{ textAlign: "center" }}>
+        {/* <h4 style={{ textAlign: "center" }}>
           Learn From The Corporate, Step Into Corporate World!
-        </h4>
+        </h4> */}
       </div>
 
       <div className="kghfbgfgbhfg pb-0 " style={{ paddingTop: "1rem" }}>
@@ -385,7 +412,7 @@ const AllMentors = () => {
               <>
                 {filteredMentors.length > 0 ? (
                   filteredMentors?.map((mentor) => {
-                    return <AllMentorCard mentor={mentor} />;
+                    return <AllMentorCard mentor={mentor} DefaultCurruncyType={DefaultCurruncyType} />;
                   })
                 ) : (
                   <div className="options-container">

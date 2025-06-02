@@ -6,12 +6,24 @@
   color: #333;
 }
 
+.single-case-details-view-navigation {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.single-case-details-view-breadcrumbs-item {
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+}
+
 /* Header styles */
-.single-case-details-view-header {
+/* .single-case-details-view-header {
   margin-bottom: 20px;
   border-bottom: 1px solid #eaeaea;
   padding-bottom: 15px;
-}
+} */
 
 .single-case-details-view-title {
   font-size: 24px;
@@ -24,7 +36,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
 }
 
 .single-case-details-view-course-name {
@@ -159,6 +171,7 @@
 .single-case-details-view-student-list-container {
   background-color: #fff;
   border-radius: 8px;
+  padding: 1rem;
 }
 
 .single-case-details-view-list-header {
@@ -323,7 +336,7 @@
 }
 
 /* Action dropdown styling */
-.single-case-details-view-dropdown-menu {
+/* .single-case-details-view-dropdown-menu {
   position: absolute;
   right: 0;
   z-index: 10;
@@ -334,13 +347,13 @@
   border-radius: 6px;
   padding: 0.5rem 0;
   margin-top: 0.5rem;
-}
+} */
 
 .single-case-details-view-dropdown-menu button {
   display: flex;
   align-items: center;
-  width: 100%;
-  padding: 0.5rem 1rem;
+  width: fit-content;
+  /* padding: 0.5rem 1rem; */
   text-align: left;
   background: none;
   border: none;
@@ -348,6 +361,7 @@
   font-size: 0.875rem;
   color: #374151;
   transition: background-color 0.2s;
+  gap: 0.2rem;
 }
 
 .single-case-details-view-dropdown-menu button:hover {
@@ -361,10 +375,10 @@
   height: 16px;
 }
 
-.single-case-details-view-action-dropdown {
+/* .single-case-details-view-action-dropdown {
   position: relative;
   display: inline-block;
-}
+} */
 
 .single-case-details-view-action-btn {
   background: transparent;

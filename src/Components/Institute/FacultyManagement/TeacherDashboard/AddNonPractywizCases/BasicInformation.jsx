@@ -6,23 +6,23 @@ export function BasicInformation({
   title,
   author,
   category,
-  tags,
+  // tags,
   onInputChange,
   onTagAdd,
   onTagRemove,
   errors = {},
 }) {
-  const [newTag, setNewTag] = useState("");
+  // const [newTag, setNewTag] = useState("");
 
-  const handleTagKeyDown = (e) => {
-    if (e.key === "Enter" || e.key === ",") {
-      e.preventDefault();
-      if (newTag.trim()) {
-        onTagAdd(newTag.trim());
-        setNewTag("");
-      }
-    }
-  };
+  // const handleTagKeyDown = (e) => {
+  //   if (e.key === "Enter" || e.key === ",") {
+  //     e.preventDefault();
+  //     if (newTag.trim()) {
+  //       onTagAdd(newTag.trim());
+  //       setNewTag("");
+  //     }
+  //   }
+  // };
 
   return (
     <section className="new-case-add-section">
@@ -96,7 +96,7 @@ export function BasicInformation({
           )}
         </div>
 
-        <div className="new-case-add-field new-case-add-field-half">
+        {/* <div className="new-case-add-field new-case-add-field-half">
           <label htmlFor="tags" className="new-case-add-label">
             Tags
           </label>
@@ -131,7 +131,7 @@ export function BasicInformation({
               />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

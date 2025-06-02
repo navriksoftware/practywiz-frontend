@@ -22,9 +22,11 @@ import InstituteUserList from "./OtherComponents/InstituteUserList";
 import { ApiURL } from "../../../Utils/ApiURL";
 import axios from "axios";
 import CaseStudiesListPage from "./OtherComponents/CaseStudiesListPage";
-import { set } from "react-hook-form";
 import TeacherDetailslistings from "./OtherComponents/TeacherDetailslistings";
 import SingleTeacherdetailspage from "./OtherComponents/SingleTeacherdetailspage";
+import { setinstituteDtls } from "../../../Redux/instituteSlice";
+import AllCaseStudies from "./OtherComponents/AllCaseStudies";
+import CaseStudy from "../../CaseStudy/CaseStudy";
 
 const InstituteDashboard = ({ user, token }) => {
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
@@ -44,6 +46,7 @@ const InstituteDashboard = ({ user, token }) => {
   const [ShowNonAlumniMentor, setShowNonAlumniMentor] = useState(false);
   const [AlumniListMentor, setAlumniListMentor] = useState(false);
   const [CaseStudiesList, setCaseStudiesList] = useState(false);
+  const [AllCaseStudiesList, setAllCaseStudiesList] = useState(false);
   const [TeachersList, setTeachersList] = useState(false);
   const [SingleTeacherdetails, setSingleTeacherdetails] = useState(false)
   const [Communication, setCommunication] = useState(false);
@@ -51,6 +54,8 @@ const InstituteDashboard = ({ user, token }) => {
   const [mentormenu, setmentormenu] = useState(false);
   const [sub_sub1, setsub_sub1] = useState(false);
   const [sub_sub2, setsub_sub2] = useState(false);
+  const [isOpenCaseMenu, setisOpenCaseMenu] = useState(false)
+  const [childData, setchildData] = useState()
   const toggleMenu = () => {
     setIsOpen(true);
     setsub_sub2(false);
@@ -85,6 +90,16 @@ const InstituteDashboard = ({ user, token }) => {
     setsub_sub1(false);
     setsub_sub2(false);
   };
+  const toggleCaseStudyMenuOn = () => {
+    setisOpenCaseMenu(true);
+    setsub_sub2(false);
+    setsub_sub1(false);
+  };
+  const toggleCaseStudyMenuOff = () => {
+    setisOpenCaseMenu(false);
+    setsub_sub2(false);
+    setsub_sub1(false);
+  };
   // const toggleMenu9 = () => {};
   const SubmenuAllOff = () => {
     setsub_sub2(false);
@@ -113,7 +128,8 @@ const InstituteDashboard = ({ user, token }) => {
       setshowInstituteProfile(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
   const InstituteProfileSettingHandler = () => {
@@ -137,7 +153,8 @@ const InstituteDashboard = ({ user, token }) => {
       setShowUserList(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
 
@@ -162,7 +179,8 @@ const InstituteDashboard = ({ user, token }) => {
       setShowUserList(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
 
@@ -187,7 +205,8 @@ const InstituteDashboard = ({ user, token }) => {
       setShowUserList(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
 
@@ -212,7 +231,8 @@ const InstituteDashboard = ({ user, token }) => {
       setShowUserList(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
 
@@ -237,7 +257,8 @@ const InstituteDashboard = ({ user, token }) => {
       setShowUserList(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
 
@@ -262,7 +283,8 @@ const InstituteDashboard = ({ user, token }) => {
       setShowUserList(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
   const InstituteRegiterGuest = () => {
@@ -286,7 +308,8 @@ const InstituteDashboard = ({ user, token }) => {
       setShowUserList(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
   const InstituteHistoryGuest = () => {
@@ -310,7 +333,8 @@ const InstituteDashboard = ({ user, token }) => {
       setShowUserList(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
 
@@ -335,7 +359,8 @@ const InstituteDashboard = ({ user, token }) => {
       setShowUserList(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
 
@@ -360,7 +385,8 @@ const InstituteDashboard = ({ user, token }) => {
       setShowUserList(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
 
@@ -385,7 +411,8 @@ const InstituteDashboard = ({ user, token }) => {
       setShowUserList(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
   const InstituteAlumniListMentor = () => {
@@ -409,7 +436,8 @@ const InstituteDashboard = ({ user, token }) => {
       setShowUserList(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
 
@@ -434,7 +462,8 @@ const InstituteDashboard = ({ user, token }) => {
       setShowUserList(false),
       setCaseStudiesList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
   const HandleCaseStudieslist = () => {
@@ -458,7 +487,8 @@ const InstituteDashboard = ({ user, token }) => {
       setAlumniListMentor(false),
       setShowUserList(false),
       setTeachersList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
   const HandleTeacherslist = () => {
@@ -482,7 +512,8 @@ const InstituteDashboard = ({ user, token }) => {
       setAlumniListMentor(false),
       setShowUserList(false),
       setCaseStudiesList(false),
-      setSingleTeacherdetails(false)
+      setSingleTeacherdetails(false),
+      setAllCaseStudiesList(false)
     );
   };
   const HandleSingleTeacherDetails = () => {
@@ -506,14 +537,35 @@ const InstituteDashboard = ({ user, token }) => {
       setAlumniListMentor(false),
       setShowUserList(false),
       setCaseStudiesList(false),
-      setTeachersList(false)
+      setTeachersList(false),
+      setAllCaseStudiesList(false)
     );
   };
-
-
-
-
-
+  const HandleAllCaseStudieslist = () => {
+    if (!AllCaseStudiesList) {
+      setAllCaseStudiesList(true)
+    }
+    return (
+      setShowProfileSettings(false),
+      setShowChangePwd(false),
+      setShowInstituteMessage(false),
+      setshowInstituteProfile(false),
+      setshowsearchguest(false),
+      setCommunication(false),
+      setShowRequestGuest(false),
+      setShowRegisterGuest(false),
+      setShowNotification(false),
+      setshowAddMentor(false),
+      setShowHistory(false),
+      setShowAlumniMentor(false),
+      setShowNonAlumniMentor(false),
+      setAlumniListMentor(false),
+      setShowUserList(false),
+      setCaseStudiesList(false),
+      setTeachersList(false), 
+      setSingleTeacherdetails(false)
+    );
+  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -538,6 +590,7 @@ const InstituteDashboard = ({ user, token }) => {
         ]);
 
         if (response.data.success) {
+          dispatch(setinstituteDtls(response.data.success));// use this to set the data in redux store
           setInstituteDashboardDetails(response.data.success);
         } else if (response.data.error) {
           setInstituteDashboardDetails([]);
@@ -861,20 +914,55 @@ const InstituteDashboard = ({ user, token }) => {
               <h5>Communication Template</h5>
               </button> */}
 
-            <button
+            <div className="Baseposition" onMouseLeave={toggleCaseStudyMenuOff}>
+              <button
+                className="btn btn-transparent text-center py-3 seeeett"
+                onMouseOver={toggleCaseStudyMenuOn}
+              >
+                <span className="d-block bg-white position-relative m-auto  ">
+                  {/* <img src={Pic2} alt="pic2" width={"44px"} /> */}
+                  <i className="fa-solid fa-chalkboard-user"></i>
+                </span>
+
+                <h5>
+                  Case Studies
+                  <i className="fa-solid fa-chevron-down downarrowsize"></i>
+                </h5>
+              </button>
+              {isOpenCaseMenu && (
+                <div className="submenu">
+                  <button
+                    className="submenu-item"
+                    onClick={HandleAllCaseStudieslist}
+                  >
+                    <h5>All Case Studies</h5>
+                  </button>
+                  <button
+                    className="submenu-item"
+                    onClick={HandleCaseStudieslist}
+                  >
+                    <h5>Purchased Case Studies</h5>
+                  </button>
+                </div>
+              )}
+            </div>
+
+
+
+            {/* <button
               className="btn btn-transparent text-center py-3 seeeett"
-            onClick={HandleCaseStudieslist}
+              onClick={HandleCaseStudieslist}
             >
               <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-file-lines"></i>
               </span>
 
               <h5>All Case Studies</h5>
-            </button>
+            </button> */}
 
             <button
               className="btn btn-transparent text-center py-3 seeeett"
-            onClick={HandleTeacherslist}
+              onClick={HandleTeacherslist}
             >
               <span className="d-block bg-white position-relative m-auto ">
                 <i className="fa-solid fa-briefcase"></i>
@@ -957,8 +1045,17 @@ const InstituteDashboard = ({ user, token }) => {
             ) : (
               ""
             )}
-            {CaseStudiesList ? (
+            {AllCaseStudiesList ? (
               <CaseStudiesListPage
+                instituteDashboardDetails={instituteDashboardDetails}
+                user={user}
+                token={token}
+              />
+            ) : (
+              ""
+            )}
+            {CaseStudiesList ? (
+              <AllCaseStudies
                 instituteDashboardDetails={instituteDashboardDetails}
                 user={user}
                 token={token}
@@ -972,6 +1069,7 @@ const InstituteDashboard = ({ user, token }) => {
                 user={user}
                 token={token}
                 HandleSingleTeacherDetails={HandleSingleTeacherDetails}
+                setchildData={setchildData}
               />
             ) : (
               ""
@@ -981,8 +1079,7 @@ const InstituteDashboard = ({ user, token }) => {
                 instituteDashboardDetails={instituteDashboardDetails}
                 user={user}
                 token={token}
-                
-              />
+                childData={childData} />
             ) : (
               ""
             )}

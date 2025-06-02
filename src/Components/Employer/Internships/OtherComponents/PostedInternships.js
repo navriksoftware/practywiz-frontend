@@ -2,11 +2,17 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../InternshipCss/InternshipProfile.css";
+import axios from "axios";
+import { ApiURL } from "../../../../Utils/ApiURL";
+import { toast } from "react-toastify";
 
 const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
   const [internshipList, setInternshipList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredInternships, setFilteredInternships] = useState([]);
+  const [status, setStatus] = useState();
+
+  const url = ApiURL();
 
   useEffect(() => {
     if (data[0]?.internship_post_list) {
@@ -20,6 +26,7 @@ const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
       }));
       setInternshipList(extractedData);
       setFilteredInternships(extractedData);
+      setStatus(extractedData.status);
     }
   }, [data]);
 
@@ -45,13 +52,36 @@ const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
     setFilteredInternships(result);
   }, [internshipList, searchQuery]);
 
-  const handleStatusChange = (id, newStatus) => {
-    setInternshipList((prevInternships) =>
-      prevInternships.map((internship) =>
-        internship.id === id ? { ...internship, status: newStatus } : internship
-      )
-    );
+  const handleStatusChange = async (id, newStatus) => {
+    if (newStatus == "open") {
+      newStatus = "closed";
+      toast.error("Once Internship closed It can't be Open again");
+    } else {
+      await axios
+        .post(`${url}api/v1/employer/internship/status-internship`, {
+          status: newStatus,
+          id: id,
+        })
+        .then((res) => {
+          console.log("new data", res.data);
+          toast.success("Status changed Successfully");
+          setInternshipList((prevInternships) => {
+            const updatedList = prevInternships.map((internship) =>
+              internship.id === id
+                ? { ...internship, status: newStatus }
+                : internship
+            );
+
+            return updatedList;
+          });
+        })
+        .catch((error) => {
+          toast.error("Something went Wrong.");
+        });
+    }
   };
+
+  const updateStatusInDb = async (id, newStatus) => {};
 
   return (
     <>
@@ -93,13 +123,26 @@ const PostedInternshipListing = ({ onEditInternshipPost, data }) => {
 
                   {/* Middle section */}
                   <div className="internship_profile_status_section">
-                    <p
+                    {/* <p
                       className={`internship_profile_status_select ${
                         internship.status === "open" ? "active" : "closed"
                       }`}
                     >
                       {internship.status}
-                    </p>
+                    </p> */}
+                    {/* updated code */}
+                    <select
+                      value={internship.status}
+                      onChange={(event) => {
+                        handleStatusChange(internship.id, event.target.value);
+                      }}
+                      className={`internship_profile_status_select ${
+                        internship.status === "open" ? "active" : "closed"
+                      } `}
+                    >
+                      <option value="open">Open</option>
+                      <option value="closed">Closed</option>
+                    </select>
                   </div>
                   <div className={`internship_profile_supervision_label `}>
                     <span

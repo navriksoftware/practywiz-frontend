@@ -1,0 +1,24 @@
+.teacher-dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+/* Make room for the sticky navbar when it's fixed */
+.new-nav-bar-comp.sticky + .dashboard-content {
+  margin-top: 76px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard-content {
+    padding: 12px;
+  }
+}

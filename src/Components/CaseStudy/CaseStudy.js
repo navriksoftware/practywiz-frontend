@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import { setPurchasedItems } from "../../Redux/purchasedSlice";
 import CaseStudyCard from "./CaseStudyCard";
 
-const CaseStudy = ({ user, token }) => {
+const CaseStudy = ({ user, token, initialSearch = "" }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart.items);
@@ -25,7 +25,7 @@ const CaseStudy = ({ user, token }) => {
   // State for case studies data and filters
   const [allCaseStudiesData, setAllCaseStudiesData] = useState([]);
   const [filteredCaseStudiesData, setFilteredCaseStudiesData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(initialSearch);
   const [sortOrder, setSortOrder] = useState("newest");
   const [loading, setLoading] = useState(false);
 
@@ -238,7 +238,12 @@ const CaseStudy = ({ user, token }) => {
       console.error("Date parsing error:", error);
       return new Date(0);
     }
-  };
+  }; // Apply initialSearch if provided
+  useEffect(() => {
+    // Always set search term to initialSearch (even if empty)
+    // This ensures clearing searches works properly
+    setSearchTerm(initialSearch);
+  }, [initialSearch]);
 
   // Apply filters and sorting whenever filter values change
   useEffect(() => {
@@ -246,7 +251,17 @@ const CaseStudy = ({ user, token }) => {
       // First filter by search term
       let filtered = allCaseStudiesData.filter((caseStudy) => {
         const matchesSearch = searchTerm
-          ? caseStudy.caseTopic.toLowerCase().includes(searchTerm.toLowerCase())
+          ? caseStudy.caseTopic
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            (caseStudy.subjectCategory &&
+              caseStudy.subjectCategory
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())) ||
+            (caseStudy.extract &&
+              caseStudy.extract
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase()))
           : true;
 
         return matchesSearch;
@@ -267,11 +282,23 @@ const CaseStudy = ({ user, token }) => {
 
     filterAndSortData();
   }, [searchTerm, sortOrder, allCaseStudiesData]);
-
   // Clear all filters
   const clearFilters = () => {
     setSearchTerm("");
     setSortOrder("newest");
+
+    // Notify the parent component that search has been cleared
+    // This helps maintain consistent state between components
+    if (window.history.pushState) {
+      // Update the URL without the search parameter
+      const newurl =
+        window.location.protocol +
+        "//" +
+        window.location.host +
+        window.location.pathname;
+
+      window.history.pushState({ path: newurl }, "", newurl);
+    }
   };
 
   // Render the selected sort option text
@@ -288,20 +315,27 @@ const CaseStudy = ({ user, token }) => {
 
   return (
     <>
-      <CaseNavBar />
+      {/* <CaseNavBar /> */}{" "}
       <div className="case-study-display-container">
-        <div className="case-filter-container">
-          <div className="case-search">
-            <input
-              type="text"
-              placeholder="Search by topic..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="case-search-input"
-            />
-            <i className="fa fa-search search-icon"></i>
+        {/* {searchTerm && (
+          <div className="search-tag-container">
+            <div className="search-tag">
+              <span>Search: {searchTerm}</span>
+              <button
+                onClick={clearFilters}
+                className="search-tag-remove"
+                aria-label="Clear search"
+              >
+                <i className="fa fa-times"></i>
+              </button>
+            </div>
+            <span className="search-results-count">
+              Found {filteredCaseStudiesData.length}{" "}
+              {filteredCaseStudiesData.length === 1 ? "result" : "results"}
+            </span>
           </div>
-
+        )} */}
+        <div className="case-sort-container">
           <div className="case-sort">
             <div className="case-dropdown">
               <button className="case-dropbtn">
@@ -324,12 +358,6 @@ const CaseStudy = ({ user, token }) => {
               </div>
             </div>
           </div>
-
-          {(searchTerm || sortOrder !== "newest") && (
-            <button className="case-clear-btn" onClick={clearFilters}>
-              Clear All
-            </button>
-          )}
         </div>
 
         <div className="app-container">

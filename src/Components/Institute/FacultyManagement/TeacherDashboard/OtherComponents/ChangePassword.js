@@ -5,21 +5,22 @@ import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons for show
 // import "../DashboardCSS/ChangePwd.css";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-// import {
-//   hideLoadingHandler,
-//   showLoadingHandler,
-// } from "../../../../Redux/loadingRedux";
-// import { ApiURL } from "../../../../Utils/ApiURL";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../../Redux/loadingRedux.js";
+import { ApiURL } from "../../../../../Utils/ApiURL";
 const TIMEOUT_MS = 45000; // Timeout duration in milliseconds
 const ChangePassword = ({ user, token }) => {
-//   const url = ApiURL();
-//   const dispatch = useDispatch();
+  const url = ApiURL();
+  const dispatch = useDispatch();
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     mode: "onBlur",
@@ -30,37 +31,39 @@ const ChangePassword = ({ user, token }) => {
   });
 
   const onSubmit = async (data) => {
-    // try {
-    //   dispatch(showLoadingHandler());
-    //   const response = await Promise.race([
-    //     axios.post(
-    //       `${url}api/v1/auth/change/password`,
-    //       {
-    //         password: data.newPassword,
-    //         userId: user?.user_id,
-    //       },
-    //       {
-    //         headers: { authorization: "Bearer " + token },
-    //       }
-    //     ),
-    //     new Promise((_, reject) =>
-    //       setTimeout(() => reject(new Error("Request timed out")), TIMEOUT_MS)
-    //     ),
-    //   ]);
-    //   if (response.data.success) {
-    //     dispatch(hideLoadingHandler());
-    //     toast.success("Password change successfully");
-    //   }
-    //   if (response.data.error) {
-    //     dispatch(hideLoadingHandler());
-    //     toast.error("There is some error while changing the passwords");
-    //   }
-    // } catch (error) {
-    //   toast.error("There is some error while changing the passwords"); // Stop loading
-    //   dispatch(hideLoadingHandler());
-    // } finally {
-    //   dispatch(hideLoadingHandler());
-    // }
+    try {
+      dispatch(showLoadingHandler());
+      const response = await Promise.race([
+        axios.post(
+          `${url}api/v1/auth/change/password`,
+          {
+            password: data.newPassword,
+            userId: user?.user_id,
+          },
+          {
+            headers: { authorization: "Bearer " + token },
+          }
+        ),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Request timed out")), TIMEOUT_MS)
+        ),
+      ]);
+      if (response.data.success) {
+        dispatch(hideLoadingHandler());
+
+        toast.success("Password change successfully");
+        reset();
+      }
+      if (response.data.error) {
+        dispatch(hideLoadingHandler());
+        toast.error("There is some error while changing the passwords");
+      }
+    } catch (error) {
+      toast.error("There is some error while changing the passwords"); // Stop loading
+      dispatch(hideLoadingHandler());
+    } finally {
+      dispatch(hideLoadingHandler());
+    }
   };
 
   return (
@@ -69,7 +72,7 @@ const ChangePassword = ({ user, token }) => {
         <div className="container">
           <div className="mentor-prf-settings py-5">
             <h3 className="mb-3">Change Your Password</h3>
-            
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 position-relative">
                 <label className="label-control">New Password</label>

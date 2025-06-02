@@ -1,6 +1,6 @@
 .case-navbar {
   display: flex;
-  position: sticky;
+  /* position: sticky; */
   top: 4rem;
   justify-content: space-between;
   align-items: center;

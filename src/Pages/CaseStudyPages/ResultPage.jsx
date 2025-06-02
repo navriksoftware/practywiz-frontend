@@ -10,13 +10,15 @@ import {
 } from "recharts";
 import Navbar from "../../Components/Navbar/Navbar";
 import { ApiURL } from "../../Utils/ApiURL";
+import "./ResultPage.css";
 
 const ResultPage = () => {
   const URL = ApiURL();
   const location = useLocation();
   const navigate = useNavigate();
   const { responses, caseStudy } = location.state || {};
-  console.log(responses);
+  console.log("This is response of user: ", responses);
+  console.log("This is caseStudy: ", responses);
 
   const [aiEvaluation, setAiEvaluation] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -106,6 +108,7 @@ const ResultPage = () => {
         }
 
         const data = await response.json();
+        console.log("AI Evaluation Data:", data);
         setAiEvaluation(data);
       } catch (error) {
         console.error("Error fetching AI evaluation:", error);
@@ -129,272 +132,289 @@ const ResultPage = () => {
   const COLORS = ["#28a745", "#dc3545"];
 
   return (
-    <>
+    <div className="student-result-body-container">
       <Navbar />
-      <div className="max-w-7xl mx-auto px-4 py-8 main-content-container">
-        <h1 className="text-3xl font-bold mb-8">Case Study Results</h1>
+      <div className="student-result-main-content-container">
+        <div className="student-result-content-container">
+          <h1 className="student-result-heading-primary text-center mb-6">
+            Case Study Results Summary
+          </h1>
 
-        {/* Fact-based Questions Section */}
-        {factResponses.length > 0 && (
-          <div className="case-study-result-container">
-            <h2 className="result-heading">Fact-Based Questions Performance</h2>
-            <div className="fact-based-results">
-              <div className="score-summary">
-                <p className="score-text">
-                  You answered <strong>{correctAnswers}</strong> out of{" "}
-                  <strong>{factResponses.length}</strong> fact-based questions
-                  correctly.
-                </p>
-                <div className="score-percentage">
-                  {((correctAnswers / factResponses.length) * 100).toFixed(0)}%
+          {/* Fact-based Questions Section */}
+          {factResponses.length > 0 && (
+            <div className="student-result-container mb-8">
+              <h2 className="student-result-heading text-center">
+                Fact-Based Questions Performance
+              </h2>
+              <div className="student-result-fact-based-results">
+                <div className="student-result-score-summary mb-4">
+                  <p className="student-result-score-text">
+                    You answered <strong>{correctAnswers}</strong> out of{" "}
+                    <strong>{factResponses.length}</strong> fact-based questions
+                    correctly.
+                  </p>
+                  <div className="student-result-score-percentage">
+                    {((correctAnswers / factResponses.length) * 100).toFixed(0)}%
+                  </div>
                 </div>
-              </div>
 
-              <div className="chart-container">
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={chartData}
-                      cx="50%"
-                      cy="50%"
-                      label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
-                      outerRadius={100}
-                      fill="#8884d8"
-                      dataKey="value"
-                      className="pie-chart"
-                    >
-                      {chartData.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={COLORS[index]}
-                          className="pie-chart-cell"
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "#fff",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px",
-                      }}
-                    />
-                    <Legend
-                      verticalAlign="bottom"
-                      height={36}
-                      className="chart-legend"
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
+                <div className="student-result-chart-container mb-6">
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={chartData}
+                        cx="50%"
+                        cy="50%"
+                        label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
+                        outerRadius={120}
+                        innerRadius={60}
+                        fill="#8884d8"
+                        dataKey="value"
+                        className="student-result-pie-chart"
+                        paddingAngle={5}
+                      >
+                        {chartData.map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={COLORS[index]}
+                            className="student-result-pie-chart-cell"
+                          />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "#fff",
+                          border: "1px solid #ccc",
+                          borderRadius: "8px",
+                          padding: "10px",
+                          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                        }}
+                      />
+                      <Legend
+                        verticalAlign="bottom"
+                        height={36}
+                        className="student-result-chart-legend"
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
 
-              {/* Detailed Questions Review */}
-              <div className="questions-review">
-                {factResponses.map((response, index) => (
-                  <div key={index} className="question-item">
-                    <h3 className="question-text">Question {index + 1}</h3>
-                    <p className="question-content">{response.question}</p>
-                    <div className="options-container">
-                      {response.options?.map((option, optIndex) => (
-                        <div
-                          key={optIndex}
-                          className={`option-item ${
-                            response.userAnswer === option
-                              ? response.isCorrect
-                                ? "correct-answer"
-                                : "incorrect-answer"
-                              : response.correctAnswer === option
-                              ? "correct-answer"
-                              : ""
+                {/* Detailed Questions Review */}
+                <div className="student-result-questions-review">
+                  <h3 className="student-result-heading-tertiary mb-4">Detailed Review</h3>
+                  {factResponses.map((response, index) => (
+                    <div key={index} className="student-result-question-item">
+                      <h3 className="student-result-question-title">
+                        Question {index + 1}
+                      </h3>
+                      <p className="mb-3">{response.question}</p>
+                      <div className="student-result-options-container">
+                        {response.options?.map((option, optIndex) => (
+                          <div
+                            key={optIndex}
+                            className={`student-result-option-item ${
+                              response.userAnswer === option
+                                ? response.isCorrect
+                                  ? "student-result-correct-answer"
+                                  : "student-result-incorrect-answer"
+                                : response.correctAnswer === option
+                                ? "student-result-correct-answer"
+                                : ""
+                            }`}
+                          >
+                            {option}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="student-result-answer-feedback mt-3">
+                        <p
+                          className={`student-result-user-answer ${
+                            response.isCorrect ? "student-result-text-success" : "student-result-text-danger"
                           }`}
                         >
-                          {option}
-                        </div>
-                      ))}
-                    </div>
-                    <div className="answer-feedback">
-                      <p
-                        className={`user-answer ${
-                          response.isCorrect ? "correct" : "incorrect"
-                        }`}
-                      >
-                        Your answer: {response.userAnswer}
-                      </p>
-                      <p className="correct-answer-text">
-                        Correct answer: {response.correctAnswer}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Analysis-based Questions Section */}
-        {analysisResponses.length > 0 && (
-          <div className="bg-white rounded-lg shadow-md mb-8 p-6">
-            <h2 className="text-2xl font-semibold mb-4">
-              Analysis-Based Questions
-            </h2>
-            {isLoading ? (
-              <div className="flex items-center justify-center p-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                <span className="ml-2">Analyzing responses...</span>
-              </div>
-            ) : aiEvaluation?.evaluations ? (
-              <div className="space-y-6">
-                {aiEvaluation.evaluations.map((evaluation, idx) => {
-                  // Find corresponding user response for main question
-                  const mainQuestionResponse = analysisResponses.find(
-                    (response) =>
-                      response.question === evaluation.mainQuestion.question
-                  );
-
-                  // Find follow-up responses
-                  const followUpResponses = evaluation.followUps?.map(
-                    (followUp) => {
-                      return analysisResponses.find(
-                        (response) => response.question === followUp.question
-                      );
-                    }
-                  );
-
-                  return (
-                    <div key={idx} className="bg-gray-50 rounded-lg p-4">
-                      {/* Main Question */}
-                      <div className="mb-4">
-                        <h3 className="font-semibold text-lg">
-                          {evaluation.mainQuestion.question}
-                        </h3>
-                        <div className="mt-4 p-4 bg-white rounded-lg border">
-                          <h4 className="font-semibold mb-2">Your Answer:</h4>
-                          <p className="text-gray-700">
-                            {mainQuestionResponse?.userAnswer ||
-                              mainQuestionResponse?.answer}
-                          </p>
-                        </div>
-                        <div className="mt-4">
-                          <span className="text-lg font-bold text-blue-600">
-                            Score: {evaluation.mainQuestion.score}/10
-                          </span>
-                        </div>
-                        <div className="mt-4 p-4 bg-white rounded-lg border">
-                          <h4 className="font-semibold mb-2">Feedback:</h4>
-                          <p className="text-gray-700">
-                            {evaluation.mainQuestion.feedback}
-                          </p>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                          <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-                            <h4 className="font-semibold text-green-700 mb-2">
-                              Strengths:
-                            </h4>
-                            <p className="text-green-600">
-                              {evaluation.mainQuestion.strengths}
-                            </p>
-                          </div>
-                          <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
-                            <h4 className="font-semibold text-orange-700 mb-2">
-                              Areas to Improve:
-                            </h4>
-                            <p className="text-orange-600">
-                              {evaluation.mainQuestion.improvements}
-                            </p>
-                          </div>
-                        </div>
+                          <strong>Your answer:</strong> {response.userAnswer}
+                        </p>
+                        <p className="student-result-correct-answer-text">
+                          <strong>Correct answer:</strong> {response.correctAnswer}
+                        </p>
                       </div>
-
-                      {/* Follow-up Questions */}
-                      {evaluation.followUps?.map((followUp, fIdx) => {
-                        const followUpResponse = followUpResponses[fIdx];
-
-                        return (
-                          <div
-                            key={fIdx}
-                            className="ml-6 border-l-2 border-gray-200 pl-4 mt-6"
-                          >
-                            <h4 className="font-semibold text-lg">
-                              Follow-up Question {fIdx + 1}:
-                            </h4>
-                            <p className="mt-2 text-gray-700">
-                              {followUp.question}
-                            </p>
-                            <div className="mt-4 p-4 bg-white rounded-lg border">
-                              <h5 className="font-semibold mb-2">
-                                Your Answer:
-                              </h5>
-                              <p className="text-gray-700">
-                                {followUpResponse?.userAnswer ||
-                                  followUpResponse?.answer}
-                              </p>
-                            </div>
-                            <div className="mt-4">
-                              <span className="text-lg font-bold text-blue-600">
-                                Score: {followUp.score}/10
-                              </span>
-                            </div>
-                            <div className="mt-4 p-4 bg-white rounded-lg border">
-                              <h5 className="font-semibold mb-2">Feedback:</h5>
-                              <p className="text-gray-700">
-                                {followUp.feedback}
-                              </p>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                              <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-                                <h5 className="font-semibold text-green-700 mb-2">
-                                  Strengths:
-                                </h5>
-                                <p className="text-green-600">
-                                  {followUp.strengths}
-                                </p>
-                              </div>
-                              <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
-                                <h5 className="font-semibold text-orange-700 mb-2">
-                                  Areas to Improve:
-                                </h5>
-                                <p className="text-orange-600">
-                                  {followUp.improvements}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
                     </div>
-                  );
-                })}
-
-                {/* Overall Performance Summary */}
-                <div className="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-200">
-                  <h3 className="text-xl font-semibold mb-4">
-                    Overall Performance
-                  </h3>
-                  <p className="text-gray-700 mb-4">
-                    {aiEvaluation.overallFeedback}
-                  </p>
-                  <p className="text-xl font-bold text-blue-600">
-                    Average Score: {aiEvaluation.averageScore.toFixed(1)}/10
-                  </p>
+                  ))}
                 </div>
               </div>
-            ) : (
-              <p className="text-gray-600">
-                No analysis-based responses to evaluate.
-              </p>
-            )}
-          </div>
-        )}
+            </div>
+          )}
 
-        <button
-          onClick={() =>
-            navigate(`/purchased-case-studies/${caseStudy?.case_study_id}`)
-          }
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Back to Case Study
-        </button>
+          {/* Analysis-based Questions Section */}
+          {analysisResponses.length > 0 && (
+            <div className="student-result-analysis-section mb-8">
+              <h2 className="student-result-heading text-center mb-4">
+                Analysis-Based Questions
+              </h2>
+              {isLoading ? (
+                <div className="text-center p-8">
+                  <div className="student-result-spinner-border text-primary" role="status">
+                    <span className="student-result-visually-hidden">Loading...</span>
+                  </div>
+                  <p className="mt-3">Analyzing your responses...</p>
+                </div>
+              ) : aiEvaluation?.evaluations ? (
+                <div className="student-result-space-y-6">
+                  {aiEvaluation.evaluations.map((evaluation, idx) => {
+                    // Find corresponding user response for main question
+                    const mainQuestionResponse = analysisResponses.find(
+                      (response) =>
+                        response.question === evaluation.mainQuestion.question
+                    );
+
+                    // Find follow-up responses
+                    const followUpResponses = evaluation.followUps?.map(
+                      (followUp) => {
+                        return analysisResponses.find(
+                          (response) => response.question === followUp.question
+                        );
+                      }
+                    );
+
+                    return (
+                      <div key={idx} className="student-result-analysis-container mb-6">
+                        {/* Main Question */}
+                        <div className="mb-4">
+                          <h3 className="student-result-question-title mb-3">
+                            {evaluation.mainQuestion.question}
+                          </h3>
+                          <div className="student-result-bg-white p-4 rounded-lg border mb-3">
+                            <h4 className="student-result-font-semibold mb-2">Your Answer:</h4>
+                            <p className="student-result-text-muted">
+                              {mainQuestionResponse?.userAnswer ||
+                                mainQuestionResponse?.answer}
+                            </p>
+                          </div>
+                          <div className="text-center mb-3">
+                            <span className="student-result-text-large student-result-text-highlight">
+                              Score: {evaluation.mainQuestion.score}/10
+                            </span>
+                          </div>
+                          <div className="student-result-bg-white p-4 rounded-lg border mb-4">
+                            <h4 className="student-result-font-semibold mb-2">Feedback:</h4>
+                            <p className="student-result-text-muted">
+                              {evaluation.mainQuestion.feedback}
+                            </p>
+                          </div>
+                          <div className="student-result-grid student-result-grid-cols-1 md:student-result-grid-cols-2 gap-4 mb-4">
+                            <div className="student-result-bg-success p-4 rounded-lg">
+                              <h4 className="student-result-font-semibold mb-2">
+                                Strengths:
+                              </h4>
+                              <p>
+                                {evaluation.mainQuestion.strengths}
+                              </p>
+                            </div>
+                            <div className="student-result-bg-warning p-4 rounded-lg">
+                              <h4 className="student-result-font-semibold mb-2">
+                                Areas to Improve:
+                              </h4>
+                              <p>
+                                {evaluation.mainQuestion.improvements}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Follow-up Questions */}
+                        {evaluation.followUps?.map((followUp, fIdx) => {
+                          const followUpResponse = followUpResponses[fIdx];
+
+                          return (
+                            <div
+                              key={fIdx}
+                              className="student-result-ml-6 student-result-border-l-2 student-result-border-gray-200 student-result-pl-4 mt-6"
+                            >
+                              <h4 className="student-result-font-semibold student-result-text-lg mb-2">
+                                Follow-up Question {fIdx + 1}:
+                              </h4>
+                              <p className="mb-3 student-result-text-muted">
+                                {followUp.question}
+                              </p>
+                              <div className="student-result-bg-white p-4 rounded-lg border mb-3">
+                                <h5 className="student-result-font-semibold mb-2">
+                                  Your Answer:
+                                </h5>
+                                <p className="student-result-text-muted">
+                                  {followUpResponse?.userAnswer ||
+                                    followUpResponse?.answer}
+                                </p>
+                              </div>
+                              <div className="text-center mb-3">
+                                <span className="student-result-text-large student-result-text-highlight">
+                                  Score: {followUp.score}/10
+                                </span>
+                              </div>
+                              <div className="student-result-bg-white p-4 rounded-lg border mb-4">
+                                <h5 className="student-result-font-semibold mb-2">Feedback:</h5>
+                                <p className="student-result-text-muted">
+                                  {followUp.feedback}
+                                </p>
+                              </div>
+                              <div className="student-result-grid student-result-grid-cols-1 md:student-result-grid-cols-2 gap-4 mb-4">
+                                <div className="student-result-bg-success p-4 rounded-lg">
+                                  <h5 className="student-result-font-semibold mb-2">
+                                    Strengths:
+                                  </h5>
+                                  <p>
+                                    {followUp.strengths}
+                                  </p>
+                                </div>
+                                <div className="student-result-bg-warning p-4 rounded-lg">
+                                  <h5 className="student-result-font-semibold mb-2">
+                                    Areas to Improve:
+                                  </h5>
+                                  <p>
+                                    {followUp.improvements}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  })}
+
+                  {/* Overall Performance Summary */}
+                  <div className="student-result-performance-summary p-6 mb-6">
+                    <h3 className="student-result-text-xl student-result-font-semibold mb-4 text-center">
+                      Overall Performance
+                    </h3>
+                    <p className="mb-4">
+                      {aiEvaluation.overallFeedback}
+                    </p>
+                    <p className="student-result-text-xl student-result-font-bold text-center student-result-text-highlight">
+                      Average Score: {aiEvaluation.averageScore.toFixed(1)}/10
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-center student-result-text-muted p-4">
+                  No analysis-based responses to evaluate.
+                </p>
+              )}
+            </div>
+          )}
+
+          <div className="text-center">
+            <button
+              onClick={() =>
+                navigate(`/purchased-case-studies/${caseStudy?.case_study_id}`)
+              }
+              className="student-result-back-button"
+            >
+              Back to Case Study
+            </button>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
