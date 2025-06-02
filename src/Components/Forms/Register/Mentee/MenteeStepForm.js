@@ -89,16 +89,25 @@ const MenteeStepForm = (userType) => {
 
   const nextStep = async () => {
     const isFormValid = await methods.trigger(); // Validate the entire form
-    const isValidOTP = methods.getValues("mentee_OTPValid"); // Get OTP value
+    // const isValidOTP = methods.getValues("mentee_OTPValid"); // Get OTP value
 
-    if (isFormValid && isValidOTP ) {
-      // Check if the form is valid and OTP is true
+
+    // Uncomment the following lines if you want to check OTP validity
+  //   if (isFormValid && isValidOTP ) {
+  //     // Check if the form is valid and OTP is true
+  //     setStep(step + 1);
+  //   } else if (!isFormValid) {
+  //     toast.error("Please fill the form correctly.");
+  //   } else if (!isValidOTP) {
+  //     toast.error("Please verify your phone number.");
+  //   }
+  // };
+
+    if (isFormValid ) {
       setStep(step + 1);
     } else if (!isFormValid) {
       toast.error("Please fill the form correctly.");
-    } else if (!isValidOTP) {
-      toast.error("Please verify your phone number.");
-    }
+    } 
   };
 
   const handleKeyDown = (event) => {
