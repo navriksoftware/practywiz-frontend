@@ -41,22 +41,6 @@ const MenteeRegStep1 = ({ selectedOption, handleChange }) => {
   const [isLoadingVerify, setIsLoadingVerify] = useState(false);
   const [resendAvailable, setResendAvailable] = useState(false);
 
-   
-  // const handleSendOtp = async () => {
-  //   setButtonState("send");
-  //   setIsLoading(true);
-
-  //   try {
-  //     // Make Axios POST request to send OTP
-  //     const response = await axios.post(
-  //       `${url}api/v1/otpvarification/request-otp`,
-  //       { phone }
-  //     );
-
-  //     if (response.data.success) {
-  //       setButtonState("sended");
-  //       setSendotp(true);
-  //       setResendAvailable(true);
 
   //       // Enable resend after 1 minute
   //       setTimeout(() => {
