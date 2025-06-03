@@ -12,6 +12,9 @@ import { useDispatch } from 'react-redux';
 const CreateClass = ({ userdata, setActivePage, setShowCreateclassform, classid }) => {
   const dispatch = useDispatch();
   const url = ApiURL();
+  
+ // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split("T")[0];
 
   const [classDetails, setClassDetails] = useState([]);
   const [formData, setFormData] = useState({
@@ -207,6 +210,7 @@ const CreateClass = ({ userdata, setActivePage, setShowCreateclassform, classid 
                 <input
                   type="date"
                   id="SemisterEnd"
+                  min={today} // Only allow today or future dates
                   value={formData.SemisterEnd}
                   onChange={(e) => handleInputChange(e, 'SemisterEnd')}
                   className="CreateClass-form-input"
