@@ -106,7 +106,21 @@
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
-.AddSingleStudentSubmitButton {
+/* .AddSingleStudentSubmitButton {
+  width: 100%;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+  margin-top: 8px;
+} */
+
+.submit-btn-AddSingleStudentSubmitButton {
   width: 100%;
   background-color: #0d6efd;
   color: white;
@@ -119,6 +133,12 @@
   transition: background-color 0.15s ease-in-out;
   margin-top: 8px;
 }
+.submit-btn-AddSingleStudentSubmitButton:disabled,
+.btn-disabled {
+  background-color: #a5b4fc;
+  cursor: not-allowed;
+}
+
 
 .AddSingleStudentSubmitButton:hover {
   background-color: #0b5ed7;

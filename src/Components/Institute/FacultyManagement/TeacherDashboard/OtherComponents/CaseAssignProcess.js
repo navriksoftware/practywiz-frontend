@@ -4,8 +4,12 @@ import "../DashboardCSS/CaseAssignProcess.css";
 import ConfigureCasePopup from "./ConfigureCase.js";
 import { ApiURL } from "../../../../../Utils/ApiURL";
 import { useSelector } from "react-redux";
+import CaseStudyShowModel from "./CaseStudyShowModel.js";
 
 function parseNonPractywizQuestions(nonPractywizCaseQuestion) {
+
+
+ 
   if (!nonPractywizCaseQuestion) return [];
 
   let parsed;
@@ -60,6 +64,7 @@ function parseNonPractywizQuestions(nonPractywizCaseQuestion) {
   return [];
 }
 const CaseAssigneProcess = () => {
+   const [openPreview, setopenPreview] = useState(false)
   const classid = localStorage.getItem("clickedClassId"); //class id from local storage
   const caseStudyId = localStorage.getItem("caseStudyId"); //case study id from local storage
   const caseType = localStorage.getItem("caseType") === "practywiz" ? 1 : 0;
@@ -301,8 +306,14 @@ const CaseAssigneProcess = () => {
     alert("This is a Non-Practywiz case study. Questions are not available.");
   };
 
-  return (
-    <div className="case-assign-to-student-container">
+  return (<>
+  {openPreview && (
+    <CaseStudyShowModel
+      setopenPreview={setopenPreview}
+      caseType={caseType}           
+    />
+  )}
+  <div className="case-assign-to-student-container">
       {/* <div className="ye-waala-naya-h-dusra-nevigation-indication">
         <i className="fa-solid fa-home" /> DashBoard
         <i className="fa-solid fa-chevron-right" /> case studie
@@ -343,7 +354,7 @@ const CaseAssigneProcess = () => {
               </div>
             </div>
 
-            <button className="case-assign-to-student-view-button">
+            <button className="case-assign-to-student-view-button"  onClick={() => setopenPreview(true)}>
               View Full Case Study
             </button>
           </div>
@@ -591,6 +602,7 @@ const CaseAssigneProcess = () => {
             >
               Assign Case Study
             </button>
+
             {open && (
               <ConfigureCasePopup
                 setOpen={setOpen}
@@ -603,7 +615,11 @@ const CaseAssigneProcess = () => {
           </div>
         </div>
       </div>
-    </div>
+
+    </div></>
+
+
+    
   );
 };
 
