@@ -4,7 +4,7 @@ import '../DashboardCSS/QuestionShow.css'; // Adjust the path as necessary
 import { json } from 'react-router-dom';
 
 const QuestionShow = ({data}) => {
-  const questions = JSON.parse(data);
+  const questions = JSON.parse(data.non_practywiz_case_question);
   // const questions = [
   //   {
   //     id: "q1",
@@ -130,6 +130,8 @@ const QuestionShow = ({data}) => {
   const subjectiveCount = questions.filter(q => q.question_format === 'subjective').length;
 
   return (
+    <>  
+    
     <div className="question-show-container">
       <div className="question-show-wrapper">
         {/* Header */}
@@ -138,8 +140,8 @@ const QuestionShow = ({data}) => {
             <div className="question-show-header-left">
               <BookOpen className="question-show-header-icon" />
               <div>
-                <h1 className="question-show-title">Business Quiz</h1>
-                <p className="question-show-subtitle">Mixed Question Format Assessment</p>
+                <h1 className="question-show-title">{data.non_practywiz_case_title}</h1>
+                <p className="question-show-subtitle">{data.non_practywiz_case_author}</p>
               </div>
             </div>
             <div className="question-show-header-stats">
@@ -306,7 +308,8 @@ const QuestionShow = ({data}) => {
           </div>
         </div> */}
       </div>
-    </div>
+    </div></>
+  
   );
 };
 

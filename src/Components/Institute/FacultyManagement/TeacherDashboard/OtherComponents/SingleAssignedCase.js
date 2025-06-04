@@ -716,7 +716,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
 
               {!resultdata?.non_practywiz_case_question || resultdata.non_practywiz_case_question.length === 0
                 ? "hello"
-                : <QuestionShow data={resultdata.non_practywiz_case_question} />}
+                : <QuestionShow data={resultdata} />}
 
 
             </div>

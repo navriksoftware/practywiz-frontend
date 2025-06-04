@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../DashboardCSS/SingleClassdetails.css";
+import { toast } from "react-toastify";
 import AddSingleStudent from "./AddSingleStudent.js";
 import AddBulkStudents from "./AddBulkStudents.js";
 import axios from "axios";
@@ -11,7 +12,35 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
   const [SignleClassDetails, setSignleClassDetails] = useState([]);
   const [studentsList, setStudentsList] = useState([]);
   const [CaseStudiesList, setCaseStudiesList] = useState([])
-  
+
+
+  const fetchStudentlistOfClass = async () => {
+    try {
+      const response = await Promise.race([
+        axios.post(`${url}api/v1/faculty/class/studentlist`, {
+          classId: clickedClassId,
+        }),
+        new Promise(
+          (_, reject) =>
+            setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+        ),
+      ]);
+      if (response.data.success) {
+        setStudentsList(response.data.success);
+      } else if (response.data.error) {
+        setStudentsList([]);
+      }
+    } catch (error) {
+      setStudentsList([]);
+      if (error.message === "Request timed out") {
+        console.log("Request timed out. Please try again.");
+      } else {
+        console.log("An error occurred. Please try again.");
+      }
+    } finally {
+      console.log("Request completed");
+    }
+  };
   useEffect(() => {
     const fetchClassDetails = async () => {
       try {
@@ -32,34 +61,6 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
         }
       } catch (error) {
         setSignleClassDetails([]);
-        if (error.message === "Request timed out") {
-          console.log("Request timed out. Please try again.");
-        } else {
-          console.log("An error occurred. Please try again.");
-        }
-      } finally {
-        console.log("Request completed");
-      }
-    };
-
-    const fetchStudentlistOfClass = async () => {
-      try {
-        const response = await Promise.race([
-          axios.post(`${url}api/v1/faculty/class/studentlist`, {
-            classId: clickedClassId,
-          }),
-          new Promise(
-            (_, reject) =>
-              setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
-          ),
-        ]);
-        if (response.data.success) {
-          setStudentsList(response.data.success);
-        } else if (response.data.error) {
-          setStudentsList([]);
-        }
-      } catch (error) {
-        setStudentsList([]);
         if (error.message === "Request timed out") {
           console.log("Request timed out. Please try again.");
         } else {
@@ -205,26 +206,62 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
   }, [CaseStudiesList]);
 
 
-  const handleRemove = (student) => {
-  console.log("Removing student:", student);
-  // Add actual logic here
-};
+  const handleRemove = async (student) => {
 
-const handleMoreOptions = (student) => {
-  console.log("More options for:", student);
-  // Open modal or menu
-};
+
+    const classMappingId = student?.class_mentee_mapping_id;
+
+    if (!classMappingId) {
+      toast.error("Invalid student data. Cannot remove student.");
+      return;
+    }
+
+    const confirmRemove = window.confirm(
+  `Are you sure you want to remove ${student?.user_firstname} ${student?.user_lastname} from the class?`
+);
+
+
+    if (!confirmRemove) return;
+
+    try {
+      const response = await axios.post(
+        `${url}api/v1/faculty/class/remove-student`,
+        { classMappingId }
+      );
+
+      if (response?.data?.success) {
+        toast.success(`${student?.user_firstname} ${student?.user_lastname} removed from the class successfully.`);
+        fetchStudentlistOfClass(); // Refresh the student list after removal
+      } else {
+        toast.error(response?.data?.message || "Failed to remove the student. Please try again.");
+      }
+
+    } catch (error) {
+      const message =
+        error?.response?.data?.message ||
+        "An error occurred while removing the student. Please try again.";
+      toast.error(message);
+    }
+  };
+
+
+  const handleMoreOptions = (student) => {
+    console.log("More options for:", student);
+    // Open modal or menu
+  };
 
 
   return (
     <div className="single-class-details-container">
       {showAddSingleform && (
-        <AddSingleStudent setshowAddSingleform={setshowAddSingleform} clickedClassId={clickedClassId} />
+        <AddSingleStudent setshowAddSingleform={setshowAddSingleform} clickedClassId={clickedClassId}
+          fetchStudentlistOfClass={fetchStudentlistOfClass} />
       )}
       {showAddBulkStudent && (
         <AddBulkStudents
           setshowAddBulkStudent={setshowAddBulkStudent}
           clickedClassId={clickedClassId}
+          fetchStudentlistOfClass={fetchStudentlistOfClass}
         />
       )}
 
@@ -529,7 +566,6 @@ const handleMoreOptions = (student) => {
               <div className="past-cases">
                 <h2>Past Case Studies</h2>
                 <div className="cases-list">
-
                   {pastCases.length > 0 ? (
                     pastCases.map((caseItem) => (
                       <div className="past-case-item" key={caseItem.id}>

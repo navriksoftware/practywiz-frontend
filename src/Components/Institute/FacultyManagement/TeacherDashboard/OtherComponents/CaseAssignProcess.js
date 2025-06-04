@@ -5,11 +5,11 @@ import ConfigureCasePopup from "./ConfigureCase.js";
 import { ApiURL } from "../../../../../Utils/ApiURL";
 import { useSelector } from "react-redux";
 import CaseStudyShowModel from "./CaseStudyShowModel.js";
+import QuestionShow from "./QuestionShow.js";
+import { X } from 'lucide-react';
+
 
 function parseNonPractywizQuestions(nonPractywizCaseQuestion) {
-
-
- 
   if (!nonPractywizCaseQuestion) return [];
 
   let parsed;
@@ -63,8 +63,10 @@ function parseNonPractywizQuestions(nonPractywizCaseQuestion) {
 
   return [];
 }
+
 const CaseAssigneProcess = () => {
-   const [openPreview, setopenPreview] = useState(false)
+  const [openPreview, setopenPreview] = useState(false)
+  const [openQuestionpage, setopenQuestionpage] = useState(false)
   const classid = localStorage.getItem("clickedClassId"); //class id from local storage
   const caseStudyId = localStorage.getItem("caseStudyId"); //case study id from local storage
   const caseType = localStorage.getItem("caseType") === "practywiz" ? 1 : 0;
@@ -302,18 +304,30 @@ const CaseAssigneProcess = () => {
     setSelectedStudents(selectedStudents.filter((id) => id !== studentId));
   };
 
-  const handleshowNon_PzQuestions = () => {
-    alert("This is a Non-Practywiz case study. Questions are not available.");
-  };
 
-  return (<>
-  {openPreview && (
-    <CaseStudyShowModel
-      setopenPreview={setopenPreview}
-      caseType={caseType}           
-    />
-  )}
-  <div className="case-assign-to-student-container">
+
+  return (
+  <>
+    {openPreview && (
+      <CaseStudyShowModel
+        setopenPreview={setopenPreview}
+        data={casestudyDetails} 
+      />
+    )}
+    {openQuestionpage && (
+      <div className="casestudyShowModel-QuestionShow-container" >
+        <div className="casestudyShowModel-QuestionShow-overlay">
+          <div
+            onClick={() => setopenQuestionpage(false)}
+            className="casestudyShowModel-QuestionShow-close-button"
+          >
+            <X size={24} />
+          </div>
+          <QuestionShow data={casestudyDetails} />
+        </div>
+      </div>
+    )}
+    <div className="case-assign-to-student-container">
       {/* <div className="ye-waala-naya-h-dusra-nevigation-indication">
         <i className="fa-solid fa-home" /> DashBoard
         <i className="fa-solid fa-chevron-right" /> case studie
@@ -354,7 +368,7 @@ const CaseAssigneProcess = () => {
               </div>
             </div>
 
-            <button className="case-assign-to-student-view-button"  onClick={() => setopenPreview(true)}>
+            <button className="case-assign-to-student-view-button" onClick={() => setopenPreview(true)}>
               View Full Case Study
             </button>
           </div>
@@ -408,7 +422,7 @@ const CaseAssigneProcess = () => {
 
             <button
               className="case-assign-to-student-view-button"
-              onClick={handleshowNon_PzQuestions}
+              onClick={() => setopenQuestionpage(true)}
             >
               See all Questions
             </button>
@@ -616,10 +630,8 @@ const CaseAssigneProcess = () => {
         </div>
       </div>
 
-    </div></>
-
-
-    
+    </div>
+  </>
   );
 };
 

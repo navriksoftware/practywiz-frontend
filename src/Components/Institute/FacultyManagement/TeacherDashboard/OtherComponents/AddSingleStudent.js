@@ -4,7 +4,7 @@ import axios from "axios";
 import { ApiURL } from "../../../../../Utils/ApiURL";
 import { toast } from 'react-toastify';
 
-const AddSingleStudent = ({ setshowAddSingleform, instituteName, clickedClassId }) => {
+const AddSingleStudent = ({ setshowAddSingleform, instituteName, clickedClassId,fetchStudentlistOfClass}) => {
 
 const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -67,6 +67,7 @@ const [isSubmitting, setIsSubmitting] = useState(false);
       if (Array.isArray(result.registered) && result.registered.length > 0) {
         toast.success(`Student registered successfully.`);
         setshowAddSingleform(false);
+        fetchStudentlistOfClass(); // Refresh the student list
       }
 
     } catch (err) {
