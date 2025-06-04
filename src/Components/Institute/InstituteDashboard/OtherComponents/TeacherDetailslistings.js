@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import "../DashboardCSS/TeacherDetailslistings.css";
 import { ApiURL } from "../../../../Utils/ApiURL.js";
 import axios from "axios";
 
-const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacherDetails, setchildData }) => {
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const [departmentFilter, setDepartmentFilter] = useState('');
-  const [dateRangeFilter, setDateRangeFilter] = useState('');
+const TeacherDetailslistings = ({
+  instituteDashboardDetails,
+  HandleSingleTeacherDetails,
+  setchildData,
+}) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [departmentFilter, setDepartmentFilter] = useState("");
+  const [dateRangeFilter, setDateRangeFilter] = useState("");
   const [filteredCaseStudies, setFilteredCaseStudies] = useState([]);
   const [showDepartmentDropdown, setShowDepartmentDropdown] = useState(false);
   const [showDateDropdown, setShowDateDropdown] = useState(false);
-  const [facultyDetails, setfacultyDetails] = useState([])
+  const [facultyDetails, setfacultyDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   const url = ApiURL();
 
@@ -46,20 +49,19 @@ const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacher
       }
     };
     fetchMentors();
-  }, [url,]);
+  }, [url]);
 
   const caseStudies = facultyDetails.map((FacDtl) => ({
-    teacherName: FacDtl.faculty_lastname + " " + FacDtl.faculty_firstname,
-    department: FacDtl.faculty_email,
-    numberOfCaseStudiesAssigned: FacDtl.faculty_phone_number,
+    teacherName: FacDtl.faculty_firstname + " " + FacDtl.faculty_lastname,
+    teacherEmail: FacDtl.faculty_email,
+    teacherPhone: FacDtl.faculty_phone_number,
     facultyDtls_id: FacDtl.faculty_dtls_id,
-  }))
-
+  }));
 
   const clearFilters = () => {
-    setSearchQuery('');
+    setSearchQuery("");
     // setDepartmentFilter('');
-    setDateRangeFilter('');
+    setDateRangeFilter("");
   };
 
   const toggleDepartmentDropdown = () => {
@@ -72,16 +74,14 @@ const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacher
     setShowDepartmentDropdown(false);
   };
 
-
-
-
   useEffect(() => {
     let result = [...caseStudies];
 
     if (searchQuery) {
-      result = result.filter(cs =>
-        cs.teacherName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        cs.department.toLowerCase().includes(searchQuery.toLowerCase())
+      result = result.filter(
+        (cs) =>
+          cs.teacherName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          cs.department.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -92,11 +92,53 @@ const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacher
     setFilteredCaseStudies(result);
   }, [searchQuery]);
 
+  const InstituteDashboardFacultyCard = ({
+    key,
+    teacherName,
+    teacherEmail,
+    teacherPhone,
+    facultyDtls_id,
+  }) => {
+    return (
+      <div className="institute-dashboard-faculty-card">
+        <div className="institute-dashboard-faculty-card-header">
+          <h3 className="institute-dashboard-faculty-title">{teacherName}</h3>
+          <p className="institute-dashboard-faculty-name">{teacherEmail}</p>
+          <span className="institute-dashboard-faculty-label">
+            {teacherPhone}
+          </span>
+        </div>
+
+        <div className="institute-dashboard-case-study-details">
+          <div className="institute-dashboard-faculty-detail-item">
+            <button
+              className="institute-dashboard-faculty-view-btn"
+              onClick={() => {
+                HandleSingleTeacherDetails();
+                setchildData(facultyDtls_id);
+              }}
+            >
+              View
+            </button>
+          </div>
+        </div>
+
+        {/* <div className="institute-dashboard-case-study-actions">
+          <button
+            className="institute-dashboard-case-study-view-btn"
+            onClick={onView}
+          >
+            View
+            <i className="fa-solid fa-chevron-right institute-dashboard-case-study-arrow-icon"></i>
+          </button>
+        </div> */}
+      </div>
+    );
+  };
 
   return (
     <div className="instituteDashboard-container">
       <div className="instituteDashboard-filters-container">
-
         {/* <div className="instituteDashboard-search-container">
           <input
             type="text"
@@ -106,8 +148,6 @@ const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacher
             className="instituteDashboard-search-input"
           />
         </div> */}
-
-
 
         <div className="teacher-profile-home-page-actions">
           <div className="teacher-profile-home-page-search">
@@ -169,53 +209,77 @@ const TeacherDetailslistings = ({ instituteDashboardDetails, HandleSingleTeacher
           )}
         </div> */}
       </div>
-      {loading ?
-        <div className="loading-container" >
+      {loading ? (
+        <div className="loading-container">
           <div className="loading-spinner"></div>
           <p>Loading...</p>
-        </div >
-        :
-        <div className="instituteDashboard-table-container">
-          <table className="teacherPage__case-studies-table">
-            <thead>
-              <tr>
-                <th>Faculty Name</th>
-                <th>Department</th>
-                <th>No. of CaseStudies Assign</th>
-                {/* <th>No. of Students</th> */}
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {caseStudies.length > 0 ? (
-                caseStudies.reverse().map((caseStudy, index) => (
-                  <tr key={index}>
-                    <td>{caseStudy.teacherName}</td>
-                    <td>{caseStudy.department}</td>
-                    <td>{caseStudy.numberOfCaseStudiesAssigned}</td>
-                    <td>
-                      <button
-                        className="instituteDashboard-action-btn instituteDashboard-view-btn"
-                        onClick={() => {
-                          HandleSingleTeacherDetails();
-                          setchildData(caseStudy.facultyDtls_id);
-                        }}
-                      >
-                        View
-                      </button>
+        </div>
+      ) : (
+        <>
+          {/* Table view (desktop) */}
+          <div className="instituteDashboard-teacher-table-container">
+            <table className="teacherPage__case-studies-table">
+              <thead>
+                <tr>
+                  <th>Faculty Name</th>
+                  <th>Faculty Email Id</th>
+                  <th>Faculty Phone number</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {caseStudies.length > 0 ? (
+                  [...caseStudies].reverse().map((caseStudy, index) => (
+                    <tr key={index}>
+                      <td>{caseStudy.teacherName}</td>
+                      <td>{caseStudy.teacherEmail}</td>
+                      <td>{caseStudy.teacherPhone}</td>
+                      <td>
+                        <button
+                          className="instituteDashboard-action-btn instituteDashboard-view-btn"
+                          onClick={() => {
+                            HandleSingleTeacherDetails();
+                            setchildData(caseStudy.facultyDtls_id);
+                          }}
+                        >
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4" className="instituteDashboard-no-results">
+                      No case studies found matching your filters.
                     </td>
                   </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Card view (tablet and mobile) */}
+          <div className="institute-dashboard-teacher-case-study-cards-container">
+            {caseStudies.length > 0 ? (
+              [...caseStudies]
+                .reverse()
+                .map((caseStudy, index) => (
+                  <InstituteDashboardFacultyCard
+                    key={index}
+                    teacherName={caseStudy.teacherName}
+                    teacherEmail={caseStudy.teacherEmail}
+                    teacherPhone={caseStudy.teacherPhone}
+                    facultyDtls_id={caseStudy.facultyDtls_id}
+                  />
                 ))
-              ) : (
-                <tr>
-                  <td colSpan="5" className="instituteDashboard-no-results">
-                    No case studies found matching your filters.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>}
+            ) : (
+              <div className="institute-dashboard-case-study-no-results">
+                No case studies found matching your filters.
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
