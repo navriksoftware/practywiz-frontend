@@ -125,7 +125,9 @@ const TeacherDashboard = ({ user, token }) => {
       case "assigncase":
         return <CaseAssigneProcess />;
       case "notifications":
-        return <Notification />;
+        return (
+          <Notification data={userdata} userId={user?.user_id} token={token} />
+        );
       default:
         return <Profile />;
     }

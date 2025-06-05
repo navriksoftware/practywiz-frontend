@@ -146,39 +146,49 @@ const NavBar = ({ user, activePage, setActivePage }) => {
                 <span>Class info</span>
               </button>
             </li>
-            <li className={activePage === "notifications" ? "active" : ""}>
+            {/* <li className={activePage === "notifications" ? "active" : ""}>
               <button onClick={() => setActivePage("notifications")}>
                 <i className="fa-solid fa-bell"></i>
                 <span>Notifications</span>
               </button>
-            </li>
+            </li> */}
           </ul>
         </div>
 
         {/* Desktop Profile Section */}
         <div className="faculty-navbar-nav-profile" ref={profileDropdownRef}>
-          <button
-            className="faculty-navbar-profile-button"
-            onClick={toggleProfileDropdown}
-          >
-            {user?.profile_image ? (
-              <img
-                src={user.profile_image}
-                alt="Profile"
-                className="profile-image"
-              />
-            ) : (
-              <div className="faculty-navbar-profile-circle">
-                <span>
-                  {user?.user_firstname?.charAt(0).toUpperCase() || "S"}
-                </span>
-              </div>
-            )}
-            <span className="faculty-navbar-username">
-              {user?.user_firstname || "Dr. Ramani"}
-            </span>
-            <i className="fa-solid fa-chevron-down faculty-navbar-dropdown-icon"></i>
-          </button>
+          <div className="faculty-navbar-profile-buttons">
+            <button
+              onClick={() => setActivePage("notifications")}
+              className={`faculty-navbar-notification-button ${
+                activePage === "notifications" ? "active" : ""
+              }`}
+            >
+              <i className="fa-solid fa-bell"></i>
+            </button>
+            <button
+              className="faculty-navbar-profile-button"
+              onClick={toggleProfileDropdown}
+            >
+              {user?.profile_image ? (
+                <img
+                  src={user.profile_image}
+                  alt="Profile"
+                  className="profile-image"
+                />
+              ) : (
+                <div className="faculty-navbar-profile-circle">
+                  <span>
+                    {user?.user_firstname?.charAt(0).toUpperCase() || "S"}
+                  </span>
+                </div>
+              )}
+              <span className="faculty-navbar-username">
+                {user?.user_firstname || "Dr. Ramani"}
+              </span>
+              <i className="fa-solid fa-chevron-down faculty-navbar-dropdown-icon"></i>
+            </button>
+          </div>
 
           {profileDropdownOpen && (
             <ul className="faculty-navbar-profile-dropdown">

@@ -302,7 +302,7 @@ const Store = ({ userdata, setActivePage }) => {
                 transition: "all 0.3s ease",
               }}
             >
-              NON PRACTYWIZ CASE
+              INSTITUTE CASE
             </button>
           </div>
 

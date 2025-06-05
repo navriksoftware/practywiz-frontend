@@ -101,18 +101,17 @@ export default function AvegaLanding() {
             <div className="avega-landing-page-v2-hero-badge">
               <span>AI-Powered Education</span>
             </div>
-            {/* <h1 className="avega-landing-page-v2-hero-title">
-              Transform
+            <h1 className="avega-landing-page-v2-hero-title">
+              Powering the Next Level of Learning for
+              <br />
               <span className="avega-landing-page-v2-gradient-text">
                 {" "}
-                B-School Education
+                B-School
               </span>
-              <br />
-              with AI Innovation
-            </h1> */}
-            <h1 className="avega-landing-page-v2-hero-title">
-              Are you worry about
             </h1>
+            {/* <h1 className="avega-landing-page-v2-hero-title">
+              Are you worry about
+            </h1> */}
             <div className="avega-landing-page-v2-hero-features">
               <div className="avega-landing-page-v2-feature-item">
                 <div className="avega-landing-page-v2-feature-icon">
@@ -135,7 +134,6 @@ export default function AvegaLanding() {
               Revolutionize case-based learning with intelligent simulations,
               real-time feedback, and personalized educational experiences.
             </p>
-
             {/* <div className="avega-landing-page-v2-hero-features">
               <div className="avega-landing-page-v2-feature-item">
                 <div className="avega-landing-page-v2-feature-icon">
@@ -150,7 +148,6 @@ export default function AvegaLanding() {
                 <span>Enhanced Knowledge Delivery</span>
               </div>
             </div> */}
-
             <div className="avega-landing-page-v2-hero-buttons">
               <button className="avega-landing-page-v2-primary-btn">
                 <span>Contact Sales</span>
