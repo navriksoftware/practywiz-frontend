@@ -6,6 +6,7 @@ import { ApiURL } from "../../../../../Utils/ApiURL";
 
 export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, facultyID, selectedClass }) {
   const [questionType, setQuestionType] = useState("0");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [formData, setFormData] = useState({
     startDateTime: "",
@@ -72,9 +73,10 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
   };
 
   const url = ApiURL();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsSubmitting(true); // Start loading
     if (!validateForm()) {
       toast.error("Please fix the errors in the form");
       return;
@@ -91,10 +93,10 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
       analysisTiming: formData.analysisTiming,
       classStart: formData.classStart,
       classEnd: formData.classEnd,
-      factQuestions:formData.factQuestions,
+      factQuestions: formData.factQuestions,
       analysisQuestions: formData.analysisQuestions,
       questionType: questionType,
-      owned_by:caseType
+      owned_by: caseType
     };
 
     console.log("Form data to be sent to backend:", dataToSend);
@@ -107,7 +109,7 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
 
       if (response?.data?.success) {
         toast.success("Case study assigned successfully!");
-        setOpen(false); // Close the modal after successful submission
+
       } else {
         toast.error(response?.data?.message || "Assignment failed. Please try again.");
       }
@@ -117,6 +119,10 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
         error?.response?.data?.message ||
         "There was an error assigning the case study. Please try again.";
       toast.error(message);
+    }
+    finally {
+      setIsSubmitting(false); // Stop loading
+      setOpen(false); // Close the modal after successful submission
     }
   };
 
@@ -229,7 +235,7 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
             value={formData.factTiming}
             onChange={handleChange}
           >
-             <option value="0">Before Class</option>
+            <option value="0">Before Class</option>
             <option value="1">In Class</option>
             <option value="2">After Class</option>
           </select>
@@ -275,14 +281,15 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
           )}
 
           {caseType === 1 ? (
-            <button className="case-assign-btn" type="submit">
-              {questionType === "same"
+            <button disabled={isSubmitting}   className={`submit-btn-case-assign-btn ${isSubmitting ? "btn-disabled" : ""}`} type="submit">
+              {/* {questionType === "same"
                 ? "Generate Questions"
-                : "Assign Case Study"}
+                : "Assign Case Study"} */}
+                  {isSubmitting ? "Assigning..." : "Assign Case Study"}
             </button>
           ) : (
-            <button className="case-assign-btn" type="submit">
-              Assign Case Study
+            <button  type="submit"  disabled={isSubmitting}   className={`submit-btn-case-assign-btn ${isSubmitting ? "btn-disabled" : ""}`}>
+            {isSubmitting ? "Assigning..." : "Assign Case Study"}
             </button>
           )}
         </form>

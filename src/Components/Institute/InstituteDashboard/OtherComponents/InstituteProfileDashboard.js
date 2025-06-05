@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../DashboardCSS/InstituteProfileDashboard.css";
 
-const InstituteProfileDashboard = ({ HandleSingleTeacherDetails }) => {
+const InstituteProfileDashboard = ({ HandleSingleTeacherDetails,setchildData}) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [subjectFilter, setSubjectFilter] = useState("");
@@ -437,7 +437,9 @@ const InstituteProfileDashboard = ({ HandleSingleTeacherDetails }) => {
                   <td className="instituteDashboard-actions-cell">
                     <button
                       className="instituteDashboard-action-btn instituteDashboard-view-btn"
-                      onClick={HandleSingleTeacherDetails}
+                      onClick={()=>{HandleSingleTeacherDetails()
+                        setchildData(caseStudy.id)
+                      }}
                     >
                       View
                     </button>
@@ -457,7 +459,7 @@ const InstituteProfileDashboard = ({ HandleSingleTeacherDetails }) => {
       </div>
 
       {/* Card view (tablet and mobile) */}
-      <div className="institute-dashboard-case-study-cards-container">
+      {/* <div className="institute-dashboard-case-study-cards-container">
         {filteredCaseStudies.length > 0 ? (
           filteredCaseStudies.map((caseStudy) => (
             <InstituteDashboardCaseStudyCard
@@ -474,7 +476,7 @@ const InstituteProfileDashboard = ({ HandleSingleTeacherDetails }) => {
             No case studies found matching your filters.
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

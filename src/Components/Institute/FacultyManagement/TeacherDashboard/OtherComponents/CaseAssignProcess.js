@@ -531,23 +531,23 @@ const CaseAssigneProcess = () => {
 
           <div className="case-assign-to-student-students-table">
             <div className="case-assign-to-student-table-header">
-              <div className="case-assign-to-student-checkbox-cell">
-                {/* <input
+              {/* <div className="case-assign-to-student-checkbox-cell">
+                <input
                   type="checkbox"
                   checked={
                     selectedStudents.length === filteredStudents.length &&
                     filteredStudents.length > 0
                   }
                   onChange={handleSelectAll}
-                /> */}
-              </div>
+                />
+              </div> */}
               <div className="case-assign-to-student-name-cell">
                 Student Name
               </div>
               <div className="case-assign-to-student-id-cell">Student ID</div>
               <div className="case-assign-to-student-class-cell">Class</div>
               <div className="case-assign-to-student-email-cell">Email</div>
-              <div className="case-assign-to-student-action-cell"></div>
+              {/* <div className="case-assign-to-student-action-cell"></div> */}
             </div>
 
             <div
@@ -568,13 +568,13 @@ const CaseAssigneProcess = () => {
                         key={student.id}
                         className="case-assign-to-student-table-row"
                       >
-                        <div className="case-assign-to-student-checkbox-cell">
-                          {/* <input
+                        {/* <div className="case-assign-to-student-checkbox-cell">
+                          <input
                         type="checkbox"
                         checked={selectedStudents.includes(student.id)}
                         onChange={() => handleSelectStudent(student.id)}
-                      /> */}
-                        </div>
+                      />
+                        </div> */}
                         <div className="case-assign-to-student-name-cell">
                           {student?.user_firstname} {student?.user_lastname}
                         </div>

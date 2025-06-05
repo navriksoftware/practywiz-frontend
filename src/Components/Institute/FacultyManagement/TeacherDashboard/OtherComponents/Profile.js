@@ -375,10 +375,10 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   // Loading state
   if (isLoading) {
     return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <p>Loading classes...</p>
-      </div>
+       <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p>Loading...</p>
+          </div>
     );
   }
 

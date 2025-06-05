@@ -12,8 +12,8 @@ import { useDispatch } from 'react-redux';
 const CreateClass = ({ userdata, setActivePage, setShowCreateclassform, classid }) => {
   const dispatch = useDispatch();
   const url = ApiURL();
-  
- // Get today's date in YYYY-MM-DD format
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split("T")[0];
 
   const [classDetails, setClassDetails] = useState([]);
@@ -79,7 +79,7 @@ const CreateClass = ({ userdata, setActivePage, setShowCreateclassform, classid 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(showLoadingHandler());
+      setIsSubmitting(true); // Start loading
 
       const response = await axios.post(`${url}api/v1/faculty/createClass`, formData);
 
@@ -93,25 +93,27 @@ const CreateClass = ({ userdata, setActivePage, setShowCreateclassform, classid 
       console.error('Error creating class:', error);
       toast.error('Something went wrong. Please try again.');
     } finally {
-      dispatch(hideLoadingHandler());
+      setIsSubmitting(false); // Stop loading
+
     }
   };
 
 
- const isFormValid = (data) => {
-  return (
-    data.Name?.trim() &&
-    data.SemisterEnd?.trim() &&
-    data.SubjectCode?.trim() &&
-    data.SubjectName?.trim() &&
-    data.facultyId !== undefined &&
-    data.facultyId !== null
-  ) ? true : false;
-};
+  const isFormValid = (data) => {
+    return (
+      data.Name?.trim() &&
+      data.SemisterEnd?.trim() &&
+      data.SubjectCode?.trim() &&
+      data.SubjectName?.trim() &&
+      data.facultyId !== undefined &&
+      data.facultyId !== null
+    ) ? true : false;
+  };
 
   const handleUpdateClassDetails = async () => {
     console.log('Updating class details:', formData);
     if (isFormValid(formData)) {
+      setIsSubmitting(true); // Start loading
       try {
         const response = await Promise.race([
           axios.post(`${url}api/v1/faculty/class/singledetail-Update`, {
@@ -134,13 +136,18 @@ const CreateClass = ({ userdata, setActivePage, setShowCreateclassform, classid 
           toast.error("Failed to update class details. Please try again.");
           // Optionally show user feedback here
         }
-      } catch (error) {
+      }
+      catch (error) {
         console.error(
           error.message === 'Request timed out'
             ? 'Request timed out. Please try again.'
             : 'An error occurred. Please try again.'
         );
-        // Optionally show error notification
+
+
+      }
+      finally {
+        setIsSubmitting(false); // Stop loading
       }
     }
     else {
@@ -229,12 +236,12 @@ const CreateClass = ({ userdata, setActivePage, setShowCreateclassform, classid 
               </button>
               {/* Only show "Update" button if classid is provided, otherwise show "Create" button */}
               {classid !== "" ? (
-                <button type="button" onClick={handleUpdateClassDetails} className="CreateClass-button-create">
-                  Update
+                <button type="button" onClick={handleUpdateClassDetails} disabled={isSubmitting} className={`CreateClass-button-create ${isSubmitting ? "btn-disabled" : ""}`}>
+                  {isSubmitting ? "Updating..." : "Update"}
                 </button>
               ) : (
-                <button type="submit" className="CreateClass-button-create">
-                  Create
+                <button type="submit" disabled={isSubmitting} className={`CreateClass-button-create ${isSubmitting ? "btn-disabled" : ""}`}>
+                  {isSubmitting ? "Creating..." : "Create"}
                 </button>
               )}
               {/* <button type="submit" className="CreateClass-button-create">

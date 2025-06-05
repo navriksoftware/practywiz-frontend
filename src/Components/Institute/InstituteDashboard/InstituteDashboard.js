@@ -1091,6 +1091,7 @@ const InstituteDashboard = ({ user, token }) => {
                 user={user}
                 token={token}
                 HandleSingleTeacherDetails={HandleSingleTeacherDetails}
+                setchildData={setchildData}
               />
             ) : (
               ""
