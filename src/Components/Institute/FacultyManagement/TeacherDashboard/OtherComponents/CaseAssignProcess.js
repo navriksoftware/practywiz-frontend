@@ -6,8 +6,7 @@ import { ApiURL } from "../../../../../Utils/ApiURL";
 import { useSelector } from "react-redux";
 import CaseStudyShowModel from "./CaseStudyShowModel.js";
 import QuestionShow from "./QuestionShow.js";
-import { X } from 'lucide-react';
-
+import { X } from "lucide-react";
 
 function parseNonPractywizQuestions(nonPractywizCaseQuestion) {
   if (!nonPractywizCaseQuestion) return [];
@@ -65,8 +64,8 @@ function parseNonPractywizQuestions(nonPractywizCaseQuestion) {
 }
 
 const CaseAssigneProcess = () => {
-  const [openPreview, setopenPreview] = useState(false)
-  const [openQuestionpage, setopenQuestionpage] = useState(false)
+  const [openPreview, setopenPreview] = useState(false);
+  const [openQuestionpage, setopenQuestionpage] = useState(false);
   const classid = localStorage.getItem("clickedClassId"); //class id from local storage
   const caseStudyId = localStorage.getItem("caseStudyId"); //case study id from local storage
   const caseType = localStorage.getItem("caseType") === "practywiz" ? 1 : 0;
@@ -304,143 +303,151 @@ const CaseAssigneProcess = () => {
     setSelectedStudents(selectedStudents.filter((id) => id !== studentId));
   };
 
-
+  const caseStudyTitle =
+    caseType === 1
+      ? casestudyDetails?.case_study_title
+      : casestudyDetails?.non_practywiz_case_title;
 
   return (
-  <>
-    {openPreview && (
-      <CaseStudyShowModel
-        setopenPreview={setopenPreview}
-        data={casestudyDetails} 
-      />
-    )}
-    {openQuestionpage && (
-      <div className="casestudyShowModel-QuestionShow-container" >
-        <div className="casestudyShowModel-QuestionShow-overlay">
-          <div
-            onClick={() => setopenQuestionpage(false)}
-            className="casestudyShowModel-QuestionShow-close-button"
-          >
-            <X size={24} />
+    <>
+      {openPreview && (
+        <CaseStudyShowModel
+          setopenPreview={setopenPreview}
+          data={casestudyDetails}
+        />
+      )}
+      {openQuestionpage && (
+        <div className="casestudyShowModel-QuestionShow-container">
+          <div className="casestudyShowModel-QuestionShow-overlay">
+            <div
+              onClick={() => setopenQuestionpage(false)}
+              className="casestudyShowModel-QuestionShow-close-button"
+            >
+              <X size={24} />
+            </div>
+            <QuestionShow data={casestudyDetails} />
           </div>
-          <QuestionShow data={casestudyDetails} />
         </div>
-      </div>
-    )}
-    <div className="case-assign-to-student-container">
-      {/* <div className="ye-waala-naya-h-dusra-nevigation-indication">
+      )}
+      <div className="case-assign-to-student-container">
+        {/* <div className="ye-waala-naya-h-dusra-nevigation-indication">
         <i className="fa-solid fa-home" /> DashBoard
         <i className="fa-solid fa-chevron-right" /> case studie
         <i className="fa-solid fa-chevron-right" /> Assign Case
       </div> */}
-      <div className="case-assign-to-student-dashboard">
-        {/* Left Panel */}
+        <div className="case-assign-to-student-dashboard">
+          {/* Left Panel */}
 
-        {caseType === 1 ? (
-          <div className="case-assign-to-student-left-panel">
-            <h1 className="case-assign-to-student-title">
-              {casestudyDetails?.case_study_title}
-            </h1>
-            <div className="case-assign-to-student-tags">
-              {casestudyDetails?.case_study_categories &&
-                JSON.parse(casestudyDetails.case_study_categories).map(
-                  (tag, index) => (
-                    <span
-                      key={index}
-                      className="case-assign-to-student-tag case-assign-to-student-tag-business"
-                    >
-                      {tag}
-                    </span>
-                  )
-                )}
-            </div>
-            <h2 className="case-assign-to-student-subtitle">Preview Content</h2>
-            <p className="case-assign-to-student-description">
-              {casestudyDetails?.case_study_content?.slice(0, 500) + "..."}
-              {/* Description of the case study */}
-            </p>
-            <div className="case-assign-to-student-modules">
-              <div className="case-assign-to-student-module">
-                <p>
-                  <strong>Challenge</strong>{" "}
-                  {casestudyDetails?.case_study_challenge}
-                </p>
+          {caseType === 1 ? (
+            <div className="case-assign-to-student-left-panel">
+              <h1 className="case-assign-to-student-title">
+                {casestudyDetails?.case_study_title}
+              </h1>
+              <div className="case-assign-to-student-tags">
+                {casestudyDetails?.case_study_categories &&
+                  JSON.parse(casestudyDetails.case_study_categories).map(
+                    (tag, index) => (
+                      <span
+                        key={index}
+                        className="case-assign-to-student-tag case-assign-to-student-tag-business"
+                      >
+                        {tag}
+                      </span>
+                    )
+                  )}
               </div>
-            </div>
-
-            <button className="case-assign-to-student-view-button" onClick={() => setopenPreview(true)}>
-              View Full Case Study
-            </button>
-          </div>
-        ) : (
-          <div className="case-assign-to-student-left-panel">
-            <h1 className="case-assign-to-student-title">
-              {casestudyDetails?.non_practywiz_case_title}
-            </h1>
-            <div className="case-assign-to-student-tags">
-              <span className="case-assign-to-student-tag case-assign-to-student-tag-business">
-                {casestudyDetails?.non_practywiz_case_category}
-              </span>
-            </div>
-            <h2 className="case-assign-to-student-subtitle">Author</h2>
-            <p className="case-assign-to-student-description">
-              {casestudyDetails?.non_practywiz_case_author}{" "}
-              {/* Description of the case study */}
-            </p>
-            {casestudyDetails?.non_practywiz_case_question && (
-              <div className="Non-practywiz-case-assign-to-student-question">
-                <h2 className="case-assign-to-student-subtitle">Questions</h2>
-                {parseNonPractywizQuestions(
-                  casestudyDetails.non_practywiz_case_question
-                ).map((section, idx) => (
-                  <div key={idx} style={{ marginBottom: "1em" }}>
-                    <strong>
-                      {section.type.charAt(0).toUpperCase() +
-                        section.type.slice(1)}{" "}
-                      Questions
-                    </strong>
-                    <ol>
-                      {section.questions.map((q, qIdx) => (
-                        <li key={q.id || qIdx}>
-                          {/* Try to support both old and new keys */}
-                          {q.question || q.Question}
-                          {/* Optionally, show options if present */}
-                          {q.options && Array.isArray(q.options) && (
-                            <ul style={{ marginTop: "0.5em" }}>
-                              {q.options.map((opt, optIdx) => (
-                                <li key={optIdx}>{opt}</li>
-                              ))}
-                            </ul>
-                          )}
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                ))}
+              <h2 className="case-assign-to-student-subtitle">
+                Preview Content
+              </h2>
+              <p className="case-assign-to-student-description">
+                {casestudyDetails?.case_study_content?.slice(0, 500) + "..."}
+                {/* Description of the case study */}
+              </p>
+              <div className="case-assign-to-student-modules">
+                <div className="case-assign-to-student-module">
+                  <p>
+                    <strong>Challenge</strong>{" "}
+                    {casestudyDetails?.case_study_challenge}
+                  </p>
+                </div>
               </div>
-            )}
 
-            <button
-              className="case-assign-to-student-view-button"
-              onClick={() => setopenQuestionpage(true)}
-            >
-              See all Questions
-            </button>
-          </div>
-        )}
+              <button
+                className="case-assign-to-student-view-button"
+                onClick={() => setopenPreview(true)}
+              >
+                View Full Case Study
+              </button>
+            </div>
+          ) : (
+            <div className="case-assign-to-student-left-panel">
+              <h1 className="case-assign-to-student-title">
+                {casestudyDetails?.non_practywiz_case_title}
+              </h1>
+              <div className="case-assign-to-student-tags">
+                <span className="case-assign-to-student-tag case-assign-to-student-tag-business">
+                  {casestudyDetails?.non_practywiz_case_category}
+                </span>
+              </div>
+              <h2 className="case-assign-to-student-subtitle">Author</h2>
+              <p className="case-assign-to-student-description">
+                {casestudyDetails?.non_practywiz_case_author}{" "}
+                {/* Description of the case study */}
+              </p>
+              {casestudyDetails?.non_practywiz_case_question && (
+                <div className="Non-practywiz-case-assign-to-student-question">
+                  <h2 className="case-assign-to-student-subtitle">Questions</h2>
+                  {parseNonPractywizQuestions(
+                    casestudyDetails.non_practywiz_case_question
+                  ).map((section, idx) => (
+                    <div key={idx} style={{ marginBottom: "1em" }}>
+                      <strong>
+                        {section.type.charAt(0).toUpperCase() +
+                          section.type.slice(1)}{" "}
+                        Questions
+                      </strong>
+                      <ol>
+                        {section.questions.map((q, qIdx) => (
+                          <li key={q.id || qIdx}>
+                            {/* Try to support both old and new keys */}
+                            {q.question || q.Question}
+                            {/* Optionally, show options if present */}
+                            {q.options && Array.isArray(q.options) && (
+                              <ul style={{ marginTop: "0.5em" }}>
+                                {q.options.map((opt, optIdx) => (
+                                  <li key={optIdx}>{opt}</li>
+                                ))}
+                              </ul>
+                            )}
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  ))}
+                </div>
+              )}
 
-        {/* Right Panel */}
-        <div className="case-assign-to-student-right-panel">
-          <div className="case-assign-to-student-search-section">
-            <div className="case-assign-to-student-search-container">
-              {/* <input
+              <button
+                className="case-assign-to-student-view-button"
+                onClick={() => setopenQuestionpage(true)}
+              >
+                See all Questions
+              </button>
+            </div>
+          )}
+
+          {/* Right Panel */}
+          <div className="case-assign-to-student-right-panel">
+            <div className="case-assign-to-student-search-section">
+              <div className="case-assign-to-student-search-container">
+                {/* <input
                 type="text"
                 placeholder="Search students..."
                 className="case-assign-to-student-search-input"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               /> */}
-              {/* <div
+                {/* <div
                 className="case-assign-to-student-class-filter"
                 onClick={() => setShowClassDropdown(!showClassDropdown)}
               >
@@ -489,27 +496,27 @@ const CaseAssigneProcess = () => {
 
 
               </div> */}
-              <select
-                className="case-assign-to-student-class-dropdown"
-                value={selectedClass}
-                onChange={(e) => {
-                  setselectedClass(e.target.value);
-                }}
-              >
-                <option value="">Select Class</option>
-                {classDetails?.map((cls) => (
-                  <option
-                    className="case-assign-to-student-class-option"
-                    key={cls?.class_dtls_id}
-                    value={cls?.class_dtls_id}
-                  >
-                    {cls?.class_name}
-                  </option>
-                ))}
-              </select>
-            </div>
+                <select
+                  className="case-assign-to-student-class-dropdown"
+                  value={selectedClass}
+                  onChange={(e) => {
+                    setselectedClass(e.target.value);
+                  }}
+                >
+                  <option value="">Select Class</option>
+                  {classDetails?.map((cls) => (
+                    <option
+                      className="case-assign-to-student-class-option"
+                      key={cls?.class_dtls_id}
+                      value={cls?.class_dtls_id}
+                    >
+                      {cls?.class_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            {/* <div className="case-assign-to-student-active-filters">
+              {/* <div className="case-assign-to-student-active-filters">
               {filters.map((filter) => (
                 <div
                   key={filter.id}
@@ -524,14 +531,14 @@ const CaseAssigneProcess = () => {
               ))}
             </div> */}
 
-            {/* <button className="case-assign-to-student-add-button">
+              {/* <button className="case-assign-to-student-add-button">
               <i className="fa-solid fa-plus" /> Add Student
             </button> */}
-          </div>
+            </div>
 
-          <div className="case-assign-to-student-students-table">
-            <div className="case-assign-to-student-table-header">
-              {/* <div className="case-assign-to-student-checkbox-cell">
+            <div className="case-assign-to-student-students-table">
+              <div className="case-assign-to-student-table-header">
+                {/* <div className="case-assign-to-student-checkbox-cell">
                 <input
                   type="checkbox"
                   checked={
@@ -541,97 +548,97 @@ const CaseAssigneProcess = () => {
                   onChange={handleSelectAll}
                 />
               </div> */}
-              <div className="case-assign-to-student-name-cell">
-                Student Name
-              </div>
-              <div className="case-assign-to-student-id-cell">Student ID</div>
-              <div className="case-assign-to-student-class-cell">Class</div>
-              <div className="case-assign-to-student-email-cell">Email</div>
-              {/* <div className="case-assign-to-student-action-cell"></div> */}
-            </div>
-
-            <div
-              className="case-assign-to-student-table-body"
-              style={{ maxHeight: "300px", overflowY: "auto" }}
-            >
-              {loading ? (
-                <div className="loading-container">
-                  <div className="loading-spinner"></div>
-                  <p>Loading...</p>
+                <div className="case-assign-to-student-name-cell">
+                  Student Name
                 </div>
-              ) : (
-                <>
-                  {" "}
-                  {filteredStudents.length > 0 ? (
-                    filteredStudents.map((student) => (
-                      <div
-                        key={student.id}
-                        className="case-assign-to-student-table-row"
-                      >
-                        {/* <div className="case-assign-to-student-checkbox-cell">
+                <div className="case-assign-to-student-id-cell">Student ID</div>
+                <div className="case-assign-to-student-class-cell">Class</div>
+                <div className="case-assign-to-student-email-cell">Email</div>
+                {/* <div className="case-assign-to-student-action-cell"></div> */}
+              </div>
+
+              <div
+                className="case-assign-to-student-table-body"
+                style={{ maxHeight: "300px", overflowY: "auto" }}
+              >
+                {loading ? (
+                  <div className="loading-container">
+                    <div className="loading-spinner"></div>
+                    <p>Loading...</p>
+                  </div>
+                ) : (
+                  <>
+                    {" "}
+                    {filteredStudents.length > 0 ? (
+                      filteredStudents.map((student) => (
+                        <div
+                          key={student.id}
+                          className="case-assign-to-student-table-row"
+                        >
+                          {/* <div className="case-assign-to-student-checkbox-cell">
                           <input
                         type="checkbox"
                         checked={selectedStudents.includes(student.id)}
                         onChange={() => handleSelectStudent(student.id)}
                       />
                         </div> */}
-                        <div className="case-assign-to-student-name-cell">
-                          {student?.user_firstname} {student?.user_lastname}
-                        </div>
-                        <div className="case-assign-to-student-id-cell">
-                          {student.mentee_roll_no}
-                        </div>
-                        <div className="case-assign-to-student-class-cell">
-                          {student.class_name}
-                        </div>
-                        <div className="case-assign-to-student-email-cell">
-                          {student.user_email}
-                        </div>
-                        {/* <div className="case-assign-to-student-action-cell">
+                          <div className="case-assign-to-student-name-cell">
+                            {student?.user_firstname} {student?.user_lastname}
+                          </div>
+                          <div className="case-assign-to-student-id-cell">
+                            {student.mentee_roll_no}
+                          </div>
+                          <div className="case-assign-to-student-class-cell">
+                            {student.class_name}
+                          </div>
+                          <div className="case-assign-to-student-email-cell">
+                            {student.user_email}
+                          </div>
+                          {/* <div className="case-assign-to-student-action-cell">
                       <i
                         className="fa-solid fa-trash case-assign-to-student-delete-icon"
                         onClick={() => deleteStudent(student.id)}
                       />
                     </div> */}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="case-assign-to-student-no-students">
+                        No students match the current filters.
                       </div>
-                    ))
-                  ) : (
-                    <div className="case-assign-to-student-no-students">
-                      No students match the current filters.
-                    </div>
-                  )}
-                </>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+
+            <div className="case-assign-to-student-table-footer">
+              <div className="case-assign-to-student-selection-info">
+                Total students : {filteredStudents.length}{" "}
+              </div>
+
+              <button
+                className="case-assign-to-student-assign-button"
+                onClick={() => setOpen(true)}
+              >
+                Assign Case Study
+              </button>
+
+              {open && (
+                <ConfigureCasePopup
+                  setOpen={setOpen}
+                  caseType={caseType}
+                  caseStudyId={caseStudyId}
+                  facultyID={facultyID}
+                  selectedClass={selectedClass}
+                  caseStudyTitle={caseStudyTitle}
+                />
               )}
             </div>
           </div>
-
-          <div className="case-assign-to-student-table-footer">
-            <div className="case-assign-to-student-selection-info">
-              Total students : {filteredStudents.length}{" "}
-            </div>
-
-            <button
-              className="case-assign-to-student-assign-button"
-              onClick={() => setOpen(true)}
-            >
-              Assign Case Study
-            </button>
-
-            {open && (
-              <ConfigureCasePopup
-                setOpen={setOpen}
-                caseType={caseType}
-                caseStudyId={caseStudyId}
-                facultyID={facultyID}
-                selectedClass={selectedClass}
-              />
-            )}
-          </div>
         </div>
       </div>
-
-    </div>
-  </>
+    </>
   );
 };
 
