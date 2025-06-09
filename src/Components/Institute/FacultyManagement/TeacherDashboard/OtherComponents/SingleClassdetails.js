@@ -11,8 +11,7 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
   const url = ApiURL();
   const [SignleClassDetails, setSignleClassDetails] = useState([]);
   const [studentsList, setStudentsList] = useState([]);
-  const [CaseStudiesList, setCaseStudiesList] = useState([])
-
+  const [CaseStudiesList, setCaseStudiesList] = useState([]);
 
   const fetchStudentlistOfClass = async () => {
     try {
@@ -165,12 +164,10 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
     }
   };
 
-
   const [activeCases, setActiveCases] = useState([]);
   const [pastCases, setPastCases] = useState([]);
 
   useEffect(() => {
-
     if (!Array.isArray(CaseStudiesList) || CaseStudiesList.length === 0) {
       setActiveCases([]);
       setPastCases([]);
@@ -205,10 +202,7 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
     setPastCases(past);
   }, [CaseStudiesList]);
 
-
   const handleRemove = async (student) => {
-
-
     const classMappingId = student?.class_mentee_mapping_id;
 
     if (!classMappingId) {
@@ -217,9 +211,8 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
     }
 
     const confirmRemove = window.confirm(
-  `Are you sure you want to remove ${student?.user_firstname} ${student?.user_lastname} from the class?`
-);
-
+      `Are you sure you want to remove ${student?.user_firstname} ${student?.user_lastname} from the class?`
+    );
 
     if (!confirmRemove) return;
 
@@ -230,12 +223,16 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
       );
 
       if (response?.data?.success) {
-        toast.success(`${student?.user_firstname} ${student?.user_lastname} removed from the class successfully.`);
+        toast.success(
+          `${student?.user_firstname} ${student?.user_lastname} removed from the class successfully.`
+        );
         fetchStudentlistOfClass(); // Refresh the student list after removal
       } else {
-        toast.error(response?.data?.message || "Failed to remove the student. Please try again.");
+        toast.error(
+          response?.data?.message ||
+            "Failed to remove the student. Please try again."
+        );
       }
-
     } catch (error) {
       const message =
         error?.response?.data?.message ||
@@ -244,18 +241,19 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
     }
   };
 
-
   const handleMoreOptions = (student) => {
     console.log("More options for:", student);
     // Open modal or menu
   };
 
-
   return (
     <div className="single-class-details-container">
       {showAddSingleform && (
-        <AddSingleStudent setshowAddSingleform={setshowAddSingleform} clickedClassId={clickedClassId}
-          fetchStudentlistOfClass={fetchStudentlistOfClass} />
+        <AddSingleStudent
+          setshowAddSingleform={setshowAddSingleform}
+          clickedClassId={clickedClassId}
+          fetchStudentlistOfClass={fetchStudentlistOfClass}
+        />
       )}
       {showAddBulkStudent && (
         <AddBulkStudents
@@ -389,7 +387,6 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
                   </button>
                 </div>
               </div>
-
               <div className="students-table">
                 <table>
                   <thead>
@@ -460,7 +457,10 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="4" style={{ textAlign: "center", padding: "1rem" }}>
+                        <td
+                          colSpan="4"
+                          style={{ textAlign: "center", padding: "1rem" }}
+                        >
                           No students found.
                         </td>
                       </tr>
@@ -468,24 +468,89 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
                   </tbody>
                 </table>
               </div>
-
+              {/* Mobile Cards View */}
+              <div className="students-cards-container mobile-view">
+                {studentsList.length > 0 ? (
+                  studentsList.map((student) => (
+                    <div
+                      key={student.mentee_user_dtls_id}
+                      className="student-card"
+                    >
+                      <div className="student-card-header">
+                        <div className="student-info">
+                          <h3 className="student-name">
+                            {`${student.user_firstname} ${student.user_lastname}`.trim()}
+                          </h3>
+                          <p className="student-id">
+                            ID: {student.mentee_roll_no}
+                          </p>
+                        </div>
+                        <button
+                          className="remove-btn-mobile"
+                          onClick={() => handleRemove(student)}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="16"
+                            height="16"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                          </svg>
+                          Remove
+                        </button>
+                        <button
+                          className="more-options-mobile"
+                          onClick={() => handleMoreOptions(student)}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="20"
+                            height="20"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <circle cx="12" cy="12" r="1"></circle>
+                            <circle cx="12" cy="5" r="1"></circle>
+                            <circle cx="12" cy="19" r="1"></circle>
+                          </svg>
+                        </button>
+                      </div>
+                      <div className="student-card-actions"></div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="no-students-message">
+                    <p>No students found.</p>
+                  </div>
+                )}
+              </div>
+              {/* </div> */}
             </div>
 
             <div className="case-studies-section">
               <div className="active-cases">
                 <h2>Active Case Studies</h2>
                 <div className="cases-list">
-
                   {activeCases.length > 0 ? (
                     activeCases.map((caseItem) => (
                       <div className="case-item" key={caseItem.id}>
-                        {caseItem.faculty_case_assign_owned_by_practywiz ?
-                          <><div className="case-header">
-                            <h3>{caseItem.case_study_title}</h3>
-                            <div className="submission-count">
-                              PractyWiz
+                        {caseItem.faculty_case_assign_owned_by_practywiz ? (
+                          <>
+                            <div className="case-header">
+                              <h3>{caseItem.case_study_title}</h3>
+                              <div className="submission-count">PractyWiz</div>
                             </div>
-                          </div>
                             <div className="case-due-date">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -501,22 +566,25 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <polyline points="12 6 12 12 16 14"></polyline>
                               </svg>
-                              Due {formatDate(caseItem.faculty_case_assign_end_date)}
+                              Due{" "}
+                              {formatDate(
+                                caseItem.faculty_case_assign_end_date
+                              )}
                             </div>
                             <div className="progress-bar">
                               <div
                                 className="progress"
-                              // style={{
-                              //   width: `${(parseInt(caseItem.submitted.split("/")[0]) /
-                              //     parseInt(caseItem.submitted.split("/")[1])) *
-                              //     100
-                              //     }%`,
-                              // }}
+                                // style={{
+                                //   width: `${(parseInt(caseItem.submitted.split("/")[0]) /
+                                //     parseInt(caseItem.submitted.split("/")[1])) *
+                                //     100
+                                //     }%`,
+                                // }}
                               ></div>
                             </div>
-                          </> :
+                          </>
+                        ) : (
                           <>
-
                             <div className="case-header">
                               <h3>{caseItem.non_practywiz_case_title}</h3>
                               <div className="submission-count">
@@ -538,28 +606,29 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <polyline points="12 6 12 12 16 14"></polyline>
                               </svg>
-                              Due {formatDate(caseItem.faculty_case_assign_end_date)}
+                              Due{" "}
+                              {formatDate(
+                                caseItem.faculty_case_assign_end_date
+                              )}
                             </div>
                             <div className="progress-bar">
                               <div
                                 className="progress"
-                              // style={{
-                              //   width: `${(parseInt(caseItem.submitted.split("/")[0]) /
-                              //       parseInt(caseItem.submitted.split("/")[1])) *
-                              //     100
-                              //     }%`,
-                              // }}
+                                // style={{
+                                //   width: `${(parseInt(caseItem.submitted.split("/")[0]) /
+                                //       parseInt(caseItem.submitted.split("/")[1])) *
+                                //     100
+                                //     }%`,
+                                // }}
                               ></div>
                             </div>
-
-
-                          </>}
+                          </>
+                        )}
                       </div>
                     ))
                   ) : (
                     <p>No active case studies available.</p>
                   )}
-
                 </div>
               </div>
 
@@ -614,9 +683,6 @@ const SingleClassdetails = ({ setActivePage, clickedClassId }) => {
                   ) : (
                     <p>No past case studies available.</p>
                   )}
-
-
-
                 </div>
               </div>
             </div>

@@ -30,15 +30,15 @@ const InstituteForm = () => {
     reset,
     formState: { errors },
   } = useForm();
-  
+
   const password = watch("password");
   const nameOfInstitute = watch("organization_name");
   const phone = watch("phone");
-  
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const url = ApiURL();
-  
+
   const [showIcon, setShowIcon] = useState(false);
   const [showIcons, setShowIcons] = useState(false);
 
@@ -138,7 +138,7 @@ const InstituteForm = () => {
 
   //   setVerifyState("Verify");
   //   setIsLoadingVerify(true);
-    
+
   //   try {
   //     const cleanedPhone = cleanPhoneNumber(getValues("phone"));
   //     // Make Axios POST request to verify OTP
@@ -234,7 +234,7 @@ const InstituteForm = () => {
       ...data,
       phone: cleanPhoneNumber(data.phone),
     };
-    
+
     //uncomment this if you want to enforce phone verification before registration
     // if (verifyState !== "Verified") {
     //   toast.error("Please verify your phone number first");
@@ -244,24 +244,26 @@ const InstituteForm = () => {
     try {
       dispatch(showLoadingHandler());
       const res = await axios.post(`${url}api/v1/institute/register`, {
-        data: cleanedData
+        data: cleanedData,
       });
-      
+
       if (res.data.success) {
         dispatch(hideLoadingHandler());
         reset();
-        
+
         const token = res.data.token;
         const accessToken = res.data.accessToken;
         const userData = parseJwt(token);
-        
+
         localStorage.setItem("token", JSON.stringify(token));
         localStorage.setItem("accessToken", JSON.stringify(accessToken));
 
-        toast.success("You have been successfully registered. Redirecting to dashboard.");
-        
+        toast.success(
+          "You have been successfully registered. Redirecting to dashboard."
+        );
+
         dispatch(loginSuccess(userData));
-        
+
         if (data.user_type === "institute") {
           navigate("/institute/dashboard");
         } else {
@@ -330,7 +332,10 @@ const InstituteForm = () => {
               <div className="col-lg-12 intituteRegForm-dFlex">
                 <div className="col-lg-6">
                   <div className="mb-3">
-                    <label htmlFor="contacPersonFirstName" className="form-label">
+                    <label
+                      htmlFor="contacPersonFirstName"
+                      className="form-label"
+                    >
                       First Name <span className="RedColorStarMark">*</span>
                     </label>
                     <input
@@ -341,9 +346,13 @@ const InstituteForm = () => {
                       {...register("contact_person_first_name", {
                         required: "Enter your first name.",
                         pattern: {
-                          value: /^[a-zA-Z.\s]+$/,
+                          value: /^[a-zA-Z.][a-zA-Z.\s]*$/,
                           message: "First name should contain only letters",
-                        }
+                        },
+                        maxLength: {
+                          value: 50,
+                          message: "First name must not exceed 50 characters",
+                        },
                       })}
                       onBlur={() => trigger("contact_person_first_name")}
                     />
@@ -357,7 +366,10 @@ const InstituteForm = () => {
 
                 <div className="col-lg-6">
                   <div className="mb-3">
-                    <label htmlFor="contacPersonLastName" className="form-label">
+                    <label
+                      htmlFor="contacPersonLastName"
+                      className="form-label"
+                    >
                       Last Name <span className="RedColorStarMark">*</span>
                     </label>
                     <input
@@ -368,9 +380,13 @@ const InstituteForm = () => {
                       {...register("contact_person_last_name", {
                         required: "Enter your last name.",
                         pattern: {
-                          value: /^[a-zA-Z.\s]+$/,
+                          value: /^[a-zA-Z.][a-zA-Z.\s]*$/,
                           message: "Last name should contain only letters",
-                        }
+                        },
+                        maxLength: {
+                          value: 50,
+                          message: "Last name must not exceed 50 characters",
+                        },
                       })}
                       onBlur={() => trigger("contact_person_last_name")}
                     />
@@ -396,7 +412,8 @@ const InstituteForm = () => {
                     {...register("email", {
                       required: "Enter your Email Id.",
                       pattern: {
-                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                        value:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                         message: "Must be a valid email address.",
                       },
                     })}
@@ -431,9 +448,12 @@ const InstituteForm = () => {
                         <div>
                           <div className="OtpSendOnWhatsappTaxt-Dflex">
                             <label htmlFor="phone" className="form-label">
-                              Phone Number <span className="RedColorStarMark">*</span>
+                              Phone Number{" "}
+                              <span className="RedColorStarMark">*</span>
                             </label>
-                            <p className="ghhduenee OtpSendOnWhatsappTaxt">(OTP will be sent on WhatsApp)</p>
+                            <p className="ghhduenee OtpSendOnWhatsappTaxt">
+                              (OTP will be sent on WhatsApp)
+                            </p>
                           </div>
 
                           <div className="d-flex">
@@ -441,7 +461,12 @@ const InstituteForm = () => {
                               value={value}
                               country="in"
                               countryCodeEditable={false}
-                              onChange={(value, country, event, formattedValue) => {
+                              onChange={(
+                                value,
+                                country,
+                                event,
+                                formattedValue
+                              ) => {
                                 onChange(formattedValue);
                               }}
                               onBlur={() => {
@@ -540,22 +565,38 @@ const InstituteForm = () => {
                           value={searchTerm}
                           {...register("organization_name", {
                             required: "Institute Name is required",
+                            pattern: {
+                              value: /^[^\s].*$/,
+                              message:
+                                "Institute name must not start with a space",
+                            },
+                            maxLength: {
+                              value: 100,
+                              message:
+                                "Institute name must not exceed 100 characters",
+                            },
                           })}
                           onChange={handleInputChange}
-                          onFocus={() => setDropdownVisible(searchTerm.trim() !== "")}
-                          onBlur={() => setTimeout(() => setDropdownVisible(false), 200)}
+                          onFocus={() =>
+                            setDropdownVisible(searchTerm.trim() !== "")
+                          }
+                          onBlur={() =>
+                            setTimeout(() => setDropdownVisible(false), 200)
+                          }
                         />
                         {dropdownVisible && filteredColleges.length > 0 && (
                           <div className="dropdown-content-InstituteForm">
-                            {filteredColleges.slice(0, 50).map((college, index) => (
-                              <div
-                                key={index}
-                                className="dropdown-item"
-                                onClick={() => handleOptionClick(college)}
-                              >
-                                {college["College Name"]}
-                              </div>
-                            ))}
+                            {filteredColleges
+                              .slice(0, 50)
+                              .map((college, index) => (
+                                <div
+                                  key={index}
+                                  className="dropdown-item"
+                                  onClick={() => handleOptionClick(college)}
+                                >
+                                  {college["College Name"]}
+                                </div>
+                              ))}
                           </div>
                         )}
                       </div>
@@ -581,6 +622,14 @@ const InstituteForm = () => {
                       placeholder="Institute Code is required"
                       {...register("organization_code", {
                         required: "Institute Code is required",
+                        pattern: {
+                          value: /^\d+$/,
+                          message: "Institute code must be a number",
+                        },
+                        maxLength: {
+                          value: 10,
+                          message: "Institute code must not exceed 10 digits",
+                        },
                       })}
                       onBlur={() => trigger("organization_code")}
                     />
@@ -607,7 +656,8 @@ const InstituteForm = () => {
                     {...register("password", {
                       required: "Password is required",
                       pattern: {
-                        value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
+                        value:
+                          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
                         message:
                           "Password must be at least 8 characters long and include at least one letter, one number, and one special character (e.g., @, #, $, etc.)",
                       },
@@ -680,7 +730,10 @@ const InstituteForm = () => {
                 </p>
               </div>
             </div>
-            <div className="d-flex justify-content-between pt-3" style={{ width: "fit-content" }}>
+            <div
+              className="d-flex justify-content-between pt-3"
+              style={{ width: "fit-content" }}
+            >
               <button type="submit" className="btn dgheuih_btn_next btn-main">
                 Create Account
               </button>
