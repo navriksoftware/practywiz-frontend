@@ -38,6 +38,7 @@
     opacity: 0;
     transform: translateY(-3rem);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -154,22 +155,28 @@
   background-color: #0b5ed7;
 }
 
+.CreateClass-button-create:disabled,
+.btn-disabled {
+  background-color: #a5b4fc;
+  cursor: not-allowed;
+}
+
 /* Additional responsive adjustments */
 @media (max-width: 576px) {
   .CreateClass-modal-content {
     padding: 1rem;
   }
-  
+
   .CreateClass-form-row {
     flex-direction: column;
     gap: 16px;
   }
-  
+
   .CreateClass-form-actions {
     flex-direction: column-reverse;
     width: 100%;
   }
-  
+
   .CreateClass-button-cancel,
   .CreateClass-button-create {
     width: 100%;

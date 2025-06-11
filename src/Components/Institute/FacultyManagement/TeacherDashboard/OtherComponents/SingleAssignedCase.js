@@ -4,6 +4,8 @@ import { debounce } from "lodash";
 import axios from "axios";
 import { ApiURL } from "../../../../../Utils/ApiURL";
 import QuestionShow from "./QuestionShow";
+import { exportMenteeDataToExcel } from "../../../../../Utils/exportMenteeDataToExcel";
+
 
 const STUDENTS_DATA = [
   {
@@ -399,9 +401,9 @@ const SingleAssignedCase = ({ setActivePage }) => {
     return `${diffInDays} day${diffInDays !== 1 ? 's' : ''}`;
   };
 
-
-
-
+   const handleExport = () => {
+    exportMenteeDataToExcel(studentlist); // ✅ instant download
+  };
   return (
     <>
       {isLoading ? <div className="loading-container">
@@ -551,7 +553,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
                     </div>
                     <button
                       className="single-case-details-view-export-btn"
-                      onClick={() => alert("Exporting data...")}
+                      onClick={handleExport}
                     >
                       <i className="fa fa-file-export"></i>
                       Export Data
@@ -588,7 +590,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
                           />
                         </div> */}
                                 <span className="single-case-details-view-student-name">
-                                  {student.user_firstname}
+                                  {student.user_firstname} {student?.user_lastname}
                                 </span>
                               </div>
                             </td>
@@ -716,7 +718,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
 
               {!resultdata?.non_practywiz_case_question || resultdata.non_practywiz_case_question.length === 0
                 ? "hello"
-                : <QuestionShow data={resultdata.non_practywiz_case_question} />}
+                : <QuestionShow data={resultdata} />}
 
 
             </div>

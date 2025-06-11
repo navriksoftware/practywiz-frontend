@@ -25,6 +25,7 @@ const TeacherDashboard = ({ user, token }) => {
 
   // State variables
   const [userdata, setuserdata] = useState([]);
+  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
 
   // Initialize activePage from localStorage or default to "profile"
   const [activePage, setActivePage] = useState(() => {
@@ -77,6 +78,30 @@ const TeacherDashboard = ({ user, token }) => {
     fetchFacultyDetails();
   }, [url, user?.user_id, dispatch]);
 
+  useEffect(() => {
+    const notifications = userdata?.map((item) => {
+      if (item?.notification_list) {
+        try {
+          return JSON.parse(item.notification_list);
+        } catch (error) {
+          console.error("Failed to parse notification_list:", error);
+          return []; // Return an empty array if parsing fails
+        }
+      }
+      return []; // Return an empty array if notification_list is undefined or null
+    });
+    const allNotifications = notifications?.flat();
+    const unreadExists = allNotifications?.some(
+      (notification) => !notification.notification_is_read
+    );
+    // Delay the state update slightly
+    setTimeout(() => {
+      setHasUnreadNotifications(unreadExists);
+    }, 0);
+  }, [userdata]);
+
+  console.log("hasUnreadNotifications:", hasUnreadNotifications);
+
   // Update localStorage when activePage changes
   useEffect(() => {
     localStorage.setItem("activePage", activePage);
@@ -125,7 +150,14 @@ const TeacherDashboard = ({ user, token }) => {
       case "assigncase":
         return <CaseAssigneProcess />;
       case "notifications":
-        return <Notification />;
+        return (
+          <Notification
+            data={userdata}
+            userId={user?.user_id}
+            token={token}
+            setHasUnreadNotifications={setHasUnreadNotifications}
+          />
+        );
       default:
         return <Profile />;
     }
@@ -137,6 +169,7 @@ const TeacherDashboard = ({ user, token }) => {
         user={user}
         activePage={activePage}
         setActivePage={setActivePage}
+        hasUnreadNotifications={hasUnreadNotifications}
       />
       <div className="dashboard-content">{renderPage()}</div>
     </div>

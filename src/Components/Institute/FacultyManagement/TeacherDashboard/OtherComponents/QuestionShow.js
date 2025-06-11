@@ -1,97 +1,40 @@
 import React, { useState } from 'react';
 import { FileText, Award, ChevronDown, ChevronUp, BookOpen, CheckCircle, List } from 'lucide-react';
 import '../DashboardCSS/QuestionShow.css'; // Adjust the path as necessary
-import { json } from 'react-router-dom';
 
-const QuestionShow = ({data}) => {
-  const questions = JSON.parse(data);
-  // const questions = [
-  //   {
-  //     id: "q1",
-  //     category: "fact",
-  //     question: "What is the primary goal of a for-profit business?",
-  //     question_format: "multiple-choice",
-  //     options: ["To serve the community", "To maximize employee satisfaction", "To increase shareholder wealth", "To reduce competition"],
-  //     answer: "To increase shareholder wealth",
-  //     marks: 1
-  //   },
-  //   {
-  //     id: "q2",
-  //     category: "fact",
-  //     question: "Which of the following is a characteristic of a sole proprietorship?",
-  //     question_format: "multiple-choice",
-  //     options: ["Shared liability", "Corporate taxation", "Limited liability", "Owned and operated by one individual"],
-  //     answer: "Owned and operated by one individual",
-  //     marks: 1
-  //   },
-  //   {
-  //     id: "q3",
-  //     category: "fact",
-  //     question: "What is a SWOT analysis used for in business strategy?",
-  //     question_format: "multiple-choice",
-  //     options: ["Evaluating financial statements", "Developing product pricing", "Identifying strengths, weaknesses, opportunities, and threats", "Calculating profit margins"],
-  //     answer: "Identifying strengths, weaknesses, opportunities, and threats",
-  //     marks: 1
-  //   },
-  //   {
-  //     id: "q4",
-  //     category: "fact",
-  //     question: "Which business function is primarily responsible for acquiring and retaining customers?",
-  //     question_format: "multiple-choice",
-  //     options: ["Human Resources", "Operations", "Marketing", "Finance"],
-  //     answer: "Marketing",
-  //     marks: 1
-  //   },
-  //   {
-  //     id: "q5",
-  //     category: "analysis",
-  //     question: "Why is understanding your target market crucial for business success?",
-  //     question_format: "subjective",
-  //     answer: "Understanding the target market helps businesses tailor their products, services, and marketing strategies to meet specific customer needs. It enables better customer satisfaction, increases sales, reduces marketing waste, and helps the business gain a competitive advantage.",
-  //     marks: 5
-  //   },
-  //   {
-  //     id: "q6",
-  //     category: "analysis",
-  //     question: "How does effective leadership impact organizational performance?",
-  //     question_format: "subjective",
-  //     answer: "Effective leadership boosts employee morale, ensures clear communication, aligns team efforts with business goals, and fosters innovation. It directly affects productivity, reduces employee turnover, and drives the overall success of the organization.",
-  //     marks: 5
-  //   },
-  //   {
-  //     id: "q7",
-  //     category: "analysis",
-  //     question: "What are the advantages and disadvantages of expanding a business internationally?",
-  //     question_format: "subjective",
-  //     answer: "Advantages:\n\nAccess to new markets\n\nDiversification of revenue streams\n\nEconomies of scale\n\nDisadvantages:\n\nCultural and language barriers\n\nPolitical and economic risks\n\nHigher operational complexity",
-  //     marks: 5
-  //   },
-  //   {
-  //     id: "q8",
-  //     category: "analysis",
-  //     question: "How does digital transformation affect modern businesses?",
-  //     question_format: "subjective",
-  //     answer: "Digital transformation improves efficiency, enhances customer experience, and opens up new revenue opportunities. However, it also demands continuous adaptation, significant investment in technology, and upskilling of the workforce.",
-  //     marks: 5
-  //   },
-  //   {
-  //     id: "q9",
-  //     category: "research",
-  //     question: "Why is financial planning important in business decision-making?",
-  //     question_format: "subjective",
-  //     answer: "Financial planning helps allocate resources effectively, forecast revenue and expenses, manage risks, and ensure long-term sustainability. It aids in informed decision-making by providing data-driven insights into the financial health of the business.",
-  //     marks: 5
-  //   },
-  //   {
-  //     id: "q10",
-  //     category: "research",
-  //     question: "Hello",
-  //     question_format: "multiple-choice",
-  //     options: ["hi", "bye", "go", "no"],
-  //     answer: "hi",
-  //     marks: 5
-  //   }
-  // ];
+const QuestionShow = ({ data }) => {
+  const questions = JSON.parse(data.non_practywiz_case_question);
+  
+  // Combine all question types into a single array with proper formatting
+  const allQuestions = [
+    ...questions.factBasedQuestions.map(q => ({
+      id: q.id,
+      category: 'fact',
+      question: q.Question,
+      question_format: q.questionType,
+      options: q.options || [],
+      answer: q.correctAnswer,
+      marks: q.maxMark
+    })),
+    ...questions.analysisBasedQuestions.map(q => ({
+      id: q.id,
+      category: 'analysis',
+      question: q.Question,
+      question_format: q.questionType,
+      options: q.options || [],
+      answer: q.correctAnswer,
+      marks: q.maxMark
+    })),
+    ...(questions.researchBasedQuestions || []).map(q => ({
+      id: q.id,
+      category: 'research',
+      question: q.Question,
+      question_format: q.questionType,
+      options: q.options || [],
+      answer: q.correctAnswer,
+      marks: q.maxMark
+    }))
+  ];
 
   const [expandedQuestions, setExpandedQuestions] = useState({});
 
@@ -125,11 +68,10 @@ const QuestionShow = ({data}) => {
       : 'question-show-format-subjective';
   };
 
-  const totalMarks = questions.reduce((sum, q) => sum + q.marks, 0);
-  const multipleChoiceCount = questions.filter(q => q.question_format === 'multiple-choice').length;
-  const subjectiveCount = questions.filter(q => q.question_format === 'subjective').length;
+  const totalMarks = allQuestions.reduce((sum, q) => sum + q.marks, 0);
 
   return (
+    <>  
     <div className="question-show-container">
       <div className="question-show-wrapper">
         {/* Header */}
@@ -138,13 +80,17 @@ const QuestionShow = ({data}) => {
             <div className="question-show-header-left">
               <BookOpen className="question-show-header-icon" />
               <div>
-                <h1 className="question-show-title">Business Quiz</h1>
-                <p className="question-show-subtitle">Mixed Question Format Assessment</p>
+                <h1 className="question-show-title">
+                  {data.non_practywiz_case_title || 'Case Study Questions'}
+                </h1>
+                <p className="question-show-subtitle">
+                  {data.non_practywiz_case_author || 'Question Bank'}
+                </p>
               </div>
             </div>
             <div className="question-show-header-stats">
               <div className="question-show-stat-item">
-                <span className="question-show-stat-number">{questions.length}</span> Questions
+                <span className="question-show-stat-number">{allQuestions.length}</span> Questions
               </div>
               <div className="question-show-stat-item">
                 <Award className="question-show-stat-icon" />
@@ -154,29 +100,9 @@ const QuestionShow = ({data}) => {
           </div>
         </div>
 
-        {/* Question Type Summary */}
-        {/* <div className="question-show-summary-grid">
-          <div className="question-show-summary-card">
-            <div className="question-show-summary-number">{questions.length}</div>
-            <div className="question-show-summary-label">Total Questions</div>
-          </div>
-          <div className="question-show-summary-card">
-            <div className="question-show-summary-number question-show-summary-orange">{multipleChoiceCount}</div>
-            <div className="question-show-summary-label">Multiple Choice</div>
-          </div>
-          <div className="question-show-summary-card">
-            <div className="question-show-summary-number question-show-summary-indigo">{subjectiveCount}</div>
-            <div className="question-show-summary-label">Subjective</div>
-          </div>
-          <div className="question-show-summary-card">
-            <div className="question-show-summary-number question-show-summary-purple">{totalMarks}</div>
-            <div className="question-show-summary-label">Total Marks</div>
-          </div>
-        </div> */}
-
         {/* Questions List */}
         <div className="question-show-questions-list">
-          {questions.map((q, index) => {
+          {allQuestions.map((q, index) => {
             const isExpanded = expandedQuestions[q.id];
             const questionNumber = index + 1;
             
@@ -188,14 +114,14 @@ const QuestionShow = ({data}) => {
                     <div className="question-show-question-main">
                       <div className="question-show-question-badges">
                         <span className="question-show-question-number">
-                          Question{questionNumber}
+                          Question {questionNumber}
                         </span>
                         <span className={`question-show-category-badge ${getCategoryColor(q.category)}`}>
                           {q.category.charAt(0).toUpperCase() + q.category.slice(1)}
                         </span>
                         <span className={`question-show-format-badge ${getFormatColor(q.question_format)}`}>
                           {getFormatIcon(q.question_format)}
-                          {q.question_format.replace('-', ' ')}
+                          {q.question_format === 'multiple-choice' ? 'Multiple Choice' : 'Subjective'}
                         </span>
                       </div>
                       <h2 className="question-show-question-text">
@@ -284,29 +210,9 @@ const QuestionShow = ({data}) => {
             );
           })}
         </div>
-
-        {/* Summary Footer */}
-        {/* <div className="question-show-footer">
-          <div className="question-show-footer-content">
-            <h3 className="question-show-footer-title">Quiz Summary</h3>
-            <div className="question-show-footer-grid">
-              <div className="question-show-footer-card question-show-footer-fact">
-                <div className="question-show-footer-number">{questions.filter(q => q.category === 'fact').length}</div>
-                <div className="question-show-footer-label">Fact Questions</div>
-              </div>
-              <div className="question-show-footer-card question-show-footer-analysis">
-                <div className="question-show-footer-number">{questions.filter(q => q.category === 'analysis').length}</div>
-                <div className="question-show-footer-label">Analysis Questions</div>
-              </div>
-              <div className="question-show-footer-card question-show-footer-research">
-                <div className="question-show-footer-number">{questions.filter(q => q.category === 'research').length}</div>
-                <div className="question-show-footer-label">Research Questions</div>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
+    </>
   );
 };
 

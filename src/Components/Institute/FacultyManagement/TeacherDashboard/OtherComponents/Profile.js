@@ -14,7 +14,9 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   const [assignedCase, setAssignedCase] = useState([]);
   const [filteredCaseStudies, setFilteredCaseStudies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeTab, setActiveTab] = useState("active"); // New state for tracking active tab
   const [filters, setFilters] = useState({
+    sort: "Newest First",
     class: "All Classes",
     type: "All Cases",
     dueDate: "Due Date",
@@ -105,7 +107,6 @@ const ActiveCaseStudies = ({ setActivePage }) => {
     });
     return uniqueClasses.size;
   };
-
   // Calculate days remaining until due date
   const getDaysRemaining = (dueDate) => {
     if (!dueDate) return null;
@@ -115,7 +116,7 @@ const ActiveCaseStudies = ({ setActivePage }) => {
       const diffTime = due - now;
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-      if (diffDays < 0) return "Overdue";
+      if (diffDays < 0) return "Completed";
       if (diffDays === 0) return "Due today";
       return `${diffDays} day${diffDays !== 1 ? "s" : ""} left`;
     } catch (error) {
@@ -135,76 +136,159 @@ const ActiveCaseStudies = ({ setActivePage }) => {
     const totalDuration = end - start;
     const elapsedDuration = now - start;
     return Math.round((elapsedDuration / totalDuration) * 100);
-  };
+  }; // Determine case status (Completed/Active)
+  const getCaseStatus = useCallback((caseStudy) => {
+    // First check if it's marked as completed in the database
+    if (caseStudy.status?.toLowerCase() === "completed") {
+      return "completed";
+    }
+
+    // If not explicitly completed, check if due date has passed (auto-complete)
+    if (caseStudy.due_date) {
+      const now = new Date();
+      const due = new Date(caseStudy.due_date);
+
+      if (now > due) {
+        return "completed"; // Past due date is considered completed
+      }
+    }
+
+    // Not completed and not past due date, so it's active
+    return "active";
+  }, []);
 
   const casesDueThisWeek = calculateCasesDueThisWeek();
   const studentParticipation = calculateTotalStudents();
   const totalClass = calculateUniqueClasses();
+  // Calculate completed and active case counts
+  const completedCasesCount = assignedCase.filter(
+    (cs) => getCaseStatus(cs) === "completed"
+  ).length;
 
+  const activeCasesCount = assignedCase.length - completedCasesCount;
+
+  // Format date in DD-MM-YYYY format
+  const formatDate = (isoDateStr) => {
+    if (!isoDateStr) return "N/A";
+    try {
+      const date = new Date(isoDateStr);
+      const iso = date.toISOString().split("T")[0]; // "2025-05-24"
+      const [year, month, day] = iso.split("-");
+      return `${day}-${month}-${year}`;
+    } catch (error) {
+      return "Invalid Date";
+    }
+  };
   // Apply filters function
-  const applyFilters = useCallback((currentFilters, cases) => {
-    if (!cases || cases.length === 0) return [];
+  const applyFilters = useCallback(
+    (currentFilters, cases, currentTab) => {
+      if (!cases || cases.length === 0) return [];
 
-    let result = [...cases];
+      let result = [...cases];
 
-    if (currentFilters.class !== "All Classes") {
-      result = result.filter((cs) => cs.class_name === currentFilters.class);
-    }
-
-    if (currentFilters.type !== "All Cases") {
-      // Make sure to check for Practywiz/Non-Practywiz correctly
-      // Assuming case_type might be PractyWiz or practywiz in data
-      if (currentFilters.type === "Practywiz") {
-        result = result.filter(
-          (cs) => cs.case_type?.toLowerCase() === "practywiz"
-        );
-      } else if (currentFilters.type === "Non-Practywiz") {
-        result = result.filter((cs) =>
-          cs.case_type?.toLowerCase().includes("non")
-        );
+      // First filter by tab (active or completed)
+      if (currentTab === "active") {
+        result = result.filter((cs) => getCaseStatus(cs) === "active");
+      } else if (currentTab === "completed") {
+        result = result.filter((cs) => getCaseStatus(cs) === "completed");
       }
-    }
 
-    if (currentFilters.status !== "All Status") {
-      result = result.filter(
-        (cs) => cs.status?.toLowerCase() === currentFilters.status.toLowerCase()
-      );
-    }
+      // Filter by class
+      if (currentFilters.class !== "All Classes") {
+        result = result.filter((cs) => cs.class_name === currentFilters.class);
+      }
 
-    // Due date filtering
-    if (currentFilters.dueDate !== "Due Date") {
-      const today = new Date();
-      const nextWeek = new Date();
-      nextWeek.setDate(today.getDate() + 7);
-      const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-
-      result = result.filter((cs) => {
-        if (!cs.due_date) return false;
-
-        const dueDate = new Date(cs.due_date);
-
-        if (currentFilters.dueDate === "This Week") {
-          // Due within the next 7 days
-          return dueDate >= today && dueDate <= nextWeek;
-        } else if (currentFilters.dueDate === "Next Week") {
-          // Due between 7 and 14 days from now
-          const twoWeeks = new Date();
-          twoWeeks.setDate(today.getDate() + 14);
-          return dueDate > nextWeek && dueDate <= twoWeeks;
-        } else if (currentFilters.dueDate === "This Month") {
-          // Due before the end of the current month
-          return dueDate <= endOfMonth;
+      // Filter by case type
+      if (currentFilters.type !== "All Cases") {
+        if (currentFilters.type === "Practywiz") {
+          result = result.filter(
+            (cs) => cs.case_type?.toLowerCase() === "practywiz"
+          );
+        } else if (currentFilters.type === "Non-Practywiz") {
+          result = result.filter((cs) =>
+            cs.case_type?.toLowerCase().includes("non")
+          );
         }
-        return true;
-      });
-    }
+      } // Filter by status (this applies within the active/completed tabs)
+      if (currentFilters.status !== "All Status") {
+        const statusLower = currentFilters.status.toLowerCase();
 
-    return result;
-  }, []);
+        result = result.filter((cs) => {
+          // Use our getCaseStatus function for consistent status determination
+          return getCaseStatus(cs) === statusLower;
+        });
+      }
+
+      // Due date filtering
+      if (currentFilters.dueDate !== "Due Date") {
+        const today = new Date();
+        const nextWeek = new Date();
+        nextWeek.setDate(today.getDate() + 7);
+        const endOfMonth = new Date(
+          today.getFullYear(),
+          today.getMonth() + 1,
+          0
+        );
+
+        result = result.filter((cs) => {
+          if (!cs.due_date) return false;
+
+          const dueDate = new Date(cs.due_date);
+
+          if (currentFilters.dueDate === "This Week") {
+            // Due within the next 7 days
+            return dueDate >= today && dueDate <= nextWeek;
+          } else if (currentFilters.dueDate === "Next Week") {
+            // Due between 7 and 14 days from now
+            const twoWeeks = new Date();
+            twoWeeks.setDate(today.getDate() + 14);
+            return dueDate > nextWeek && dueDate <= twoWeeks;
+          } else if (currentFilters.dueDate === "This Month") {
+            // Due before the end of the current month
+            return dueDate <= endOfMonth;
+          }
+          return true;
+        });
+      }
+
+      // Apply sorting
+      if (currentFilters.sort) {
+        switch (currentFilters.sort) {
+          case "Newest First":
+            result.sort((a, b) => {
+              const dateA = new Date(a.faculty_case_assign_start_date || 0);
+              const dateB = new Date(b.faculty_case_assign_start_date || 0);
+              return dateB - dateA; // Newest first
+            });
+            break;
+          case "Oldest First":
+            result.sort((a, b) => {
+              const dateA = new Date(a.faculty_case_assign_start_date || 0);
+              const dateB = new Date(b.faculty_case_assign_start_date || 0);
+              return dateA - dateB; // Oldest first
+            });
+            break;
+          case "Due Soon First":
+            result.sort((a, b) => {
+              if (!a.due_date) return 1; // No due date goes last
+              if (!b.due_date) return -1;
+
+              const dateA = new Date(a.due_date);
+              const dateB = new Date(b.due_date);
+              return dateA - dateB; // Closest due date first
+            });
+            break;
+        }
+      }
+
+      return result;
+    },
+    [getCaseStatus]
+  );
 
   // Debounced search function
   const debouncedSearch = useCallback(
-    debounce((term, currentFilters, cases) => {
+    debounce((term, currentFilters, cases, currentTab) => {
       if (!cases || cases.length === 0) {
         setFilteredCaseStudies([]);
         return;
@@ -216,13 +300,13 @@ const ActiveCaseStudies = ({ setActivePage }) => {
       if (term) {
         filtered = filtered.filter(
           (caseStudy) =>
-            caseStudy.case_title.toLowerCase().includes(term.toLowerCase()) ||
-            caseStudy.class_name.toLowerCase().includes(term.toLowerCase())
+            caseStudy.case_title?.toLowerCase().includes(term.toLowerCase()) ||
+            caseStudy.class_name?.toLowerCase().includes(term.toLowerCase())
         );
       }
 
-      // Apply other filters
-      filtered = applyFilters(currentFilters, filtered);
+      // Apply other filters including tab
+      filtered = applyFilters(currentFilters, filtered, currentTab);
 
       setFilteredCaseStudies(filtered);
     }, 300),
@@ -233,7 +317,7 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-    debouncedSearch(value, filters, assignedCase);
+    debouncedSearch(value, filters, assignedCase, activeTab);
   };
 
   // Handle filter change
@@ -258,23 +342,29 @@ const ActiveCaseStudies = ({ setActivePage }) => {
       );
     }
 
-    // Then apply all filters including the new one
-    filtered = applyFilters(newFilters, filtered);
+    // Then apply all filters including the new one and activeTab
+    filtered = applyFilters(newFilters, filtered, activeTab);
 
     // Update state with filtered results
     setFilteredCaseStudies(filtered);
   };
 
-  // Update filtered list whenever assignedCase changes
+  // Handle tab change
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    // Re-apply filters with the new tab
+    debouncedSearch(searchTerm, filters, assignedCase, tab);
+  };
+
+  // Update filtered list whenever assignedCase or activeTab changes
   useEffect(() => {
-    debouncedSearch(searchTerm, filters, assignedCase);
+    debouncedSearch(searchTerm, filters, assignedCase, activeTab);
 
     // Cleanup function
     return () => {
       debouncedSearch.cancel();
     };
-  }, [assignedCase, debouncedSearch, filters, searchTerm]);
-
+  }, [assignedCase, debouncedSearch, filters, searchTerm, activeTab]);
   // Get progress bar color based on progress value
   const getProgressColor = (progress) => {
     if (progress >= 70) return "#4285F4";
@@ -282,24 +372,12 @@ const ActiveCaseStudies = ({ setActivePage }) => {
     return "#4285F4";
   };
 
-  const formatDate = (isoDateStr) => {
-    if (!isoDateStr) return "N/A";
-    try {
-      const date = new Date(isoDateStr);
-      const iso = date.toISOString().split("T")[0]; // "2025-05-24"
-      const [year, month, day] = iso.split("-");
-      return `${day}-${month}-${year}`;
-    } catch (error) {
-      return "Invalid Date";
-    }
-  };
-
   // Loading state
   if (isLoading) {
     return (
        <div className="loading-container">
             <div className="loading-spinner"></div>
-            <p>Loading classes...</p>
+            <p>Loading...</p>
           </div>
     );
   }
@@ -430,6 +508,29 @@ const ActiveCaseStudies = ({ setActivePage }) => {
         </div>
       </div>
 
+      {/* Tabs for Active and Completed cases */}
+      <div className="teacher-profile-home-page-tabs">
+        {" "}
+        <button
+          className={`teacher-profile-tab ${
+            activeTab === "active" ? "active" : ""
+          }`}
+          onClick={() => handleTabChange("active")}
+          data-count={activeCasesCount}
+        >
+          <i className="fa-solid fa-clock"></i> Active Cases
+        </button>
+        <button
+          className={`teacher-profile-tab ${
+            activeTab === "completed" ? "active" : ""
+          }`}
+          onClick={() => handleTabChange("completed")}
+          data-count={completedCasesCount}
+        >
+          <i className="fa-solid fa-check-circle"></i> Completed Cases
+        </button>
+      </div>
+
       <div className="teacher-profile-home-page-filters">
         <div className="teacher-profile-home-page-filter-label">
           <i className="fa-solid fa-filter " />{" "}
@@ -438,6 +539,14 @@ const ActiveCaseStudies = ({ setActivePage }) => {
           </span>
         </div>
         <div className="teacher-profile-home-page-filter-dropdowns">
+          <select
+            value={filters.sort}
+            onChange={(e) => handleFilterChange("sort", e.target.value)}
+          >
+            <option>Newest First</option>
+            <option>Oldest First</option>
+            <option>Due Soon First</option>
+          </select>
           <select
             value={filters.class}
             onChange={(e) => handleFilterChange("class", e.target.value)}
@@ -451,7 +560,6 @@ const ActiveCaseStudies = ({ setActivePage }) => {
                 <option key={className}>{className}</option>
               ))}
           </select>
-
           <select
             value={filters.type}
             onChange={(e) => handleFilterChange("type", e.target.value)}
@@ -460,7 +568,6 @@ const ActiveCaseStudies = ({ setActivePage }) => {
             <option>Practywiz</option>
             <option>Non-Practywiz</option>
           </select>
-
           <select
             value={filters.dueDate}
             onChange={(e) => handleFilterChange("dueDate", e.target.value)}
@@ -469,17 +576,15 @@ const ActiveCaseStudies = ({ setActivePage }) => {
             <option>This Week</option>
             <option>Next Week</option>
             <option>This Month</option>
-          </select>
-
-          <select
+          </select>{" "}
+          {/* <select
             value={filters.status}
             onChange={(e) => handleFilterChange("status", e.target.value)}
           >
             <option>All Status</option>
             <option>Active</option>
             <option>Completed</option>
-            <option>Overdue</option>
-          </select>
+          </select> */}
         </div>
       </div>
 
@@ -497,7 +602,15 @@ const ActiveCaseStudies = ({ setActivePage }) => {
                   }`}
                 >
                   {caseStudy.case_type || "Unknown"}
-                </span>
+                </span>{" "}
+                {/* Status badge */}
+                {/* <span
+                  className={`case-status-badge ${getCaseStatus(caseStudy)}`}
+                >
+                  {getCaseStatus(caseStudy) === "completed"
+                    ? "Completed"
+                    : "Active"}
+                </span> */}
               </div>
               <div className="teacher-profile-home-page-case-header">
                 <h3 className="teacher-profile-home-page-case-title">
@@ -588,13 +701,24 @@ const ActiveCaseStudies = ({ setActivePage }) => {
                     localStorage.setItem("caseStudyId", caseStudy.case_id);
                     localStorage.setItem("ClassId", caseStudy.class_id);
                     localStorage.setItem("caseType", caseStudy.case_type);
-                    localStorage.setItem("facultyCaseAssignId", caseStudy.faculty_case_assign_dtls_id);
+                    localStorage.setItem(
+                      "facultyCaseAssignId",
+                      caseStudy.faculty_case_assign_dtls_id
+                    );
                     setActivePage("singlecase");
                   }}
                   className="teacher-profile-home-page-view-details"
                 >
                   View Case Study
                 </button>
+                {/* Status badge */}
+                <span
+                  className={`case-status-badge ${getCaseStatus(caseStudy)}`}
+                >
+                  {getCaseStatus(caseStudy) === "completed"
+                    ? "Completed"
+                    : "Active"}
+                </span>
               </div>
             </div>
           ))}
@@ -602,10 +726,13 @@ const ActiveCaseStudies = ({ setActivePage }) => {
       ) : (
         <div className="teacher-profile-home-page-no-cases">
           <p>
-            No case studies found.{" "}
+            No {activeTab === "completed" ? "completed" : "active"} case studies
+            found.{" "}
             {searchTerm
               ? "Try a different search term or filter."
-              : "No cases assigned yet."}
+              : activeTab === "completed"
+              ? "No completed cases yet."
+              : "No active cases assigned yet."}
           </p>
         </div>
       )}

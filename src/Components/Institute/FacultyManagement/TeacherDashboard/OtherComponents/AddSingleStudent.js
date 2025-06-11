@@ -4,9 +4,10 @@ import axios from "axios";
 import { ApiURL } from "../../../../../Utils/ApiURL";
 import { toast } from 'react-toastify';
 
-const AddSingleStudent = ({ setshowAddSingleform, instituteName, clickedClassId }) => {
+const AddSingleStudent = ({ setshowAddSingleform, instituteName, clickedClassId,fetchStudentlistOfClass}) => {
 
-  const [isLoading, setIsLoading] = useState(false);
+const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [error, setError] = useState(null);
   const url = ApiURL();
   const [formData, setFormData] = useState({
@@ -27,6 +28,7 @@ const AddSingleStudent = ({ setshowAddSingleform, instituteName, clickedClassId 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+     setIsSubmitting(true); // Start loading
     console.log('Form submitted:', formData);
 
     const dataToSend = {
@@ -43,7 +45,7 @@ const AddSingleStudent = ({ setshowAddSingleform, instituteName, clickedClassId 
     };
 
     try {
-      setIsLoading(true);
+     
       setError(null);
 
       const response = await axios.post(
@@ -65,6 +67,7 @@ const AddSingleStudent = ({ setshowAddSingleform, instituteName, clickedClassId 
       if (Array.isArray(result.registered) && result.registered.length > 0) {
         toast.success(`Student registered successfully.`);
         setshowAddSingleform(false);
+        fetchStudentlistOfClass(); // Refresh the student list
       }
 
     } catch (err) {
@@ -75,7 +78,8 @@ const AddSingleStudent = ({ setshowAddSingleform, instituteName, clickedClassId 
       );
       console.error("Upload error:", err);
     } finally {
-      setIsLoading(false);
+     setIsSubmitting(false); // Stop loading
+      setshowAddSingleform(false);
     }
   };
 
@@ -159,8 +163,8 @@ const AddSingleStudent = ({ setshowAddSingleform, instituteName, clickedClassId 
             />
           </div>
 
-          <button type="submit" className="AddSingleStudentSubmitButton">
-            Submit Information
+          <button type="submit"  disabled={isSubmitting}   className={`submit-btn-AddSingleStudentSubmitButton ${isSubmitting ? "btn-disabled" : ""}`}>
+           {isSubmitting ? "Submitting..." : "Submit"}
           </button>
         </form>
       </div>

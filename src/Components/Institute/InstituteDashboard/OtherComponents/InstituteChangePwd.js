@@ -20,6 +20,7 @@ const InstituteChangePwd = ({ user, token }) => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     mode: "onBlur",
@@ -50,6 +51,7 @@ const InstituteChangePwd = ({ user, token }) => {
       if (response.data.success) {
         dispatch(hideLoadingHandler());
         toast.success("Password change successfully");
+        reset();
       }
       if (response.data.error) {
         dispatch(hideLoadingHandler());

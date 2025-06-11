@@ -4,7 +4,7 @@ import "../DashboardCSS/AddBulkStudents.css";
 import axios from "axios";
 import { ApiURL } from "../../../../../Utils/ApiURL";
 
-const AddBulkStudents = ({setshowAddBulkStudent,instituteName,clickedClassId}) => {
+const AddBulkStudents = ({setshowAddBulkStudent,instituteName,clickedClassId,fetchStudentlistOfClass}) => {
   const url = ApiURL();
 
   const [columns, setColumns] = useState([]);
@@ -64,6 +64,7 @@ const AddBulkStudents = ({setshowAddBulkStudent,instituteName,clickedClassId}) =
 
       setUploadResult(response.data);
       setIsLoading(false);
+      fetchStudentlistOfClass()
     } catch (err) {
       setIsLoading(false);
       setError(

@@ -81,6 +81,30 @@
   background-color: #0078d4;
 }
 
+.faculty-navbar-profile-buttons {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.faculty-navbar-notification-button {
+  display: flex;
+  align-items: center;
+  position: relative;
+  color: #5a5a5a;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.faculty-navbar-notification-button:hover {
+  color: #0078d4;
+  background-color: rgba(0, 120, 212, 0.05);
+}
+
 .faculty-navbar-nav-profile {
   position: relative;
 }

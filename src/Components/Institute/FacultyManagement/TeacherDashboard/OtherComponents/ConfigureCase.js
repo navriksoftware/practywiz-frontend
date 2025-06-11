@@ -4,8 +4,16 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { ApiURL } from "../../../../../Utils/ApiURL";
 
-export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, facultyID, selectedClass }) {
+export default function ConfigureCasePopup({
+  setOpen,
+  caseType,
+  caseStudyId,
+  facultyID,
+  selectedClass,
+  caseStudyTitle,
+}) {
   const [questionType, setQuestionType] = useState("0");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [formData, setFormData] = useState({
     startDateTime: "",
@@ -17,7 +25,6 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
     analysisTiming: "0",
     classStart: "",
     classEnd: "",
-
   });
 
   const handleChange = (e) => {
@@ -36,18 +43,21 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
     }
   };
 
-
   const validateForm = () => {
     const errors = {};
 
     // Check required fields
-    if (!formData.startDateTime) errors.startDateTime = "Start date and time is required";
+    if (!formData.startDateTime)
+      errors.startDateTime = "Start date and time is required";
     if (!formData.deadline) errors.deadline = "Deadline is required";
     if (caseType === 1) {
-      if (!formData.factQuestions) errors.factQuestions = "Fact questions quantity is required";
-      if (!formData.analysisQuestions) errors.analysisQuestions = "Analysis questions quantity is required";
+      if (!formData.factQuestions)
+        errors.factQuestions = "Fact questions quantity is required";
+      if (!formData.analysisQuestions)
+        errors.analysisQuestions = "Analysis questions quantity is required";
     }
-    if (!formData.classStart) errors.classStart = "Class start time is required";
+    if (!formData.classStart)
+      errors.classStart = "Class start time is required";
     if (!formData.classEnd) errors.classEnd = "Class end time is required";
 
     // Date validation
@@ -57,14 +67,19 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
     const classStartDate = new Date(formData.classStart);
     const classEndDate = new Date(formData.classEnd);
 
-    if (startDate < now) errors.startDateTime = "Start date must be in the future";
-    if (deadlineDate <= startDate) errors.deadline = "Deadline must be after start date";
-    if (classEndDate <= classStartDate) errors.classEnd = "Class end time must be after start time";
+    if (startDate < now)
+      errors.startDateTime = "Start date must be in the future";
+    if (deadlineDate <= startDate)
+      errors.deadline = "Deadline must be after start date";
+    if (classEndDate <= classStartDate)
+      errors.classEnd = "Class end time must be after start time";
 
     // Number validation
     if (caseType === 1) {
-      if (parseInt(formData.factQuestions) < 1) errors.factQuestions = "Must be at least 1";
-      if (parseInt(formData.analysisQuestions) < 1) errors.analysisQuestions = "Must be at least 1";
+      if (parseInt(formData.factQuestions) < 1)
+        errors.factQuestions = "Must be at least 1";
+      if (parseInt(formData.analysisQuestions) < 1)
+        errors.analysisQuestions = "Must be at least 1";
     }
 
     setFormErrors(errors);
@@ -72,9 +87,10 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
   };
 
   const url = ApiURL();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsSubmitting(true); // Start loading
     if (!validateForm()) {
       toast.error("Please fix the errors in the form");
       return;
@@ -91,10 +107,12 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
       analysisTiming: formData.analysisTiming,
       classStart: formData.classStart,
       classEnd: formData.classEnd,
-      factQuestions:formData.factQuestions,
+      factQuestions: formData.factQuestions,
+      factQuestions: formData.factQuestions,
       analysisQuestions: formData.analysisQuestions,
       questionType: questionType,
-      owned_by:caseType
+      owned_by: caseType,
+      caseStudyTitle: caseStudyTitle,
     };
 
     console.log("Form data to be sent to backend:", dataToSend);
@@ -107,16 +125,19 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
 
       if (response?.data?.success) {
         toast.success("Case study assigned successfully!");
-        setOpen(false); // Close the modal after successful submission
       } else {
-        toast.error(response?.data?.message || "Assignment failed. Please try again.");
+        toast.error(
+          response?.data?.message || "Assignment failed. Please try again."
+        );
       }
-
     } catch (error) {
       const message =
         error?.response?.data?.message ||
         "There was an error assigning the case study. Please try again.";
       toast.error(message);
+    } finally {
+      setIsSubmitting(false); // Stop loading
+      setOpen(false); // Close the modal after successful submission
     }
   };
 
@@ -229,7 +250,8 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
             value={formData.factTiming}
             onChange={handleChange}
           >
-             <option value="0">Before Class</option>
+            <option value="0">Before Class</option>
+            <option value="0">Before Class</option>
             <option value="1">In Class</option>
             <option value="2">After Class</option>
           </select>
@@ -275,14 +297,27 @@ export default function ConfigureCasePopup({ setOpen, caseType, caseStudyId, fac
           )}
 
           {caseType === 1 ? (
-            <button className="case-assign-btn" type="submit">
-              {questionType === "same"
+            <button
+              disabled={isSubmitting}
+              className={`submit-btn-case-assign-btn ${
+                isSubmitting ? "btn-disabled" : ""
+              }`}
+              type="submit"
+            >
+              {/* {questionType === "same"
                 ? "Generate Questions"
-                : "Assign Case Study"}
+                : "Assign Case Study"} */}
+              {isSubmitting ? "Assigning..." : "Assign Case Study"}
             </button>
           ) : (
-            <button className="case-assign-btn" type="submit">
-              Assign Case Study
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={`submit-btn-case-assign-btn ${
+                isSubmitting ? "btn-disabled" : ""
+              }`}
+            >
+              {isSubmitting ? "Assigning..." : "Assign Case Study"}
             </button>
           )}
         </form>

@@ -5,7 +5,12 @@ import { useDispatch } from "react-redux";
 import { logOut } from "../../../../Redux/userRedux";
 import "./DashboardCSS/FacultyNavbar.css";
 
-const NavBar = ({ user, activePage, setActivePage }) => {
+const NavBar = ({
+  user,
+  activePage,
+  setActivePage,
+  hasUnreadNotifications,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
@@ -146,39 +151,68 @@ const NavBar = ({ user, activePage, setActivePage }) => {
                 <span>Class info</span>
               </button>
             </li>
-            <li className={activePage === "notifications" ? "active" : ""}>
+            {/* <li className={activePage === "notifications" ? "active" : ""}>
               <button onClick={() => setActivePage("notifications")}>
                 <i className="fa-solid fa-bell"></i>
                 <span>Notifications</span>
               </button>
-            </li>
+            </li> */}
           </ul>
         </div>
 
         {/* Desktop Profile Section */}
         <div className="faculty-navbar-nav-profile" ref={profileDropdownRef}>
-          <button
-            className="faculty-navbar-profile-button"
-            onClick={toggleProfileDropdown}
-          >
-            {user?.profile_image ? (
-              <img
-                src={user.profile_image}
-                alt="Profile"
-                className="profile-image"
-              />
-            ) : (
-              <div className="faculty-navbar-profile-circle">
-                <span>
-                  {user?.user_firstname?.charAt(0).toUpperCase() || "S"}
-                </span>
-              </div>
-            )}
-            <span className="faculty-navbar-username">
-              {user?.user_firstname || "Dr. Ramani"}
-            </span>
-            <i className="fa-solid fa-chevron-down faculty-navbar-dropdown-icon"></i>
-          </button>
+          <div className="faculty-navbar-profile-buttons">
+            <button
+              onClick={() => setActivePage("notifications")}
+              className={`faculty-navbar-notification-button ${
+                activePage === "notifications" ? "active" : ""
+              }`}
+            >
+              <i className="fa-solid fa-bell"></i>
+              {hasUnreadNotifications && (
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "3px",
+                    right: "9px",
+                    width: "10px",
+                    height: "10px",
+                    padding: "1px",
+                    backgroundColor: "red",
+                    color: "white",
+                    borderRadius: "100%",
+                    fontSize: "12px",
+                    fontWeight: "bold",
+                    border: "2px solid white",
+                    zIndex: 10,
+                  }}
+                />
+              )}
+            </button>
+            <button
+              className="faculty-navbar-profile-button"
+              onClick={toggleProfileDropdown}
+            >
+              {user?.profile_image ? (
+                <img
+                  src={user.profile_image}
+                  alt="Profile"
+                  className="profile-image"
+                />
+              ) : (
+                <div className="faculty-navbar-profile-circle">
+                  <span>
+                    {user?.user_firstname?.charAt(0).toUpperCase() || "S"}
+                  </span>
+                </div>
+              )}
+              <span className="faculty-navbar-username">
+                {user?.user_firstname || "Dr. Ramani"}
+              </span>
+              <i className="fa-solid fa-chevron-down faculty-navbar-dropdown-icon"></i>
+            </button>
+          </div>
 
           {profileDropdownOpen && (
             <ul className="faculty-navbar-profile-dropdown">
