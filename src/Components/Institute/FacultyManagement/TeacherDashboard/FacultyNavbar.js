@@ -5,7 +5,12 @@ import { useDispatch } from "react-redux";
 import { logOut } from "../../../../Redux/userRedux";
 import "./DashboardCSS/FacultyNavbar.css";
 
-const NavBar = ({ user, activePage, setActivePage }) => {
+const NavBar = ({
+  user,
+  activePage,
+  setActivePage,
+  hasUnreadNotifications,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
@@ -165,6 +170,25 @@ const NavBar = ({ user, activePage, setActivePage }) => {
               }`}
             >
               <i className="fa-solid fa-bell"></i>
+              {hasUnreadNotifications && (
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "3px",
+                    right: "9px",
+                    width: "10px",
+                    height: "10px",
+                    padding: "1px",
+                    backgroundColor: "red",
+                    color: "white",
+                    borderRadius: "100%",
+                    fontSize: "12px",
+                    fontWeight: "bold",
+                    border: "2px solid white",
+                    zIndex: 10,
+                  }}
+                />
+              )}
             </button>
             <button
               className="faculty-navbar-profile-button"

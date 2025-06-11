@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AvegaLanding.css"; // Import main CSS styles
+import businessStudent from "../../Images/Institute/business-student-avega.png";
+import aiSimulator from "../../Images/Institute/ai-simulator.png";
+import aiEvaluator from "../../Images/Institute/case-study-class.jpg";
 
 export default function AvegaLanding() {
   const navigate = useNavigate();
@@ -116,9 +119,9 @@ export default function AvegaLanding() {
               <div className="avega-landing-page-v2-feature-item">
                 <div className="avega-landing-page-v2-feature-icon">
                   <i className="fas fa-brain"></i>
-                </div>
+                </div>{" "}
                 <h3 className="avega-landing-page-v2-gradient-text">
-                  How to Integrated AI in B-Schools Curriculum ?
+                  How to Integrate AI in B-Schools pedagogy?
                 </h3>
               </div>
               <div className="avega-landing-page-v2-feature-item">
@@ -149,13 +152,23 @@ export default function AvegaLanding() {
               </div>
             </div> */}
             <div className="avega-landing-page-v2-hero-buttons">
-              <button className="avega-landing-page-v2-primary-btn">
-                <span>Contact Sales</span>
+              <button
+                onClick={() => navigate("/institute-registration")}
+                className="avega-landing-page-v2-primary-btn"
+              >
+                <span>Register Now</span>
                 <div className="avega-landing-page-v2-btn-glow"></div>
               </button>
-              <button className="avega-landing-page-v2-secondary-btn">
-                <i className="fas fa-play"></i>
-                <span>Watch Demo</span>
+              <button
+                onClick={() =>
+                  window.open(
+                    "mailto:wecares@practywiz.com?subject=Interested in Avega&body=Hi, I would like to know more about Avega and how it can help my institution."
+                  )
+                }
+                className="avega-landing-page-v2-secondary-btn"
+              >
+                {/* <i className="fas fa-play"></i> */}
+                <span>Contact Sales</span>
               </button>
             </div>
           </div>
@@ -167,40 +180,62 @@ export default function AvegaLanding() {
                   <i className="fas fa-chart-line"></i>
                 </div>
                 <div className="avega-landing-page-v2-card-content">
-                  <h4>AI Case Simulator</h4>
+                  <h4>Avega AI Case Simulator</h4>{" "}
                   <p>
-                    Creat student engagement with interactive case simulations
+                    Create student engagement with interactive case simulations
                   </p>
                 </div>
               </div>
-
               <div className="avega-landing-page-v2-floating-card avega-landing-page-v2-card-2">
                 <div className="avega-landing-page-v2-card-icon">
                   <i className="fas fa-users"></i>
                 </div>
                 <div className="avega-landing-page-v2-card-content">
-                  <h4>Ai Evaluator</h4>
+                  <h4>Avega Ai Evaluator</h4>
                   <p> Automated assessment and feedback for each student</p>
                 </div>
+              </div>{" "}
+              <div className="avega-landing-page-v2-student-profile">
+                <div>
+                  {/* <div className="avega-landing-page-v2-vocabulary-badge">
+                    <div className="avega-landing-page-v2-badge-label">
+                      Case Knowledge Score
+                    </div>
+                    <div className="avega-landing-page-v2-badge-count">
+                      3788 points
+                    </div>
+                  </div> */}
+                  <div className="avega-landing-page-v2-student-image">
+                    <img
+                      src={businessStudent}
+                      alt="Business student using Avega AI"
+                    />
+                  </div>{" "}
+                  {/* <div className="avega-landing-page-v2-talent-badge">
+                    <div className="avega-landing-page-v2-badge-icon">
+                      <i className="fas fa-award"></i>
+                    </div>
+                    <div className="avega-landing-page-v2-badge-content">
+                      <h4>Business Talent</h4>
+                      <p>
+                        Congratulations! Your analysis matches{" "}
+                        <span className="avega-landing-page-v2-accent">
+                          industry experts
+                        </span>
+                      </p>
+                    </div>
+                  </div> */}
+                </div>
               </div>
-
               {/* <div className="avega-landing-page-v2-floating-card avega-landing-page-v2-card-3">
                 <div className="avega-landing-page-v2-card-icon">
                   <i className="fas fa-lightbulb"></i>
                 </div>
-                <div className="avega-landing-page-v2-card-content">
+                 <div className="avega-landing-page-v2-card-content">
                   <h4>Innovation</h4>
                   <p>AI-powered solutions</p>
-                </div>
+                </div> 
               </div> */}
-
-              <div className="avega-landing-page-v2-central-element">
-                <div className="avega-landing-page-v2-rotating-ring"></div>
-                <div className="avega-landing-page-v2-core">
-                  {/* <i className="fas fa-graduation-cap"></i> */}
-                  <h3>AVEGA AI</h3>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -338,25 +373,44 @@ export default function AvegaLanding() {
                   <span>Learn More</span>
                 </button>
               </div>
-            </div>
-
+            </div>{" "}
             <div className="avega-landing-page-v2-simulation-right">
               <div className="avega-landing-page-v2-simulation-visual">
-                <div className="avega-landing-page-v2-laptop-mockup">
-                  <div className="avega-landing-page-v2-screen">
-                    <div className="avega-landing-page-v2-screen-content">
-                      <div className="avega-landing-page-v2-progress-bar">
-                        <div className="avega-landing-page-v2-progress-fill"></div>
+                <div className="avega-landing-page-v2-simulation-image-card">
+                  {" "}
+                  <img
+                    src={aiSimulator}
+                    alt="AI Case Simulator Interface"
+                    className="avega-landing-page-v2-simulator-image"
+                  />
+                  <div className="avega-landing-page-v2-simulator-card-items">
+                    <div className="avega-landing-page-v2-simulator-feature-card-text">
+                      <div className="avega-landing-page-v2-feature-icon">
+                        <i className="fas fa-lightbulb"></i>
                       </div>
-                      <div className="avega-landing-page-v2-data-points">
-                        <div className="avega-landing-page-v2-data-point"></div>
-                        <div className="avega-landing-page-v2-data-point"></div>
-                        <div className="avega-landing-page-v2-data-point"></div>
+                      <span>Interactive Learning</span>
+                    </div>
+                    <div className="avega-landing-page-v2-simulator-feature-card-text">
+                      <div className="avega-landing-page-v2-feature-icon">
+                        <i className="fas fa-chart-line"></i>
                       </div>
+                      <span>Real-time Analytics</span>
+                    </div>
+                    <div className="avega-landing-page-v2-simulator-feature-card-text">
+                      <div className="avega-landing-page-v2-feature-icon">
+                        <i className="fas fa-route"></i>
+                      </div>
+                      <span>Personalized Path</span>
+                    </div>
+                    <div className="avega-landing-page-v2-simulator-feature-card-text">
+                      <div className="avega-landing-page-v2-feature-icon">
+                        <i className="fas fa-bolt"></i>
+                      </div>
+                      <span>Instant Feedback</span>
                     </div>
                   </div>
                 </div>
-                <div className="avega-landing-page-v2-floating-elements">
+                {/* <div className="avega-landing-page-v2-floating-elements">
                   <div className="avega-landing-page-v2-element avega-landing-page-v2-element-1">
                     📊
                   </div>
@@ -366,7 +420,7 @@ export default function AvegaLanding() {
                   <div className="avega-landing-page-v2-element avega-landing-page-v2-element-3">
                     ⚡
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -376,54 +430,40 @@ export default function AvegaLanding() {
       {/* AI Evaluator Section */}
       <section id="evaluator" className="avega-landing-page-v2-evaluator">
         <div className="avega-landing-page-v2-container-inner">
+          {" "}
           <div className="avega-landing-page-v2-evaluator-content">
             <div className="avega-landing-page-v2-evaluator-left">
               <div className="avega-landing-page-v2-evaluator-visual">
-                <div className="avega-landing-page-v2-assessment-dashboard">
-                  <div className="avega-landing-page-v2-dashboard-header">
-                    <h4>AI Assessment</h4>
-                    <div className="avega-landing-page-v2-status-indicator"></div>
-                  </div>
-                  <div className="avega-landing-page-v2-metrics">
-                    <div className="avega-landing-page-v2-metric">
-                      <div className="avega-landing-page-v2-metric-value">
-                        94%
+                <div className="avega-landing-page-v2-simulation-image-card">
+                  <img
+                    src={aiEvaluator}
+                    alt="AI Evaluator Dashboard"
+                    className="avega-landing-page-v2-simulator-image"
+                  />
+                  <div className="avega-landing-page-v2-simulator-card-items">
+                    <div className="avega-landing-page-v2-simulator-feature-card-text">
+                      <div className="avega-landing-page-v2-feature-icon">
+                        <i className="fas fa-lightbulb"></i>
                       </div>
-                      <div className="avega-landing-page-v2-metric-label">
-                        Accuracy
-                      </div>
+                      <span>Smart Analytics</span>
                     </div>
-                    <div className="avega-landing-page-v2-metric">
-                      <div className="avega-landing-page-v2-metric-value">
-                        2.3s
+                    <div className="avega-landing-page-v2-simulator-feature-card-text">
+                      <div className="avega-landing-page-v2-feature-icon">
+                        <i className="fas fa-chart-line"></i>
                       </div>
-                      <div className="avega-landing-page-v2-metric-label">
-                        Response Time
-                      </div>
+                      <span>AI Integration</span>
                     </div>
-                  </div>
-                  <div className="avega-landing-page-v2-chart">
-                    <div className="avega-landing-page-v2-chart-bars">
-                      <div
-                        className="avega-landing-page-v2-bar"
-                        style={{ height: "60%" }}
-                      ></div>
-                      <div
-                        className="avega-landing-page-v2-bar"
-                        style={{ height: "80%" }}
-                      ></div>
-                      <div
-                        className="avega-landing-page-v2-bar"
-                        style={{ height: "45%" }}
-                      ></div>
-                      <div
-                        className="avega-landing-page-v2-bar"
-                        style={{ height: "90%" }}
-                      ></div>
-                      <div
-                        className="avega-landing-page-v2-bar"
-                        style={{ height: "70%" }}
-                      ></div>
+                    <div className="avega-landing-page-v2-simulator-feature-card-text">
+                      <div className="avega-landing-page-v2-feature-icon">
+                        <i className="fas fa-route"></i>
+                      </div>
+                      <span>Detailed Feedback</span>
+                    </div>
+                    <div className="avega-landing-page-v2-simulator-feature-card-text">
+                      <div className="avega-landing-page-v2-feature-icon">
+                        <i className="fas fa-bolt"></i>
+                      </div>
+                      <span>Easy Integration</span>
                     </div>
                   </div>
                 </div>
@@ -485,8 +525,16 @@ export default function AvegaLanding() {
                 <button className="avega-landing-page-v2-primary-btn">
                   <span>Try Evaluator</span>
                   <div className="avega-landing-page-v2-btn-glow"></div>
-                </button>
-                <button className="avega-landing-page-v2-secondary-btn">
+                </button>{" "}
+                <button
+                  className="avega-landing-page-v2-secondary-btn"
+                  onClick={() =>
+                    window.open(
+                      "https://youtu.be/Q-Xl7hR4Wd4?feature=shared",
+                      "_blank"
+                    )
+                  }
+                >
                   <span>View Demo</span>
                 </button>
               </div>
@@ -563,12 +611,12 @@ export default function AvegaLanding() {
             </div>
           </div>
 
-          <div className="avega-landing-page-v2-cta-center">
+          {/* <div className="avega-landing-page-v2-cta-center">
             <button className="avega-landing-page-v2-primary-btn">
               <span>View Sample Assessment</span>
               <div className="avega-landing-page-v2-btn-glow"></div>
             </button>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -659,10 +707,10 @@ export default function AvegaLanding() {
                 <span>Strategy</span>
                 <span>Digital</span>
               </div>
-              <a href="#" className="avega-landing-page-v2-featured-link">
+              {/* <a href="#" className="avega-landing-page-v2-featured-link">
                 <span>View Case Study</span>
                 <i className="fas fa-arrow-right"></i>
-              </a>
+              </a> */}
             </div>
             <div className="avega-landing-page-v2-featured-card">
               {/* <div className="avega-landing-page-v2-featured-image">
@@ -677,10 +725,10 @@ export default function AvegaLanding() {
                 <span>Marketing</span>
                 <span>Strategy</span>
               </div>
-              <a href="#" className="avega-landing-page-v2-featured-link">
+              {/* <a href="#" className="avega-landing-page-v2-featured-link">
                 <span>View Case Study</span>
                 <i className="fas fa-arrow-right"></i>
-              </a>
+              </a> */}
             </div>
             <div className="avega-landing-page-v2-featured-card">
               {/* <div className="avega-landing-page-v2-featured-image">
@@ -695,10 +743,10 @@ export default function AvegaLanding() {
                 <span>Finance</span>
                 <span>Innovation</span>
               </div>
-              <a href="#" className="avega-landing-page-v2-featured-link">
+              {/* <a href="#" className="avega-landing-page-v2-featured-link">
                 <span>View Case Study</span>
                 <i className="fas fa-arrow-right"></i>
-              </a>
+              </a> */}
             </div>
           </div>
           <div className="avega-landing-page-v2-cta-center">
@@ -714,7 +762,7 @@ export default function AvegaLanding() {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="avega-landing-page-v2-testimonials">
+      {/* <section id="testimonials" className="avega-landing-page-v2-testimonials">
         <div className="avega-landing-page-v2-container-inner">
           <div className="avega-landing-page-v2-section-header">
             <h2 className="avega-landing-page-v2-section-title">
@@ -757,7 +805,7 @@ export default function AvegaLanding() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA Section */}
       <section id="cta" className="avega-landing-page-v2-cta">
@@ -773,11 +821,21 @@ export default function AvegaLanding() {
               with AI
             </p>
             <div className="avega-landing-page-v2-cta-buttons">
-              <button className="avega-landing-page-v2-primary-btn">
-                <span>Start Free Trial</span>
+              <button
+                onClick={() => navigate("/institute-registration")}
+                className="avega-landing-page-v2-primary-btn"
+              >
+                <span>Register Now</span>
                 <div className="avega-landing-page-v2-btn-glow"></div>
               </button>
-              <button className="avega-landing-page-v2-secondary-btn">
+              <button
+                onClick={() =>
+                  window.open(
+                    "mailto:wecares@practywiz.com?subject=Interested in Avega&body=Hi, I would like to schedule a demo for Avega AI."
+                  )
+                }
+                className="avega-landing-page-v2-secondary-btn"
+              >
                 <span>Schedule Demo</span>
               </button>
             </div>
@@ -795,41 +853,60 @@ export default function AvegaLanding() {
             </p>
           </div>
           <div className="avega-landing-page-v2-faq-list">
+            {" "}
             {[
               {
-                question: "What is Avega AI for?",
+                question: "What is Avega?",
                 answer:
-                  "Avega AI is designed for business schools, corporate trainers, and educators looking to enhance their case study methodology with AI-powered simulations, evaluations, and personalized feedback systems.",
+                  "Avega AI, developed by Practywiz, is an AI-powered case study simulation platform designed for business schools, corporate trainers, and educators. It enhances traditional case study methodology by enabling faculty to assign immersive, case-based assessments and guide students through structured, experiential learning. With built-in simulations, automated evaluations, and personalized feedback, Avega helps students engage in real-world decision-making and prepares them for practical business challenges",
               },
               {
-                question: "How does the AI case simulator work?",
+                question: "How does Avega work?",
                 answer:
-                  "Our AI case simulator creates interactive, dynamic learning experiences by adapting to student responses in real-time, simulating business scenarios, and providing personalized guidance.",
+                  "Step 1: Institutes purchase or create case studies (non-Practywiz or Practywiz-based). Step 2: Faculty assign these case studies to classes with a defined timeline (before, during, or after class). Step 3: Students read the case and respond to both fact-based (MCQs) and analysis-based (subjective) questions. Step 4: Faculty review submissions and track performance through reports and analytics.",
               },
               {
-                question: "Can I integrate Avega with existing LMS platforms?",
+                question: "What are the types of case studies in Avega?",
                 answer:
-                  "Yes, Avega is designed to seamlessly integrate with popular Learning Management Systems including Canvas, Blackboard, Moodle, and others through our API.",
+                  "Practywiz Case Studies: Pre-designed, read-only on web, based on real Indian corporate experiences. Non-Practywiz Case Studies: Faculty-added custom cases (e.g., Harvard), entered manually without copyright content.",
               },
               {
-                question: "How customizable are the case studies?",
+                question: "Who is Avega for?",
                 answer:
-                  "Avega offers highly customizable case studies. You can modify existing cases or create entirely new ones using our intuitive case builder tool with industry-specific templates.",
+                  "Faculty: To assign, evaluate, and manage student case study engagement. Students: To experience case simulations, sharpen decision-making, and receive structured feedback. Institutes: To modernize curriculum with experiential, application-based learning.",
               },
               {
-                question: "What kind of analytics does Avega provide?",
+                question:
+                  "What types of questions can be added in a case study?",
                 answer:
-                  "Avega provides comprehensive analytics including student performance metrics, engagement tracking, skill development progress, and comparative analysis across cohorts.",
+                  "Fact-based Questions (MCQs) – For testing understanding of data, facts, and figures. Analysis-based Questions (Subjective) – For evaluating critical thinking, strategy, and decision-making.",
               },
               {
-                question: "How secure is the platform?",
+                question: "Can faculty add their own case studies?",
                 answer:
-                  "Avega prioritizes data security with enterprise-grade encryption, GDPR compliance, regular security audits, and strict access controls to protect institutional and student data.",
+                  "Yes, faculty can upload Non-Practywiz case studies by adding the title, author, category, and assessment questions. These can be shared with students without using copyrighted content.",
               },
               {
-                question: "How do I get started?",
+                question: "What are the key benefits of using Avega?",
                 answer:
-                  "Getting started is easy! Schedule a demo with our team, and we'll guide you through platform setup, case selection, and implementation strategies tailored to your institution's needs.",
+                  "Enhances real-world thinking through simulations. Supports blended learning in B-schools. Simplifies assessment and analytics for faculty. Provides scalable, flexible tools to manage case-based learning. Promotes engagement over traditional theoretical teaching.",
+              },
+              {
+                question: "Is Avega suitable for online and offline classes?",
+                answer:
+                  "Yes. Faculty can assign cases before, during, or after classes — making it ideal for both classroom and remote learning environments.",
+              },
+              {
+                question:
+                  "Can Practywiz help create custom case studies for my institute?",
+                answer:
+                  "Absolutely. Faculty can submit a request for custom case creation, and the Practywiz team can craft India-centric case studies tailored to specific learning objectives.",
+              },
+              {
+                question:
+                  "What makes Avega different from traditional case study teaching?",
+                answer:
+                  "Traditional methods rely on printed cases and manual evaluations. Avega digitizes the entire flow, enabling interactive, trackable, and flexible simulations while reducing administrative burden.",
               },
             ].map((faq, index) => (
               <div

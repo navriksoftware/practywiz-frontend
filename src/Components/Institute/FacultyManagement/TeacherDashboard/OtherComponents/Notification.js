@@ -4,7 +4,12 @@ import { ApiURL } from "../../../../../Utils/ApiURL";
 import "../DashboardCSS/Notification.css";
 import { toast } from "react-toastify";
 
-const Notification = ({ data: initialData, userId, token }) => {
+const Notification = ({
+  data: initialData,
+  userId,
+  token,
+  setHasUnreadNotifications,
+}) => {
   const [data, setData] = useState(initialData);
   const [loading, setLoading] = useState(false);
 
@@ -77,9 +82,7 @@ const Notification = ({ data: initialData, userId, token }) => {
 
   const formatDateToIST = (dateString) => {
     const date = new Date(dateString);
-    // Convert the date to IST (UTC+5:30)
-    const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
-    const istDate = new Date(date.getTime() + istOffset);
+    const istDate = new Date(date.getTime());
 
     // Format the date
     const formattedDate = istDate.toLocaleDateString("en-GB", {
@@ -110,6 +113,7 @@ const Notification = ({ data: initialData, userId, token }) => {
       if (response.data.success) {
         toast.success("Marked all messages as read successfully");
         // Refresh notifications to get updated data
+        setHasUnreadNotifications(false); // Reset unread notifications state
         await refreshNotifications(false); // Don't show toast for auto-refresh
       } else {
         toast.error(

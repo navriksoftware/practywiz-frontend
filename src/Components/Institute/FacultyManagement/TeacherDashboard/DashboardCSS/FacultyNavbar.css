@@ -90,6 +90,7 @@
 .faculty-navbar-notification-button {
   display: flex;
   align-items: center;
+  position: relative;
   color: #5a5a5a;
   background: none;
   border: none;
