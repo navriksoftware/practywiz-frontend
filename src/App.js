@@ -282,7 +282,7 @@ function App() {
             path="/results"
             element={<ResultPage user={user} token={token} />}
           />
-          <Route path="/simulation" element={<SimulationPage />} />
+          <Route path="/mentee/avega" element={<SimulationPage />} />
           <Route path="/cart" element={<Cart user={user} token={token} />} />
           {/* teacher dashboard start */}
           <Route

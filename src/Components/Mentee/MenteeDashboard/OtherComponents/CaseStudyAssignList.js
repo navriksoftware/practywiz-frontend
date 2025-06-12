@@ -13,7 +13,7 @@ const CaseStudyAssignList = () => {
     const [fetchAssignCaseStudiesDetails, setfetchAssignCaseStudiesDetails] = useState([]);
     const [selectedCaseStudy, setSelectedCaseStudy] = useState(null);
     const [showDetailView, setShowDetailView] = useState(false);
-    const [isLoading, setIsLoading] = useState(true); // Add loading state
+    const [isLoading, setIsLoading] = useState(true);
     const [filters, setFilters] = useState({
         class: "All Classes",
         type: "All Cases",
@@ -25,7 +25,7 @@ const CaseStudyAssignList = () => {
         if (!isoDateStr) return "N/A";
         try {
             const date = new Date(isoDateStr);
-            const iso = date.toISOString().split("T")[0]; // "2025-05-24"
+            const iso = date.toISOString().split("T")[0];
             const [year, month, day] = iso.split("-");
             return `${day}-${month}-${year}`;
         } catch (error) {
@@ -35,7 +35,7 @@ const CaseStudyAssignList = () => {
 
     const url = ApiURL();
     useEffect(() => {
-        setIsLoading(true); // Set loading to true when starting to fetch
+        setIsLoading(true);
         const fetchAssignCaseStudiesDetailsCall = async () => {
             try {
                 const response = await Promise.race([
@@ -44,7 +44,7 @@ const CaseStudyAssignList = () => {
                     }),
                     new Promise(
                         (_, reject) =>
-                            setTimeout(() => reject(new Error("Request timed out")), 45000) // 45 seconds timeout
+                            setTimeout(() => reject(new Error("Request timed out")), 45000)
                     ),
                 ]);
 
@@ -61,7 +61,7 @@ const CaseStudyAssignList = () => {
                     console.log("An error occurred. Please try again.");
                 }
             } finally {
-                setIsLoading(false); // Set loading to false when fetch completes
+                setIsLoading(false);
                 console.log("Request completed");
             }
         };
@@ -70,6 +70,16 @@ const CaseStudyAssignList = () => {
 
     // Get unique class names for filter dropdown
     const uniqueClasses = [...new Set(fetchAssignCaseStudiesDetails.map(cs => cs.class_name))];
+
+    // Helper: Determine if a case is active (due date >= today)
+    const isCaseActive = (caseStudy) => {
+        if (!caseStudy.faculty_case_assign_end_date) return false;
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        const dueDate = new Date(caseStudy.faculty_case_assign_end_date);
+        dueDate.setHours(0, 0, 0, 0);
+        return dueDate >= now;
+    };
 
     // Debounced search function
     const debouncedSearch = useCallback(
@@ -105,7 +115,7 @@ const CaseStudyAssignList = () => {
         debouncedSearch(value);
     };
 
-    // Apply filters function
+    // Apply filters function (status logic changed)
     const applyFilters = (currentFilters, cases) => {
         let result = [...cases];
 
@@ -121,32 +131,37 @@ const CaseStudyAssignList = () => {
             }
         }
 
+        // Status filter based on due date
         if (currentFilters.status !== "All Status") {
             if (currentFilters.status === "Active") {
-                result = result.filter((cs) => cs.class_status === true);
+                result = result.filter((cs) => isCaseActive(cs));
             } else if (currentFilters.status === "Inactive") {
-                result = result.filter((cs) => cs.class_status === false);
+                result = result.filter((cs) => !isCaseActive(cs));
             }
         }
 
         if (currentFilters.dueDate !== "Due Date") {
             const now = new Date();
+            now.setHours(0, 0, 0, 0);
             const oneWeek = 7 * 24 * 60 * 60 * 1000;
             const oneMonth = 30 * 24 * 60 * 60 * 1000;
             
             if (currentFilters.dueDate === "This Week") {
                 result = result.filter((cs) => {
                     const dueDate = new Date(cs.faculty_case_assign_end_date);
+                    dueDate.setHours(0, 0, 0, 0);
                     return dueDate - now <= oneWeek && dueDate >= now;
                 });
             } else if (currentFilters.dueDate === "Next Week") {
                 result = result.filter((cs) => {
                     const dueDate = new Date(cs.faculty_case_assign_end_date);
+                    dueDate.setHours(0, 0, 0, 0);
                     return dueDate - now > oneWeek && dueDate - now <= 2 * oneWeek;
                 });
             } else if (currentFilters.dueDate === "This Month") {
                 result = result.filter((cs) => {
                     const dueDate = new Date(cs.faculty_case_assign_end_date);
+                    dueDate.setHours(0, 0, 0, 0);
                     return dueDate - now <= oneMonth && dueDate >= now;
                 });
             }
@@ -199,7 +214,7 @@ const CaseStudyAssignList = () => {
         return <CaseStudyDetail caseStudy={selectedCaseStudy} onBackClick={handleBackToList} />;
     }
 
-    // Render case study cards
+    // Render case study cards (status logic changed)
     const renderCaseStudyCards = () => {
         if (isLoading) {
             return (
@@ -219,46 +234,49 @@ const CaseStudyAssignList = () => {
             );
         }
         
-        return filteredCaseStudies.map((caseStudy) => (
-            <div key={caseStudy.faculty_case_assign_dtls_id} className="CaseShow-Mentee-case-card">
-                <div className="CaseShow-Mentee-case-case-type">
-                    <span className={`CaseShow-Mentee-case-case-type-tag ${caseStudy.faculty_case_assign_owned_by_practywiz ? "practywiz" : "non-practywiz"}`}>
-                        {caseStudy.faculty_case_assign_owned_by_practywiz ? "PractyWiz" : "Non-PractyWiz"}
-                    </span>
-                </div>
-                <div className="CaseShow-Mentee-case-header">
-                    <h3 className="CaseShow-Mentee-case-title">
-                        {caseStudy.faculty_case_assign_owned_by_practywiz ? 
-                            caseStudy.case_study_title : 
-                            caseStudy.non_practywiz_case_title}
-                    </h3>
-                </div>
-
-                <div className="CaseShow-Mentee-case-info">
-                    <div className="CaseShow-Mentee-case-detail">
-                        <i className="fa-solid fa-graduation-cap" />
-                        <span>{caseStudy.class_name}</span>
+        return filteredCaseStudies.map((caseStudy) => {
+            const active = isCaseActive(caseStudy);
+            return (
+                <div key={caseStudy.faculty_case_assign_dtls_id} className="CaseShow-Mentee-case-card">
+                    <div className="CaseShow-Mentee-case-case-type">
+                        <span className={`CaseShow-Mentee-case-case-type-tag ${caseStudy.faculty_case_assign_owned_by_practywiz ? "practywiz" : "non-practywiz"}`}>
+                            {caseStudy.faculty_case_assign_owned_by_practywiz ? "PractyWiz" : "Non-PractyWiz"}
+                        </span>
+                    </div>
+                    <div className="CaseShow-Mentee-case-header">
+                        <h3 className="CaseShow-Mentee-case-title">
+                            {caseStudy.faculty_case_assign_owned_by_practywiz ? 
+                                caseStudy.case_study_title : 
+                                caseStudy.non_practywiz_case_title}
+                        </h3>
                     </div>
 
-                    <div className="CaseShow-Mentee-case-detail">
-                        <i className="fa-solid fa-clock" />
-                        <span>Due {formatDate(caseStudy.faculty_case_assign_end_date)}</span>
-                    </div>
-                </div>
+                    <div className="CaseShow-Mentee-case-info">
+                        <div className="CaseShow-Mentee-case-detail">
+                            <i className="fa-solid fa-graduation-cap" />
+                            <span>{caseStudy.class_name}</span>
+                        </div>
 
-                <div className="CaseShow-Mentee-case-footer">
-                    <div className={`CaseShow-Mentee-case-status ${caseStudy.class_status}`}>
-                        {caseStudy.class_status ? "Active" : "Inactive"}
+                        <div className="CaseShow-Mentee-case-detail">
+                            <i className="fa-solid fa-clock" />
+                            <span>Due {formatDate(caseStudy.faculty_case_assign_end_date)}</span>
+                        </div>
                     </div>
-                    <button
-                        className="CaseShow-Mentee-view-details"
-                        onClick={() => handleViewCaseStudy(caseStudy)}
-                    >
-                        View Case Study
-                    </button>
+
+                    <div className="CaseShow-Mentee-case-footer">
+                        <div className={`CaseShow-Mentee-case-status ${active ? "active" : "inactive"}`}>
+                            {active ? "Active" : "Inactive"}
+                        </div>
+                        <button
+                            className="CaseShow-Mentee-view-details"
+                            onClick={() => handleViewCaseStudy(caseStudy)}
+                        >
+                            View Case Study
+                        </button>
+                    </div>
                 </div>
-            </div>
-        ));
+            );
+        });
     };
 
     return (

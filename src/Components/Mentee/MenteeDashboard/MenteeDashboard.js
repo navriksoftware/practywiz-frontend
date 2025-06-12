@@ -374,7 +374,8 @@ const MenteeDashboard = ({ user, token }) => {
       setShowMenteeProfile(false),
       setinternshipMenu(false),
       setAppliedInternship(false),
-      setMenteeInternshipPage(false)
+      setMenteeInternshipPage(false),
+      setShowMenteePaymentHistory(false)
     );
   };
 

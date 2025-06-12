@@ -1,251 +1,670 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
 import ChatInterface from "../../Components/CaseStudy/PurchasedCaseStudy/ChatInterface";
 import "./SimulationPage.css";
 import Navbar from "../../Components/Navbar/Navbar";
 import { ApiURL } from "../../Utils/ApiURL";
 
 function SimulationPage() {
+  document.title = "Practywiz | Avega";
   const URL = ApiURL();
   const navigate = useNavigate();
   const location = useLocation();
-  const { caseStudy } = location.state || {};
 
+  // Get data from navigation state
+  const { questionStatus, facultyCaseAssignId, caseStudyData } =
+    location.state || {};
+
+  // Get mentee ID from Redux store
+  const menteeId = useSelector(
+    (state) => state.mentee.singleMentee[0]?.mentee_dtls_id
+  );
+
+  // --- Follow-up configuration flag ---
+  const [followUpEnabled] = useState(true);
+
+  // State management
   const [parsedQuestions, setParsedQuestions] = useState(null);
-  const [analysisQuestions, setAnalysisQuestions] = useState(null);
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [questionType, setQuestionType] = useState("factBased");
-  const [userResponses, setUserResponses] = useState([]);
+  const [currentQuestionType, setCurrentQuestionType] = useState(null);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [messages, setMessages] = useState([]);
   const [isAITyping, setIsAITyping] = useState(false);
-  const [followUpCount, setFollowUpCount] = useState(0);
-  const [currentAnalysisQuestion, setCurrentAnalysisQuestion] = useState(null);
-  const [currentQuestion, setCurrentQuestion] = useState(null); // Added to track current question
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Separate data storage for each question type
+  const [factBasedResponses, setFactBasedResponses] = useState([]);
+  const [analysisBasedResponses, setAnalysisBasedResponses] = useState([]);
+  const [researchBasedResponses, setResearchBasedResponses] = useState([]);
+
+  // Follow-up state for analysis questions
+  const [analysisFollowUpLevel, setAnalysisFollowUpLevel] = useState(0); // 0, 1, 2 (2 means done)
+  const [analysisFollowUpQuestion, setAnalysisFollowUpQuestion] =
+    useState(null);
+  const [pendingAnalysisResponse, setPendingAnalysisResponse] = useState(null);
+  const [lastFollowUpUserAnswer, setLastFollowUpUserAnswer] = useState(""); // for 2nd follow-up
+  const [firstFollowUpObj, setFirstFollowUpObj] = useState(null);
+  // Add processing state to prevent race conditions
+  const [isProcessingAnswer, setIsProcessingAnswer] = useState(false);
+
+  // --- NEW: Submission flag to ensure single, correct submission ---
+  const [simulationComplete, setSimulationComplete] = useState(false);
 
   useEffect(() => {
-    if (caseStudy?.case_study_id) {
-      fetchAnalysisQuestions();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [caseStudy]);
-
-  const fetchAnalysisQuestions = async () => {
-    try {
-      const response = await fetch(
-        `${URL}api/v1/case-studies/generate-questions`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ case_study_id: caseStudy.case_study_id }),
-        }
-      );
-      const data = await response.json();
-      setAnalysisQuestions(data.questions);
-    } catch (error) {
-      console.error("Error fetching analysis questions:", error);
-    }
-  };
-
-  const generateFollowUpQuestion = async (question, answer) => {
-    try {
-      const response = await fetch(
-        `${URL}api/v1/case-studies/generate-follow-up-question`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            case_study_id: caseStudy.case_study_id,
-            question: currentQuestion, // Using tracked current question
-            answer: answer,
-          }),
-        }
-      );
-      const data = await response.json();
-      return data.followUpQuestion;
-    } catch (error) {
-      console.error("Error generating follow-up question:", error);
-      return null;
-    }
-  };
-
-  const proceedToNextQuestionOrResult = async (updatedUserResponses) => {
-    setIsAITyping(true);
-
-    if (questionType === "factBased") {
-      if (
-        parsedQuestions &&
-        questionIndex + 1 < parsedQuestions[questionType].length
-      ) {
-        setTimeout(() => {
-          setIsAITyping(false);
-          const nextIndex = questionIndex + 1;
-          setQuestionIndex(nextIndex);
-          const nextQuestion = parsedQuestions[questionType][nextIndex];
-          setCurrentQuestion(nextQuestion.question);
-          setMessages((prev) => [
-            ...prev,
-            {
-              sender: "AI",
-              text: nextQuestion.question,
-              options: nextQuestion.options,
-            },
-          ]);
-        }, 1000);
-      } else if (analysisQuestions && analysisQuestions.length > 0) {
-        setQuestionType("analyzeBased");
-        setQuestionIndex(0);
-        setCurrentAnalysisQuestion(analysisQuestions[0]);
-        setFollowUpCount(0);
-        setCurrentQuestion(analysisQuestions[0].question);
-        setTimeout(() => {
-          setIsAITyping(false);
-          setMessages((prev) => [
-            ...prev,
-            {
-              sender: "AI",
-              text: analysisQuestions[0].question,
-            },
-          ]);
-        }, 1000);
-      }
-    } else if (questionType === "analyzeBased") {
-      const lastUserAnswer =
-        updatedUserResponses[updatedUserResponses.length - 1].userAnswer;
-
-      if (followUpCount < 2) {
-        const followUpQuestion = await generateFollowUpQuestion(
-          currentQuestion,
-          lastUserAnswer
-        );
-        setFollowUpCount((prev) => prev + 1);
-        setCurrentQuestion(followUpQuestion); // Update current question with follow-up
-        setTimeout(() => {
-          setIsAITyping(false);
-          setMessages((prev) => [
-            ...prev,
-            {
-              sender: "AI",
-              text: followUpQuestion,
-            },
-          ]);
-        }, 1000);
-      } else {
-        const nextIndex = questionIndex + 1;
-        if (nextIndex < analysisQuestions.length) {
-          setQuestionIndex(nextIndex);
-          setCurrentAnalysisQuestion(analysisQuestions[nextIndex]);
-          setFollowUpCount(0);
-          setCurrentQuestion(analysisQuestions[nextIndex].question); // Update current question
-          setTimeout(() => {
-            setIsAITyping(false);
-            setMessages((prev) => [
-              ...prev,
-              {
-                sender: "AI",
-                text: analysisQuestions[nextIndex].question,
-              },
-            ]);
-          }, 1000);
-        } else {
-          navigate("/results", {
-            state: { responses: updatedUserResponses, caseStudy },
-          });
-        }
-      }
-    }
-  };
-
-  const handleAnswer = (answer) => {
-    let currentQuestionObj;
-    if (questionType === "factBased" && parsedQuestions) {
-      currentQuestionObj = parsedQuestions[questionType][questionIndex];
-    } else if (questionType === "analyzeBased" && currentAnalysisQuestion) {
-      currentQuestionObj = currentAnalysisQuestion;
-    } else {
+    if (!menteeId) {
+      navigate("/mentee/dashboard");
       return;
     }
+  }, [menteeId, navigate]);
 
-    const isCorrect =
-      questionType === "factBased"
-        ? answer === currentQuestionObj.correctAnswer
-        : true;
+  useEffect(() => {
+    if (facultyCaseAssignId && menteeId) {
+      fetchQuestions();
+    }
+    // eslint-disable-next-line
+  }, [facultyCaseAssignId, menteeId]);
 
-    const newResponse = {
-      type: questionType,
-      question: currentQuestion, // Using tracked current question
-      userAnswer: answer,
-      isCorrect,
-      correctAnswer:
-        questionType === "factBased" ? currentQuestionObj.correctAnswer : null,
+  useEffect(() => {
+    if (parsedQuestions && !currentQuestionType) {
+      initializeFirstQuestion();
+    }
+    // eslint-disable-next-line
+  }, [parsedQuestions, currentQuestionType]);
+
+  // --- Submission effect: runs only when simulationComplete is set true ---
+  useEffect(() => {
+    if (simulationComplete) {
+      completeSimulationWithResponses(
+        factBasedResponses,
+        analysisBasedResponses,
+        researchBasedResponses
+      );
+    }
+    // eslint-disable-next-line
+  }, [simulationComplete]);
+
+  const fetchQuestions = async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await Promise.race([
+        axios.post(`${URL}api/v1/case-studies/generate-questions`, {
+          facultyCaseAssignId: facultyCaseAssignId,
+          menteeId: menteeId,
+          questionStatus: questionStatus,
+        }),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Request timed out")), 45000)
+        ),
+      ]);
+
+      if (response.data.success && response.data.question) {
+        const questionsData = JSON.parse(response.data.question);
+        setParsedQuestions(questionsData);
+        // console.log("Questions fetched successfully:", questionsData);
+      } else {
+        navigate("/mentee/dashboard");
+      }
+    } catch (error) {
+      navigate("/mentee/dashboard");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const initializeFirstQuestion = () => {
+    let firstQuestionType = null;
+
+    if (
+      parsedQuestions.factBasedQuestions &&
+      parsedQuestions.factBasedQuestions.length > 0
+    ) {
+      firstQuestionType = "factBased";
+    } else if (
+      parsedQuestions.analysisBasedQuestions &&
+      parsedQuestions.analysisBasedQuestions.length > 0
+    ) {
+      firstQuestionType = "analyzeBased";
+    } else if (
+      parsedQuestions.researchBasedQuestions &&
+      parsedQuestions.researchBasedQuestions.length > 0
+    ) {
+      firstQuestionType = "researchBased";
+    }
+
+    if (firstQuestionType) {
+      setCurrentQuestionType(firstQuestionType);
+      setCurrentQuestionIndex(0);
+      showQuestion(firstQuestionType, 0);
+    } else {
+      navigate("/mentee/dashboard");
+    }
+  };
+
+  const showQuestion = (questionType, questionIndex) => {
+    const questionArray = getQuestionArray(questionType);
+    if (questionArray && questionArray[questionIndex]) {
+      const question = questionArray[questionIndex];
+
+      const messageObj = {
+        sender: "AI",
+        text: question.Question,
+        questionType: question.questionType,
+      };
+
+      if (question.questionType === "multiple-choice" && question.options) {
+        messageObj.options = question.options;
+      }
+
+      setMessages((prev) => [...prev, messageObj]);
+    }
+  };
+
+  const getQuestionArray = (questionType) => {
+    if (!parsedQuestions) return null;
+
+    switch (questionType) {
+      case "factBased":
+        return parsedQuestions.factBasedQuestions;
+      case "analyzeBased":
+        return parsedQuestions.analysisBasedQuestions;
+      case "researchBased":
+        return parsedQuestions.researchBasedQuestions;
+      default:
+        return null;
+    }
+  };
+
+  const isLastQuestion = (questionType, questionIndex) => {
+    const currentArray = getQuestionArray(questionType);
+    const isLastInCurrentType = questionIndex === currentArray?.length - 1;
+
+    if (!isLastInCurrentType) return false;
+
+    if (questionType === "factBased") {
+      return !(
+        parsedQuestions.analysisBasedQuestions?.length > 0 ||
+        parsedQuestions.researchBasedQuestions?.length > 0
+      );
+    } else if (questionType === "analyzeBased") {
+      return !(parsedQuestions.researchBasedQuestions?.length > 0);
+    } else if (questionType === "researchBased") {
+      return true;
+    }
+
+    return false;
+  };
+
+  const submitResponses = async (completeResults) => {
+    try {
+      // Uncomment when API is ready
+      /*
+      const response = await axios.post(`${URL}api/v1/case-studies/submit-responses`, {
+        menteeId: completeResults.menteeId,
+        facultyCaseAssignId: completeResults.facultyCaseAssignId,
+        responses: {
+          factBasedResponses: completeResults.factBasedResponses,
+          analysisBasedResponses: completeResults.analysisBasedResponses,
+          researchBasedResponses: completeResults.researchBasedResponses,
+        },
+        summary: completeResults.summary,
+        completedAt: completeResults.completedAt,
+      });
+      // Optionally, show a toast or handle response
+      // toast.success("Responses submitted successfully!");
+      */
+    } catch (error) {
+      // Optionally, show a toast or handle error
+      // toast.error("Failed to submit responses!");
+      // console.error("Submission error:", error);
+    }
+  };
+
+  const completeSimulationWithResponses = (
+    updatedFactBased,
+    updatedAnalysis,
+    updatedResearch
+  ) => {
+    setIsAITyping(false);
+
+    const completeResults = {
+      menteeId,
+      facultyCaseAssignId,
+      completedAt: new Date().toISOString(),
+      factBasedResponses: updatedFactBased,
+      analysisBasedResponses: updatedAnalysis,
+      researchBasedResponses: updatedResearch,
+      summary: {
+        totalQuestions:
+          updatedFactBased.length +
+          updatedAnalysis.length +
+          updatedResearch.length,
+        factBasedCount: updatedFactBased.length,
+        analysisBasedCount: updatedAnalysis.length,
+        researchBasedCount: updatedResearch.length,
+        totalFollowUps: updatedAnalysis.reduce(
+          (total, response) =>
+            total + (response.followUpQuestions?.length || 0),
+          0
+        ),
+        followUpEnabled: followUpEnabled,
+        expectedCounts: {
+          factBased: parsedQuestions?.factBasedQuestions?.length || 0,
+          analysisBased: parsedQuestions?.analysisBasedQuestions?.length || 0,
+          researchBased: parsedQuestions?.researchBasedQuestions?.length || 0,
+        },
+      },
     };
 
-    const updatedUserResponses = [...userResponses, newResponse];
-    setUserResponses(updatedUserResponses);
+    // Only this log will show on submit
+    console.log("SUBMIT Result:", completeResults);
+
+    // Uncomment when API is ready
+    // submitResponses(completeResults);
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        sender: "AI",
+        text: "Your responses have been submitted successfully! Redirecting to dashboard...",
+      },
+    ]);
+
+    setTimeout(() => {
+      navigate("/mentee/dashboard");
+    }, 3000);
+  };
+
+  // --- MAIN LOGIC ---
+
+  const handleAnswer = useCallback(
+    (answer) => {
+      if (isProcessingAnswer) {
+        return;
+      }
+      setIsProcessingAnswer(true);
+
+      setMessages((prev) => [...prev, { sender: "User", text: answer }]);
+      const questionArray = getQuestionArray(currentQuestionType);
+      const currentQuestion = questionArray[currentQuestionIndex];
+      const isLast = isLastQuestion(currentQuestionType, currentQuestionIndex);
+
+      if (currentQuestionType === "factBased") {
+        const responseObj = {
+          ...currentQuestion,
+          userAnswer: answer,
+          correctAnswer: currentQuestion.correctAnswer,
+          isCorrect: currentQuestion.correctAnswer === answer,
+          questionIndex: currentQuestionIndex,
+          timestamp: new Date().toISOString(),
+        };
+
+        setFactBasedResponses((prev) => {
+          const newResponses = [...prev, responseObj];
+          setTimeout(
+            () => {
+              setIsProcessingAnswer(false);
+              if (isLast) {
+                setSimulationComplete(true); // <-- Only set the flag, do not call submit here
+              } else {
+                proceedToNextQuestion();
+              }
+            },
+            isLast ? 500 : 200
+          );
+          return newResponses;
+        });
+      } else if (currentQuestionType === "analyzeBased") {
+        const responseObj = {
+          ...currentQuestion,
+          userAnswer: answer,
+          correctAnswer: currentQuestion.correctAnswer,
+          isCorrect: currentQuestion.correctAnswer === answer,
+          followUpQuestions: [],
+          questionIndex: currentQuestionIndex,
+          timestamp: new Date().toISOString(),
+        };
+
+        setAnalysisBasedResponses((prev) => [...prev, responseObj]);
+        setPendingAnalysisResponse(responseObj);
+        setAnalysisFollowUpLevel(0);
+        setTimeout(() => {
+          setIsProcessingAnswer(false);
+          if (followUpEnabled) {
+            // 1st follow-up: analysis question ka data bhejo
+            fetchFollowUpQuestionFromBackend({
+              id: responseObj.id,
+              question: responseObj.Question,
+              correctAnswer: responseObj.correctAnswer,
+              userAnswer: responseObj.userAnswer,
+              followUpLevel: 1,
+            });
+          } else {
+            proceedToNextAnalysisQuestion();
+          }
+        }, 200);
+      } else if (currentQuestionType === "researchBased") {
+        const responseObj = {
+          ...currentQuestion,
+          userAnswer: answer,
+          correctAnswer: currentQuestion.correctAnswer,
+          isCorrect: currentQuestion.correctAnswer === answer,
+          questionIndex: currentQuestionIndex,
+          timestamp: new Date().toISOString(),
+        };
+
+        setResearchBasedResponses((prev) => {
+          const newResponses = [...prev, responseObj];
+          setTimeout(
+            () => {
+              setIsProcessingAnswer(false);
+              if (isLast) {
+                setSimulationComplete(true); // <-- Only set the flag, do not call submit here
+              } else {
+                proceedToNextQuestion();
+              }
+            },
+            isLast ? 500 : 200
+          );
+          return newResponses;
+        });
+      }
+    },
+    [
+      currentQuestionType,
+      currentQuestionIndex,
+      isProcessingAnswer,
+      parsedQuestions,
+      followUpEnabled,
+      // Remove factBasedResponses, analysisBasedResponses, researchBasedResponses from deps
+      // to avoid stale closure issues and unnecessary re-renders
+    ]
+  );
+
+  // Fetch follow-up question from backend
+  const fetchFollowUpQuestionFromBackend = async ({
+    id,
+    question,
+    correctAnswer,
+    userAnswer,
+    followUpLevel,
+  }) => {
+    setCurrentQuestionType("followUp");
+    setAnalysisFollowUpLevel(followUpLevel - 1); // 0 for first, 1 for second
+    setIsAITyping(true);
+
+    let followUpQuestionText = "";
+    let followUpCorrectAnswer = "";
+    try {
+      const res = await axios.post(
+        `${URL}api/v1/case-studies/generate-follow-up-question`,
+        {
+          id,
+          question,
+          correctAnswer,
+          userAnswer,
+          followUpLevel,
+        }
+      );
+      if (res.data.success && res.data.followUpQuestion) {
+        followUpQuestionText = res.data.followUpQuestion.question;
+        followUpCorrectAnswer = res.data.followUpQuestion.correctAnswer;
+
+        // console.log("Follow-up question fetched:", followUpQuestionText);
+        // console.log("Follow-up correct answer:", followUpCorrectAnswer);
+      }
+    } catch (e) {}
+
+    // fallback
+    if (!followUpQuestionText) {
+      if (followUpLevel === 1) {
+        followUpQuestionText =
+          "Can you explain your reasoning behind this answer in more detail?";
+        followUpCorrectAnswer = correctAnswer;
+      } else {
+        followUpQuestionText =
+          "What additional factors should be considered in your analysis?";
+        followUpCorrectAnswer = correctAnswer;
+      }
+    }
+
+    setTimeout(() => {
+      setIsAITyping(false);
+      setAnalysisFollowUpQuestion({
+        id: `FU_${id}_${followUpLevel}`,
+        question: followUpQuestionText,
+        parentQuestionId: id,
+        level: followUpLevel,
+        correctAnswer: followUpCorrectAnswer,
+      });
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "AI",
+          text: `Follow-up Question ${followUpLevel}/2: ${followUpQuestionText}`,
+          isFollowUp: true,
+          followUpLevel: followUpLevel,
+          questionType: "subjective",
+        },
+      ]);
+    }, 800);
+  };
+
+  // Handle follow-up answer
+  const handleFollowUpAnswer = (answer) => {
+    const timeSpent = 120; // Placeholder
 
     setMessages((prev) => [
       ...prev,
       {
         sender: "User",
         text: answer,
+        isFollowUpAnswer: true,
       },
     ]);
 
-    proceedToNextQuestionOrResult(updatedUserResponses);
-  };
-
-  useEffect(() => {
-    if (!caseStudy) {
-      navigate("/purchased-case-studies");
-      return;
-    }
-    try {
-      const questionsData = JSON.parse(caseStudy.case_study_questions);
-      setParsedQuestions(questionsData);
-      initializeMessages(questionsData);
-    } catch (error) {
-      console.error("Error parsing questions:", error);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [caseStudy, navigate]);
-
-  const initializeMessages = (questionsData) => {
-    if (!questionsData) return;
-    const firstQuestion = questionsData[questionType][0];
-    setCurrentQuestion(firstQuestion.question);
-    const initialMessage = {
-      sender: "AI",
-      text: firstQuestion.question,
-      options: questionType === "factBased" ? firstQuestion.options : null,
+    const followUpResponseObj = {
+      id: analysisFollowUpQuestion.id,
+      question: analysisFollowUpQuestion.question,
+      userAnswer: answer,
+      correctAnswer: analysisFollowUpQuestion.correctAnswer,
+      timeSpent,
+      isForPractice: true,
+      level: analysisFollowUpLevel + 1,
     };
-    setMessages([initialMessage]);
+
+    setAnalysisBasedResponses((prev) =>
+      prev.map((response) =>
+        response.id === pendingAnalysisResponse.id
+          ? {
+              ...response,
+              followUpQuestions: [
+                ...(response.followUpQuestions || []),
+                followUpResponseObj,
+              ],
+            }
+          : response
+      )
+    );
+
+    setPendingAnalysisResponse((prev) => ({
+      ...prev,
+      followUpQuestions: [
+        ...(prev.followUpQuestions || []),
+        followUpResponseObj,
+      ],
+    }));
+
+    // Store 1st follow-up object for 2nd follow-up
+    if (analysisFollowUpLevel === 0) {
+      setFirstFollowUpObj(followUpResponseObj);
+    }
+
+    setIsAITyping(true);
+    setTimeout(() => {
+      setIsAITyping(false);
+      setTimeout(() => {
+        if (analysisFollowUpLevel < 1) {
+          // 2nd follow-up: send 1st follow-up's data
+          if (firstFollowUpObj) {
+            fetchFollowUpQuestionFromBackend({
+              id: firstFollowUpObj.id,
+              question: firstFollowUpObj.question,
+              correctAnswer: firstFollowUpObj.correctAnswer,
+              userAnswer: firstFollowUpObj.userAnswer,
+              followUpLevel: 2,
+            });
+          } else {
+            // fallback: send current follow-up's data (should not happen)
+            fetchFollowUpQuestionFromBackend({
+              id: analysisFollowUpQuestion.id,
+              question: analysisFollowUpQuestion.question,
+              correctAnswer: analysisFollowUpQuestion.correctAnswer,
+              userAnswer: answer,
+              followUpLevel: 2,
+            });
+          }
+        } else {
+          setTimeout(() => {
+            setFirstFollowUpObj(null); // clear for next analysis question
+            proceedToNextAnalysisQuestion();
+          }, 800);
+        }
+      }, 800);
+    }, 800);
   };
+
+  const proceedToNextAnalysisQuestion = () => {
+    setAnalysisFollowUpLevel(0);
+    setAnalysisFollowUpQuestion(null);
+    setPendingAnalysisResponse(null);
+
+    const questionArray = getQuestionArray("analyzeBased");
+    const nextIndex = currentQuestionIndex + 1;
+
+    if (questionArray && nextIndex < questionArray.length) {
+      setCurrentQuestionType("analyzeBased");
+      setCurrentQuestionIndex(nextIndex);
+      setIsAITyping(false);
+      showQuestion("analyzeBased", nextIndex);
+    } else {
+      moveToNextQuestionType();
+    }
+  };
+
+  const proceedToNextQuestion = useCallback(() => {
+    setIsAITyping(true);
+    setTimeout(() => {
+      const questionArray = getQuestionArray(currentQuestionType);
+      const nextIndex = currentQuestionIndex + 1;
+
+      if (questionArray && nextIndex < questionArray.length) {
+        setCurrentQuestionIndex(nextIndex);
+        setIsAITyping(false);
+        showQuestion(currentQuestionType, nextIndex);
+      } else {
+        moveToNextQuestionType();
+      }
+    }, 800);
+    // eslint-disable-next-line
+  }, [currentQuestionType, currentQuestionIndex]);
+
+  const moveToNextQuestionType = () => {
+    let nextQuestionType = null;
+
+    if (currentQuestionType === "factBased") {
+      if (
+        parsedQuestions.analysisBasedQuestions &&
+        parsedQuestions.analysisBasedQuestions.length > 0
+      ) {
+        nextQuestionType = "analyzeBased";
+      } else if (
+        parsedQuestions.researchBasedQuestions &&
+        parsedQuestions.researchBasedQuestions.length > 0
+      ) {
+        nextQuestionType = "researchBased";
+      }
+    } else if (
+      currentQuestionType === "analyzeBased" ||
+      currentQuestionType === "followUp"
+    ) {
+      if (
+        parsedQuestions.researchBasedQuestions &&
+        parsedQuestions.researchBasedQuestions.length > 0
+      ) {
+        nextQuestionType = "researchBased";
+      }
+    }
+
+    if (nextQuestionType) {
+      setCurrentQuestionType(nextQuestionType);
+      setCurrentQuestionIndex(0);
+      setIsAITyping(false);
+      showQuestion(nextQuestionType, 0);
+    } else {
+      setSimulationComplete(true); // <-- Only set the flag, do not call submit here
+    }
+  };
+
+  const handleChatAnswer = (answer) => {
+    if (currentQuestionType === "followUp") {
+      handleFollowUpAnswer(answer);
+    } else {
+      handleAnswer(answer);
+    }
+  };
+
+  const getQuestionTypeForChat = () => {
+    if (currentQuestionType === "followUp") {
+      return "analyzeBased"; // Show as text input
+    } else if (currentQuestionType === "factBased") {
+      return "factBased";
+    } else {
+      return "analyzeBased";
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <>
+        <Navbar />
+        <div className="main-container">
+          <div className="loading-container">
+            <h2>Loading questions...</h2>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  if (!caseStudyData) {
+    return (
+      <>
+        <Navbar />
+        <div className="main-container">
+          <div className="error-container">
+            <h2>No case study data found</h2>
+            <button onClick={() => navigate("/mentee/dashboard")}>
+              Go to Dashboard
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="main-container">
-        <div className="case-study-container">
-          <h1 className="case-study-title">{caseStudy?.case_study_title}</h1>
-          <div className="case-study-content">
-            {caseStudy?.case_study_content
-              .split("\n")
-              .map((line, index) =>
-                line.trim() ? <p key={index}>{line}</p> : ""
-              )}
-          </div>
-        </div>
-
         <div className="question-page-container">
           <h1 className="question-page-title">A.I Simulator</h1>
           <div className="question-page-content">
             <ChatInterface
               messages={messages}
-              questionType={questionType}
-              onAnswer={handleAnswer}
+              questionType={getQuestionTypeForChat()}
+              onAnswer={handleChatAnswer}
               isAITyping={isAITyping}
             />
           </div>

@@ -14,8 +14,8 @@ function CaseStudyCard({ key, data, caseStudyId, setActivePage }) {
 
       {caseType === 1 ? 
       <div className="case-study-card-content">
-        <div class="case-study-tags ">
-          <span class="tag practywiz-tag">PractyWiz</span>
+        <div className="case-study-tags ">
+          <span className="tag practywiz-tag">PractyWiz</span>
         </div>
         <h2 className="card-title">{data?.case_study_title}</h2>
         <div className="meta-info">
@@ -48,8 +48,8 @@ function CaseStudyCard({ key, data, caseStudyId, setActivePage }) {
 
         :
          <div className="case-study-card-content">
-          <div class="case-study-tags ">
-            <span class="tag practywiz-tag">Non-PractyWiz</span>
+          <div className="case-study-tags ">
+            <span className="tag practywiz-tag">Non-PractyWiz</span>
           </div>
           <h2 className="card-title">{data?.non_practywiz_case_title}</h2>
           <div className="meta-info">
