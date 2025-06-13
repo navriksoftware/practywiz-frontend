@@ -256,15 +256,15 @@ const ActiveCaseStudies = ({ setActivePage }) => {
         switch (currentFilters.sort) {
           case "Newest First":
             result.sort((a, b) => {
-              const dateA = new Date(a.faculty_case_assign_start_date || 0);
-              const dateB = new Date(b.faculty_case_assign_start_date || 0);
+              const dateA = new Date(a.faculty_case_assign_cr_date || 0);
+              const dateB = new Date(b.faculty_case_assign_cr_date || 0);
               return dateB - dateA; // Newest first
             });
             break;
           case "Oldest First":
             result.sort((a, b) => {
-              const dateA = new Date(a.faculty_case_assign_start_date || 0);
-              const dateB = new Date(b.faculty_case_assign_start_date || 0);
+              const dateA = new Date(a.faculty_case_assign_cr_date || 0);
+              const dateB = new Date(b.faculty_case_assign_cr_date || 0);
               return dateA - dateB; // Oldest first
             });
             break;
@@ -375,10 +375,10 @@ const ActiveCaseStudies = ({ setActivePage }) => {
   // Loading state
   if (isLoading) {
     return (
-       <div className="loading-container">
-            <div className="loading-spinner"></div>
-            <p>Loading...</p>
-          </div>
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading...</p>
+      </div>
     );
   }
 
