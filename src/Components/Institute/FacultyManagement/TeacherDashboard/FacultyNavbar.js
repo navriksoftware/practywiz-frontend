@@ -107,6 +107,13 @@ const NavBar = ({
   const userLogoutHandler = () => {
     localStorage.removeItem("activePage");
     localStorage.removeItem("clickedClassId");
+    localStorage.removeItem("ClassId");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("caseStudyFormData");
+    localStorage.removeItem("caseStudyId");
+    localStorage.removeItem("caseType");
+    localStorage.removeItem("facultyCaseAssignId");
+
     dispatch(logOut());
     navigate("/login");
   };

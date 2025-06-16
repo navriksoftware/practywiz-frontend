@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { X } from 'lucide-react';
 import axios from "axios";
 import {
   generateQuestionId,
@@ -36,21 +37,51 @@ const defaultFormData = {
   researchBasedQuestions: [],
 };
 
-const CaseStudyForm = () => {
+const CaseStudyForm = ({ setActivePage,showQuestion, setEditQuestion }) => {
   // Get facultyId from Redux
   const facultyData = useSelector((state) => state.faculty.facultyDtls);
   const facultyId = facultyData?.faculty_id;
-
+  console.log("hello this is the data i want to show to the page", showQuestion);
   const url = ApiURL();
+
+
 
   const [formData, setFormData] = useState(() => {
     try {
-      const saved = localStorage.getItem("caseStudyFormData");
-      return saved ? JSON.parse(saved) : defaultFormData;
-    } catch {
+      if (showQuestion && typeof showQuestion === "object") {
+        const {
+          non_practywiz_case_title,
+          non_practywiz_case_author,
+          non_practywiz_case_category,
+          non_practywiz_case_question
+        } = showQuestion;
+
+        let parsedQuestions = {};
+        try {
+          parsedQuestions = JSON.parse(non_practywiz_case_question);
+        } catch (e) {
+          console.error("Failed to parse questions JSON:", e);
+        }
+
+        return {
+          title: non_practywiz_case_title || "",
+          author: non_practywiz_case_author || "",
+          category: non_practywiz_case_category || "",
+          factBasedQuestions: parsedQuestions.factBasedQuestions || [],
+          analysisBasedQuestions: parsedQuestions.analysisBasedQuestions || [],
+          researchBasedQuestions: parsedQuestions.researchBasedQuestions || [],
+        };
+      } else {
+        // Fallback to localStorage if no showQuestion is provided
+        const saved = localStorage.getItem("caseStudyFormData");
+        return saved ? JSON.parse(saved) : defaultFormData;
+      }
+    } catch (e) {
+      console.error("Error initializing form data:", e);
       return defaultFormData;
     }
   });
+
 
   const [activeTab, setActiveTab] = useState("fact");
   const [errors, setErrors] = useState({});
@@ -58,6 +89,7 @@ const CaseStudyForm = () => {
 
   // Auto-save to localStorage
   useEffect(() => {
+
     localStorage.setItem("caseStudyFormData", JSON.stringify(formData));
   }, [formData]);
 
@@ -149,6 +181,8 @@ const CaseStudyForm = () => {
         analysisBasedQuestions: [],
         researchBasedQuestions: [],
       });
+      setActivePage("store")
+
     } catch (error) {
       toast.error("Failed to publish case study");
     } finally {
@@ -176,7 +210,7 @@ const CaseStudyForm = () => {
               {isFact && "Multiple Choice"}
               {isAnalysis && "Subjective"}
               {isResearch &&
-                (question.question_format === "multiple-choice"
+                (question.questionType === "multiple-choice"
                   ? "Multiple Choice"
                   : "Subjective")}
             </div>
@@ -261,12 +295,12 @@ const CaseStudyForm = () => {
             <div className="non-practywiz-case-add-form-group">
               <label>Answer</label>
               <select
-                value={question.modelAnswer}
+                value={question.correctAnswer}
                 onChange={(e) =>
                   handleUpdateQuestion(
                     type,
                     index,
-                    "modelAnswer",
+                    "correctAnswer",
                     e.target.value
                   )
                 }
@@ -295,9 +329,9 @@ const CaseStudyForm = () => {
           <div className="non-practywiz-case-add-form-group">
             <label>Answer</label>
             <textarea
-              value={question.modelAnswer}
+              value={question.correctAnswer}
               onChange={(e) =>
-                handleUpdateQuestion(type, index, "modelAnswer", e.target.value)
+                handleUpdateQuestion(type, index, "correctAnswer", e.target.value)
               }
               placeholder="Enter the answer..."
               className="non-practywiz-case-add-textarea"
@@ -316,13 +350,13 @@ const CaseStudyForm = () => {
             <div className="non-practywiz-case-add-form-group">
               <label>Question Type</label>
               <select
-                value={question.question_format}
+                value={question.questionType}
                 onChange={(e) => {
                   const newFormat = e.target.value;
                   handleUpdateQuestion(
                     type,
                     index,
-                    "question_format",
+                    "questionType",
                     newFormat
                   );
                   if (newFormat === "subjective") {
@@ -337,7 +371,7 @@ const CaseStudyForm = () => {
                 <option value="subjective">Subjective</option>
               </select>
             </div>
-            {question.question_format === "multiple-choice" && (
+            {question.questionType === "multiple-choice" && (
               <div className="non-practywiz-case-add-form-group">
                 <label>Options</label>
                 {question.options.map((option, optIndex) => (
@@ -446,8 +480,93 @@ const CaseStudyForm = () => {
     );
   };
 
+  const handleUpdateForm = async (e) => {
+    e.preventDefault();
+
+    const hasFact = formData.factBasedQuestions.length > 0;
+    const hasAnalysis = formData.analysisBasedQuestions.length > 0;
+
+    // Validation: Ensure at least one question
+    if (!hasFact && !hasAnalysis) {
+      toast.error(
+        "Please add at least one Fact-Based or Analysis-Based question before publishing."
+      );
+      return;
+    }
+
+    // Validate form fields
+    if (!handleValidateForm()) {
+      toast.error("Please fix the errors before submitting.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Prepare the request payload
+      const apiData = {
+        title: formData.title.trim(),
+        author: formData.author.trim(),
+        category: formData.category.trim(),
+        facultyId: facultyId,
+        caseStudyId: showQuestion?.non_practywiz_case_dtls_id,
+        questions: {
+          factBasedQuestions: transformQuestionsForAPI(
+            formData.factBasedQuestions,
+            "fact"
+          ),
+          analysisBasedQuestions: transformQuestionsForAPI(
+            formData.analysisBasedQuestions,
+            "analysis"
+          ),
+          researchBasedQuestions: transformQuestionsForAPI(
+            formData.researchBasedQuestions,
+            "research"
+          ),
+        },
+      };
+
+      // Make the API request
+      const response = await axios.post(
+        `${url}api/v1/faculty/case-study/add-non-practywiz-case/update`,
+        apiData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      toast.success("Case study updated successfully!");
+
+      // Reset form state
+      setFormData({
+        title: "",
+        author: "",
+        category: "",
+        factBasedQuestions: [],
+        analysisBasedQuestions: [],
+        researchBasedQuestions: [],
+      });
+
+      // Clear saved draft
+      localStorage.removeItem("caseStudyFormData");
+    } catch (error) {
+      console.error("Update failed:", error);
+      toast.error("Failed to update the case study. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
   return (
     <div className="non-practywiz-case-add-container">
+      {showQuestion && typeof showQuestion === "object" && <div className="Edit-QuestionShow-CloseBtn" onClick={() => {
+        setEditQuestion(false)
+        localStorage.removeItem("caseStudyFormData");
+      }}>  <X size={24} /></div>}
       <div className="non-practywiz-case-add-header">
         <h1>Add New Case Study</h1>
         <p>Create a new non Practywiz case study for students</p>
@@ -524,31 +643,28 @@ const CaseStudyForm = () => {
             <button
               type="button"
               onClick={() => setActiveTab("fact")}
-              className={`non-practywiz-case-add-tab${
-                activeTab === "fact" ? " non-practywiz-case-add-active-tab" : ""
-              }`}
+              className={`non-practywiz-case-add-tab${activeTab === "fact" ? " non-practywiz-case-add-active-tab" : ""
+                }`}
             >
               Fact-Based
             </button>
             <button
               type="button"
               onClick={() => setActiveTab("analysis")}
-              className={`non-practywiz-case-add-tab${
-                activeTab === "analysis"
-                  ? " non-practywiz-case-add-active-tab"
-                  : ""
-              }`}
+              className={`non-practywiz-case-add-tab${activeTab === "analysis"
+                ? " non-practywiz-case-add-active-tab"
+                : ""
+                }`}
             >
               Analysis-Based
             </button>
             <button
               type="button"
               onClick={() => setActiveTab("research")}
-              className={`non-practywiz-case-add-tab${
-                activeTab === "research"
-                  ? " non-practywiz-case-add-active-tab"
-                  : ""
-              }`}
+              className={`non-practywiz-case-add-tab${activeTab === "research"
+                ? " non-practywiz-case-add-active-tab"
+                : ""
+                }`}
             >
               Research-Based
             </button>
@@ -561,17 +677,30 @@ const CaseStudyForm = () => {
             renderQuestionsTab("research", "Research-Based")}
         </div>
 
-        <div className="non-practywiz-case-add-submit-section">
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={loading}
-            className="non-practywiz-case-add-submit-button"
-            style={{ opacity: loading ? 0.6 : 1 }}
-          >
-            {loading ? "Publishing..." : "Publish Case Study"}
-          </button>
-        </div>
+        {showQuestion && typeof showQuestion === "object" ?
+          <div className="non-practywiz-case-add-submit-section">
+            <button
+              type="button"
+              onClick={handleUpdateForm}
+              disabled={loading}
+              className="non-practywiz-case-add-submit-button"
+              style={{ opacity: loading ? 0.6 : 1 }}
+            >
+              {loading ? "Saving..." : "Save Changes"}
+            </button>
+          </div> :
+          <div className="non-practywiz-case-add-submit-section">
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={loading}
+              className="non-practywiz-case-add-submit-button"
+              style={{ opacity: loading ? 0.6 : 1 }}
+            >
+              {loading ? "Publishing..." : "Publish Case Study"}
+            </button>
+          </div>
+        }
       </div>
     </div>
   );

@@ -10,17 +10,17 @@ export const addQuestion = (type, setFormData, formData) => {
     newQuestion = {
       id: generateQuestionId(type, formData),
       Question: "",
-      question_format: "multiple-choice",
+      questionType: "multiple-choice",
       options: ["", ""],
-      modelAnswer: "",
+      correctAnswer: "",
       maxMark: 1,
     };
   } else if (type === "analysis") {
     newQuestion = {
       id: generateQuestionId(type, formData),
       Question: "",
-      question_format: "subjective", // Always subjective
-      modelAnswer: "",
+      questionType: "subjective", // Always subjective
+      correctAnswer: "",
       maxMark: 1,
     };
   } else {
@@ -28,9 +28,9 @@ export const addQuestion = (type, setFormData, formData) => {
     newQuestion = {
       id: generateQuestionId(type, formData),
       Question: "",
-      question_format: "multiple-choice",
+      questionType: "multiple-choice",
       options: ["", ""],
-      modelAnswer: "",
+      correctAnswer: "",
       maxMark: undefined,
     };
   }
@@ -94,8 +94,8 @@ export const removeOption = (
         ? {
             ...q,
             options: q.options.filter((_, oi) => oi !== optionIndex),
-            modelAnswer:
-              q.modelAnswer === q.options[optionIndex] ? "" : q.modelAnswer,
+            correctAnswer:
+              q.correctAnswer === q.options[optionIndex] ? "" : q.correctAnswer,
           }
         : q
     ),
@@ -157,7 +157,7 @@ export const validateForm = (formData, setErrors) => {
           }
         }
         // Model answer required
-        if (!q.modelAnswer || !q.modelAnswer.trim()) {
+        if (!q.correctAnswer || !q.correctAnswer.trim()) {
           newErrors[`${prefix}_answer`] = "Correct answer is required";
         }
         // Max mark required
@@ -169,7 +169,7 @@ export const validateForm = (formData, setErrors) => {
       // Analysis-based: always subjective
       if (type === "analysis") {
         // Model answer required
-        if (!q.modelAnswer || !q.modelAnswer.trim()) {
+        if (!q.correctAnswer || !q.correctAnswer.trim()) {
           newErrors[`${prefix}_answer`] = "Correct answer is required";
         }
         // Max mark required
@@ -178,12 +178,12 @@ export const validateForm = (formData, setErrors) => {
         }
       }
 
-      // Research-based: can be multiple-choice or subjective, but no modelAnswer or maxMark
+      // Research-based: can be multiple-choice or subjective, but no correctAnswer or maxMark
       if (type === "research") {
         if (!q.Question || !q.Question.trim()) {
           newErrors[`${prefix}_question`] = "Question is required";
         }
-        if (q.question_format === "multiple-choice") {
+        if (q.questionType === "multiple-choice") {
           if (!Array.isArray(q.options) || q.options.length < 2) {
             newErrors[`${prefix}_options`] =
               "At least two options are required";
@@ -196,7 +196,7 @@ export const validateForm = (formData, setErrors) => {
             }
           }
         }
-        // No modelAnswer or maxMark validation for research-based
+        // No correctAnswer or maxMark validation for research-based
       }
     });
   });
@@ -207,17 +207,17 @@ export const validateForm = (formData, setErrors) => {
 
 export const transformQuestionsForAPI = (questions, type = "") => {
   return questions.map((q) => {
-    const isSubjective = q.question_format === "subjective";
-    const { modelAnswer, question_format, ...rest } = q;
+    const isSubjective = q.questionType === "subjective";
+    const { correctAnswer, questionType, ...rest } = q;
 
     const transformed = {
       ...rest,
-      questionType: question_format,
+      questionType: questionType,
     };
 
     // Only add correctAnswer if not research-based
     if (type !== "research") {
-      transformed.correctAnswer = modelAnswer;
+      transformed.correctAnswer = correctAnswer;
     }
 
     // Remove options if subjective

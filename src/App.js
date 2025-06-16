@@ -8,7 +8,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./Styles/custombs.css";
-import "./Styles/responsive.css";
+// import "./Styles/responsive.css";
 import "./Styles/style.css";
 import "./index.css";
 import "./Styles/DashBoard.css";
@@ -56,6 +56,7 @@ import MentorNotFoundDashboardPage from "./Pages/MentorPages/Dashboard/MentorNot
 import MentorUpdatedRegistrationPage from "./Pages/FormPages/RegisterPages/MentorUpdatedRegistrationPage";
 import RedirectHandler from "./Utils/RedirectHandler";
 import Cart from "./Pages/CartPages/CartPage";
+import TestAssessmentPage from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/testAssemmentPage.js";
 
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 // Internship imports
@@ -89,6 +90,8 @@ import DemoResultPage from "./Pages/CaseStudyPages/DemoResultPage";
 import SingleNonPractywizCaseStudy from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleNonPractywizCaseStudy";
 import SingleStudentAssessmentPage from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleStudentAssessmentPage";
 import AvegaLandingPage from "./Pages/OtherLandingPages/AvegaLandingPage";
+
+
 
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
@@ -291,7 +294,7 @@ function App() {
           />
           <Route
             path="/faculty/Single-Student-Assessment-Page/mentee/:Mid/assignedCase/:ACid"
-            element={<SingleStudentAssessmentPage />}
+            element={<TestAssessmentPage />}
           />
           {/* teacher dashboard end */}
           {/* internship section start */}

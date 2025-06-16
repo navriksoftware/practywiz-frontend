@@ -9,6 +9,7 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Arial,
     sans-serif;
   overflow: hidden;
+   position: relative;
 }
 
 .non-practywiz-case-add-header {

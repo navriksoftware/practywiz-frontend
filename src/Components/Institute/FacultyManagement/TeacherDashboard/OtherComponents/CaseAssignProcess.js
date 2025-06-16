@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 import "../DashboardCSS/CaseAssignProcess.css";
 import ConfigureCasePopup from "./ConfigureCase.js";
 import { ApiURL } from "../../../../../Utils/ApiURL";
@@ -303,10 +304,26 @@ const CaseAssigneProcess = () => {
     setSelectedStudents(selectedStudents.filter((id) => id !== studentId));
   };
 
+
+  const handleAssignBtn = () => {
+    if (!selectedClass) {
+      toast.error("Please select a class before assigning the case study.");
+      return;
+    }
+
+    if (filteredStudents.length === 0) {
+      toast.error("The selected class must contain at least one student to assign the case study..");
+      return;
+    }
+
+    setOpen(true);
+  };
+
   const caseStudyTitle =
     caseType === 1
       ? casestudyDetails?.case_study_title
       : casestudyDetails?.non_practywiz_case_title;
+
 
   return (
     <>
@@ -317,7 +334,7 @@ const CaseAssigneProcess = () => {
         />
       )}
       {openQuestionpage && (
-        <div className="casestudyShowModel-QuestionShow-container">
+        <div className="casestudyShowModel-QuestionShow-container" >
           <div className="casestudyShowModel-QuestionShow-overlay">
             <div
               onClick={() => setopenQuestionpage(false)}
@@ -356,9 +373,7 @@ const CaseAssigneProcess = () => {
                     )
                   )}
               </div>
-              <h2 className="case-assign-to-student-subtitle">
-                Preview Content
-              </h2>
+              <h2 className="case-assign-to-student-subtitle">Preview Content</h2>
               <p className="case-assign-to-student-description">
                 {casestudyDetails?.case_study_content?.slice(0, 500) + "..."}
                 {/* Description of the case study */}
@@ -372,10 +387,7 @@ const CaseAssigneProcess = () => {
                 </div>
               </div>
 
-              <button
-                className="case-assign-to-student-view-button"
-                onClick={() => setopenPreview(true)}
-              >
+              <button className="case-assign-to-student-view-button" onClick={() => setopenPreview(true)}>
                 View Full Case Study
               </button>
             </div>
@@ -397,28 +409,26 @@ const CaseAssigneProcess = () => {
               {casestudyDetails?.non_practywiz_case_question && (
                 <div className="Non-practywiz-case-assign-to-student-question">
                   <h2 className="case-assign-to-student-subtitle">Questions</h2>
-                  {parseNonPractywizQuestions(
-                    casestudyDetails.non_practywiz_case_question
-                  ).map((section, idx) => (
+                  {parseNonPractywizQuestions(casestudyDetails.non_practywiz_case_question).map((section, idx) => (
                     <div key={idx} style={{ marginBottom: "1em" }}>
-                      <strong>
-                        {section.type.charAt(0).toUpperCase() +
-                          section.type.slice(1)}{" "}
-                        Questions
-                      </strong>
+                      {section.questions && section.questions.length > 0 && (
+                        <strong>
+                          {section.type.charAt(0).toUpperCase() + section.type.slice(1)} Questions
+                        </strong>
+                      )}
+
                       <ol>
-                        {section.questions.map((q, qIdx) => (
+                        {section.questions?.map((q, qIdx) => (
                           <li key={q.id || qIdx}>
-                            {/* Try to support both old and new keys */}
                             {q.question || q.Question}
-                            {/* Optionally, show options if present */}
-                            {q.options && Array.isArray(q.options) && (
-                              <ul style={{ marginTop: "0.5em" }}>
-                                {q.options.map((opt, optIdx) => (
-                                  <li key={optIdx}>{opt}</li>
-                                ))}
-                              </ul>
-                            )}
+                            {/* Uncomment below to show options if needed */}
+                            {/* {Array.isArray(q.options) && (
+                <ul style={{ marginTop: "0.5em" }}>
+                  {q.options.map((opt, optIdx) => (
+                    <li key={optIdx}>{opt}</li>
+                  ))}
+                </ul>
+              )} */}
                           </li>
                         ))}
                       </ol>
@@ -426,6 +436,7 @@ const CaseAssigneProcess = () => {
                   ))}
                 </div>
               )}
+
 
               <button
                 className="case-assign-to-student-view-button"
@@ -619,7 +630,7 @@ const CaseAssigneProcess = () => {
 
               <button
                 className="case-assign-to-student-assign-button"
-                onClick={() => setOpen(true)}
+                onClick={handleAssignBtn}
               >
                 Assign Case Study
               </button>
@@ -631,12 +642,15 @@ const CaseAssigneProcess = () => {
                   caseStudyId={caseStudyId}
                   facultyID={facultyID}
                   selectedClass={selectedClass}
+                  studentCount={filteredStudents.length}
                   caseStudyTitle={caseStudyTitle}
+
                 />
               )}
             </div>
           </div>
         </div>
+
       </div>
     </>
   );

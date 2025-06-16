@@ -451,9 +451,9 @@ const InstituteForm = () => {
                               Phone Number{" "}
                               <span className="RedColorStarMark">*</span>
                             </label>
-                            <p className="ghhduenee OtpSendOnWhatsappTaxt">
+                            {/* <p className="ghhduenee OtpSendOnWhatsappTaxt">
                               (OTP will be sent on WhatsApp)
-                            </p>
+                            </p> */}
                           </div>
 
                           <div className="d-flex">

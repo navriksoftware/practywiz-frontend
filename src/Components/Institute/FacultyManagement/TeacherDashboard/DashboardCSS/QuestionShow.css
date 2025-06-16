@@ -1,30 +1,14 @@
+/* ===== RESPONSIVE CSS FOR QUESTION SHOW COMPONENT ===== */
+
 /* Container and Layout */
 .question-show-container {
   min-height: 100vh;
 }
 
-/* .question-show-wrapper {
-  max-width: 1152px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-@media (min-width: 640px) {
-  .question-show-wrapper {
-    padding: 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .question-show-wrapper {
-    padding: 2rem;
-  }
-} */
-
-/* Header */
+/* Header Responsive Design */
 .question-show-header {
- background: linear-gradient(321deg, #2563eb 0%, #4a8aff 100%);
-    color: white;
+  background: linear-gradient(321deg, #2563eb 0%, #4a8aff 100%);
+  color: white;
   padding: 1.5rem;
   border-radius: 0.75rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -103,7 +87,7 @@
 
 .question-show-header-stats {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   gap: 0.5rem;
   font-size: 0.875rem;
 }
@@ -134,7 +118,7 @@
   font-weight: 500;
 }
 
-/* Summary Grid */
+/* Summary Grid Responsive Design */
 .question-show-summary-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -186,7 +170,7 @@
   color: #6b7280;
 }
 
-/* Questions List */
+/* Questions List Responsive Design */
 .question-show-questions-list {
   display: flex;
   flex-direction: column;
@@ -394,7 +378,7 @@
   }
 }
 
-/* Answer Section */
+/* Answer Section Responsive Design */
 .question-show-answer-section {
   padding: 1rem;
   background: #f9fafb;
@@ -524,13 +508,6 @@
   margin-bottom: 0.75rem;
 }
 
-/* .question-show-subjective-text {
-  background: #eef2ff;
-  border: 1px solid #c7d2fe;
-  border-radius: 0.5rem;
-  padding: 1rem;
-} */
-
 .question-show-answer-content {
   color: #374151;
   line-height: 1.6;
@@ -538,7 +515,7 @@
   margin: 0;
 }
 
-/* Footer */
+/* Footer Responsive Design */
 .question-show-footer {
   margin-top: 2rem;
   background: white;
@@ -651,3 +628,19 @@
 .question-show-footer-research .question-show-footer-label {
   color: #6d28d9;
 }
+
+/* ===== RESPONSIVE BREAKPOINTS SUMMARY ===== */
+/*
+Mobile-first approach with breakpoints:
+- Base styles: Mobile (< 640px)
+- sm: 640px and up (tablets)
+- lg: 1024px and up (desktops)
+
+Key responsive patterns used:
+1. Grid layouts: 1 column → 2 columns → 3-4 columns
+2. Flexbox direction: column → row
+3. Font size scaling: smaller → medium → larger
+4. Padding/margins: tighter → more spacious
+5. Hide/show elements: toggle text hidden on mobile
+6. Icon sizes: smaller → larger
+*/

@@ -90,7 +90,8 @@ export default function ConfigureCasePopup({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Start loading
+
+
     if (!validateForm()) {
       toast.error("Please fix the errors in the form");
       return;
@@ -116,7 +117,7 @@ export default function ConfigureCasePopup({
     };
 
     console.log("Form data to be sent to backend:", dataToSend);
-
+    setIsSubmitting(true); // Start loading
     try {
       const response = await axios.post(
         `${url}api/v1/faculty/case-study/assign-case-study`,
@@ -299,7 +300,7 @@ export default function ConfigureCasePopup({
           {caseType === 1 ? (
             <button
               disabled={isSubmitting}
-              className={`submit-btn-case-assign-btn ${
+            className={`submit-btn-case-assign-btn ${
                 isSubmitting ? "btn-disabled" : ""
               }`}
               type="submit"
@@ -311,13 +312,13 @@ export default function ConfigureCasePopup({
             </button>
           ) : (
             <button
-              type="submit"
-              disabled={isSubmitting}
-              className={`submit-btn-case-assign-btn ${
+             type="submit"
+             disabled={isSubmitting}
+            className={`submit-btn-case-assign-btn ${
                 isSubmitting ? "btn-disabled" : ""
               }`}
             >
-              {isSubmitting ? "Assigning..." : "Assign Case Study"}
+                {isSubmitting ? "Assigning..." : "Assign Case Study"}
             </button>
           )}
         </form>
