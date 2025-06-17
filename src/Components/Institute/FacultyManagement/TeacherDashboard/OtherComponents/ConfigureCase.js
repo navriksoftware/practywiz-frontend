@@ -68,9 +68,9 @@ export default function ConfigureCasePopup({
 
     if (startDate < now)
       errors.startDateTime = "Start date must be in the future";
-    if (deadlineDate <= startDate)
+    if (deadlineDate < startDate)
       errors.deadline = "Deadline must be after start date";
-    if (classEndDate <= classStartDate)
+    if (classEndDate < classStartDate)
       errors.classEnd = "Class end time must be after start time";
     if (classStartDate < startDate)
       errors.classStart = "Class start time must be after case study start time";

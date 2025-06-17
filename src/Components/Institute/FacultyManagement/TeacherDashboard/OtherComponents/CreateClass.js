@@ -3,20 +3,18 @@ import '../DashboardCSS/CreateClass.css';
 import axios from 'axios';
 import { ApiURL } from '../../../../../Utils/ApiURL';
 import { toast } from 'react-toastify';
-import {
-  hideLoadingHandler,
-  showLoadingHandler,
-} from '../../../../../Redux/loadingRedux';
-import { useDispatch } from 'react-redux';
 
-const CreateClass = ({ userdata, setActivePage, setShowCreateclassform, classid }) => {
-  const dispatch = useDispatch();
+const CreateClass = ({ userdata, setActivePage, setShowCreateclassform, classid, allClassData }) => {
+
+  console.log("usedata clasdsname ", allClassData)
+
   const url = ApiURL();
   const [isSubmitting, setIsSubmitting] = useState(false);
   // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split("T")[0];
 
   const [classDetails, setClassDetails] = useState([]);
+
   const [formData, setFormData] = useState({
     Name: '',
     SubjectCode: '',
@@ -76,27 +74,7 @@ const CreateClass = ({ userdata, setActivePage, setShowCreateclassform, classid 
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setIsSubmitting(true); // Start loading
 
-      const response = await axios.post(`${url}api/v1/faculty/createClass`, formData);
-
-      if (response.status === 200) {
-        toast.success('Class created successfully!');
-        setShowCreateclassform(false);
-      } else {
-        toast.error('Failed to create class. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error creating class:', error);
-      toast.error('Something went wrong. Please try again.');
-    } finally {
-      setIsSubmitting(false); // Stop loading
-
-    }
-  };
 
 
   const isFormValid = (data) => {
@@ -109,9 +87,63 @@ const CreateClass = ({ userdata, setActivePage, setShowCreateclassform, classid 
       data.facultyId !== null
     ) ? true : false;
   };
+const handleNameValidation = () => {
+  const trimmedName = formData.Name.trim().toLowerCase();
+
+  const isDuplicate = allClassData?.some(
+    (item) => item?.class_name?.trim().toLowerCase() === trimmedName
+  );
+
+  return isDuplicate;
+};
+const handleValidationUpdate = () => {
+  const trimmedName = formData.Name.trim().toLowerCase();
+
+  const isDuplicate = allClassData?.some((item) => {
+    // Skip current class ID while comparing
+    return (
+      item?.class_name?.trim().toLowerCase() === trimmedName &&
+      item?.class_id !== classid // prevent self-comparison during update
+    );
+  });
+
+  return isDuplicate;
+};
+
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!handleNameValidation()) {
+      // try {
+      //   setIsSubmitting(true); // Start loading
+
+      //   const response = await axios.post(`${url}api/v1/faculty/createClass`, formData);
+
+      //   if (response.status === 200) {
+      //     toast.success('Class created successfully!');
+      //     setShowCreateclassform(false);
+      //   } else {
+      //     toast.error('Failed to create class. Please try again.');
+      //   }
+      // } catch (error) {
+      //   console.error('Error creating class:', error);
+      //   toast.error('Something went wrong. Please try again.');
+      // } finally {
+      //   setIsSubmitting(false); // Stop loading
+
+      // }
+    }
+    else{
+      toast.error("error")
+    }
+  };
 
   const handleUpdateClassDetails = async () => {
     console.log('Updating class details:', formData);
+
+   if (!handleValidationUpdate()) {
     if (isFormValid(formData)) {
       setIsSubmitting(true); // Start loading
       try {
@@ -153,8 +185,15 @@ const CreateClass = ({ userdata, setActivePage, setShowCreateclassform, classid 
     else {
       toast.error("Please fill all the fields correctly.");
     }
+    }
+     else{
+      toast.error("error")
+    }
 
   };
+
+
+
   return (
     <div className="CreateClass-modal-overlay">
       <div className="CreateClass-modal-container">

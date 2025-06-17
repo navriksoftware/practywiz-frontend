@@ -35,30 +35,29 @@ const ClassCard = ({
   };
 
   const url = ApiURL();
-  const handleClassDelete =async () => {
+  const handleClassDelete = async () => {
     // Implement class deletion logic here
     console.log(`Deleting class with ID: ${class_dtls_id}`);
     try {
-     
+
       // dispatch(showLoadingHandler());
       const response = await Promise.race([
         axios.post(`${url}api/v1/faculty/class/delete-class`, {
-          classId:class_dtls_id
+          classId: class_dtls_id
         }),
         new Promise((_, reject) =>
           setTimeout(() => reject(new Error("Request timed out")), 45000)
         ),
       ]);
-
       if (response.data.success) {
-       
+
       } else {
-       
+
       }
     } catch (error) {
       console.error(error.message);
     } finally {
-      
+
       // dispatch(hideLoadingHandler());
     }
 
@@ -263,6 +262,10 @@ const ShowClasses = ({ userdata, data, setActivePage, setClickedClassId }) => {
           setActivePage={setActivePage}
           setShowCreateclassform={setShowCreateClassForm}
           classid={selectedClassId}
+          allClassData={classDetails.map(cls => ({
+            class_name: cls.class_name,
+            class_id:cls.class_dtls_id
+          }))}
         />
       )}
 
