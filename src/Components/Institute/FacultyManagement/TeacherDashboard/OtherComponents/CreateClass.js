@@ -136,7 +136,7 @@ const handleValidationUpdate = () => {
       // }
     }
     else{
-      toast.error("error")
+      toast.error("This class name already exists!")
     }
   };
 
@@ -187,7 +187,7 @@ const handleValidationUpdate = () => {
     }
     }
      else{
-      toast.error("error")
+      toast.error("This class name already exists!")
     }
 
   };
