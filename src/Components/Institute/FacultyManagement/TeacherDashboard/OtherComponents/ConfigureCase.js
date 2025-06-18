@@ -45,7 +45,6 @@ export default function ConfigureCasePopup({
 
   const validateForm = () => {
     const errors = {};
-
     // Check required fields
     if (!formData.startDateTime)
       errors.startDateTime = "Start date and time is required";
@@ -69,10 +68,20 @@ export default function ConfigureCasePopup({
 
     if (startDate < now)
       errors.startDateTime = "Start date must be in the future";
-    if (deadlineDate <= startDate)
+    if (deadlineDate < startDate)
       errors.deadline = "Deadline must be after start date";
-    if (classEndDate <= classStartDate)
+    if (classEndDate < classStartDate)
       errors.classEnd = "Class end time must be after start time";
+    if (classStartDate < startDate)
+      errors.classStart = "Class start time must be after case study start time";
+    if (classEndDate > deadlineDate)
+      errors.classEnd = "Class end time must be before case study deadline";
+    if(!formData.factTiming === 1 || !formData.analysisTiming === 1) {
+      if (classStartDate > startDate)
+        errors.classStart = "Class start time must be after case study start time";
+      if (classEndDate > deadlineDate)
+        errors.classEnd = "Class end time must be before case study deadline";
+    }
 
     // Number validation
     if (caseType === 1) {
@@ -252,7 +261,6 @@ export default function ConfigureCasePopup({
             onChange={handleChange}
           >
             <option value="0">Before Class</option>
-            <option value="0">Before Class</option>
             <option value="1">In Class</option>
             <option value="2">After Class</option>
           </select>
@@ -300,9 +308,8 @@ export default function ConfigureCasePopup({
           {caseType === 1 ? (
             <button
               disabled={isSubmitting}
-            className={`submit-btn-case-assign-btn ${
-                isSubmitting ? "btn-disabled" : ""
-              }`}
+              className={`submit-btn-case-assign-btn ${isSubmitting ? "btn-disabled" : ""
+                }`}
               type="submit"
             >
               {/* {questionType === "same"
@@ -312,13 +319,12 @@ export default function ConfigureCasePopup({
             </button>
           ) : (
             <button
-             type="submit"
-             disabled={isSubmitting}
-            className={`submit-btn-case-assign-btn ${
-                isSubmitting ? "btn-disabled" : ""
-              }`}
+              type="submit"
+              disabled={isSubmitting}
+              className={`submit-btn-case-assign-btn ${isSubmitting ? "btn-disabled" : ""
+                }`}
             >
-                {isSubmitting ? "Assigning..." : "Assign Case Study"}
+              {isSubmitting ? "Assigning..." : "Assign Case Study"}
             </button>
           )}
         </form>
