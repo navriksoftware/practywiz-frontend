@@ -21,6 +21,9 @@ function SimulationPage() {
   const menteeId = useSelector(
     (state) => state.mentee.singleMentee[0]?.mentee_dtls_id
   );
+  const menteeFirstname = useSelector(
+    (state) => state.mentee.singleMentee[0]?.mentee_firstname
+  );
 
   // --- Follow-up configuration flag ---
   const [followUpEnabled] = useState(true);
@@ -52,11 +55,21 @@ function SimulationPage() {
   const [simulationComplete, setSimulationComplete] = useState(false);
 
   useEffect(() => {
-    if (!menteeId) {
+    // Helper function to check for null, undefined, or blank
+    const isMissing = (val) =>
+      val === null ||
+      val === undefined ||
+      (typeof val === "string" && val.trim() === "");
+
+    if (
+      isMissing(questionStatus) ||
+      isMissing(facultyCaseAssignId) ||
+      isMissing(caseStudyData) ||
+      isMissing(menteeId)
+    ) {
       navigate("/mentee/dashboard");
-      return;
     }
-  }, [menteeId, navigate]);
+  }, [questionStatus, facultyCaseAssignId, caseStudyData, menteeId, navigate]);
 
   useEffect(() => {
     if (facultyCaseAssignId && menteeId) {
@@ -102,7 +115,7 @@ function SimulationPage() {
       if (response.data.success && response.data.question) {
         const questionsData = JSON.parse(response.data.question);
         setParsedQuestions(questionsData);
-        // console.log("Questions fetched successfully:", questionsData);
+        console.log("Questions fetched successfully:", questionsData);
       } else {
         navigate("/mentee/dashboard");
       }
@@ -630,8 +643,9 @@ function SimulationPage() {
       <>
         <Navbar />
         <div className="main-container">
-          <div className="loading-container">
-            <h2>Loading questions...</h2>
+          <div className="loading-container" style={{ textAlign: "center", margin: "auto" }}>
+            <div className="loading-spinner"></div>
+            <h3>Loading questions...</h3>
           </div>
         </div>
       </>
@@ -659,13 +673,14 @@ function SimulationPage() {
       {/* <Navbar /> */}
       <div className="main-container">
         <div className="question-page-container">
-          <h1 className="question-page-title">A.I Simulator</h1>
+          <h1 className="question-page-title">Avega</h1>
           <div className="question-page-content">
             <ChatInterface
               messages={messages}
               questionType={getQuestionTypeForChat()}
               onAnswer={handleChatAnswer}
               isAITyping={isAITyping}
+              name={menteeFirstname}
             />
           </div>
         </div>

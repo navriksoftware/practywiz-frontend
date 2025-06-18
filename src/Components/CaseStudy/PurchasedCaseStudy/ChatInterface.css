@@ -323,6 +323,19 @@
   }
 }
 
+.greeting {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  /* margin-bottom: 1rem; */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.greeting::before {
+  content: "👋 ";
+}
+
+
 /* Responsive adjustments for follow-up styles */
 @media (max-width: 768px) {
   .chat-interface-followup-question,

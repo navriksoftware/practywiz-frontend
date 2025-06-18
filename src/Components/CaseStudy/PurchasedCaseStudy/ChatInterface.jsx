@@ -3,22 +3,24 @@ import AiImage from "./images/AI.png";
 import UserImage from "./images/User.png";
 import "./ChatInterface.css";
 
-function ChatInterface({ messages, questionType, onAnswer, isAITyping }) {
+function ChatInterface({ messages, questionType, onAnswer, isAITyping, name }) {
+
+  
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const textareaRef = useRef(null);
   const chatContainerRef = useRef(null);
   const chatEndRef = useRef(null);
 
-    useEffect(() => {
+  useEffect(() => {
     scrollToBottom();
   }, [messages, options, isAITyping]);
 
   useEffect(() => {
-  if (questionType === "subjective" && textareaRef.current) {
-    textareaRef.current.focus();
-  }
-}, [questionType, options]);
+    if (questionType === "subjective" && textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, [questionType, options]);
 
   // Find the latest question message with options and questionType
   useEffect(() => {
@@ -26,7 +28,10 @@ function ChatInterface({ messages, questionType, onAnswer, isAITyping }) {
     // Find the latest message with options and questionType
     let latestMsg = null;
     for (let i = messages.length - 1; i >= 0; i--) {
-      if (messages[i].options && messages[i].questionType === "multiple-choice") {
+      if (
+        messages[i].options &&
+        messages[i].questionType === "multiple-choice"
+      ) {
         latestMsg = messages[i];
         break;
       }
@@ -133,7 +138,9 @@ function ChatInterface({ messages, questionType, onAnswer, isAITyping }) {
           <img src={AiImage} alt="AI" className="chat-interface-avatar" />
           <div className="chat-interface-message-text">
             <span>
-              <p>Hello and welcome to the A.I Simulator! 🤖</p>
+              <p className="greeting">Hello {name ? `${name.charAt(0).toUpperCase()}${name.slice(1).toLowerCase()}!` : "Learner!"}</p>
+              <p>
+                welcome to the Avega the A.I Simulator! 🤖</p>
               <p>
                 Let&rsquo;s put your knowledge to the test in this interactive
                 case study. Ready to dive in and see how you handle the
@@ -151,7 +158,8 @@ function ChatInterface({ messages, questionType, onAnswer, isAITyping }) {
                   {msg.text}
                   {msg.isFollowUp && (
                     <div className="followup-indicator">
-                      📝 Follow-up Question {msg.followUpLevel && `(Level ${msg.followUpLevel})`}
+                      📝 Follow-up Question{" "}
+                      {msg.followUpLevel && `(Level ${msg.followUpLevel})`}
                     </div>
                   )}
                   {msg.isFollowUpPrompt && (
@@ -195,45 +203,46 @@ function ChatInterface({ messages, questionType, onAnswer, isAITyping }) {
         <div ref={chatEndRef} />
       </div>
       <div className="chat-interface-input">
-        {inputType === "multiple-choice" && options.length > 0 ? (
-          <div className="chat-interface-options-container">
-            {options.map((option, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleOptionClick(option)}
-                className="chat-interface-option-button"
-                aria-label={`Option ${option}`}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        ) : inputType === "subjective" ? (
-          <div className="chat-interface-input-container">
-            <textarea
-              ref={textareaRef}
-              value={inputValue}
-              onChange={handleInputChange}
-              onKeyPress={handleKeyPress}
-              placeholder="Type your answer here..."
-              className="chat-interface-textarea"
-              aria-label="Your answer"
-              style={{ overflowY: "hidden" }}
-              disabled={isAITyping}
-              autoFocus
-            ></textarea>
-            <button
-              onClick={handleSubmit}
-              className={`chat-interface-submit-button ${
-                isAITyping ? "disabled" : ""
-              }`}
-              aria-label="Submit your answer"
-              disabled={isAITyping || !inputValue.trim()}
-            >
-              Submit
-            </button>
-          </div>
-        ) : null}
+        {!isAITyping && (
+          <>
+            {inputType === "multiple-choice" && options.length > 0 ? (
+              <div className="chat-interface-options-container">
+                {options.map((option, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleOptionClick(option)}
+                    className="chat-interface-option-button"
+                    aria-label={`Option ${option}`}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            ) : inputType === "subjective" ? (
+              <div className="chat-interface-input-container">
+                <textarea
+                  ref={textareaRef}
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Type your answer here..."
+                  className="chat-interface-textarea"
+                  aria-label="Your answer"
+                  style={{ overflowY: "hidden" }}
+                  autoFocus
+                ></textarea>
+                <button
+                  onClick={handleSubmit}
+                  className="chat-interface-submit-button"
+                  aria-label="Submit your answer"
+                  disabled={!inputValue.trim()}
+                >
+                  Submit
+                </button>
+              </div>
+            ) : null}
+          </>
+        )}
       </div>
     </div>
   );
