@@ -25,6 +25,7 @@ import InternshipListing from "../../Employer/Internships/OtherComponents/Intern
 import AppliedInternships from "../../Employer/Internships/OtherComponents/InternshipListing";
 import InternshipProfileMain from "./MenteeInternship/InternshipProfileMain";
 import CaseStudyAssignList from "./OtherComponents/CaseStudyAssignList.js";
+import MenteeDashboardNew from "./OtherComponents/MenteeDashboardProfileNew.js";
 // import MenteeMenteeInternshipPage from "./OtherComponents/MenteeMenteeInternshipPage";
 // end
 const MenteeDashboard = ({ user, token }) => {
@@ -1035,7 +1036,7 @@ const MenteeDashboard = ({ user, token }) => {
             {/* </div>
         <div className="mob-main"> */}
             {showMenteeProfile && (
-              <MenteeProfileDashboard
+              <MenteeDashboardNew
                 singleMentee={singleMentee}
                 user={user}
                 token={token}

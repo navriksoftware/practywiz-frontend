@@ -1,0 +1,1158 @@
+:root {
+  /* Colors */
+  --mentee-dashboard-profile-primary: #2563eb;
+  --mentee-dashboard-profile-primary-dark: #1d4ed8;
+  --mentee-dashboard-profile-primary-light: #e0e7ff;
+  --mentee-dashboard-profile-secondary: #22c55e;
+  --mentee-dashboard-profile-secondary-dark: #16a34a;
+  --mentee-dashboard-profile-secondary-light: #dcfce7;
+  --mentee-dashboard-profile-warning: #f59e0b;
+  --mentee-dashboard-profile-warning-light: #fef3c7;
+  --mentee-dashboard-profile-danger: #ef4444;
+  --mentee-dashboard-profile-danger-light: #fee2e2;
+
+  /* Gray Scale */
+  --mentee-dashboard-profile-gray-50: #f8fafc;
+  --mentee-dashboard-profile-gray-100: #f1f5f9;
+  --mentee-dashboard-profile-gray-200: #e2e8f0;
+  --mentee-dashboard-profile-gray-300: #cbd5e1;
+  --mentee-dashboard-profile-gray-400: #94a3b8;
+  --mentee-dashboard-profile-gray-500: #64748b;
+  --mentee-dashboard-profile-gray-600: #475569;
+  --mentee-dashboard-profile-gray-700: #334155;
+  --mentee-dashboard-profile-gray-800: #1e293b;
+  --mentee-dashboard-profile-gray-900: #0f172a;
+
+  /* Spacing & Radius */
+  --mentee-dashboard-profile-radius-sm: 0.25rem;
+  --mentee-dashboard-profile-radius: 0.5rem;
+  --mentee-dashboard-profile-radius-md: 0.75rem;
+  --mentee-dashboard-profile-radius-lg: 1rem;
+
+  /* Shadows */
+  --mentee-dashboard-profile-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --mentee-dashboard-profile-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --mentee-dashboard-profile-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --mentee-dashboard-profile-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  /* Typography */
+  --mentee-dashboard-profile-font-sans: "Inter", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+    "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+/* MAIN CONTAINER & LAYOUT */
+.mentee-new-dashboard-container {
+  background-color: var(--mentee-dashboard-profile-gray-50);
+  min-height: 100vh;
+  color: var(--mentee-dashboard-profile-gray-800);
+  width: 100%;
+}
+
+.mentee-new-dashboard-main {
+  padding: 1.5rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* PROGRESS SUMMARY SECTION */
+.mentee-new-dashboard-progress-summary {
+  background: #fff;
+  border-radius: var(--mentee-dashboard-profile-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--mentee-dashboard-profile-shadow-sm);
+  width: 100%;
+}
+
+.mentee-new-dashboard-progress-summary h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-gray-900);
+  margin-bottom: 1.25rem;
+}
+
+.mentee-new-dashboard-progress-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.mentee-new-dashboard-weekly-activity,
+.mentee-new-dashboard-stats,
+.mentee-new-dashboard-goal-progress {
+  background: var(--mentee-dashboard-profile-gray-50);
+  border-radius: var(--mentee-dashboard-profile-radius);
+  padding: 1.25rem;
+  box-shadow: var(--mentee-dashboard-profile-shadow-sm);
+}
+
+.mentee-new-dashboard-weekly-activity h3,
+.mentee-new-dashboard-stats h3,
+.mentee-new-dashboard-goal-progress h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-gray-900);
+  margin-bottom: 1rem;
+}
+
+/* Chart Components */
+.mentee-new-dashboard-chart {
+  height: 150px;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem 0;
+}
+
+.mentee-new-dashboard-chart-bars {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+}
+
+.mentee-new-dashboard-chart-bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 13%;
+}
+
+.mentee-new-dashboard-chart-bar {
+  background: var(--mentee-dashboard-profile-primary);
+  width: 100%;
+  min-height: 4px;
+  border-radius: var(--mentee-dashboard-profile-radius-sm);
+  margin-bottom: 0.5rem;
+  transition: height 0.3s ease;
+}
+
+.mentee-new-dashboard-chart-label {
+  font-size: 0.75rem;
+  color: var(--mentee-dashboard-profile-gray-500);
+}
+
+/* Stats Components */
+.mentee-new-dashboard-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--mentee-dashboard-profile-gray-200);
+}
+
+.mentee-new-dashboard-stat-item:last-child {
+  border-bottom: none;
+}
+
+.mentee-new-dashboard-stat-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mentee-new-dashboard-stat-item > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mentee-new-dashboard-stat-label {
+  font-size: 0.8125rem;
+  color: var(--mentee-dashboard-profile-gray-500);
+}
+
+.mentee-new-dashboard-stat-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-gray-900);
+}
+
+/* Goal Components */
+.mentee-new-dashboard-goal-item {
+  background-color: #fff;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--mentee-dashboard-profile-gray-200);
+}
+
+.mentee-new-dashboard-goal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--mentee-dashboard-profile-gray-700);
+}
+
+.mentee-new-dashboard-progress-bar {
+  width: 100%;
+  height: 0.5rem;
+  background-color: var(--mentee-dashboard-profile-gray-200);
+  border-radius: var(--mentee-dashboard-profile-radius);
+  overflow: hidden;
+}
+
+.mentee-new-dashboard-progress-fill {
+  height: 100%;
+  background-color: var(--mentee-dashboard-profile-primary);
+  border-radius: var(--mentee-dashboard-profile-radius);
+  transition: width 0.3s ease;
+}
+
+.mentee-new-dashboard-goal-message {
+  font-size: 0.8125rem;
+  color: var(--mentee-dashboard-profile-gray-600);
+  margin-top: 0.75rem;
+  line-height: 1.4;
+}
+
+.mentee-new-dashboard-view-goals {
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid var(--mentee-dashboard-profile-gray-300);
+  color: var(--mentee-dashboard-profile-primary);
+  padding: 0.625rem;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.mentee-new-dashboard-view-goals:hover {
+  background-color: var(--mentee-dashboard-profile-gray-100);
+  border-color: var(--mentee-dashboard-profile-gray-400);
+}
+
+/* RECOMMENDED MENTORS SECTION */
+.new-mentee-profile-recommended-mentor-container {
+  width: 100%;
+}
+
+.new-mentee-profile-recommended-mentor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.new-mentee-profile-recommended-mentor-header h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-gray-900);
+}
+
+.new-mentee-profile-recommended-mentor-view-all {
+  text-decoration: none;
+  color: var(--mentee-dashboard-profile-primary) !important;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.new-mentee-profile-recommended-mentor-view-all:hover {
+  color: var(--mentee-dashboard-profile-primary-dark);
+}
+
+.new-mentee-profile-recommended-mentor-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.new-mentee-profile-recommended-mentor-card {
+  background: #fff;
+  border-radius: var(--mentee-dashboard-profile-radius-md);
+  box-shadow: var(--mentee-dashboard-profile-shadow);
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.new-mentee-profile-recommended-mentor-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--mentee-dashboard-profile-shadow-md);
+}
+
+.new-mentee-profile-recommended-mentor-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.new-mentee-profile-recommended-mentor-img {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--mentee-dashboard-profile-gray-100);
+  flex-shrink: 0;
+}
+
+.new-mentee-profile-recommended-mentor-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.new-mentee-profile-recommended-mentor-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-gray-900);
+}
+
+.new-mentee-profile-recommended-mentor-title {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--mentee-dashboard-profile-gray-600);
+  line-height: 1.3;
+}
+
+.new-mentee-profile-recommended-mentor-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.new-mentee-profile-recommended-mentor-rating .star {
+  color: var(--mentee-dashboard-profile-warning);
+}
+
+.new-mentee-profile-recommended-mentor-rating .rating-score {
+  color: var(--mentee-dashboard-profile-gray-900);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.new-mentee-profile-recommended-mentor-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.new-mentee-profile-recommended-mentor-tag {
+  background: var(--mentee-dashboard-profile-gray-100);
+  border-radius: var(--mentee-dashboard-profile-radius-md);
+  font-size: 0.75rem;
+  color: var(--mentee-dashboard-profile-gray-600);
+  padding: 0.25rem 0.5rem;
+  font-weight: 500;
+}
+
+.new-mentee-profile-recommended-mentor-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.new-mentee-profile-recommended-mentor-availability {
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  padding: 0.25rem 0.5rem;
+}
+
+.new-mentee-profile-recommended-mentor-availability.today {
+  background: var(--mentee-dashboard-profile-secondary-light);
+  color: var(--mentee-dashboard-profile-secondary-dark);
+}
+
+.new-mentee-profile-recommended-mentor-availability.tomorrow {
+  background: var(--mentee-dashboard-profile-warning-light);
+  color: var(--mentee-dashboard-profile-warning);
+}
+
+.new-mentee-profile-recommended-mentor-availability.nextweek {
+  background: var(--mentee-dashboard-profile-primary-light);
+  color: var(--mentee-dashboard-profile-primary);
+}
+
+.new-mentee-profile-recommended-mentor-session {
+  color: var(--mentee-dashboard-profile-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.new-mentee-profile-recommended-mentor-session:hover {
+  color: var(--mentee-dashboard-profile-primary-dark);
+}
+
+/* UPCOMING MENTOR SESSION SECTION */
+.new-mentee-profile-upcomming-session {
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: var(--mentee-dashboard-profile-radius-lg);
+  box-shadow: var(--mentee-dashboard-profile-shadow-md);
+  padding: 1.5rem;
+  width: 100%;
+  gap: 1.5rem;
+}
+
+.new-mentee-profile-upcomming-session-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.new-mentee-profile-upcomming-session-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.new-mentee-profile-upcomming-session-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-gray-900);
+}
+
+.new-mentee-profile-upcomming-session-time {
+  font-size: 0.875rem;
+  color: var(--mentee-dashboard-profile-gray-600);
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.new-mentee-profile-upcomming-session-icon {
+  color: var(--mentee-dashboard-profile-primary);
+}
+
+.new-mentee-profile-upcomming-session-mentor-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.new-mentee-profile-upcomming-session-mentor-image {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--mentee-dashboard-profile-gray-100);
+  flex-shrink: 0;
+}
+
+.new-mentee-profile-upcomming-session-mentor-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.new-mentee-profile-upcomming-session-mentor-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-gray-900);
+}
+
+.new-mentee-profile-upcomming-session-mentor-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.new-mentee-profile-upcomming-session-mentor-tag {
+  border-radius: var(--mentee-dashboard-profile-radius-md);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  font-weight: 500;
+}
+
+.new-mentee-profile-upcomming-session-mentor-tag.ux {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
+
+.new-mentee-profile-upcomming-session-mentor-tag.pm {
+  background-color: var(--mentee-dashboard-profile-secondary-light);
+  color: var(--mentee-dashboard-profile-secondary-dark);
+}
+
+.new-mentee-profile-upcomming-session-topic {
+  font-size: 0.875rem;
+  color: var(--mentee-dashboard-profile-gray-700);
+  margin-top: 0.25rem;
+}
+
+.new-mentee-profile-upcomming-session-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--mentee-dashboard-profile-gray-200);
+  min-width: 160px;
+}
+
+.new-mentee-profile-upcomming-session-start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.375rem;
+}
+
+.new-mentee-profile-upcomming-session-starts-label {
+  font-size: 0.875rem;
+  color: var(--mentee-dashboard-profile-gray-600);
+}
+
+.new-mentee-profile-upcomming-session-starts-time {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-primary);
+  margin-bottom: 0.5rem;
+}
+
+.new-mentee-profile-upcomming-session-join-btn {
+  background: var(--mentee-dashboard-profile-primary);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.new-mentee-profile-upcomming-session-join-btn:hover {
+  background: var(--mentee-dashboard-profile-primary-dark);
+  transform: translateY(-1px);
+}
+
+/* QUICK ACTIONS SECTION */
+.new-mentee-profile-quick-action-root {
+  width: 100%;
+}
+
+.new-mentee-profile-quick-action-header {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-gray-900);
+  margin-bottom: 1.25rem;
+}
+
+.new-mentee-profile-quick-action-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.new-mentee-profile-quick-action-card {
+  background: #fff;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  box-shadow: var(--mentee-dashboard-profile-shadow-sm);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.new-mentee-profile-quick-action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--mentee-dashboard-profile-shadow-md);
+}
+
+.new-mentee-profile-quick-action-icon-bg {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.new-mentee-profile-quick-action-icon-bg.mn-calendar {
+  background-color: var(--mentee-dashboard-profile-primary-light);
+}
+
+.new-mentee-profile-quick-action-icon-bg.mn-help {
+  background-color: #dbeafe;
+}
+
+.new-mentee-profile-quick-action-icon-bg.mn-certificate {
+  background-color: var(--mentee-dashboard-profile-warning-light);
+}
+
+.new-mentee-profile-quick-action-icon-bg.mn-briefcase {
+  background-color: var(--mentee-dashboard-profile-secondary-light);
+}
+
+.new-mentee-profile-quick-action-icon-bg.mn-support {
+  background-color: #f3e8ff;
+}
+
+.quick-action-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.quick-action-icon.mn-calendar {
+  color: var(--mentee-dashboard-profile-primary);
+}
+
+.quick-action-icon.mn-help {
+  color: #2563eb;
+}
+
+.quick-action-icon.mn-certificate {
+  color: var(--mentee-dashboard-profile-warning);
+}
+
+.quick-action-icon.mn-briefcase {
+  color: var(--mentee-dashboard-profile-secondary-dark);
+}
+
+.quick-action-icon.mn-support {
+  color: #7c3aed;
+}
+
+.new-mentee-profile-quick-action-label {
+  font-size: 0.9375rem;
+  color: var(--mentee-dashboard-profile-gray-800);
+  font-weight: 500;
+  text-align: center;
+}
+
+/* TWO COLUMN LAYOUT SECTION */
+.new-mentee-profile-cs-internship-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* CASE STUDIES SECTION */
+.new-mentee-profile-assigned-case- {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.assigned-case-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.assigned-case-header {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-gray-900);
+}
+
+.assigned-case-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.assigned-case-card {
+  background: #fff;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  box-shadow: var(--mentee-dashboard-profile-shadow-sm);
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.assigned-case-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--mentee-dashboard-profile-shadow-md);
+}
+
+.assigned-case-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.assigned-case-platform {
+  background-color: #dbeafe;
+  color: #2563eb;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  padding: 0.25rem 0.5rem;
+}
+
+.assigned-case-view-link {
+  color: var(--mentee-dashboard-profile-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.assigned-case-view-link:hover {
+  color: var(--mentee-dashboard-profile-primary-dark);
+  text-decoration: underline;
+}
+
+.assigned-case-company {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-gray-900);
+}
+
+.assigned-case-role {
+  font-size: 0.875rem;
+  color: var(--mentee-dashboard-profile-gray-600);
+  font-weight: 500;
+}
+
+.assigned-case-meta-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+.assigned-case-due {
+  font-size: 0.8125rem;
+  color: var(--mentee-dashboard-profile-gray-700);
+  font-weight: 500;
+}
+
+.assigned-case-status {
+  background: var(--mentee-dashboard-profile-warning-light);
+  color: var(--mentee-dashboard-profile-warning);
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  padding: 0.25rem 0.5rem;
+}
+
+.assigned-case-assessment {
+  font-size: 0.8125rem;
+  color: var(--mentee-dashboard-profile-gray-700);
+  margin-top: 0.25rem;
+}
+
+.assigned-case-card-bottom {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--mentee-dashboard-profile-gray-600);
+  font-size: 0.8125rem;
+  margin-top: 0.25rem;
+}
+
+.assigned-case-calendar-icon {
+  color: var(--mentee-dashboard-profile-gray-500);
+  width: 1rem;
+  height: 1rem;
+}
+
+/* INTERNSHIP TRACKER SECTION */
+.new-mentee-profile-internship-tracker- {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.internship-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.internship-header {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-gray-900);
+}
+
+.internship-view-all {
+  color: var(--mentee-dashboard-profile-primary) !important;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.internship-view-all:hover {
+  color: var(--mentee-dashboard-profile-primary-dark);
+  text-decoration: underline;
+}
+
+.internship-tracker-card {
+  background: #fff;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  box-shadow: var(--mentee-dashboard-profile-shadow-sm);
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.internship-tracker-card-top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.internship-company {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-gray-900);
+  flex-grow: 1;
+}
+
+.internship-status {
+  background: var(--mentee-dashboard-profile-secondary-light);
+  color: var(--mentee-dashboard-profile-secondary-dark);
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  padding: 0.25rem 0.5rem;
+}
+
+.internship-view-details {
+  color: var(--mentee-dashboard-profile-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.internship-view-details:hover {
+  color: var(--mentee-dashboard-profile-primary-dark);
+  text-decoration: underline;
+}
+
+.internship-role {
+  font-size: 0.875rem;
+  color: var(--mentee-dashboard-profile-gray-600);
+  font-weight: 500;
+}
+
+.internship-dates-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.internship-date-icon {
+  color: var(--mentee-dashboard-profile-gray-500);
+  width: 1rem;
+  height: 1rem;
+}
+
+.internship-dates {
+  font-size: 0.8125rem;
+  color: var(--mentee-dashboard-profile-gray-700);
+  font-weight: 500;
+}
+
+.internship-stipend {
+  background: var(--mentee-dashboard-profile-secondary-light);
+  color: var(--mentee-dashboard-profile-secondary-dark);
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  padding: 0.25rem 0.5rem;
+  margin-left: auto;
+}
+
+.internship-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.internship-progress-label {
+  font-size: 0.8125rem;
+  color: var(--mentee-dashboard-profile-gray-600);
+  font-weight: 500;
+}
+
+.internship-progress-bar-bg {
+  flex: 1;
+  background: var(--mentee-dashboard-profile-gray-200);
+  border-radius: var(--mentee-dashboard-profile-radius);
+  height: 0.5rem;
+  overflow: hidden;
+}
+
+.internship-progress-bar-fg {
+  background: var(--mentee-dashboard-profile-secondary);
+  height: 100%;
+  border-radius: var(--mentee-dashboard-profile-radius);
+}
+
+.internship-progress-percent {
+  font-size: 0.8125rem;
+  color: var(--mentee-dashboard-profile-gray-800);
+  font-weight: 500;
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+.internship-rec-header {
+  font-size: 0.9375rem;
+  color: var(--mentee-dashboard-profile-gray-700);
+  font-weight: 600;
+  margin-top: 0.75rem;
+}
+
+.internship-rec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.internship-rec-card {
+  background: #fff;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  box-shadow: var(--mentee-dashboard-profile-shadow-sm);
+  padding: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.internship-rec-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--mentee-dashboard-profile-shadow-md);
+}
+
+.internship-rec-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.internship-rec-company {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--mentee-dashboard-profile-gray-900);
+}
+
+.internship-rec-role {
+  font-size: 0.875rem;
+  color: var(--mentee-dashboard-profile-gray-600);
+  font-weight: 500;
+}
+
+.internship-rec-meta {
+  font-size: 0.8125rem;
+  color: var(--mentee-dashboard-profile-gray-500);
+  font-weight: 400;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.internship-rec-dot {
+  font-size: 0.8125rem;
+  color: var(--mentee-dashboard-profile-gray-400);
+}
+
+.internship-rec-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.internship-rec-stipend {
+  color: var(--mentee-dashboard-profile-secondary-dark);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.internship-rec-cta {
+  color: #fff !important;
+  background: var(--mentee-dashboard-profile-primary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--mentee-dashboard-profile-radius);
+  transition: background-color 0.2s ease;
+}
+
+.internship-rec-cta:hover {
+  background: var(--mentee-dashboard-profile-primary-dark);
+}
+
+/* SCROLLBAR STYLING */
+.mentee-new-dashboard-container *::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.mentee-new-dashboard-container *::-webkit-scrollbar-track {
+  background: var(--mentee-dashboard-profile-gray-100);
+  border-radius: 3px;
+}
+
+.mentee-new-dashboard-container *::-webkit-scrollbar-thumb {
+  background: var(--mentee-dashboard-profile-gray-300);
+  border-radius: 3px;
+}
+
+.mentee-new-dashboard-container *::-webkit-scrollbar-thumb:hover {
+  background: var(--mentee-dashboard-profile-gray-400);
+}
+
+/* MEDIA QUERIES - RESPONSIVE DESIGN */
+/* Large screens (1200px and below) */
+@media (max-width: 1200px) {
+  .mentee-new-dashboard-main {
+    padding: 1.25rem;
+  }
+
+  .new-mentee-profile-recommended-mentor-list {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}
+
+/* Medium screens (992px and below) */
+@media (max-width: 992px) {
+  .mentee-new-dashboard-progress-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .new-mentee-profile-quick-action-list {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+/* Tablet screens (768px and below) */
+@media (max-width: 768px) {
+  .mentee-new-dashboard-main {
+    padding: 1rem;
+    gap: 1.25rem;
+  }
+
+  .mentee-new-dashboard-progress-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .new-mentee-profile-upcomming-session {
+    flex-direction: column;
+    padding: 1.25rem 1rem;
+  }
+
+  .new-mentee-profile-upcomming-session-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .new-mentee-profile-upcomming-session-right {
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--mentee-dashboard-profile-gray-200);
+    padding-top: 1rem;
+    align-items: center;
+    width: 100%;
+  }
+
+  .new-mentee-profile-quick-action-list {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .new-mentee-profile-cs-internship-2col {
+    grid-template-columns: 1fr;
+  }
+
+  .new-mentee-profile-recommended-mentor-list {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
+}
+
+/* Small screens (576px and below) */
+@media (max-width: 576px) {
+  .mentee-new-dashboard-main {
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+
+  .new-mentee-profile-upcomming-session {
+    padding: 1.25rem 1rem;
+  }
+
+  .new-mentee-profile-upcomming-session-mentor-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .new-mentee-profile-upcomming-session-mentor-info {
+    align-items: center;
+  }
+
+  .new-mentee-profile-upcomming-session-right {
+    padding-top: 1rem;
+    align-items: center;
+  }
+
+  .new-mentee-profile-recommended-mentor-container,
+  .new-mentee-profile-quick-action-root,
+  .new-mentee-profile-assigned-case-,
+  .new-mentee-profile-internship-tracker-,
+  .mentee-new-dashboard-progress-summary {
+    padding: 1.25rem 1rem;
+  }
+
+  .new-mentee-profile-quick-action-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .new-mentee-profile-quick-action-card {
+    padding: 1rem 0.5rem;
+  }
+
+  .internship-rec-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .internship-rec-right {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+}
