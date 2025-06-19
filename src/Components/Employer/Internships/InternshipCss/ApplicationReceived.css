@@ -260,7 +260,20 @@
   font-size: 14px;
 }
 
+.applications-hiring-btn {
+  background: #2563eb;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
 .applications-shortlist-btn:hover {
+  background: #1d4ed8;
+}
+.applications-hiring-btn:hover {
   background: #1d4ed8;
 }
 

@@ -340,7 +340,7 @@ const CaseAssigneProcess = () => {
               onClick={() => setopenQuestionpage(false)}
               className="casestudyShowModel-QuestionShow-close-button"
             >
-              <X size={24} />
+              <X size={18} />
             </div>
             <QuestionShow data={casestudyDetails} />
           </div>

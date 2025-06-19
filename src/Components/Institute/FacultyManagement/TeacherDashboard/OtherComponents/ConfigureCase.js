@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../DashboardCSS/ConfigureCase.css";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -27,12 +27,14 @@ export default function ConfigureCasePopup({
     classEnd: "",
   });
 
+  useEffect(() => {}, [formData.factTiming, formData.analysisTiming]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
-    });
+    }));
 
     // Clear error when field is changed
     if (formErrors[name]) {
@@ -68,18 +70,23 @@ export default function ConfigureCasePopup({
 
     if (startDate < now)
       errors.startDateTime = "Start date must be in the future";
-    if (deadlineDate < startDate)
+    if (deadlineDate <= startDate)
       errors.deadline = "Deadline must be after start date";
     if (classEndDate < classStartDate)
       errors.classEnd = "Class end time must be after start time";
     if (classStartDate < startDate)
-      errors.classStart = "Class start time must be after case study start time";
+      errors.classStart =
+        "Class start time must be after case study start time";
     if (classEndDate > deadlineDate)
       errors.classEnd = "Class end time must be before case study deadline";
-    if(!formData.factTiming === 1 || !formData.analysisTiming === 1) {
-      if (classStartDate > startDate)
-        errors.classStart = "Class start time must be after case study start time";
-      if (classEndDate > deadlineDate)
+
+    if (formData.factTiming == 0 || formData.analysisTiming == 0) {
+      if (classStartDate <= startDate)
+        errors.classStart =
+          "Class start time must be after case study start time";
+    }
+    if (formData.factTiming == 2 || formData.analysisTiming == 2) {
+      if (classEndDate >= deadlineDate)
         errors.classEnd = "Class end time must be before case study deadline";
     }
 
@@ -99,7 +106,6 @@ export default function ConfigureCasePopup({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
 
     if (!validateForm()) {
       toast.error("Please fix the errors in the form");
@@ -125,7 +131,7 @@ export default function ConfigureCasePopup({
       caseStudyTitle: caseStudyTitle,
     };
 
-    console.log("Form data to be sent to backend:", dataToSend);
+    // console.log("Form data to be sent to backend:", dataToSend);
     setIsSubmitting(true); // Start loading
     try {
       const response = await axios.post(
@@ -308,8 +314,9 @@ export default function ConfigureCasePopup({
           {caseType === 1 ? (
             <button
               disabled={isSubmitting}
-              className={`submit-btn-case-assign-btn ${isSubmitting ? "btn-disabled" : ""
-                }`}
+              className={`submit-btn-case-assign-btn ${
+                isSubmitting ? "btn-disabled" : ""
+              }`}
               type="submit"
             >
               {/* {questionType === "same"
@@ -321,8 +328,9 @@ export default function ConfigureCasePopup({
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`submit-btn-case-assign-btn ${isSubmitting ? "btn-disabled" : ""
-                }`}
+              className={`submit-btn-case-assign-btn ${
+                isSubmitting ? "btn-disabled" : ""
+              }`}
             >
               {isSubmitting ? "Assigning..." : "Assign Case Study"}
             </button>

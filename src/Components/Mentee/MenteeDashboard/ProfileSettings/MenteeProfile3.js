@@ -11,6 +11,7 @@ import { ApiURL } from "../../../../Utils/ApiURL";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import "../DashboardCSS/mobileMenteeProfile.css";
+import { useEffect } from "react";
 
 const Menteeprofile3 = ({ singleMentee, user, token }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -20,6 +21,26 @@ const Menteeprofile3 = ({ singleMentee, user, token }) => {
   const [image, setImage] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
   const cropperRef = useRef(null);
+  const [singleMenteeDetails, setSingleMenteeDetails] = useState([]);
+  const menteeDtlsId = user?.user_id;
+
+  const getMenteeImageUrl = async () => {
+    try {
+      const response = await axios.post(
+        `${url}api/v1/mentee/dashboard/fetch-single-details/${menteeDtlsId}`,
+        { userId: menteeDtlsId }
+      );
+
+      if (response.data.success) {
+        setSingleMenteeDetails(response.data.success[0]);
+      }
+    } catch (error) {
+      console.error("Error fetching mentee details:", error);
+    }
+  };
+  useEffect(() => {
+    getMenteeImageUrl();
+  }, []);
 
   // Handle image input change
   const handleImageChange = (e) => {
@@ -73,6 +94,7 @@ const Menteeprofile3 = ({ singleMentee, user, token }) => {
           ),
         ]);
         if (response.data.success) {
+          getMenteeImageUrl();
           dispatch(hideLoadingHandler());
           toast.success("Profile picture updated successfully.");
         } else if (response.data.error) {
@@ -218,7 +240,7 @@ const Menteeprofile3 = ({ singleMentee, user, token }) => {
           <div className="position-relative overflow-hidden">
             <h4>Update your profile picture</h4>
             <img
-              src={singleMentee[0]?.mentee_profile_pic_url || ""}
+              src={singleMenteeDetails?.mentee_profile_pic_url || ""}
               alt="Profile"
               style={{
                 width: "300px",

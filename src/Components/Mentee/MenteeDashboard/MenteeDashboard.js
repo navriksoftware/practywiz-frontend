@@ -381,6 +381,7 @@ const MenteeDashboard = ({ user, token }) => {
   };
 
   const menteeDtlsId = user?.user_id;
+
   useEffect(() => {
     const fetchSingleMentee = async () => {
       setLoading(true); // Show spinner
