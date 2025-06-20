@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import axios from "axios";
 import ChatInterface from "../../Components/CaseStudy/PurchasedCaseStudy/ChatInterface";
 import "./SimulationPage.css";
@@ -14,8 +15,12 @@ function SimulationPage() {
   const location = useLocation();
 
   // Get data from navigation state
-  const { questionStatus, facultyCaseAssignId, caseStudyData } =
-    location.state || {};
+  const {
+    questionStatus,
+    facultyCaseAssignId,
+    caseStudyData,
+    maxMarksSummary,
+  } = location.state || {};
 
   // Get mentee ID from Redux store
   const menteeId = useSelector(
@@ -35,6 +40,7 @@ function SimulationPage() {
   const [messages, setMessages] = useState([]);
   const [isAITyping, setIsAITyping] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [inputVisible, setInputVisible] = useState(true);
 
   // Separate data storage for each question type
   const [factBasedResponses, setFactBasedResponses] = useState([]);
@@ -97,6 +103,33 @@ function SimulationPage() {
     // eslint-disable-next-line
   }, [simulationComplete]);
 
+  const getQuestionTypeLabel = (type) => {
+    switch (type) {
+      case "factBased":
+        return "Fact-based Questions";
+      case "analyzeBased":
+        return "Analysis-based Questions";
+      case "researchBased":
+        return "Research-based Questions";
+      default:
+        return "Questions";
+    }
+  };
+
+  // Helper to add a transition message
+  const addTransitionMessage = (type) => {
+    setMessages((prev) => [
+      ...prev,
+      {
+        sender: "AI",
+        text: `Now starting: ${getQuestionTypeLabel(
+          type
+        )}. Get ready for a new set of questions!`,
+        isTransition: true,
+      },
+    ]);
+  };
+
   const fetchQuestions = async () => {
     try {
       setIsLoading(true);
@@ -115,7 +148,7 @@ function SimulationPage() {
       if (response.data.success && response.data.question) {
         const questionsData = JSON.parse(response.data.question);
         setParsedQuestions(questionsData);
-        console.log("Questions fetched successfully:", questionsData);
+        // console.log("Questions fetched successfully:", questionsData);
       } else {
         navigate("/mentee/dashboard");
       }
@@ -149,7 +182,10 @@ function SimulationPage() {
     if (firstQuestionType) {
       setCurrentQuestionType(firstQuestionType);
       setCurrentQuestionIndex(0);
-      showQuestion(firstQuestionType, 0);
+      addTransitionMessage(firstQuestionType);
+      setTimeout(() => {
+        showQuestion(firstQuestionType, 0);
+      }, 600);
     } else {
       navigate("/mentee/dashboard");
     }
@@ -171,6 +207,7 @@ function SimulationPage() {
       }
 
       setMessages((prev) => [...prev, messageObj]);
+      setInputVisible(true);
     }
   };
 
@@ -211,26 +248,42 @@ function SimulationPage() {
 
   const submitResponses = async (completeResults) => {
     try {
-      // Uncomment when API is ready
-      /*
-      const response = await axios.post(`${URL}api/v1/case-studies/submit-responses`, {
+      const payload = {
         menteeId: completeResults.menteeId,
         facultyCaseAssignId: completeResults.facultyCaseAssignId,
-        responses: {
-          factBasedResponses: completeResults.factBasedResponses,
-          analysisBasedResponses: completeResults.analysisBasedResponses,
-          researchBasedResponses: completeResults.researchBasedResponses,
-        },
         summary: completeResults.summary,
         completedAt: completeResults.completedAt,
-      });
-      // Optionally, show a toast or handle response
-      // toast.success("Responses submitted successfully!");
-      */
+        maxMarks: maxMarksSummary.total,
+      };
+
+      if (
+        Array.isArray(completeResults.factBasedResponses) &&
+        completeResults.factBasedResponses.length > 0
+      ) {
+        payload.factBasedResponses = completeResults.factBasedResponses;
+      }
+      if (
+        Array.isArray(completeResults.analysisBasedResponses) &&
+        completeResults.analysisBasedResponses.length > 0
+      ) {
+        payload.analysisBasedResponses = completeResults.analysisBasedResponses;
+      }
+      if (
+        Array.isArray(completeResults.researchBasedResponses) &&
+        completeResults.researchBasedResponses.length > 0
+      ) {
+        payload.researchBasedResponses = completeResults.researchBasedResponses;
+      }
+
+      const response = await axios.post(
+        `${URL}api/v1/case-studies/submit-responses`,
+        payload
+      );
+
+      toast.success("Responses submitted successfully!");
     } catch (error) {
-      // Optionally, show a toast or handle error
-      // toast.error("Failed to submit responses!");
-      // console.error("Submission error:", error);
+      toast.error("Failed to submit responses!");
+      console.error("Submission error:", error);
     }
   };
 
@@ -248,6 +301,7 @@ function SimulationPage() {
       factBasedResponses: updatedFactBased,
       analysisBasedResponses: updatedAnalysis,
       researchBasedResponses: updatedResearch,
+      maxMarks: maxMarksSummary.total,
       summary: {
         totalQuestions:
           updatedFactBased.length +
@@ -271,10 +325,10 @@ function SimulationPage() {
     };
 
     // Only this log will show on submit
-    console.log("SUBMIT Result:", completeResults);
+    // console.log("SUBMIT Result:", completeResults);
 
-    // Uncomment when API is ready
-    // submitResponses(completeResults);
+    // Submit responses to backend
+    submitResponses(completeResults);
 
     setMessages((prev) => [
       ...prev,
@@ -297,6 +351,7 @@ function SimulationPage() {
         return;
       }
       setIsProcessingAnswer(true);
+      setInputVisible(false);
 
       setMessages((prev) => [...prev, { sender: "User", text: answer }]);
       const questionArray = getQuestionArray(currentQuestionType);
@@ -461,11 +516,13 @@ function SimulationPage() {
           questionType: "subjective",
         },
       ]);
+      setInputVisible(true);
     }, 800);
   };
 
   // Handle follow-up answer
   const handleFollowUpAnswer = (answer) => {
+    setInputVisible(false);
     const timeSpent = 120; // Placeholder
 
     setMessages((prev) => [
@@ -614,7 +671,10 @@ function SimulationPage() {
       setCurrentQuestionType(nextQuestionType);
       setCurrentQuestionIndex(0);
       setIsAITyping(false);
-      showQuestion(nextQuestionType, 0);
+      addTransitionMessage(nextQuestionType); // <-- Add this line
+      setTimeout(() => {
+        showQuestion(nextQuestionType, 0);
+      }, 600);
     } else {
       setSimulationComplete(true); // <-- Only set the flag, do not call submit here
     }
@@ -643,7 +703,10 @@ function SimulationPage() {
       <>
         <Navbar />
         <div className="main-container">
-          <div className="loading-container" style={{ textAlign: "center", margin: "auto" }}>
+          <div
+            className="loading-container"
+            style={{ textAlign: "center", margin: "auto" }}
+          >
             <div className="loading-spinner"></div>
             <h3>Loading questions...</h3>
           </div>
@@ -681,6 +744,7 @@ function SimulationPage() {
               onAnswer={handleChatAnswer}
               isAITyping={isAITyping}
               name={menteeFirstname}
+              inputVisible={inputVisible}
             />
           </div>
         </div>

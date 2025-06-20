@@ -287,6 +287,10 @@
 }
 
 .followup-indicator {
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-top: 1rem;
   background: rgba(33, 150, 243, 0.1);
   color: #1976d2;
   border: 1px solid rgba(33, 150, 243, 0.2);
@@ -299,6 +303,10 @@
 }
 
 .followup-answer-indicator {
+  display: block;
+  width: fit-content;
+  margin-right: auto;
+  margin-top: 1rem;
   background: rgba(156, 39, 176, 0.1);
   color: #7b1fa2;
   border: 1px solid rgba(156, 39, 176, 0.2);

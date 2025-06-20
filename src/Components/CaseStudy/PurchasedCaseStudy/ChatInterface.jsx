@@ -3,9 +3,14 @@ import AiImage from "./images/AI.png";
 import UserImage from "./images/User.png";
 import "./ChatInterface.css";
 
-function ChatInterface({ messages, questionType, onAnswer, isAITyping, name }) {
-
-  
+function ChatInterface({
+  messages,
+  questionType,
+  onAnswer,
+  isAITyping,
+  name,
+  inputVisible,
+}) {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const textareaRef = useRef(null);
@@ -138,9 +143,15 @@ function ChatInterface({ messages, questionType, onAnswer, isAITyping, name }) {
           <img src={AiImage} alt="AI" className="chat-interface-avatar" />
           <div className="chat-interface-message-text">
             <span>
-              <p className="greeting">Hello {name ? `${name.charAt(0).toUpperCase()}${name.slice(1).toLowerCase()}!` : "Learner!"}</p>
-              <p>
-                welcome to the Avega the A.I Simulator! 🤖</p>
+              <p className="greeting">
+                Hello{" "}
+                {name
+                  ? `${name.charAt(0).toUpperCase()}${name
+                      .slice(1)
+                      .toLowerCase()}!`
+                  : "Learner!"}
+              </p>
+              <p>welcome to the Avega the A.I Simulator! 🤖</p>
               <p>
                 Let&rsquo;s put your knowledge to the test in this interactive
                 case study. Ready to dive in and see how you handle the
@@ -159,7 +170,7 @@ function ChatInterface({ messages, questionType, onAnswer, isAITyping, name }) {
                   {msg.isFollowUp && (
                     <div className="followup-indicator">
                       📝 Follow-up Question{" "}
-                      {msg.followUpLevel && `(Level ${msg.followUpLevel})`}
+                      {msg.followUpLevel && `(Follow-up ${msg.followUpLevel})`}
                     </div>
                   )}
                   {msg.isFollowUpPrompt && (
@@ -203,7 +214,7 @@ function ChatInterface({ messages, questionType, onAnswer, isAITyping, name }) {
         <div ref={chatEndRef} />
       </div>
       <div className="chat-interface-input">
-        {!isAITyping && (
+        {!isAITyping && inputVisible && (
           <>
             {inputType === "multiple-choice" && options.length > 0 ? (
               <div className="chat-interface-options-container">

@@ -29,6 +29,7 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [submissionStatus, setSubmissionStatus] = useState(null);
   const [serverCurrentTime, setServerCurrentTime] = useState(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Get mentee ID from Redux store
   const menteeId = useSelector(
@@ -42,10 +43,15 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
 
   // Fetch submission data when component mounts
   useEffect(() => {
-    if (menteeId && caseStudy.faculty_case_assign_dtls_id) {
-      fetchSubmissionData();
-    }
-    // eslint-disable-next-line
+    if (!menteeId || !caseStudy.faculty_case_assign_dtls_id) return;
+
+    fetchSubmissionData(); // This will run once on mount
+    const interval = setInterval(() => {
+      fetchSubmissionData(); // Auto refresh every 30 sec
+      
+    }, 30000);
+
+    return () => clearInterval(interval); // Cleanup on unmount
   }, [menteeId, caseStudy.faculty_case_assign_dtls_id]);
 
   // Update question status when parsedQuestions or submission data changes
@@ -57,8 +63,9 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
   }, [parsedQuestions, submissionStatus, serverCurrentTime]);
 
   // Fetch result submission status from API
-  const fetchSubmissionData = async () => {
-    setIsLoading(true);
+  const fetchSubmissionData = async (isManualRefresh = false) => {
+    if (isManualRefresh) setIsRefreshing(true);
+    // else setIsLoading(true);
     try {
       const response = await axios.post(
         `${url}api/v1/mentee/dashboard/get-result-submission-status`,
@@ -69,7 +76,6 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
       );
 
       if (response.data.success) {
-        // Set submission status (default to false if not provided)
         const defaultSubmissionStatus = {
           factBasedQuestions: false,
           analysisBasedQuestions: false,
@@ -81,7 +87,6 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
         );
         setServerCurrentTime(response.data.currentTime);
       } else {
-        // Set default values on API failure
         setSubmissionStatus({
           factBasedQuestions: false,
           analysisBasedQuestions: false,
@@ -90,8 +95,6 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
         setServerCurrentTime(new Date().toISOString());
       }
     } catch (error) {
-      // console.error("Error fetching submission data:", error);
-      // Set default values on error
       setSubmissionStatus({
         factBasedQuestions: false,
         analysisBasedQuestions: false,
@@ -99,7 +102,8 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
       });
       setServerCurrentTime(new Date().toISOString());
     } finally {
-      setIsLoading(false);
+      if (isManualRefresh) setIsRefreshing(false);
+      else setIsLoading(false);
     }
   };
 
@@ -128,9 +132,10 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
 
   // Handle Run Avega button click
   const handleRunAvega = () => {
-    console.log("=== Run Avega Button Clicked ===");
-    console.log("Current Question Status:", questionStatus);
+    // console.log("=== Run Avega Button Clicked ===");
+    // console.log("Current Question Status:", questionStatus);
 
+    const maxMarksCount = getMaxMarksCount();
     // Log individual question statuses (only fact and analysis)
     // console.log(`factBasedQuestions: ${questionStatus.factBasedQuestions}`);
     // console.log(`analysisBasedQuestions: ${questionStatus.analysisBasedQuestions}`);
@@ -142,13 +147,13 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
     if (anyAvailable) {
       // console.log("Proceeding with Avega...");
       // Navigate to Avega page with question status and case study ID
-      navigate('/mentee/avega', { 
-        state: { 
+      navigate("/mentee/avega", {
+        state: {
           questionStatus: questionStatus,
           facultyCaseAssignId: caseStudy.faculty_case_assign_dtls_id,
-          // parsedQuestions: parsedQuestions,
-          caseStudyData: caseStudy
-        } 
+          caseStudyData: caseStudy,
+          maxMarksSummary: maxMarksCount,
+        },
       });
     } else {
       // console.log("No fact-based or analysis-based questions available for Avega");
@@ -343,6 +348,33 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
 
   const questionCounts = getQuestionCount();
 
+  const getMaxMarksCount = () => {
+    if (
+      !parsedQuestions ||
+      typeof parsedQuestions !== "object" ||
+      !parsedQuestions.factBasedQuestions ||
+      !parsedQuestions.analysisBasedQuestions
+    ) {
+      return { fact: 0, analysis: 0, total: 0 };
+    }
+
+    const factMarks = parsedQuestions.factBasedQuestions.reduce(
+      (sum, q) => sum + (Number(q.maxMark) || 0),
+      0
+    );
+
+    const analysisMarks = parsedQuestions.analysisBasedQuestions.reduce(
+      (sum, q) => sum + (Number(q.maxMark) || 0),
+      0
+    );
+
+    return {
+      fact: factMarks,
+      analysis: analysisMarks,
+      total: factMarks + analysisMarks,
+    };
+  };
+
   // Determine if any fact-based or analysis-based question type is available for Run Avega button
   const anyQuestionAvailable = isFactOrAnalysisQuestionAvailable();
 
@@ -374,6 +406,27 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
             ? caseStudy.case_study_title
             : caseStudy.non_practywiz_case_title}
         </h1>
+
+        <div className="mentee-case-study-detail-refreash-container">
+          {/* Optionally, show last updated time */}
+          {serverCurrentTime && (
+            <span style={{ fontSize: 12, color: "#666" }}>
+              Last updated: {new Date().toLocaleString()}
+            </span>
+          )}
+          <button
+            onClick={() => fetchSubmissionData(true)}
+            disabled={isRefreshing}
+            style={{
+              cursor: isRefreshing ? "not-allowed" : "pointer",
+            }}
+          >
+            <i
+              className={`fas fa-sync-alt ${isRefreshing ? "fa-spin" : ""}`}
+            ></i>
+            {/* {isRefreshing ? "Refreshing..." : "Refresh Status"} */}
+          </button>
+        </div>
 
         <div className="mentee-case-study-detail-meta-info">
           <div className="mentee-case-study-detail-meta-item">
@@ -607,7 +660,8 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
                   </button>
                   {!anyQuestionAvailable && (
                     <p className="mentee-case-study-run-avega-note">
-                      No fact-based or analysis-based questions are currently available to attempt.
+                      No fact-based or analysis-based questions are currently
+                      available to attempt.
                     </p>
                   )}
                 </div>
