@@ -204,7 +204,6 @@ const handleValidationUpdate = () => {
             ) : (
               <h2>Create Class</h2>
             )}
-
             <p>Please fill in your details below</p>
           </div>
 

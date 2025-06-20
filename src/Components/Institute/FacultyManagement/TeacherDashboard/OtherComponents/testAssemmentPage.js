@@ -241,6 +241,10 @@ const TestAssessmentPage = () => {
     ];
 
 
+    const [ActivePage, setActivePage] = useState("overview")
+    const [ActiveSubPage, setActiveSubPage] = useState("fact")
+
+
 
 
 
@@ -249,102 +253,19 @@ const TestAssessmentPage = () => {
             {/* Header Navigation */}
             <nav className="single-student-assessment-pages__nav">
                 <div className="single-student-assessment-pages__breadcrumb">
-                    <Home className="single-student-assessment-pages__breadcrumb-icon" />
-                    <span>Dashboard</span>
-                    <span className="single-student-assessment-pages__breadcrumb-separator">{'>'}</span>
-                    <span>Case Studies</span>
-                    <span className="single-student-assessment-pages__breadcrumb-separator">{'>'}</span>
-                    <span>Student Review</span>
+
+                    <span onClick={() => setActivePage("overview")}>Overview</span>
+
+                    <span onClick={() => setActivePage("questions")}>Question</span>
+
+                    <span onClick={() => setActivePage("research")}>Research</span>
                 </div>
             </nav>
 
-            {/* Main Content */}
-            <div className="single-student-assessment-pages__container">
-                <h1 className="single-student-assessment-pages__title">Case Study Review</h1>
 
-                <div className="single-student-assessment-pages__layout">
-                    {/* Left Column */}
-                    <div className="single-student-assessment-pages__left-column">
-                        {/* Performance Breakdown */}
-                        <div className="single-student-assessment-pages__card">
-                            <h2 className="single-student-assessment-pages__card-title">Performance Breakdown</h2>
-                            <div className="single-student-assessment-pages__score-section">
-                                <div className="single-student-assessment-pages__total-score">
-                                    <span className="single-student-assessment-pages__score-large"> {totalObtained}/{totalMax}</span>
-
-
-                                </div>
-
-                                {/* Circular Progress Chart */}
-                                {/* <div className="single-student-assessment-pages__chart-container">
-                                    <div className="single-student-assessment-pages__circular-chart">
-                                        <svg viewBox="0 0 42 42" className="single-student-assessment-pages__donut">
-                                            <circle
-                                                className="single-student-assessment-pages__donut-hole"
-                                                cx="21"
-                                                cy="21"
-                                                r="15.915"
-                                                fill="transparent"
-                                            />
-                                            <circle
-                                                className="single-student-assessment-pages__donut-segment single-student-assessment-pages__donut-segment--analysis"
-                                                cx="21"
-                                                cy="21"
-                                                r="15.915"
-                                                fill="transparent"
-                                                strokeWidth="3"
-                                                strokeDasharray="88 12"
-                                                strokeDashoffset="25"
-                                            />
-                                            <circle
-                                                className="single-student-assessment-pages__donut-segment single-student-assessment-pages__donut-segment--fact"
-                                                cx="21"
-                                                cy="21"
-                                                r="15.915"
-                                                fill="transparent"
-                                                strokeWidth="3"
-                                                strokeDasharray="12 88"
-                                                strokeDashoffset="0"
-                                            />
-                                        </svg>
-                                    </div>
-
-                                    <div className="single-student-assessment-pages__chart-legend">
-                                        <div className="single-student-assessment-pages__legend-item">
-                                            <div className="single-student-assessment-pages__legend-color single-student-assessment-pages__legend-color--analysis"></div>
-                                            <span>Analysis Questions: 88%</span>
-                                        </div>
-                                        <div className="single-student-assessment-pages__legend-item">
-                                            <div className="single-student-assessment-pages__legend-color single-student-assessment-pages__legend-color--fact"></div>
-                                            <span>Fact Questions: 12%</span>
-                                        </div>
-                                    </div>
-                                </div> */}
-                                <div style={{ width: "100%", height: 400 }}>
-                                    {/* <h3>Score Contribution: Analysis vs Fact-Based Questions</h3> */}
-                                    <ResponsiveContainer>
-                                        <PieChart>
-                                            <Pie
-                                                data={chartData}
-                                                cx="50%"
-                                                cy="50%"
-                                                labelLine={true}
-                                                label={({ name, percent }) => `${name} (${(percent * 100).toFixed(1)}%)`}
-                                                outerRadius={120}
-                                                dataKey="value"
-                                            >
-                                                {chartData.map((entry, index) => (
-                                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                                ))}
-                                            </Pie>
-                                            <Tooltip />
-                                            <Legend />
-                                        </PieChart>
-                                    </ResponsiveContainer>
-                                </div>
-                            </div>
-                        </div>
-
+            {ActivePage === "overview" &&
+                <div className="single-student-assessment-pages__Overview-Layout">
+                    <div className="single-student-assessment-pages__Overview-Item">
                         {/* Student Information */}
                         <div className="single-student-assessment-pages__card">
                             <h2 className="single-student-assessment-pages__card-title">Student Information</h2>
@@ -379,12 +300,14 @@ const TestAssessmentPage = () => {
                                 <div className="single-student-assessment-pages__info-item single-student-assessment-pages__info-item--full">
                                     <span className="single-student-assessment-pages__info-label">Categories</span>
                                     <div className="single-student-assessment-pages__tags">
-                                        {JSON.parse(singleData?.case_study_category || '[]')?.map((category, index) => (
+                                        {/* {JSON.parse(singleData?.case_study_category || '[]')?.map((category, index) => (
                                             <span key={index} className="single-student-assessment-pages__tag single-student-assessment-pages__tag--blue">
                                                 {category}
                                             </span>
-                                        ))}
-
+                                        ))} */}
+                                        <span  className="single-student-assessment-pages__tag single-student-assessment-pages__tag--blue">
+                                            {singleData?.case_study_category}
+                                        </span>
                                     </div>
                                 </div>
                                 <div className="single-student-assessment-pages__info-item single-student-assessment-pages__info-item--full">
@@ -395,9 +318,8 @@ const TestAssessmentPage = () => {
                         </div>
                     </div>
 
-                    {/* Right Column */}
-                    <div className="single-student-assessment-pages__right-column">
-                        {/* Status Summary */}
+                    <div className="single-student-assessment-pages__Overview-Item">
+
                         <div className="single-student-assessment-pages__status-card">
                             <div className="single-student-assessment-pages__status-header">
                                 <CheckCircle className="single-student-assessment-pages__status-icon single-student-assessment-pages__status-icon--success" />
@@ -411,25 +333,71 @@ const TestAssessmentPage = () => {
                                             singleData.mentee_result_analysis_details
                                         );
                                         return (
-                                            <div >
+                                            <div className="single-student-assessment-pages__performance-text-Row" >
                                                 <p className="single-student-assessment-pages__performance-text">
                                                     {parsedDetails.performance}
                                                 </p>
+                                                <span className="single-student-assessment-pages__score-large"> {totalObtained}/{totalMax}</span>
                                             </div>
                                         );
                                     } catch (error) {
                                         return <p>Error parsing performance feedback.</p>;
                                     }
                                 })()}
+
                         </div>
 
-                        {/* Fact Questions */}
+                        {/* Performance Breakdown */}
                         <div className="single-student-assessment-pages__card">
-                            <div className="single-student-assessment-pages__section-header">
-                                <h2 className="single-student-assessment-pages__section-title">Fact Questions</h2>
-                            </div>
+                            <h2 className="single-student-assessment-pages__card-title">Performance Breakdown</h2>
+                            <div className="single-student-assessment-pages__score-section">
 
-                            {/* Question 1 */}
+                                <div style={{ width: "100%", height: 400 }}>
+                                    {/* <h3>Score Contribution: Analysis vs Fact-Based Questions</h3> */}
+                                    <ResponsiveContainer>
+                                        <PieChart>
+                                            <Pie
+                                                data={chartData}
+                                                cx="50%"
+                                                cy="50%"
+                                                labelLine={true}
+                                                label={({ name, percent }) => `${name} (${(percent * 100).toFixed(1)}%)`}
+                                                outerRadius={120}
+                                                dataKey="value"
+                                            >
+                                                {chartData.map((entry, index) => (
+                                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                ))}
+                                            </Pie>
+                                            <Tooltip />
+                                            <Legend />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            }
+            {ActivePage === "questions" &&
+                <div className="">
+
+                    <div>
+                        <ul className="single-student-assessment-pages__list">
+                            <li><div onClick={() => setActiveSubPage("fact")}>Fact BAse Question</div></li>
+                            <li><div onClick={() => setActiveSubPage("Analysis")}>Analysis BAse Question</div></li>
+                        </ul>
+                    </div>
+
+                    {ActiveSubPage === "fact" &&
+
+                        /* Fact Questions */
+                        <div className="single-student-assessment-pages__card">
+
+
+
 
                             {factDetails.map((FBQuestion, index) => (
 
@@ -437,14 +405,14 @@ const TestAssessmentPage = () => {
                                     <div className="single-student-assessment-pages__question-header">
                                         <span className="single-student-assessment-pages__question-title">Question {index + 1}</span>
                                     </div>
-                                    <p className="single-student-assessment-pages__question-text">  {FBQuestion?.question}</p>
-                                    <p className="single-student-assessment-pages__answer"> {FBQuestion?.answer}</p>
+                                    <p className="single-student-assessment-pages__question-text">  {FBQuestion?.Question}</p>
+                                    <p className="single-student-assessment-pages__answer"> {FBQuestion?.userAnswer}</p>
                                     <div className="single-student-assessment-pages__question-status">
                                         <CheckCircle className="single-student-assessment-pages__status-icon single-student-assessment-pages__status-icon--success" />
-                                        <span className="single-student-assessment-pages__status-text">{FBQuestion?.feedback}</span>
+                                        <span className="single-student-assessment-pages__status-text">{FBQuestion?.correctAnswer}</span>
                                     </div>
 
-                                    <div className="single-student-assessment-pages__feedback-section">
+                                    {/* <div className="single-student-assessment-pages__feedback-section">
                                         <div className="single-student-assessment-pages__feedback-item single-student-assessment-pages__feedback-item--strength">
                                             <TrendingUp className="single-student-assessment-pages__feedback-icon" />
                                             <div>
@@ -459,7 +427,7 @@ const TestAssessmentPage = () => {
                                                 <p className="single-student-assessment-pages__feedback-text">{FBQuestion?.areaToImprove}</p>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     <div className="single-student-assessment-page__score-row">
                                         <div className="single-student-assessment-page__score-inputs">
@@ -470,19 +438,20 @@ const TestAssessmentPage = () => {
                                                 </span>
                                                 <input
                                                     type="number"
-                                                    value={FBQuestion?.obtainedMark}
-                                                    onChange={(e) =>
-                                                        handleScoreUpdate(
-                                                            "fact",
-                                                            index,
-                                                            "obtainedMark",
-                                                            e.target.value
-                                                        )
-                                                    }
+                                                    value={FBQuestion?.isCorrect ? FBQuestion?.maxMark : 0}
+                                                    // onChange={(e) =>
+                                                    //     handleScoreUpdate(
+                                                    //         "fact",
+                                                    //         index,
+                                                    //         "obtainedMark",
+                                                    //         Number(e.target.value)
+                                                    //     )
+                                                    // }
                                                     className="single-student-assessment-page__score-input"
-                                                />{" "}
+                                                />
+
                                             </div>
-                                            <span className="single-student-assessment-page__score-divider">
+                                            {/* <span className="single-student-assessment-page__score-divider">
                                                 /
                                             </span>
                                             <div className="single-student-assessment-page-flexVertical">
@@ -498,7 +467,7 @@ const TestAssessmentPage = () => {
                                                     }
                                                     className="single-student-assessment-page__score-input"
                                                 />
-                                            </div>{" "}
+                                            </div>{" "} */}
                                         </div>
                                     </div>
                                 </div>
@@ -506,13 +475,13 @@ const TestAssessmentPage = () => {
                             ))}
 
                         </div>
+                    }
 
-                        {/* Analysis Questions */}
+                    {ActiveSubPage === "Analysis" &&
+                        /* Analysis Questions */
 
                         <div className="single-student-assessment-pages__card">
-                            <div className="single-student-assessment-pages__section-header">
-                                <h2 className="single-student-assessment-pages__section-title">Analysis Questions</h2>
-                            </div>
+
                             {/* Analysis Question */}
                             {singleData?.mentee_result_analysis_details &&
                                 analysisDetails?.questions &&
@@ -522,8 +491,8 @@ const TestAssessmentPage = () => {
                                         <div className="single-student-assessment-pages__question-header">
                                             <span className="single-student-assessment-pages__question-title">Question {index + 1}</span>
                                         </div>
-                                        <p className="single-student-assessment-pages__question-text">{ABQuestion?.question}</p>
-                                        <p className="single-student-assessment-pages__answer"> {ABQuestion?.answer}</p>
+                                        <p className="single-student-assessment-pages__question-text">{ABQuestion?.Question}</p>
+                                        <p className="single-student-assessment-pages__answer"> {ABQuestion?.userAnswer}</p>
                                         <div className="single-student-assessment-pages__question-status">
                                             <CheckCircle className="single-student-assessment-pages__status-icon single-student-assessment-pages__status-icon--success" />
                                             <span className="single-student-assessment-pages__status-text">{ABQuestion?.feedback}</span>
@@ -534,7 +503,7 @@ const TestAssessmentPage = () => {
                                                 <TrendingUp className="single-student-assessment-pages__feedback-icon" />
                                                 <div>
                                                     <span className="single-student-assessment-pages__feedback-label">Strengths</span>
-                                                    <p className="single-student-assessment-pages__feedback-text">{ABQuestion?.strength}</p>
+                                                    <p className="single-student-assessment-pages__feedback-text">{ABQuestion?.strengths}</p>
                                                 </div>
                                             </div>
                                             <div className="single-student-assessment-pages__feedback-item single-student-assessment-pages__feedback-item--improvement">
@@ -597,9 +566,9 @@ const TestAssessmentPage = () => {
 
 
                         </div>
-
-                        {/* Overall Performance */}
-                        {/* <div className="single-student-assessment-pages__card">
+                    }
+                    {/* Overall Performance */}
+                    {/* <div className="single-student-assessment-pages__card">
                             <h2 className="single-student-assessment-pages__card-title">Overall Performance</h2>
                             <p className="single-student-assessment-pages__performance-text">
                                 Overall performance is good. Strong in fundamentals, needs improvement in practical application examples.
@@ -611,17 +580,40 @@ const TestAssessmentPage = () => {
                             <button className="single-student-assessment-pages__update-btn">Update Scores</button>
                         </div> */}
 
-                        <div className="single-student-assessment-pages__card">
-                            <div className="single-student-assessment-pages__final-score">
-                                <span className="single-student-assessment-pages__score-label">Total Score</span>
-                                <span className="single-student-assessment-pages__score-value">    {totalObtained}/ {totalMax}</span>
-                            </div>
-                            <button className="single-student-assessment-pages__update-btn" onClick={handleSubmit}>Update Scores</button>
+                    <div className="single-student-assessment-pages__card">
+                        <div className="single-student-assessment-pages__final-score">
+                            <span className="single-student-assessment-pages__score-label">Total Score</span>
+                            <span className="single-student-assessment-pages__score-value">    {totalObtained}/ {totalMax}</span>
                         </div>
+                        <button className="single-student-assessment-pages__update-btn" onClick={handleSubmit}>Update Scores</button>
                     </div>
+
+                </div>}
+
+
+            {ActivePage === "research" && <>{researchDetails.map((FBQuestion, index) => (
+
+                <div className="single-student-assessment-pages__question">
+                    <div className="single-student-assessment-pages__question-header">
+                        <span className="single-student-assessment-pages__question-title">Question {index + 1}</span>
+                    </div>
+                    <p className="single-student-assessment-pages__question-text">  {FBQuestion?.Question}</p>
+                    <p className="single-student-assessment-pages__answer"> {FBQuestion?.userAnswer}</p>
+                    {/* <div className="single-student-assessment-pages__question-status">
+                        <CheckCircle className="single-student-assessment-pages__status-icon single-student-assessment-pages__status-icon--success" />
+                        <span className="single-student-assessment-pages__status-text">{FBQuestion?.correctAnswer}</span>
+                    </div> */}
+
+
+
+
                 </div>
-            </div>
-        </div>
+
+            ))}</>}
+
+
+
+        </div >
     );
 };
 
