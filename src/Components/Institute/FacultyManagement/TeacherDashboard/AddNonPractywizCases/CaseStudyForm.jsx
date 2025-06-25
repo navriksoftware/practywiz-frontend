@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import * as XLSX from "xlsx";
 import { useSelector } from "react-redux";
 import { X } from 'lucide-react';
 import axios from "axios";
@@ -12,6 +13,7 @@ import {
   removeOption,
   updateOption,
   transformQuestionsForAPI,
+  generateQuestionIdSecond,
 } from "./caseStudyUtils";
 import "./CaseStudyForm.css";
 import { ApiURL } from "../../../../../Utils/ApiURL";
@@ -37,13 +39,14 @@ const defaultFormData = {
   researchBasedQuestions: [],
 };
 
-const CaseStudyForm = ({ setActivePage,showQuestion, setEditQuestion }) => {
+const CaseStudyForm = ({ setActivePage, showQuestion, setEditQuestion }) => {
   // Get facultyId from Redux
   const facultyData = useSelector((state) => state.faculty.facultyDtls);
   const facultyId = facultyData?.faculty_id;
   console.log("hello this is the data i want to show to the page", showQuestion);
   const url = ApiURL();
 
+  console.log(setEditQuestion)
 
 
   const [formData, setFormData] = useState(() => {
@@ -219,7 +222,7 @@ const CaseStudyForm = ({ setActivePage,showQuestion, setEditQuestion }) => {
           <div>
             <button
               type="button"
-              onClick={() => handleRemoveQuestion(type, index)}
+              onClick={() => handleRemoveQuestion(type, index, setFormData)}
               className="non-practywiz-case-add-remove-button"
               title="Remove this question"
             >
@@ -561,6 +564,100 @@ const CaseStudyForm = ({ setActivePage,showQuestion, setEditQuestion }) => {
 
 
 
+  // ---------------------------------------------
+
+  const fileInputRef = useRef(null); // ✅ file input ref
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (evt) => {
+      const data = new Uint8Array(evt.target.result);
+      const workbook = XLSX.read(data, { type: "array" });
+
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+      let updatedForm = { ...formData };
+      const factBase = [];
+      const analysisBase = [];
+      const researchBase = [];
+
+      // ✅ Get starting counters based on existing questions in formData
+      let factCount = updatedForm.factBasedQuestions?.length || 0;
+      let analysisCount = updatedForm.analysisBasedQuestions?.length || 0;
+      let researchCount = updatedForm.researchBasedQuestions?.length || 0;
+
+      jsonData.forEach((row) => {
+        const type = row["Question Type"]?.toLowerCase();
+
+        let id = "";
+        if (type === "fact based") {
+          factCount++;
+          id = `FQ${factCount}`;
+        } else if (type === "analysis based") {
+          analysisCount++;
+          id = `AQ${analysisCount}`;
+        } else if (type === "research based") {
+          researchCount++;
+          id = `RQ${researchCount}`;
+        }
+
+        const formatted = {
+          id,
+          Question: row["Question"] || "",
+          maxMark: row["Max Mark"] ? parseInt(row["Max Mark"]) : undefined,
+          questionType:
+            type === "fact based"
+              ? "multiple-choice"
+              : type === "analysis based" || type === "research based"
+                ? "subjective"
+                : "",
+          correctAnswer:
+            type === "analysis based" ? row["Answer"] || "" : "",
+          options:
+            type === "fact based" && row["Answer"]
+              ? row["Answer"].split(",").map((opt) => opt.trim())
+              : [],
+        };
+
+        if (type === "fact based") factBase.push(formatted);
+        else if (type === "analysis based") analysisBase.push(formatted);
+        else if (type === "research based") researchBase.push(formatted);
+      });
+
+      setFormData((prev) => ({
+        ...prev,
+        factBasedQuestions: [...prev.factBasedQuestions, ...factBase],
+        analysisBasedQuestions: [...prev.analysisBasedQuestions, ...analysisBase],
+        researchBasedQuestions: [...prev.researchBasedQuestions, ...researchBase],
+      }));
+
+      // ✅ Reset the file input so same file can be re-uploaded
+      if (fileInputRef.current) fileInputRef.current.value = null;
+
+    };
+
+    reader.readAsArrayBuffer(file);
+  };
+
+
+  const handleTemplateDownload = () => {
+    const link = document.createElement("a");
+    link.href = "/Question_Template.xlsx"; // Make sure file is in /public folder
+    link.download = "Question_Template.xlsx";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+
+
+
+
   return (
     <div className="non-practywiz-case-add-container">
       {showQuestion && typeof showQuestion === "object" && <div className="Edit-QuestionShow-CloseBtn" onClick={() => {
@@ -637,7 +734,17 @@ const CaseStudyForm = ({ setActivePage,showQuestion, setEditQuestion }) => {
         </div>
 
         <div className="non-practywiz-case-add-section">
-          <h2>Questions</h2>
+          <div className="non-practywiz-case-add-rowBtn"> <h2>Questions</h2>
+            <div className="non-practywiz-case-add-DisplayFlexItem">  <span onClick={handleTemplateDownload}>
+              Download template
+            </span>
+              <label className="non-practywiz-case-add-custom-file-upload">
+                Import Excel
+                <input type="file" ref={fileInputRef} accept=".xlsx, .xls" onChange={handleFileUpload} hidden />
+              </label></div>
+
+          </div>
+
 
           <div className="non-practywiz-case-add-tabs">
             <button

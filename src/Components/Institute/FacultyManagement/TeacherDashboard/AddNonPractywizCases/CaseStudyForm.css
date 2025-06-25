@@ -9,13 +9,13 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Arial,
     sans-serif;
   overflow: hidden;
-   position: relative;
+  position: relative;
 }
 
 .non-practywiz-case-add-header {
   background: linear-gradient(135deg, #1e66f5 0%, #0952dc 100%);
   color: white;
-  padding: 48px 32px;
+  padding: 15px 32px;
   text-align: center;
   margin-bottom: 0;
   position: relative;
@@ -186,15 +186,11 @@
   border-left-color: #1e66f5;
 }
 
-.non-practywiz-case-add-enhanced-card:has(
-    .non-practywiz-case-add-badge-analysis
-  ) {
+.non-practywiz-case-add-enhanced-card:has(.non-practywiz-case-add-badge-analysis) {
   border-left-color: #f97316;
 }
 
-.non-practywiz-case-add-enhanced-card:has(
-    .non-practywiz-case-add-badge-research
-  ) {
+.non-practywiz-case-add-enhanced-card:has(.non-practywiz-case-add-badge-research) {
   border-left-color: #8b5cf6;
 }
 
@@ -439,11 +435,13 @@
     align-items: flex-start;
     gap: 8px;
   }
-    .non-practywiz-case-add-add-option-button {
-      align-items: center;
-      justify-content: center;
-  
-    }
+
+  .non-practywiz-case-add-add-option-button {
+    align-items: center;
+    justify-content: center;
+
+  }
+
   .non-practywiz-case-add-question-badge {
     font-size: 0.75rem;
     padding: 4px 12px;
@@ -456,12 +454,13 @@
     gap: 8px;
     min-width: 30px;
   }
-    .non-practywiz-case-add-form-group{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
+
+  .non-practywiz-case-add-form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
 
   /* .non-practywiz-case-add-option-index {
     position: absolute;
@@ -576,7 +575,7 @@
   .non-practywiz-case-add-tabs {
     flex-direction: row;
   }
-    
+
 }
 
 /* Print styles */
@@ -598,4 +597,41 @@
   .non-practywiz-case-add-submit-button {
     display: none;
   }
+}
+
+.non-practywiz-case-add-custom-file-upload {
+  display: inline-block;
+  padding: 1px 11px;
+  background-color: #0952dc;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  height: 2rem;
+}
+
+.non-practywiz-case-add-custom-file-upload:hover {
+  background-color: #2980b9;
+}
+
+.non-practywiz-case-add-rowBtn {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.non-practywiz-case-add-DisplayFlexItem {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+
+}
+
+.non-practywiz-case-add-DisplayFlexItem span {
+
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+
+
 }

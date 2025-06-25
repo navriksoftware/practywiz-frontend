@@ -90,7 +90,7 @@ import DemoResultPage from "./Pages/CaseStudyPages/DemoResultPage";
 import SingleNonPractywizCaseStudy from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleNonPractywizCaseStudy";
 import SingleStudentAssessmentPage from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleStudentAssessmentPage";
 import AvegaLandingPage from "./Pages/OtherLandingPages/AvegaLandingPage";
-
+import  FacultyProbeDashboard from "../src/Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/FacultyProbeDashboard.js"
 
 
 function App() {
@@ -343,6 +343,17 @@ function App() {
           {/* internship end */}
           <Route path="/legal/terms" element={<TermsConditionsPage />} />
           <Route path="/legal/privacy-policy" element={<PrivacyPolicyPage />} />
+
+
+          {/* faculty probes pages access */}
+          <Route
+            path="/Faculty/Probe/Dashboard"
+            element={<FacultyProbeDashboard/>}
+          />
+
+
+
+
         </Routes>
       </Router>
       <ScrollButton />
