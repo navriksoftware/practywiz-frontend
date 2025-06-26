@@ -160,7 +160,7 @@
   justify-content: center;
 }
 
-.mentee-new-dashboard-stat-item > div:last-child {
+.mentee-new-dashboard-stat-item>div:last-child {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -272,10 +272,86 @@
   color: var(--mentee-dashboard-profile-primary-dark);
 }
 
+.new-mentee-profile-recommended-mentor-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.new-mentee-profile-mentor-nav-btn {
+  background: #fff;
+  border: 1px solid var(--mentee-dashboard-profile-gray-300);
+  border-radius: var(--mentee-dashboard-profile-radius);
+  padding: 0.5rem;
+  color: var(--mentee-dashboard-profile-gray-600);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.new-mentee-profile-mentor-nav-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--mentee-dashboard-profile-primary);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+
+.new-mentee-profile-mentor-nav-btn svg {
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.new-mentee-profile-mentor-nav-btn:hover:not(.disabled)::before {
+  transform: translateY(0);
+}
+
+.new-mentee-profile-mentor-nav-btn:hover:not(.disabled) {
+  color: #fff;
+  border-color: var(--mentee-dashboard-profile-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--mentee-dashboard-profile-shadow-md);
+}
+
+.new-mentee-profile-mentor-nav-btn:hover:not(.disabled) svg {
+  transform: scale(1.1);
+}
+
+.new-mentee-profile-mentor-nav-btn.disabled {
+  background: var(--mentee-dashboard-profile-gray-100);
+  color: var(--mentee-dashboard-profile-gray-400);
+  cursor: not-allowed;
+  border-color: var(--mentee-dashboard-profile-gray-200);
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.new-mentee-profile-mentor-nav-btn.disabled::before {
+  display: none;
+}
+
+.new-mentee-profile-recommended-mentor-carousel {
+  overflow: hidden;
+  width: 100%;
+}
+
 .new-mentee-profile-recommended-mentor-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  display: flex;
   gap: 1rem;
+  width: 100%;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .new-mentee-profile-recommended-mentor-card {
@@ -286,12 +362,45 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex: 0 0 calc(25% - 0.75rem);
+  /* 4 cards on desktop */
+  min-width: 0;
+}
+
+/* Responsive design for mentor cards */
+@media (max-width: 1200px) {
+  .new-mentee-profile-recommended-mentor-card {
+    flex: 0 0 calc(33.333% - 0.67rem);
+    /* 3 cards on large tablets */
+  }
+}
+
+@media (max-width: 900px) {
+  .new-mentee-profile-recommended-mentor-card {
+    flex: 0 0 calc(50% - 0.5rem);
+    /* 2 cards on tablets */
+  }
+
+  .new-mentee-profile-recommended-mentor-list {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .new-mentee-profile-recommended-mentor-card {
+    flex: 0 0 calc(100% - 0rem);
+    /* 1 card on mobile */
+  }
+
+  .new-mentee-profile-recommended-mentor-list {
+    gap: 0.5rem;
+  }
 }
 
 .new-mentee-profile-recommended-mentor-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--mentee-dashboard-profile-shadow-md);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--mentee-dashboard-profile-shadow-lg);
 }
 
 .new-mentee-profile-recommended-mentor-row {
@@ -361,11 +470,21 @@
   font-weight: 500;
 }
 
-.new-mentee-profile-recommended-mentor-footer {
+/* .new-mentee-profile-recommended-mentor-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 0.5rem;
+} */
+
+.new-mentee-profile-recommended-mentor-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  /* This pushes the footer to the bottom */
+  padding-top: 0.5rem;
+  /* Add some spacing from content above */
 }
 
 .new-mentee-profile-recommended-mentor-availability {
@@ -484,16 +603,6 @@
   font-size: 0.75rem;
   padding: 0.25rem 0.75rem;
   font-weight: 500;
-}
-
-.new-mentee-profile-upcomming-session-mentor-tag.ux {
-  background-color: #dbeafe;
-  color: #2563eb;
-}
-
-.new-mentee-profile-upcomming-session-mentor-tag.pm {
-  background-color: var(--mentee-dashboard-profile-secondary-light);
-  color: var(--mentee-dashboard-profile-secondary-dark);
 }
 
 .new-mentee-profile-upcomming-session-topic {
@@ -1010,6 +1119,71 @@
 
 .internship-rec-cta:hover {
   background: var(--mentee-dashboard-profile-primary-dark);
+}
+
+/* Progress indicator */
+.new-mentee-profile-mentor-progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: var(--mentee-dashboard-profile-gray-50);
+  border-radius: var(--mentee-dashboard-profile-radius);
+}
+
+.new-mentee-profile-mentor-progress-text {
+  font-size: 0.875rem;
+  color: var(--mentee-dashboard-profile-gray-600);
+  font-weight: 500;
+}
+
+/* Pagination dots */
+.new-mentee-profile-mentor-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.new-mentee-profile-mentor-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  border: none;
+  background: var(--mentee-dashboard-profile-gray-300);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.new-mentee-profile-mentor-dot::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--mentee-dashboard-profile-primary);
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.new-mentee-profile-mentor-dot:hover::before {
+  transform: scale(1);
+}
+
+.new-mentee-profile-mentor-dot.active {
+  background: var(--mentee-dashboard-profile-primary);
+  transform: scale(1.2);
+}
+
+.new-mentee-profile-mentor-dot.active::before {
+  transform: scale(1);
 }
 
 /* SCROLLBAR STYLING */

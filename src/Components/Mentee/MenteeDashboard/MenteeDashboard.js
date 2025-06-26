@@ -26,6 +26,7 @@ import AppliedInternships from "../../Employer/Internships/OtherComponents/Inter
 import InternshipProfileMain from "./MenteeInternship/InternshipProfileMain";
 import CaseStudyAssignList from "./OtherComponents/CaseStudyAssignList.js";
 import MenteeDashboardNew from "./OtherComponents/MenteeDashboardProfileNew.js";
+import MenteeDashboardProfileNew from "./OtherComponents/MenteeDashboardProfileNew.js";
 // import MenteeMenteeInternshipPage from "./OtherComponents/MenteeMenteeInternshipPage";
 // end
 const MenteeDashboard = ({ user, token }) => {
@@ -62,6 +63,7 @@ const MenteeDashboard = ({ user, token }) => {
   const [mySessionInfo, setMySessionInfo] = useState(false);
   const [loading, setLoading] = useState(false); // State for loading
   const [caseStudyShowList, setcaseStudyShowList] = useState(false);
+  const [singleMenteeDtlsId, setSingleMenteeDtlsId] = useState();
 
   const MenteeNotificationHandler = () => {
     if (!showNotification) {
@@ -381,7 +383,6 @@ const MenteeDashboard = ({ user, token }) => {
   };
 
   const menteeDtlsId = user?.user_id;
-
   useEffect(() => {
     const fetchSingleMentee = async () => {
       setLoading(true); // Show spinner
@@ -392,6 +393,7 @@ const MenteeDashboard = ({ user, token }) => {
         );
         if (response.data.success) {
           setSingleMentee(response.data.success);
+          setSingleMenteeDtlsId(response.data.success[0].mentee_dtls_id);
           dispatch(setSingleMenteeDetails(response.data.success));
         } else {
           setSingleMentee(null);
@@ -1037,7 +1039,7 @@ const MenteeDashboard = ({ user, token }) => {
             {/* </div>
         <div className="mob-main"> */}
             {showMenteeProfile && (
-              <MenteeDashboardNew
+              <MenteeProfileDashboard
                 singleMentee={singleMentee}
                 user={user}
                 token={token}
