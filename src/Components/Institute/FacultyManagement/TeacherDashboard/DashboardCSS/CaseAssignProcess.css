@@ -27,6 +27,7 @@
   font-weight: 700;
   margin-bottom: 15px;
   color: #1a1a1a;
+  overflow-wrap: break-word;
 }
 
 .case-assign-to-student-tags {
@@ -54,6 +55,7 @@
   line-height: 1.6;
   color: #4a4a4a;
   margin-bottom: 20px;
+  overflow-wrap: break-word;
 }
 
 .case-assign-to-student-course-info {
@@ -345,9 +347,9 @@
 }
 
 .Non-practywiz-case-assign-to-student-question {
- 
-    max-height: 46vh;
-    overflow: hidden;
+
+  max-height: 46vh;
+  overflow: hidden;
 }
 
 /* Responsive Styles */

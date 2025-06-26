@@ -738,11 +738,19 @@
   flex-direction: column;
 }
 .casestudyShowModel-QuestionShow-close-button{
-    position: absolute;
-    right: 4rem;
+  position: absolute;
+    top: 0;
+    /* Align to top */
+    right: 0;
+    /* Align to right */
     border: none;
-    border-radius: 8px;
+    border-radius: 20px;
     color: white;
     cursor: pointer;
-    padding: 10px;
+    padding: 0.5em;
+    background-color: gray;
+    opacity: 0.8;
+  }
+.casestudyShowModel-QuestionShow-close-button:hover {
+  opacity: 1;
 }

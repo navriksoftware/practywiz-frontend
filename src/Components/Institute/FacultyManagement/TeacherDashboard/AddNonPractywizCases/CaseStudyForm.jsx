@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import * as XLSX from "xlsx";
 import { useSelector } from "react-redux";
+import { X } from 'lucide-react';
 import axios from "axios";
 import {
   generateQuestionId,
@@ -11,6 +13,7 @@ import {
   removeOption,
   updateOption,
   transformQuestionsForAPI,
+  generateQuestionIdSecond,
 } from "./caseStudyUtils";
 import "./CaseStudyForm.css";
 import { ApiURL } from "../../../../../Utils/ApiURL";
@@ -36,21 +39,52 @@ const defaultFormData = {
   researchBasedQuestions: [],
 };
 
-const CaseStudyForm = () => {
+const CaseStudyForm = ({ setActivePage, showQuestion, setEditQuestion }) => {
   // Get facultyId from Redux
   const facultyData = useSelector((state) => state.faculty.facultyDtls);
   const facultyId = facultyData?.faculty_id;
-
+  console.log("hello this is the data i want to show to the page", showQuestion);
   const url = ApiURL();
+
+  console.log(setEditQuestion)
+
 
   const [formData, setFormData] = useState(() => {
     try {
-      const saved = localStorage.getItem("caseStudyFormData");
-      return saved ? JSON.parse(saved) : defaultFormData;
-    } catch {
+      if (showQuestion && typeof showQuestion === "object") {
+        const {
+          non_practywiz_case_title,
+          non_practywiz_case_author,
+          non_practywiz_case_category,
+          non_practywiz_case_question
+        } = showQuestion;
+
+        let parsedQuestions = {};
+        try {
+          parsedQuestions = JSON.parse(non_practywiz_case_question);
+        } catch (e) {
+          console.error("Failed to parse questions JSON:", e);
+        }
+
+        return {
+          title: non_practywiz_case_title || "",
+          author: non_practywiz_case_author || "",
+          category: non_practywiz_case_category || "",
+          factBasedQuestions: parsedQuestions.factBasedQuestions || [],
+          analysisBasedQuestions: parsedQuestions.analysisBasedQuestions || [],
+          researchBasedQuestions: parsedQuestions.researchBasedQuestions || [],
+        };
+      } else {
+        // Fallback to localStorage if no showQuestion is provided
+        const saved = localStorage.getItem("caseStudyFormData");
+        return saved ? JSON.parse(saved) : defaultFormData;
+      }
+    } catch (e) {
+      console.error("Error initializing form data:", e);
       return defaultFormData;
     }
   });
+
 
   const [activeTab, setActiveTab] = useState("fact");
   const [errors, setErrors] = useState({});
@@ -58,6 +92,7 @@ const CaseStudyForm = () => {
 
   // Auto-save to localStorage
   useEffect(() => {
+
     localStorage.setItem("caseStudyFormData", JSON.stringify(formData));
   }, [formData]);
 
@@ -149,6 +184,8 @@ const CaseStudyForm = () => {
         analysisBasedQuestions: [],
         researchBasedQuestions: [],
       });
+      setActivePage("store")
+
     } catch (error) {
       toast.error("Failed to publish case study");
     } finally {
@@ -176,7 +213,7 @@ const CaseStudyForm = () => {
               {isFact && "Multiple Choice"}
               {isAnalysis && "Subjective"}
               {isResearch &&
-                (question.question_format === "multiple-choice"
+                (question.questionType === "multiple-choice"
                   ? "Multiple Choice"
                   : "Subjective")}
             </div>
@@ -185,7 +222,7 @@ const CaseStudyForm = () => {
           <div>
             <button
               type="button"
-              onClick={() => handleRemoveQuestion(type, index)}
+              onClick={() => handleRemoveQuestion(type, index, setFormData)}
               className="non-practywiz-case-add-remove-button"
               title="Remove this question"
             >
@@ -261,12 +298,12 @@ const CaseStudyForm = () => {
             <div className="non-practywiz-case-add-form-group">
               <label>Answer</label>
               <select
-                value={question.modelAnswer}
+                value={question.correctAnswer}
                 onChange={(e) =>
                   handleUpdateQuestion(
                     type,
                     index,
-                    "modelAnswer",
+                    "correctAnswer",
                     e.target.value
                   )
                 }
@@ -295,9 +332,9 @@ const CaseStudyForm = () => {
           <div className="non-practywiz-case-add-form-group">
             <label>Answer</label>
             <textarea
-              value={question.modelAnswer}
+              value={question.correctAnswer}
               onChange={(e) =>
-                handleUpdateQuestion(type, index, "modelAnswer", e.target.value)
+                handleUpdateQuestion(type, index, "correctAnswer", e.target.value)
               }
               placeholder="Enter the answer..."
               className="non-practywiz-case-add-textarea"
@@ -316,13 +353,13 @@ const CaseStudyForm = () => {
             <div className="non-practywiz-case-add-form-group">
               <label>Question Type</label>
               <select
-                value={question.question_format}
+                value={question.questionType}
                 onChange={(e) => {
                   const newFormat = e.target.value;
                   handleUpdateQuestion(
                     type,
                     index,
-                    "question_format",
+                    "questionType",
                     newFormat
                   );
                   if (newFormat === "subjective") {
@@ -337,7 +374,7 @@ const CaseStudyForm = () => {
                 <option value="subjective">Subjective</option>
               </select>
             </div>
-            {question.question_format === "multiple-choice" && (
+            {question.questionType === "multiple-choice" && (
               <div className="non-practywiz-case-add-form-group">
                 <label>Options</label>
                 {question.options.map((option, optIndex) => (
@@ -446,8 +483,187 @@ const CaseStudyForm = () => {
     );
   };
 
+  const handleUpdateForm = async (e) => {
+    e.preventDefault();
+
+    const hasFact = formData.factBasedQuestions.length > 0;
+    const hasAnalysis = formData.analysisBasedQuestions.length > 0;
+
+    // Validation: Ensure at least one question
+    if (!hasFact && !hasAnalysis) {
+      toast.error(
+        "Please add at least one Fact-Based or Analysis-Based question before publishing."
+      );
+      return;
+    }
+
+    // Validate form fields
+    if (!handleValidateForm()) {
+      toast.error("Please fix the errors before submitting.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Prepare the request payload
+      const apiData = {
+        title: formData.title.trim(),
+        author: formData.author.trim(),
+        category: formData.category.trim(),
+        facultyId: facultyId,
+        caseStudyId: showQuestion?.non_practywiz_case_dtls_id,
+        questions: {
+          factBasedQuestions: transformQuestionsForAPI(
+            formData.factBasedQuestions,
+            "fact"
+          ),
+          analysisBasedQuestions: transformQuestionsForAPI(
+            formData.analysisBasedQuestions,
+            "analysis"
+          ),
+          researchBasedQuestions: transformQuestionsForAPI(
+            formData.researchBasedQuestions,
+            "research"
+          ),
+        },
+      };
+
+      // Make the API request
+      const response = await axios.post(
+        `${url}api/v1/faculty/case-study/add-non-practywiz-case/update`,
+        apiData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      toast.success("Case study updated successfully!");
+
+      // Reset form state
+      setFormData({
+        title: "",
+        author: "",
+        category: "",
+        factBasedQuestions: [],
+        analysisBasedQuestions: [],
+        researchBasedQuestions: [],
+      });
+
+      // Clear saved draft
+      localStorage.removeItem("caseStudyFormData");
+    } catch (error) {
+      console.error("Update failed:", error);
+      toast.error("Failed to update the case study. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
+  // ---------------------------------------------
+
+  const fileInputRef = useRef(null); // ✅ file input ref
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (evt) => {
+      const data = new Uint8Array(evt.target.result);
+      const workbook = XLSX.read(data, { type: "array" });
+
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+      let updatedForm = { ...formData };
+      const factBase = [];
+      const analysisBase = [];
+      const researchBase = [];
+
+      // ✅ Get starting counters based on existing questions in formData
+      let factCount = updatedForm.factBasedQuestions?.length || 0;
+      let analysisCount = updatedForm.analysisBasedQuestions?.length || 0;
+      let researchCount = updatedForm.researchBasedQuestions?.length || 0;
+
+      jsonData.forEach((row) => {
+        const type = row["Question Type"]?.toLowerCase();
+
+        let id = "";
+        if (type === "fact based") {
+          factCount++;
+          id = `FQ${factCount}`;
+        } else if (type === "analysis based") {
+          analysisCount++;
+          id = `AQ${analysisCount}`;
+        } else if (type === "research based") {
+          researchCount++;
+          id = `RQ${researchCount}`;
+        }
+
+        const formatted = {
+          id,
+          Question: row["Question"] || "",
+          maxMark: row["Max Mark"] ? parseInt(row["Max Mark"]) : undefined,
+          questionType:
+            type === "fact based"
+              ? "multiple-choice"
+              : type === "analysis based" || type === "research based"
+                ? "subjective"
+                : "",
+          correctAnswer:
+            type === "analysis based" ? row["Answer"] || "" : "",
+          options:
+            type === "fact based" && row["Answer"]
+              ? row["Answer"].split(",").map((opt) => opt.trim())
+              : [],
+        };
+
+        if (type === "fact based") factBase.push(formatted);
+        else if (type === "analysis based") analysisBase.push(formatted);
+        else if (type === "research based") researchBase.push(formatted);
+      });
+
+      setFormData((prev) => ({
+        ...prev,
+        factBasedQuestions: [...prev.factBasedQuestions, ...factBase],
+        analysisBasedQuestions: [...prev.analysisBasedQuestions, ...analysisBase],
+        researchBasedQuestions: [...prev.researchBasedQuestions, ...researchBase],
+      }));
+
+      // ✅ Reset the file input so same file can be re-uploaded
+      if (fileInputRef.current) fileInputRef.current.value = null;
+
+    };
+
+    reader.readAsArrayBuffer(file);
+  };
+
+
+  const handleTemplateDownload = () => {
+    const link = document.createElement("a");
+    link.href = "/Question_Template.xlsx"; // Make sure file is in /public folder
+    link.download = "Question_Template.xlsx";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+
+
+
+
   return (
     <div className="non-practywiz-case-add-container">
+      {showQuestion && typeof showQuestion === "object" && <div className="Edit-QuestionShow-CloseBtn" onClick={() => {
+        setEditQuestion(false)
+        localStorage.removeItem("caseStudyFormData");
+      }}>  <X size={24} /></div>}
       <div className="non-practywiz-case-add-header">
         <h1>Add New Case Study</h1>
         <p>Create a new non Practywiz case study for students</p>
@@ -518,37 +734,44 @@ const CaseStudyForm = () => {
         </div>
 
         <div className="non-practywiz-case-add-section">
-          <h2>Questions</h2>
+          <div className="non-practywiz-case-add-rowBtn"> <h2>Questions</h2>
+            <div className="non-practywiz-case-add-DisplayFlexItem">  <span onClick={handleTemplateDownload}>
+              Download template
+            </span>
+              <label className="non-practywiz-case-add-custom-file-upload">
+                Import Excel
+                <input type="file" ref={fileInputRef} accept=".xlsx, .xls" onChange={handleFileUpload} hidden />
+              </label></div>
+
+          </div>
+
 
           <div className="non-practywiz-case-add-tabs">
             <button
               type="button"
               onClick={() => setActiveTab("fact")}
-              className={`non-practywiz-case-add-tab${
-                activeTab === "fact" ? " non-practywiz-case-add-active-tab" : ""
-              }`}
+              className={`non-practywiz-case-add-tab${activeTab === "fact" ? " non-practywiz-case-add-active-tab" : ""
+                }`}
             >
               Fact-Based
             </button>
             <button
               type="button"
               onClick={() => setActiveTab("analysis")}
-              className={`non-practywiz-case-add-tab${
-                activeTab === "analysis"
-                  ? " non-practywiz-case-add-active-tab"
-                  : ""
-              }`}
+              className={`non-practywiz-case-add-tab${activeTab === "analysis"
+                ? " non-practywiz-case-add-active-tab"
+                : ""
+                }`}
             >
               Analysis-Based
             </button>
             <button
               type="button"
               onClick={() => setActiveTab("research")}
-              className={`non-practywiz-case-add-tab${
-                activeTab === "research"
-                  ? " non-practywiz-case-add-active-tab"
-                  : ""
-              }`}
+              className={`non-practywiz-case-add-tab${activeTab === "research"
+                ? " non-practywiz-case-add-active-tab"
+                : ""
+                }`}
             >
               Research-Based
             </button>
@@ -561,17 +784,30 @@ const CaseStudyForm = () => {
             renderQuestionsTab("research", "Research-Based")}
         </div>
 
-        <div className="non-practywiz-case-add-submit-section">
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={loading}
-            className="non-practywiz-case-add-submit-button"
-            style={{ opacity: loading ? 0.6 : 1 }}
-          >
-            {loading ? "Publishing..." : "Publish Case Study"}
-          </button>
-        </div>
+        {showQuestion && typeof showQuestion === "object" ?
+          <div className="non-practywiz-case-add-submit-section">
+            <button
+              type="button"
+              onClick={handleUpdateForm}
+              disabled={loading}
+              className="non-practywiz-case-add-submit-button"
+              style={{ opacity: loading ? 0.6 : 1 }}
+            >
+              {loading ? "Saving..." : "Save Changes"}
+            </button>
+          </div> :
+          <div className="non-practywiz-case-add-submit-section">
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={loading}
+              className="non-practywiz-case-add-submit-button"
+              style={{ opacity: loading ? 0.6 : 1 }}
+            >
+              {loading ? "Publishing..." : "Publish Case Study"}
+            </button>
+          </div>
+        }
       </div>
     </div>
   );

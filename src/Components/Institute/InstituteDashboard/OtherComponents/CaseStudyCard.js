@@ -28,7 +28,7 @@ function CaseStudyCard({ data }) {
         </div> */}
           <div>
             {/* <span className="case-sub-head">Extract: </span> */}
-            <p className="card-excerpt">{data.case_study_content}</p>
+            <p className="card-excerpt">{data?.case_study_content?.slice(0,500)+ "..."}</p>
           </div>
           <div className="sub-container-date">
             {/* <span className="case-study-category-badge">

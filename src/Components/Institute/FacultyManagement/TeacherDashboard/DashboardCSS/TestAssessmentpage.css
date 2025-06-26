@@ -1,0 +1,1006 @@
+/* StudentAssessment.css */
+
+/* Reset and base styles */
+.single-student-assessment-pages {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  color: #000000;
+  line-height: 1.6;
+}
+
+/* Navigation */
+.single-student-assessment-pages__nav {
+  background-color: #3b82f6;
+  padding: 1rem 2rem;
+  color: white;
+  margin-bottom: 2rem;
+
+
+}
+
+.single-student-assessment-pages__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.single-student-assessment-pages__breadcrumb-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.single-student-assessment-pages__breadcrumb-separator {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Container and layout */
+.single-student-assessment-pages__container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.single-student-assessment-pages__title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #000000;
+}
+
+.single-student-assessment-pages__layout {
+  display: grid;
+  grid-template-columns: 0.7fr 2fr;
+  gap: 2rem;
+}
+
+/* Columns */
+.single-student-assessment-pages__left-column,
+.single-student-assessment-pages__right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Cards */
+/* .single-student-assessment-pages__card {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+} */
+
+.single-student-assessment-pages__card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+
+  color: #000000;
+}
+
+/* Status card */
+.single-student-assessment-pages__status-card {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.single-student-assessment-pages__status-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+}
+
+.single-student-assessment-pages__status-description {
+  color: #000000;
+  margin: 0;
+}
+
+.single-student-assessment-pages__status-date {
+  margin-left: auto;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+/* Performance breakdown */
+.single-student-assessment-pages__score-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.single-student-assessment-pages__total-score {
+  text-align: center;
+}
+
+.single-student-assessment-pages__score-large {
+  display: block;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 0.5rem;
+}
+
+.single-student-assessment-pages__score-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.single-student-assessment-pages__score-date {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+/* Circular chart */
+.single-student-assessment-pages__chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.single-student-assessment-pages__circular-chart {
+  width: 120px;
+  height: 120px;
+}
+
+.single-student-assessment-pages__donut {
+  width: 100%;
+  height: 100%;
+}
+
+.single-student-assessment-pages__donut-hole {
+  stroke: #f1f5f9;
+  stroke-width: 1;
+}
+
+.single-student-assessment-pages__donut-segment {
+  stroke-linecap: round;
+}
+
+.single-student-assessment-pages__donut-segment--analysis {
+  stroke: #3b82f6;
+}
+
+.single-student-assessment-pages__donut-segment--fact {
+  stroke: #10b981;
+}
+
+.single-student-assessment-pages__chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.single-student-assessment-pages__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.single-student-assessment-pages__legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.single-student-assessment-pages__legend-color--analysis {
+  background-color: #3b82f6;
+}
+
+.single-student-assessment-pages__legend-color--fact {
+  background-color: #10b981;
+}
+
+/* Information grid */
+.single-student-assessment-pages__info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.single-student-assessment-pages__info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.single-student-assessment-pages__info-item--full {
+  grid-column: 1 / -1;
+}
+
+.single-student-assessment-pages__info-label {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.single-student-assessment-pages__info-value {
+  color: #000000;
+  font-weight: 500;
+}
+
+/* Tags */
+.single-student-assessment-pages__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.single-student-assessment-pages__tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.single-student-assessment-pages__tag--blue {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.single-student-assessment-pages__tag--purple {
+  background-color: #ede9fe;
+  color: #7c3aed;
+}
+
+.single-student-assessment-pages__tag--green {
+  background-color: #d1fae5;
+  color: #059669;
+}
+
+/* Section headers */
+.single-student-assessment-pages__section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.single-student-assessment-pages__section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Questions */
+.single-student-assessment-pages__question {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  background: #fafafa;
+}
+
+.single-student-assessment-pages__question:last-child {
+  margin-bottom: 0;
+}
+
+.single-student-assessment-pages__question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.single-student-assessment-pages__question-title {
+  font-weight: 600;
+  color: #000000;
+}
+
+.single-student-assessment-pages__question-score {
+  font-weight: 600;
+  color: #64748b;
+}
+
+.single-student-assessment-pages__question-text {
+  margin-bottom: 0.75rem;
+  color: #000000;
+}
+
+.single-student-assessment-pages__answer {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 0.375rem;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-family: monospace;
+}
+
+/* Question status */
+.single-student-assessment-pages__question-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+}
+
+.single-student-assessment-pages__question-status--error {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+
+.single-student-assessment-pages__question-status--warning {
+  background-color: #fffbeb;
+  border-color: #fed7aa;
+}
+
+/* Status icons */
+.single-student-assessment-pages__status-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+.single-student-assessment-pages__status-icon--success {
+  color: #10b981;
+}
+
+.single-student-assessment-pages__status-icon--error {
+  color: #ef4444;
+}
+
+.single-student-assessment-pages__status-text {
+  font-weight: 500;
+}
+
+/* Feedback section */
+.single-student-assessment-pages__feedback-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.single-student-assessment-pages__feedback-item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.single-student-assessment-pages__feedback-item--strength {
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+}
+
+.single-student-assessment-pages__feedback-item--improvement {
+  background-color: #fffbeb;
+  border: 1px solid #fed7aa;
+}
+
+.single-student-assessment-pages__feedback-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.single-student-assessment-pages__feedback-item--strength .single-student-assessment-pages__feedback-icon {
+  color: #3b82f6;
+}
+
+.single-student-assessment-pages__feedback-item--improvement .single-student-assessment-pages__feedback-icon {
+  color: #f59e0b;
+}
+
+.single-student-assessment-pages__feedback-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.single-student-assessment-pages__feedback-text {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #000000;
+}
+
+/* Overall performance */
+.single-student-assessment-pages__performance-text {
+  color: #000000;
+}
+
+.single-student-assessment-pages__final-score {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.single-student-assessment-pages__score-label {
+  font-weight: 600;
+  color: #000000;
+}
+
+.single-student-assessment-pages__score-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000000;
+}
+
+/* Update button */
+.single-student-assessment-pages__update-btn {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+.single-student-assessment-pages__update-btn:hover {
+  background-color: #2563eb;
+}
+
+.single-student-assessment-pages__update-btn:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .single-student-assessment-pages__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .single-student-assessment-pages__container {
+    padding: 1.5rem;
+  }
+
+  .single-student-assessment-pages__feedback-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .single-student-assessment-pages__nav {
+    padding: 1rem;
+  }
+
+  .single-student-assessment-pages__container {
+    padding: 1rem;
+  }
+
+  .single-student-assessment-pages__title {
+    font-size: 1.5rem;
+  }
+
+  .single-student-assessment-pages__card {
+    padding: 1rem;
+  }
+
+  .single-student-assessment-pages__score-section {
+    gap: 1.5rem;
+  }
+
+  .single-student-assessment-pages__score-large {
+    font-size: 2.5rem;
+  }
+
+  .single-student-assessment-pages__info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .single-student-assessment-pages__question-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .single-student-assessment-pages__section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .single-student-assessment-pages__status-header {
+    flex-wrap: wrap;
+  }
+
+  .single-student-assessment-pages__status-date {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .single-student-assessment-pages__breadcrumb {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .single-student-assessment-pages__breadcrumb-separator {
+    margin: 0 0.25rem;
+  }
+
+  .single-student-assessment-pages__circular-chart {
+    width: 100px;
+    height: 100px;
+  }
+
+  .single-student-assessment-pages__chart-legend {
+    font-size: 0.75rem;
+  }
+
+  .single-student-assessment-pages__question {
+    padding: 1rem;
+  }
+
+  .single-student-assessment-pages__feedback-item {
+    padding: 0.75rem;
+  }
+
+  .single-student-assessment-pages__tags {
+    gap: 0.25rem;
+  }
+
+  .single-student-assessment-pages__final-score {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .single-student-assessment-pages__update-btn {
+    transition: none;
+  }
+}
+
+/* Focus states for keyboard navigation */
+.single-student-assessment-pages__update-btn:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .single-student-assessment-pages__nav {
+    display: none;
+  }
+
+  .single-student-assessment-pages__update-btn {
+    display: none;
+  }
+
+  .single-student-assessment-pages__card {
+    box-shadow: none;
+    border: 1px solid #e2e8f0;
+    break-inside: avoid;
+  }
+
+  .single-student-assessment-pages__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+
+  .single-student-assessment-pages__question {
+    border: 2px solid #f1f5f9;
+  }
+
+  .single-student-assessment-pages__update-btn {
+    border: 2px solid #f1f5f9;
+  }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+  .single-student-assessment-pages {
+    background-color: #f1f5f9;
+    color: #000000;
+  }
+
+  .single-student-assessment-pages__title {
+    color: #000000;
+  }
+
+
+
+
+  .single-student-assessment-pages__question {
+    background-color: #f1f5f9;
+    border-color: #f1f5f9;
+  }
+
+
+
+  .single-student-assessment-pages__info-label {
+    color: #94a3b8;
+  }
+
+  .single-student-assessment-pages__info-value {
+    color: #000000;
+  }
+
+  .single-student-assessment-pages__question-title {
+    color: #000000;
+  }
+
+  .single-student-assessment-pages__final-score {
+    background-color: #f1f5f9;
+    border-color: #f1f5f9;
+  }
+
+  .single-student-assessment-pages__score-label,
+  .single-student-assessment-pages__score-value {
+    color: #000000;
+  }
+}
+
+
+
+/* ------------------------------------------------------------------------ */
+.single-student-assessment-pages__list {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.single-student-assessment-pages__Overview-Layout {
+  display: flex;
+  gap: 1rem;
+  margin: 0 2rem;
+}
+
+.single-student-assessment-pages__Overview-Item {
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.single-student-assessment-pages__performance-text-Row {
+  display: flex;
+  align-items: flex-end;
+}
+
+
+.single-student-assessment-pages {
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f0f9ff 100%);
+  min-height: 100vh;
+  color: #1e293b;
+  line-height: 1.7;
+}
+
+.single-student-assessment-pages__nav {
+  background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+  padding: 1.2rem 2rem;
+  color: #fff;
+  margin-bottom: 2rem;
+  border-radius: 0 0 1.5rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
+}
+
+.single-student-assessment-pages__breadcrumb span {
+  cursor: pointer;
+  padding: 0.3rem 1rem;
+  border-radius: 999px;
+  transition: background 0.2s, color 0.2s;
+}
+.single-student-assessment-pages__breadcrumb span:hover,
+.single-student-assessment-pages__breadcrumb span.active {
+  background: #fff;
+  color: #2563eb;
+}
+
+.single-student-assessment-pages__container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.single-student-assessment-pages__title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: #1e293b;
+}
+
+.single-student-assessment-pages__layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2.5rem;
+}
+
+.single-student-assessment-pages__card {
+  background: #fff;
+  border: 1px solid #dbeafe;
+  border-radius: 1.2rem;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.07);
+  transition: box-shadow 0.2s;
+}
+/* .single-student-assessment-pages__card:hover {
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.12);
+} */
+
+.single-student-assessment-pages__card-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 1.2rem;
+}
+
+.single-student-assessment-pages__status-card {
+  background: linear-gradient(90deg, #f0f9ff 60%, #dbeafe 100%);
+  border: 1px solid #bae6fd;
+  border-radius: 1.2rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.single-student-assessment-pages__status-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.single-student-assessment-pages__status-icon--success {
+  color: #22c55e;
+}
+
+.single-student-assessment-pages__performance-text-Row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 1.2rem;
+}
+
+.single-student-assessment-pages__score-large {
+  font-size: 2.7rem;
+  font-weight: 800;
+  color: #2563eb;
+  margin-left: 1.5rem;
+}
+
+
+
+
+.single-student-assessment-pages__info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.single-student-assessment-pages__info-label {
+  font-size: 0.95rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.single-student-assessment-pages__info-value {
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.single-student-assessment-pages__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.single-student-assessment-pages__tag--blue {
+  background: linear-gradient(90deg, #dbeafe 60%, #a5b4fc 100%);
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.single-student-assessment-pages__score-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Pie chart container */
+.single-student-assessment-pages__score-section > div {
+  width: 100%;
+  max-width: 350px;
+  height: 350px;
+}
+
+/* List navigation */
+.single-student-assessment-pages__list {
+  display: flex;
+  list-style: none;
+  gap: 1.2rem;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+}
+.single-student-assessment-pages__list li div {
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #2563eb;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+.single-student-assessment-pages__list li div:hover,
+.single-student-assessment-pages__list li div.active {
+  background: #2563eb;
+  color: #fff;
+}
+
+/* Question cards */
+.single-student-assessment-pages__question {
+  border: 1px solid #e0e7ef;
+  border-radius: 0.7rem;
+  margin-bottom: 2rem;
+  background: #f8fafc;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.04);
+  padding: 1.5rem 1rem;
+}
+
+.single-student-assessment-pages__question-title {
+  font-weight: 700;
+  color: #2563eb;
+  font-size: 1.1rem;
+}
+
+.single-student-assessment-pages__question-text {
+  margin-bottom: 0.7rem;
+  color: #1e293b;
+  font-size: 1rem;
+}
+
+.single-student-assessment-pages__answer {
+  background: #e0e7ff;
+  border: 1px solid #a5b4fc;
+  border-radius: 0.5rem;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  font-family: monospace;
+  color: #3730a3;
+}
+
+.single-student-assessment-pages__question-status {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  padding: 0.7rem;
+  border-radius: 0.5rem;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+}
+
+.single-student-assessment-pages__feedback-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.single-student-assessment-pages__feedback-item--strength {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+}
+.single-student-assessment-pages__feedback-item--improvement {
+  background: #fffbeb;
+  border: 1px solid #fed7aa;
+}
+
+.single-student-assessment-pages__feedback-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+
+.single-student-assessment-pages__feedback-text {
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+.single-student-assessment-pages__final-score {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1.2rem 1rem;
+  background: #f8fafc;
+  border-radius: 0.7rem;
+  border: 1px solid #e2e8f0;
+}
+
+.single-student-assessment-pages__score-label {
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.single-student-assessment-pages__score-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.single-student-assessment-pages__update-btn {
+  background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+  color: #fff;
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.9rem 1.7rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
+}
+.single-student-assessment-pages__update-btn:hover {
+  background: #1d4ed8;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15);
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .single-student-assessment-pages__layout,
+  .single-student-assessment-pages__Overview-Layout {
+    flex-direction: column;
+    display: flex;
+    gap: 2rem;
+  }
+}
+@media (max-width: 900px) {
+  .single-student-assessment-pages__container {
+    padding: 1rem;
+  }
+  .single-student-assessment-pages__card {
+    padding: 1.2rem 0.7rem;
+  }
+  .single-student-assessment-pages__score-section > div {
+    max-width: 250px;
+    height: 250px;
+  }
+}
+@media (max-width: 600px) {
+  .single-student-assessment-pages__title {
+    font-size: 1.3rem;
+  }
+  .single-student-assessment-pages__info-grid {
+    grid-template-columns: 1fr;
+  }
+  .single-student-assessment-pages__feedback-section {
+    grid-template-columns: 1fr;
+  }
+  .single-student-assessment-pages__final-score {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+  .single-student-assessment-pages__score-large {
+    font-size: 1.5rem;
+    margin-left: 0;
+  }
+}
+
+/* Accessibility and focus */
+.single-student-assessment-pages__update-btn:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}

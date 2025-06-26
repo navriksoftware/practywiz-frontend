@@ -58,7 +58,7 @@ const MenteeNotifications = ({ singleMentee, user, token }) => {
           <div className="container-fluid px-5">
             <div className="nfhgfg">
               <h4>NOTIFICATION</h4>
-              <p onClick={MarkAllAsReadNotHandler}>Mark all as Read</p>
+              <p className="faculty-notification-mark-all" style={{marginBottom: "1rem"}} onClick={MarkAllAsReadNotHandler}>Mark all as Read</p>
             </div>
             <div className="nxhjfdffgf5548">
               {JSON?.parse(singleMentee[0]?.notification_list)?.map(

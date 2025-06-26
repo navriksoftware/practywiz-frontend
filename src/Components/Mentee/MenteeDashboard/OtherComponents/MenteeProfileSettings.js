@@ -45,7 +45,7 @@ const MenteeProfileSettings = ({ singleMentee, user, token }) => {
         <div className="">
           <div
           //  id="mentorRegisterBg"
-           >
+          >
             <div
               className="jdoieoir_wrapper"
               style={{ width: "85%", paddingTop: "2rem" }}

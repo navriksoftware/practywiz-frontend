@@ -27,6 +27,7 @@ const InternshipApplication = ({ user, token }) => {
   const mentee_user_dtls_id = singleMentee[0].mentee_user_dtls_id;
   const [selectedResume, setSelectedResume] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const uploadedResumes = [
     {
       id: "1",
@@ -42,6 +43,10 @@ const InternshipApplication = ({ user, token }) => {
   ];
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // setTimeout(() => {
+    //   setIsDisabled(false);
+    // }, 4000);
     // if (selectedResume) {
 
     try {
@@ -60,6 +65,7 @@ const InternshipApplication = ({ user, token }) => {
       if (response.data.success) {
         dispatch(hideLoadingHandler());
         toast.success("Application submitted successfully");
+        setIsDisabled(true);
         // setIsSubmitted(true);
         setTimeout(() => {
           navigate("/mentee/dashboard");
@@ -140,7 +146,7 @@ const InternshipApplication = ({ user, token }) => {
             <button
               type="submit"
               className="mentee-intern-apply-btn mentee-intern-apply-btn-primary"
-              // disabled={!selectedResume}
+              disabled={isDisabled}
             >
               Submit Application
             </button>

@@ -6,6 +6,7 @@ import CaseStudyCard from "./CaseStudyCard";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import CaseRequestForm from "./CaseRequestForm";
+import AddNonPractywizCase from "../AddNonPractywizCases/AddNonPractywizCase.jsx";
 
 const Store = ({ userdata, setActivePage }) => {
   // State for case studies data and filters
@@ -16,6 +17,8 @@ const Store = ({ userdata, setActivePage }) => {
   const [CaseType, setCaseType] = useState("practywiz");
   const [loading, setLoading] = useState(false);
   const facultydata = useSelector((state) => state.faculty.facultyDtls);
+   const [EditQuestion, setEditQuestion] = useState(false)
+   const [showQuestion, setshowQuestion] = useState([])
 
   const [isCaseReqFormOpem, setCaseReqFormOpem] = useState(false);
 
@@ -368,7 +371,15 @@ const Store = ({ userdata, setActivePage }) => {
           </div>
         </div>
 
-        <div className="app-container">
+        {EditQuestion ?
+      <div className="Edit-QuestionShow-container" >
+        <div className="Edit-QuestionShow-overlay">
+
+       <AddNonPractywizCase showQuestion={showQuestion} setEditQuestion={setEditQuestion}/> 
+      </div>
+      </div>
+      :
+       <div className="app-container">
           {loading ? (
             <div className="loading-container">
               <div className="loading-spinner"></div>
@@ -397,6 +408,8 @@ const Store = ({ userdata, setActivePage }) => {
                       data={caseStudy}
                       setActivePage={setActivePage}
                       CaseType={CaseType}
+                      setEditQuestion={setEditQuestion}
+                      setshowQuestion={setshowQuestion}
                     />
                   );
                 } else {
@@ -410,6 +423,9 @@ const Store = ({ userdata, setActivePage }) => {
             </div>
           )}
         </div>
+ }
+
+       
       </div>
     </>
   );

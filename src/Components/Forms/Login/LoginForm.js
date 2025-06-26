@@ -22,6 +22,7 @@ const LoginForm = ({ user, token }) => {
   const [showIcon, setShowIcon] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [disabledLogin, setIsDisabledLogin] = useState(false);
   const url = ApiURL();
   const parseJwt = (token) => {
     try {
@@ -42,6 +43,7 @@ const LoginForm = ({ user, token }) => {
     }
   };
   const loginFormSubmitHandler = async (data) => {
+    setIsDisabledLogin(true);
     try {
       dispatch(showLoadingHandler());
       const res = await Promise.race([
@@ -61,14 +63,17 @@ const LoginForm = ({ user, token }) => {
         const userData = parseJwt(token);
         localStorage.setItem("token", JSON.stringify(token));
         localStorage.setItem("accessToken", JSON.stringify(accessToken));
+        setIsDisabledLogin(false);
         dispatch(loginSuccess(userData));
         toast.success("Logged in successfully, Redirecting to the Dashboard");
         navigate(`/redirect`);
       } else if (res.data.error) {
+        setIsDisabledLogin(false);
         dispatch(loginFailure(res.data.error));
         toast.error(res.data.error);
       }
     } catch (error) {
+      setIsDisabledLogin(false);
       dispatch(loginFailure(error.message));
       if (error.message === "Request timed out") {
         toast.error("Login failed due to a timeout. Please try again.");
@@ -242,7 +247,11 @@ const LoginForm = ({ user, token }) => {
                       Forget password?
                     </a>
 
-                    <button type="submit" className="btn btn-main py-3 mt-4">
+                    <button
+                      type="submit"
+                      disabled={disabledLogin}
+                      className="btn btn-main py-3 mt-4"
+                    >
                       Log in
                     </button>
                   </form>

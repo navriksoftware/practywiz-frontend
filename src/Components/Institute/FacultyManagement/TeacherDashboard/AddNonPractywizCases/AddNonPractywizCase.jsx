@@ -2,7 +2,7 @@
 
 import CaseStudyForm from "./CaseStudyForm";
 
-const AddNonPractywizCase = ({ setActivePage }) => {
+const AddNonPractywizCase = ({ setActivePage,showQuestion,setEditQuestion }) => {
   return (
     <>
       {/* <div className="new-case-add-dashboard">
@@ -16,7 +16,7 @@ const AddNonPractywizCase = ({ setActivePage }) => {
           <CaseStudyForm setActivePage={setActivePage} />
         </div>
       </div> */}
-      <CaseStudyForm setActivePage={setActivePage} />
+      <CaseStudyForm setActivePage={setActivePage} showQuestion={showQuestion} setEditQuestion={setEditQuestion}/>
     </>
   );
 };

@@ -8,7 +8,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./Styles/custombs.css";
-import "./Styles/responsive.css";
+// import "./Styles/responsive.css";
 import "./Styles/style.css";
 import "./index.css";
 import "./Styles/DashBoard.css";
@@ -56,6 +56,7 @@ import MentorNotFoundDashboardPage from "./Pages/MentorPages/Dashboard/MentorNot
 import MentorUpdatedRegistrationPage from "./Pages/FormPages/RegisterPages/MentorUpdatedRegistrationPage";
 import RedirectHandler from "./Utils/RedirectHandler";
 import Cart from "./Pages/CartPages/CartPage";
+import TestAssessmentPage from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/testAssemmentPage.js";
 
 // import ReactDate from "./Components/Mentor/AllMentors/CustomDatepicker/MainComponent";
 // Internship imports
@@ -89,6 +90,8 @@ import DemoResultPage from "./Pages/CaseStudyPages/DemoResultPage";
 import SingleNonPractywizCaseStudy from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleNonPractywizCaseStudy";
 import SingleStudentAssessmentPage from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleStudentAssessmentPage";
 import AvegaLandingPage from "./Pages/OtherLandingPages/AvegaLandingPage";
+import  FacultyProbeDashboard from "../src/Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/FacultyProbeDashboard.js"
+
 
 function App() {
   const user = useSelector((state) => state.user?.currentUser);
@@ -282,7 +285,7 @@ function App() {
             path="/results"
             element={<ResultPage user={user} token={token} />}
           />
-          <Route path="/simulation" element={<SimulationPage />} />
+          <Route path="/mentee/avega" element={<SimulationPage />} />
           <Route path="/cart" element={<Cart user={user} token={token} />} />
           {/* teacher dashboard start */}
           <Route
@@ -291,7 +294,7 @@ function App() {
           />
           <Route
             path="/faculty/Single-Student-Assessment-Page/mentee/:Mid/assignedCase/:ACid"
-            element={<SingleStudentAssessmentPage />}
+            element={<TestAssessmentPage />}
           />
           {/* teacher dashboard end */}
           {/* internship section start */}
@@ -340,6 +343,17 @@ function App() {
           {/* internship end */}
           <Route path="/legal/terms" element={<TermsConditionsPage />} />
           <Route path="/legal/privacy-policy" element={<PrivacyPolicyPage />} />
+
+
+          {/* faculty probes pages access */}
+          <Route
+            path="/Faculty/Probe/Dashboard"
+            element={<FacultyProbeDashboard/>}
+          />
+
+
+
+
         </Routes>
       </Router>
       <ScrollButton />

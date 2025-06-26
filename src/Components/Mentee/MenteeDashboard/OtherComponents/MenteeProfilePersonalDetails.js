@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Select from "react-select";
@@ -13,7 +13,9 @@ import {
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { ApiURL } from "../../../../Utils/ApiURL";
+
 const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
+  const [singleMenteeDetails, setSingleMenteeDetails] = useState([]);
   const url = ApiURL();
   const dispatch = useDispatch();
   const [ifEdit, setifEdit] = useState(false);
@@ -55,17 +57,60 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
       display: "none",
     }),
   };
+  const [formData, setFormData] = useState({});
+  const menteeDtlsId = user?.user_id;
 
-  const [formData, setFormData] = useState({
-    mentee_firstname: singleMentee[0]?.mentee_firstname,
-    mentee_lastname: singleMentee[0]?.mentee_lastname,
-    mentee_phone_number: singleMentee[0]?.mentee_phone_number,
-    mentee_email: singleMentee[0]?.mentee_email,
-    mentee_linkedin_link: singleMentee[0]?.mentee_linkedin_url,
-    mentee_language: singleMentee[0]?.mentee_language,
-    mentee_gender: singleMentee[0]?.mentee_gender,
-    mentee_aboutyouself: singleMentee[0]?.mentee_about,
-  });
+  const fetchMenteeDetails = async () => {
+    dispatch(showLoadingHandler());
+    try {
+      const response = await axios.post(
+        `${url}api/v1/mentee/dashboard/fetch-single-details/${menteeDtlsId}`,
+        { userId: menteeDtlsId }
+      );
+      if (response.data.success) {
+        setSingleMenteeDetails(response.data.success);
+
+        const parsedLang = JSON.parse(
+          response.data.success[0]?.mentee_language
+        );
+        setSelectedSkills(parsedLang || []);
+        setFormData({
+          mentee_firstname: response.data.success[0].mentee_firstname,
+          mentee_lastname: response.data.success[0].mentee_lastname,
+          mentee_phone_number: response.data.success[0].mentee_phone_number,
+          mentee_email: response.data.success[0].mentee_email,
+          mentee_linkedin_link: response.data.success[0].mentee_linkedin_url,
+          mentee_language: selectedSkills || [],
+          // mentee_language: JSON.parse(
+          //   response.data.success[0]?.mentee_language || "[]"
+          // ),
+          mentee_gender: response.data.success[0].mentee_gender,
+          mentee_aboutyouself: response.data.success[0]?.mentee_about,
+        });
+
+        // Update select skills from language if needed
+        try {
+          const parsedLang = JSON.parse(
+            response.data.success[0]?.mentee_language || "[]"
+          );
+          setSelectedSkills(parsedLang || []);
+
+          dispatch(hideLoadingHandler());
+        } catch (err) {
+          dispatch(hideLoadingHandler());
+          setSelectedSkills([]);
+        }
+      }
+    } catch (error) {
+      dispatch(hideLoadingHandler());
+      console.error("Error fetching mentee data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMenteeDetails();
+    handleLanguageChange(selectedSkills);
+  }, []);
 
   const handleEditClick = () => {
     setifEdit(false);
@@ -118,7 +163,9 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
         ]);
         if (response.data.success) {
           dispatch(hideLoadingHandler());
+
           toast.success("Profile Details changed successfully");
+          fetchMenteeDetails();
         }
         if (response.data.error) {
           dispatch(hideLoadingHandler());
@@ -266,13 +313,22 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                       name="Gender"
                       className="form-select"
                       disabled={!ifEdit}
+                      value={formData?.mentee_gender || ""}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          mentee_gender: e.target.value,
+                        })
+                      }
+                      // value={selectedSkills}
+                      // onChange={(e) => setSelectedSkills(e.target.value)}
                     >
-                      <option value={formData?.mentee_gender}>
+                      {/* <option value={formData?.mentee_gender}>
                         {formData?.mentee_gender}
-                      </option>
-                      <option value="">Male</option>
-                      <option value="">Female</option>
-                      <option value="">Other</option>
+                      </option> */}
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
                     </select>
                   </div>
                   <div className="ufguirniirtr position-relative col-lg-6 pb-3">
@@ -282,11 +338,17 @@ const MenteeProfilePersonalDetails = ({ singleMentee, user, token }) => {
                     <Select
                       isDisabled={!ifEdit}
                       value={selectedSkills} // Bind the state to the value
+                      // value={formData?.mentee_language}
                       options={LanguageMulti}
                       isMulti={true}
                       closeMenuOnSelect={false}
                       onChange={handleLanguageChange} // Handle the onChange event
-                      styles={customStyles}
+                      // onChange={(e) =>
+                      //   setFormData({
+                      //     ...formData,
+                      //     mentee_language: e.target.value,
+                      //   })
+                      // }
                     />
                     <div id="ypautosuggestions"></div>
                   </div>
