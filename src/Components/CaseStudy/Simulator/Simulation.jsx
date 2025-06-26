@@ -729,7 +729,8 @@ function Simulation() {
       </>
     );
   }
-  return <>
+  return (
+    <>
       {/* <Navbar /> */}
       <div className="main-container">
         <div className="question-page-container">
@@ -746,7 +747,8 @@ function Simulation() {
           </div>
         </div>
       </div>
-    </>;
+    </>
+  );
 }
 
 export default Simulation;

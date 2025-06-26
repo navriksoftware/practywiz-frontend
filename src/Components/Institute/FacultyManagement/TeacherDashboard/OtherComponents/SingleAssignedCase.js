@@ -5,7 +5,8 @@ import axios from "axios";
 import { ApiURL } from "../../../../../Utils/ApiURL";
 import QuestionShow from "./QuestionShow";
 import { exportMenteeDataToExcel } from "../../../../../Utils/exportMenteeDataToExcel";
-
+import FacultyProbsResultPage from "./FacultyProbeDashboard";
+import { useSelector } from "react-redux";
 
 const STUDENTS_DATA = [
   {
@@ -61,8 +62,9 @@ const STUDENTS_DATA = [
 ];
 
 const SingleAssignedCase = ({ setActivePage }) => {
-
-
+  const facultyID = useSelector(
+    (state) => state.faculty.facultyDtls.faculty_id
+  );
   const [students, setStudents] = useState(STUDENTS_DATA);
   const [filteredStudents, setFilteredStudents] = useState(STUDENTS_DATA);
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,10 +76,12 @@ const SingleAssignedCase = ({ setActivePage }) => {
   const caseStudyId = localStorage.getItem("caseStudyId");
   const class_id = localStorage.getItem("ClassId");
   const caseType = localStorage.getItem("caseType");
-  const faculty_case_assign_dtls_id = localStorage.getItem("facultyCaseAssignId");
+  const faculty_case_assign_dtls_id = localStorage.getItem(
+    "facultyCaseAssignId"
+  );
   const url = ApiURL();
   const [isLoading, setIsLoading] = useState(false);
-  const [studentlist, setstudentlist] = useState([])
+  const [studentlist, setstudentlist] = useState([]);
 
   // Fetch assigned case studies when facultyid is available
   useEffect(() => {
@@ -85,14 +89,15 @@ const SingleAssignedCase = ({ setActivePage }) => {
       setIsLoading(true);
       try {
         const response = await Promise.race([
-          axios.post(`${url}api/v1/faculty/dashboard/get-assigned-single-cases`, {
-
-            class_id: class_id,
-            case_study_id: caseStudyId,
-            case_type: caseType,
-            faculty_case_assign_dtls_id: faculty_case_assign_dtls_id
-
-          }),
+          axios.post(
+            `${url}api/v1/faculty/dashboard/get-assigned-single-cases`,
+            {
+              class_id: class_id,
+              case_study_id: caseStudyId,
+              case_type: caseType,
+              faculty_case_assign_dtls_id: faculty_case_assign_dtls_id,
+            }
+          ),
           new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Request timed out")), 45000)
           ),
@@ -101,10 +106,8 @@ const SingleAssignedCase = ({ setActivePage }) => {
         if (response.data.success) {
           setresultdata(response.data.success[0]);
           console.log("response.data.success[0]", response.data.success[0]);
-
         } else if (response.data.error) {
           setresultdata([]);
-
         }
       } catch (error) {
         setresultdata([]);
@@ -119,12 +122,11 @@ const SingleAssignedCase = ({ setActivePage }) => {
       }
     };
     const fetchstudentListScoreData = async () => {
-
       try {
         const response = await Promise.race([
           axios.post(`${url}api/v1/faculty/student-score/list`, {
             class_id: class_id,
-            faculty_caseassign_id: faculty_case_assign_dtls_id
+            faculty_caseassign_id: faculty_case_assign_dtls_id,
           }),
           new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Request timed out")), 45000)
@@ -133,10 +135,8 @@ const SingleAssignedCase = ({ setActivePage }) => {
 
         if (response.data.success) {
           setstudentlist(response.data.success);
-
         } else if (response.data.error) {
           setstudentlist([]);
-
         }
       } catch (error) {
         setstudentlist([]);
@@ -147,7 +147,6 @@ const SingleAssignedCase = ({ setActivePage }) => {
           console.log("An error occurred. Please try again.", error);
         }
       } finally {
-
       }
     };
     fetchAssignCaseStudiesDetails();
@@ -242,8 +241,6 @@ const SingleAssignedCase = ({ setActivePage }) => {
   //   }
   // };
 
-
-
   // Toggle dropdown
   const toggleDropdown = (studentId) => {
     setActiveDropdown(activeDropdown === studentId ? null : studentId);
@@ -320,8 +317,6 @@ const SingleAssignedCase = ({ setActivePage }) => {
   //   });
   // };
 
-
-
   const handleCalculateMetrics = () => {
     const totalStudents = studentlist.length;
 
@@ -332,19 +327,23 @@ const SingleAssignedCase = ({ setActivePage }) => {
 
     // Calculate average score
     const averageScore = Math.round(
-      studentlist.reduce((acc, student) => acc + (student.mentee_result_total_score || 0), 0) / totalStudents
+      studentlist.reduce(
+        (acc, student) => acc + (student.mentee_result_total_score || 0),
+        0
+      ) / totalStudents
     );
 
     // Calculate completion rate
     const completionRate = Math.round(
-      (studentlist.filter((s) => s.mentee_result_status === "Completed").length / totalStudents) * 100
+      (studentlist.filter((s) => s.mentee_result_status === "Completed")
+        .length /
+        totalStudents) *
+        100
     );
 
     // Return the calculated metrics
     return { totalStudents, averageScore, completionRate };
   };
-
-
 
   const handleUpdatedDate = (dateString) => {
     if (!dateString) return "NA";
@@ -355,31 +354,31 @@ const SingleAssignedCase = ({ setActivePage }) => {
     const diffInSeconds = Math.floor(diffInMs / 1000);
 
     if (diffInSeconds < 60) {
-      return `${diffInSeconds} second${diffInSeconds !== 1 ? 's' : ''} ago`;
+      return `${diffInSeconds} second${diffInSeconds !== 1 ? "s" : ""} ago`;
     }
 
     const diffInMinutes = Math.floor(diffInSeconds / 60);
     if (diffInMinutes < 60) {
-      return `${diffInMinutes} minute${diffInMinutes !== 1 ? 's' : ''} ago`;
+      return `${diffInMinutes} minute${diffInMinutes !== 1 ? "s" : ""} ago`;
     }
 
     const diffInHours = Math.floor(diffInMinutes / 60);
     if (diffInHours < 24) {
-      return `${diffInHours} hour${diffInHours !== 1 ? 's' : ''} ago`;
+      return `${diffInHours} hour${diffInHours !== 1 ? "s" : ""} ago`;
     }
 
     const diffInDays = Math.floor(diffInHours / 24);
     if (diffInDays < 7) {
-      return `${diffInDays} day${diffInDays !== 1 ? 's' : ''} ago`;
+      return `${diffInDays} day${diffInDays !== 1 ? "s" : ""} ago`;
     }
 
     // fallback to absolute format for older dates
-    return updatedDate.toLocaleString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    return updatedDate.toLocaleString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
       hour12: true,
     });
   };
@@ -398,22 +397,21 @@ const SingleAssignedCase = ({ setActivePage }) => {
 
     // Convert milliseconds to full days
     const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
-    return `${diffInDays} day${diffInDays !== 1 ? 's' : ''}`;
+    return `${diffInDays} day${diffInDays !== 1 ? "s" : ""}`;
   };
 
-   const handleExport = () => {
+  const handleExport = () => {
     exportMenteeDataToExcel(studentlist); // ✅ instant download
   };
   return (
     <>
-      {isLoading ? <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <p>Loading page...</p>
-      </div>
-        :
+      {isLoading ? (
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading page...</p>
+        </div>
+      ) : (
         <div className="single-case-details-view-container">
-
-
           <div className="single-case-details-view-navigation">
             <div className="single-case-details-view-breadcrumbs">
               <span
@@ -428,15 +426,23 @@ const SingleAssignedCase = ({ setActivePage }) => {
                 &gt;
               </span>
 
-
               <span className="single-case-details-view-breadcrumbs-item active">
-                {resultdata?.case_study_title ? resultdata?.case_study_title : resultdata?.non_practywiz_case_title}
+                {resultdata?.case_study_title
+                  ? resultdata?.case_study_title
+                  : resultdata?.non_practywiz_case_title}
               </span>
             </div>
           </div>
           <div className="single-case-details-view-header">
             <h1 className="single-case-details-view-title">
-              {resultdata?.case_study_title ? resultdata?.case_study_title : <>{resultdata?.non_practywiz_case_title} ({resultdata?.non_practywiz_case_author}) </>}
+              {resultdata?.case_study_title ? (
+                resultdata?.case_study_title
+              ) : (
+                <>
+                  {resultdata?.non_practywiz_case_title} (
+                  {resultdata?.non_practywiz_case_author}){" "}
+                </>
+              )}
             </h1>
           </div>
 
@@ -449,10 +455,11 @@ const SingleAssignedCase = ({ setActivePage }) => {
             {/* Tabs for Student List and Case Study Questions */}
             <div className="single-case-details-view-tabs">
               <button
-                className={`single-case-details-view-tab ${selectedTab === "student-list"
-                  ? "single-case-details-view-tab-active"
-                  : ""
-                  }`}
+                className={`single-case-details-view-tab ${
+                  selectedTab === "student-list"
+                    ? "single-case-details-view-tab-active"
+                    : ""
+                }`}
                 onClick={() => setSelectedTab("student-list")}
               >
                 Student List
@@ -461,21 +468,28 @@ const SingleAssignedCase = ({ setActivePage }) => {
               {resultdata?.non_practywiz_case_question &&
                 resultdata.non_practywiz_case_question.length > 0 && (
                   <button
-                    className={`single-case-details-view-tab ${selectedTab === "case-study-questions"
-                      ? "single-case-details-view-tab-active"
-                      : ""}`}
+                    className={`single-case-details-view-tab ${
+                      selectedTab === "case-study-questions"
+                        ? "single-case-details-view-tab-active"
+                        : ""
+                    }`}
                     onClick={() => setSelectedTab("case-study-questions")}
                   >
                     Case Study Questions
                   </button>
                 )}
-
+              <button
+                className={`single-case-details-view-tab ${
+                  selectedTab === "live-class"
+                    ? "single-case-details-view-tab-active"
+                    : ""
+                }`}
+                onClick={() => setSelectedTab("live-class")}
+              >
+                Live Class
+              </button>
             </div>
-
-
           </div>
-
-
 
           {selectedTab === "student-list" && (
             <>
@@ -500,7 +514,9 @@ const SingleAssignedCase = ({ setActivePage }) => {
                     <i className="fa fa-chart-bar"></i>
                   </div>
                   <div className="single-case-details-view-stat-content">
-                    <p className="single-case-details-view-stat-label">Average Score</p>
+                    <p className="single-case-details-view-stat-label">
+                      Average Score
+                    </p>
                     <h3 className="single-case-details-view-stat-value">
                       {/* {averageScore}% */}
                       {handleCalculateMetrics().averageScore}%
@@ -531,7 +547,11 @@ const SingleAssignedCase = ({ setActivePage }) => {
                     <p className="single-case-details-view-stat-label">
                       Time Remaining
                     </p>
-                    <h3 className="single-case-details-view-stat-value">{getDaysRemaining(resultdata?.faculty_case_assign_end_date)}</h3>
+                    <h3 className="single-case-details-view-stat-value">
+                      {getDaysRemaining(
+                        resultdata?.faculty_case_assign_end_date
+                      )}
+                    </h3>
                   </div>
                 </div>
               </div>
@@ -566,21 +586,29 @@ const SingleAssignedCase = ({ setActivePage }) => {
                     <thead>
                       <tr>
                         <th className="single-case-details-view-th">Student</th>
-                        <th className="single-case-details-view-th">Roll No.</th>
+                        <th className="single-case-details-view-th">
+                          Roll No.
+                        </th>
                         <th className="single-case-details-view-th">Status</th>
                         <th className="single-case-details-view-th">Score</th>
-                        <th className="single-case-details-view-th">Last Activity</th>
+                        <th className="single-case-details-view-th">
+                          Last Activity
+                        </th>
                         <th className="single-case-details-view-th">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {studentlist.map((student) => {
-
-                        const status = student?.mentee_result_total_score === null ? "not-started" : "completed";
+                        const status =
+                          student?.mentee_result_total_score === null
+                            ? "not-started"
+                            : "completed";
 
                         return (
-
-                          <tr key={student.id} className="single-case-details-view-tr">
+                          <tr
+                            key={student.id}
+                            className="single-case-details-view-tr"
+                          >
                             <td className="single-case-details-view-td single-case-details-view-student-cell">
                               <div className="single-case-details-view-student-info">
                                 {/* <div className="single-case-details-view-avatar">
@@ -590,7 +618,8 @@ const SingleAssignedCase = ({ setActivePage }) => {
                           />
                         </div> */}
                                 <span className="single-case-details-view-student-name">
-                                  {student.user_firstname} {student?.user_lastname}
+                                  {student.user_firstname}{" "}
+                                  {student?.user_lastname}
                                 </span>
                               </div>
                             </td>
@@ -604,30 +633,42 @@ const SingleAssignedCase = ({ setActivePage }) => {
                                   .replace(" ", "-")}`}
                               >
                                 {status}
-
                               </span>
                             </td>
                             <td className="single-case-details-view-td">
-                              {student?.mentee_result_total_score ? student?.mentee_result_total_score : "NA"}
+                              {student?.mentee_result_total_score
+                                ? student?.mentee_result_total_score
+                                : "NA"}
                             </td>
                             <td className="single-case-details-view-td">
-                              {handleUpdatedDate(student.mentee_result_update_date)}
+                              {handleUpdatedDate(
+                                student.mentee_result_update_date
+                              )}
                             </td>
                             <td className="single-case-details-view-td single-case-details-view-actions-cell">
                               <div
                                 className="single-case-details-view-action-dropdown"
-                                ref={activeDropdown === student.mentee_dtls_id ? dropdownRef : null}
+                                ref={
+                                  activeDropdown === student.mentee_dtls_id
+                                    ? dropdownRef
+                                    : null
+                                }
                               >
-                                <div
-                                  className="single-case-details-view-dropdown-menu"
-
-                                >
+                                <div className="single-case-details-view-dropdown-menu">
                                   <button
                                     // onClick={() => {
                                     //   viewStudent(student);
                                     // }}
-                                    disabled={student?.mentee_result_total_score === null}
-                                    onClick={() => window.open(`/faculty/Single-Student-Assessment-Page/mentee/${student?.mentee_dtls_id}/assignedCase/${faculty_case_assign_dtls_id}`, '_blank')}
+                                    disabled={
+                                      student?.mentee_result_total_score ===
+                                      null
+                                    }
+                                    onClick={() =>
+                                      window.open(
+                                        `/faculty/Single-Student-Assessment-Page/mentee/${student?.mentee_dtls_id}/assignedCase/${faculty_case_assign_dtls_id}`,
+                                        "_blank"
+                                      )
+                                    }
                                   >
                                     <i className="fa-solid fa-eye" />
                                     <span>View</span>
@@ -676,8 +717,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
                               </div>
                             </td>
                           </tr>
-
-                        )
+                        );
                       })}
                     </tbody>
                   </table>
@@ -715,14 +755,15 @@ const SingleAssignedCase = ({ setActivePage }) => {
 
           {selectedTab === "case-study-questions" && (
             <div className="single-case-details-view-questions-container">
-
-              {!resultdata?.non_practywiz_case_question || resultdata.non_practywiz_case_question.length === 0
-                ? "hello"
-                : <QuestionShow data={resultdata} />}
-
-
+              {!resultdata?.non_practywiz_case_question ||
+              resultdata.non_practywiz_case_question.length === 0 ? (
+                "hello"
+              ) : (
+                <QuestionShow data={resultdata} />
+              )}
             </div>
           )}
+          {selectedTab === "live-class" && <FacultyProbsResultPage />}
 
           {/* Add Student Modal */}
           {/* {showAddModal && (
@@ -803,9 +844,8 @@ const SingleAssignedCase = ({ setActivePage }) => {
         </div>
       )} */}
         </div>
-      }</>
-
-
+      )}
+    </>
   );
 };
 
