@@ -6,6 +6,7 @@ import ChatSidebar from "../../Components/CaseStudy/Simulator/ChatSidebar";
 function SimulationPage() {
   // --- Chat Sidebar State ---
   const [chatSidebarOpen, setChatSidebarOpen] = useState(false);
+  const [inclassChatOpen, setInclassChatOpen] = useState(false);
   // --- Chat Sidebar Handlers ---
   const handleChatSidebarToggle = () => {
     setChatSidebarOpen(!chatSidebarOpen);
@@ -20,13 +21,16 @@ function SimulationPage() {
   return (
     <>
       {/* <div ">Avega</div> */}
-      <Simulation />
+      <Simulation setInclassChatOpen={setInclassChatOpen} />
+
+      {/* {inclassChatOpen && 
 
       <ChatSidebar
         isOpen={chatSidebarOpen}
         onToggle={handleChatSidebarToggle}
         onSendMessage={handleChatMessage}
       />
+      } */}
     </>
   );
 }

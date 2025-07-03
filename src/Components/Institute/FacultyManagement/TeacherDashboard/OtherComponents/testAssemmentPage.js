@@ -337,7 +337,8 @@ const TestAssessmentPage = () => {
                                                 <p className="single-student-assessment-pages__performance-text">
                                                     {parsedDetails.performance}
                                                 </p>
-                                                <span className="single-student-assessment-pages__score-large"> {totalObtained}/{totalMax}</span>
+                                                <span className="single-student-assessment-pages__score-large"> {singleData?.mentee_result_total_score}/{totalMax}</span>
+                                                {/* <span className="single-student-assessment-pages__score-large"> {totalObtained}/{totalMax}</span> */}
                                             </div>
                                         );
                                     } catch (error) {
@@ -386,8 +387,8 @@ const TestAssessmentPage = () => {
 
                     <div>
                         <ul className="single-student-assessment-pages__list">
-                            <li><div onClick={() => setActiveSubPage("fact")}>Fact BAse Question</div></li>
-                            <li><div onClick={() => setActiveSubPage("Analysis")}>Analysis BAse Question</div></li>
+                            <li><div onClick={() => setActiveSubPage("fact")}>Fact Base Question</div></li>
+                            <li><div onClick={() => setActiveSubPage("Analysis")}>Analysis Base Question</div></li>
                         </ul>
                     </div>
 
@@ -561,7 +562,8 @@ const TestAssessmentPage = () => {
                                         </div>
                                     </div>
                                 ))) : (
-                                <p>Error parsing assessment data.</p>
+                                <p>No Questions Attempted.</p>
+                                // <p>Error parsing assessment data.</p>
                             )}
 
 
@@ -583,7 +585,8 @@ const TestAssessmentPage = () => {
                     <div className="single-student-assessment-pages__card">
                         <div className="single-student-assessment-pages__final-score">
                             <span className="single-student-assessment-pages__score-label">Total Score</span>
-                            <span className="single-student-assessment-pages__score-value">    {totalObtained}/ {totalMax}</span>
+                            <span className="single-student-assessment-pages__score-value">    {singleData?.mentee_result_total_score}/ {totalMax}</span>
+                            {/* <span className="single-student-assessment-pages__score-value">    {totalObtained}/ {totalMax}</span> */}
                         </div>
                         <button className="single-student-assessment-pages__update-btn" onClick={handleSubmit}>Update Scores</button>
                     </div>

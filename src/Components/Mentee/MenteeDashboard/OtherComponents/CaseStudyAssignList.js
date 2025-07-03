@@ -21,7 +21,7 @@ const CaseStudyAssignList = () => {
     class: "All Classes",
     type: "All Cases",
     dueDate: "Due Date",
-    status: "All Status",
+    status: "Active",
     time: "Newest First",
   });
 

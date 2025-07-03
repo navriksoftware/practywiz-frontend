@@ -48,7 +48,6 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
     fetchSubmissionData(); // This will run once on mount
     const interval = setInterval(() => {
       fetchSubmissionData(); // Auto refresh every 30 sec
-      
     }, 30000);
 
     return () => clearInterval(interval); // Cleanup on unmount
@@ -130,6 +129,21 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
     );
   };
 
+  // Helper function to check if any available question is 'In Class'
+  const isInClassAvailable = () => {
+    // Check fact-based
+    const factAvailable =
+      questionStatus.factBasedQuestions === "available" &&
+      caseStudy.faculty_case_assign_fact_question_time === 1;
+
+    // Check analysis-based
+    const analysisAvailable =
+      questionStatus.analysisBasedQuestions === "available" &&
+      caseStudy.faculty_case_assign_analysis_question_time === 1;
+
+    return factAvailable || analysisAvailable;
+  };
+
   // Handle Run Avega button click
   const handleRunAvega = () => {
     // console.log("=== Run Avega Button Clicked ===");
@@ -153,6 +167,7 @@ const CaseStudyDetail = ({ caseStudy, onBackClick }) => {
           facultyCaseAssignId: caseStudy.faculty_case_assign_dtls_id,
           caseStudyData: caseStudy,
           maxMarksSummary: maxMarksCount,
+          isInClass: isInClassAvailable(),
         },
       });
     } else {

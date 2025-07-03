@@ -478,7 +478,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
                     Case Study Questions
                   </button>
                 )}
-              <button
+              {/* <button
                 className={`single-case-details-view-tab ${
                   selectedTab === "live-class"
                     ? "single-case-details-view-tab-active"
@@ -487,7 +487,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
                 onClick={() => setSelectedTab("live-class")}
               >
                 Live Class
-              </button>
+              </button> */}
             </div>
           </div>
 
