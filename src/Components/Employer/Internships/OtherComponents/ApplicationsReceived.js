@@ -5,6 +5,11 @@ import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../Redux/loadingRedux";
 
 const ApplicationsReceived = () => {
   const { id } = useParams();
@@ -26,10 +31,12 @@ const ApplicationsReceived = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
   // Fetch applicants data
   useEffect(() => {
     const fetchAppliedInternships = async () => {
+      dispatch(showLoadingHandler());
       setIsLoading(true);
       setError(null);
       try {
@@ -42,8 +49,10 @@ const ApplicationsReceived = () => {
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch applicants");
         setApplicants([]);
+        dispatch(hideLoadingHandler());
       } finally {
         setIsLoading(false);
+        dispatch(hideLoadingHandler());
       }
     };
     fetchAppliedInternships();
@@ -444,12 +453,17 @@ const ApplicationsReceived = () => {
                                     applicant.mentee_institute_details
                                   )[0].mentee_courseName
                                 }
-                                {" | "}
-                                {
-                                  JSON.parse(
-                                    applicant.mentee_institute_details
-                                  )[0].collage_name
-                                }
+
+                                {JSON.parse(
+                                  applicant.mentee_institute_details
+                                )[0].collage_name
+                                  ? " | " +
+                                    JSON.parse(
+                                      applicant.mentee_institute_details
+                                    )[0].collage_name
+                                  : JSON.parse(
+                                      applicant.mentee_institute_details
+                                    )[0].mentee_instituteName}
                               </div>
                               <div className="applications-graduation-year">
                                 {

@@ -1046,6 +1046,15 @@ const MenteeDashboard = ({ user, token }) => {
                 MenteePsettingsHandler={MenteePsettingsHandler}
               />
             )}
+            {/* {showMenteeProfile && (
+              <MenteeDashboardProfileNew
+                user={user}
+                singleMenteeDtlsId={singleMenteeDtlsId}
+                token={token}
+                // mentee_id={menteeDtlsId}
+                // MenteePsettingsHandler={MenteePsettingsHandler}
+              />
+            )} */}
             {showMenteePsettings && (
               <MenteeProfileSettings
                 singleMentee={singleMentee}

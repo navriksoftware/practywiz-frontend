@@ -93,7 +93,7 @@ const EditInternshipPost = ({
 
   // Language change handler
   const handleDomainChange = (selectedOption) => {
-    setSelectedDomain(selectedOption);
+    setSelectedDomain(typeof JSON.stringify(selectedOption));
     setValue("internshipDomain", selectedOption);
     setFormData((prev) => ({
       ...prev,
