@@ -7,7 +7,7 @@ import ChatInterface from "./ChatInterface";
 import Navbar from "../../Navbar/Navbar";
 import { ApiURL } from "../../../Utils/ApiURL";
 
-function Simulation() {
+function Simulation( { setInclassChatOpen }) {
   document.title = "Practywiz | Avega";
   const URL = ApiURL();
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ function Simulation() {
     facultyCaseAssignId,
     caseStudyData,
     maxMarksSummary,
+    isInClass,
   } = location.state || {};
 
   // Get mentee ID from Redux store
@@ -77,6 +78,10 @@ function Simulation() {
   }, [questionStatus, facultyCaseAssignId, caseStudyData, menteeId, navigate]);
 
   useEffect(() => {
+
+    console.log("Is in class chat open:", isInClass);
+    
+    setInclassChatOpen(isInClass);
     if (facultyCaseAssignId && menteeId) {
       fetchQuestions();
     }

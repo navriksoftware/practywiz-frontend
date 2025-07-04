@@ -42,48 +42,48 @@ const dummyData = {
     time: "Today, 4:00 PM - 5:00 PM",
     countdown: "02:43:15",
   },
-  // recommendedMentors: [
-  //   {
-  //     mentor_id: 1,
-  //     mentor_name: "Rahul Mehta",
-  //     mentor_company: "Senior Product Manager at Amazon",
-  //     profile_photo: "/placeholder.svg?height=60&width=60",
-  //     // matched_score: 4.9,
-  //     matched_skills: ["Product Strategy", "Growth"],
-  //     // availability: "Available Tomorrow",
-  //     // availabilityStatus: "available",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Ananya Desai",
-  //     position: "UX Research Lead at Google",
-  //     avatar: "/placeholder.svg?height=60&width=60",
-  //     rating: 4.8,
-  //     expertise: ["User Research", "Design Thinking"],
-  //     availability: "Available Today",
-  //     availabilityStatus: "available",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Vikram Singh",
-  //     position: "Engineering Manager at Microsoft",
-  //     avatar: "/placeholder.svg?height=60&width=60",
-  //     rating: 4.7,
-  //     expertise: ["System Design", "Leadership"],
-  //     availability: "Available Next Week",
-  //     availabilityStatus: "busy",
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Neha Kapoor",
-  //     position: "Data Science Lead at Netflix",
-  //     avatar: "/placeholder.svg?height=60&width=60",
-  //     rating: 4.9,
-  //     expertise: ["Machine Learning", "Analytics"],
-  //     availability: "Available Tomorrow",
-  //     availabilityStatus: "available",
-  //   },
-  // ],
+  recommendedMentors: [
+    {
+      mentor_id: 1,
+      mentor_name: "Rahul Mehta",
+      mentor_company: "Senior Product Manager at Amazon",
+      profile_photo: "/placeholder.svg?height=60&width=60",
+      // matched_score: 4.9,
+      matched_skills: ["Product Strategy", "Growth"],
+      // availability: "Available Tomorrow",
+      // availabilityStatus: "available",
+    },
+    {
+      id: 2,
+      name: "Ananya Desai",
+      position: "UX Research Lead at Google",
+      avatar: "/placeholder.svg?height=60&width=60",
+      rating: 4.8,
+      expertise: ["User Research", "Design Thinking"],
+      availability: "Available Today",
+      availabilityStatus: "available",
+    },
+    {
+      id: 3,
+      name: "Vikram Singh",
+      position: "Engineering Manager at Microsoft",
+      avatar: "/placeholder.svg?height=60&width=60",
+      rating: 4.7,
+      expertise: ["System Design", "Leadership"],
+      availability: "Available Next Week",
+      availabilityStatus: "busy",
+    },
+    {
+      id: 4,
+      name: "Neha Kapoor",
+      position: "Data Science Lead at Netflix",
+      avatar: "/placeholder.svg?height=60&width=60",
+      rating: 4.9,
+      expertise: ["Machine Learning", "Analytics"],
+      availability: "Available Tomorrow",
+      availabilityStatus: "available",
+    },
+  ],
   caseStudies: [
     {
       id: 1,
@@ -270,9 +270,11 @@ const recommendedInternships = [
 const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
-  const [recommendedMentors, setRecommendedMentors] = useState();
+  const [recommendedMentors, setRecommendedMentors] = useState([]);
+  const [recommendedInternships, setRecommendedInternships] = useState([]);
   const [firstMentor, setFirstMentor] = useState(0);
-  const [lastMentor, setLastMentor] = useState(4);
+  const [lastMentor, setLastMentor] = useState();
+  const [allBookingSessions, setAllBookingSessions] = useState([]);
   const url = ApiURL();
   // Debounce search functionality
   useEffect(() => {
@@ -287,8 +289,6 @@ const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
   useEffect(() => {
     const recomMentors = async () => {
       try {
-        // const authToken = localStorage.getItem("mytime");
-        // console.log("token", token);
         const response = await axios.get(
           `${url}api/v1/mentee/dashboard/recommend-mentors/${singleMenteeDtlsId}`,
           {
@@ -298,22 +298,65 @@ const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
           }
         );
         if (response) {
-          // console.log(typeof response.data.recommendedMentors);
           const recommendedMentorsData = response.data.recommendedMentors;
-          console.log(recommendedMentorsData);
-          setRecommendedMentors(response.data.recommendedMentors);
-
-          // console.log(recommendedMentors);
+          setRecommendedMentors(recommendedMentorsData);
         }
       } catch (error) {
         console.log(error);
       }
     };
     if (singleMenteeDtlsId) {
+      console.log("methid");
       recomMentors();
+      recomInternships();
     }
   }, []);
-  // console.log("single mentee details", singleMenteeDtlsId);
+
+  useEffect(() => {
+    const fetchMentors = async () => {
+      const response = await axios.post(
+        `${url}api/v1/mentee/dashboard/appointments/upcoming`,
+        { userDtlsId: user?.user_id }
+      );
+      if (response.data) {
+        console.log("upcoming mentors", response.data.success);
+        setAllBookingSessions(response.data.success);
+      }
+      if (response.data.error) {
+        console.log("upcomming mentor", response.data.error);
+        setAllBookingSessions([]);
+      }
+    };
+    fetchMentors();
+  }, [url, user?.user_id]);
+
+  const recomInternships = async () => {
+    try {
+      const response = await axios.get(
+        `${url}api/v1/mentee/dashboard/recommend-internships/${singleMenteeDtlsId}`
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // }
+      );
+      if (response) {
+        const recommendedInternshipsData = response.data.matchedInternships;
+        setRecommendedInternships(recommendedInternshipsData);
+        console.log(recommendedInternshipsData);
+
+        const handleResize = () => {
+          setWindowWidth(window.innerWidth);
+          setCurrentMentorIndex(0); // Reset to start when screen size changes
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [currentMentorIndex, setCurrentMentorIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -331,20 +374,20 @@ const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
   const mentorsPerPage = getMentorsPerPage();
 
   // Window resize handler
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-      setCurrentMentorIndex(0); // Reset to start when screen size changes
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setWindowWidth(window.innerWidth);
+  //     setCurrentMentorIndex(0); // Reset to start when screen size changes
+  //   };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   const nextMentors = () => {
     if (!isAnimating) {
       setIsAnimating(true);
-      if (currentMentorIndex + 1 >= mentors.length) {
+      if (currentMentorIndex + 4 >= recommendedMentors.length) {
         // Loop back to the beginning
         setCurrentMentorIndex(0);
       } else {
@@ -359,250 +402,247 @@ const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
       setIsAnimating(true);
       if (currentMentorIndex <= 0) {
         // Loop to the end
-        setCurrentMentorIndex(mentors.length - 1);
+        setCurrentMentorIndex(recommendedMentors.length - 1);
       } else {
         setCurrentMentorIndex(currentMentorIndex - 1);
       }
       setTimeout(() => setIsAnimating(false), 300);
     }
   }; // Get current mentors to display
-  const currentMentors = mentors.slice(
-    currentMentorIndex,
-    currentMentorIndex + mentorsPerPage
-  );
+  // const currentMentors =
+  //   recommendedMentors.slice(
+  //     currentMentorIndex,
+  //     currentMentorIndex + mentorsPerPage
+  //   );
   // With infinite loop, buttons are always enabled
   const canGoNext = true;
   const canGoPrev = true;
 
-  // Calculate total pages for pagination dots
-  const totalPages = Math.ceil(mentors.length / mentorsPerPage);
-  const currentPage = Math.floor(currentMentorIndex / mentorsPerPage);
-
   // Filter mentors based on search query
-  const filteredMentors = useMemo(() => {
-    if (!debouncedSearchQuery) return dummyData.recommendedMentors;
+  // const filteredMentors = useMemo(() => {
+  //   if (!debouncedSearchQuery) return dummyData.recommendedMentors;
 
-    return dummyData.recommendedMentors.filter(
-      (mentor) =>
-        mentor.name
-          .toLowerCase()
-          .includes(debouncedSearchQuery.toLowerCase()) ||
-        mentor.position
-          .toLowerCase()
-          .includes(debouncedSearchQuery.toLowerCase()) ||
-        mentor.expertise.some((skill) =>
-          skill.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
-        )
-    );
-  }, [debouncedSearchQuery]);
-
-  const handleFirstMentor = () => {
-    setFirstMentor((prevCount) => prevCount + 1);
-    setLastMentor((prevCount) => prevCount + 1);
-  };
-  const handleLastMentor = () => {
-    setFirstMentor((prevCount) => prevCount - 1);
-    setLastMentor((prevCount) => prevCount - 1);
-  };
-
+  //   return dummyData.recommendedMentors.filter(
+  //     (mentor) =>
+  //       mentor.name
+  //         .toLowerCase()
+  //         .includes(debouncedSearchQuery.toLowerCase()) ||
+  //       mentor.position
+  //         .toLowerCase()
+  //         .includes(debouncedSearchQuery.toLowerCase()) ||
+  //       mentor.expertise.some((skill) =>
+  //         skill.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
+  //       )
+  //   );
+  // }, [debouncedSearchQuery]);
   return (
     <div className="mentee-new-dashboard-container">
       <main className="mentee-new-dashboard-main">
         {/* Upcoming Mentor Session - 100% width */}
-        <div className="new-mentee-profile-upcomming-session">
-          <div className="new-mentee-profile-upcomming-session-left">
-            {" "}
+        {allBookingSessions.length > 0 ? (
+          <div className="new-mentee-profile-upcomming-session">
+            <div className="new-mentee-profile-upcomming-session-left">
+              {" "}
+              <div className="new-mentee-profile-upcomming-session-header">
+                <span className="new-mentee-profile-upcomming-session-title">
+                  Upcoming Mentor Session
+                </span>
+                <span className="new-mentee-profile-upcomming-session-time">
+                  <Calendar
+                    size={16}
+                    className="new-mentee-profile-upcomming-session-icon"
+                  />
+                  {allBookingSessions[0].mentor_session_booking_date.slice(
+                    0,
+                    10
+                  )}
+                </span>
+              </div>
+              <div className="new-mentee-profile-upcomming-session-mentor-row">
+                <img
+                  src={allBookingSessions[0].mentor_profile_photo}
+                  alt="Priya Sharma"
+                  className="new-mentee-profile-upcomming-session-mentor-image"
+                  draggable={false}
+                />
+                <div className="new-mentee-profile-upcomming-session-mentor-info">
+                  <span className="new-mentee-profile-upcomming-session-mentor-name">
+                    {allBookingSessions[0].user_firstname}
+                    {allBookingSessions[0].user_lastname}
+                  </span>
+                  <div className="new-mentee-profile-upcomming-session-mentor-tags">
+                    <span className="new-mentee-profile-upcomming-session-mentor-tag ux">
+                      {allBookingSessions[0].mentor_job_title}
+                    </span>
+                    <span className="new-mentee-profile-upcomming-session-mentor-tag pm">
+                      {/* Product Management */}
+                    </span>
+                  </div>
+                  <div className="new-mentee-profile-upcomming-session-topic">
+                    {allBookingSessions[0].mentor_session_status}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="new-mentee-profile-upcomming-session-right">
+              <div className="new-mentee-profile-upcomming-session-start">
+                {/* <span className="new-mentee-profile-upcomming-session-starts-label">
+                  Starts in
+                </span>
+                <span className="new-mentee-profile-upcomming-session-starts-time">
+                  02:43:15
+                </span>{" "} */}
+                <button className="new-mentee-profile-upcomming-session-join-btn">
+                  <a href={allBookingSessions[0].trainee_join_url}>
+                    Join Session
+                  </a>
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="new-mentee-profile-upcomming-session-nodata">
             <div className="new-mentee-profile-upcomming-session-header">
               <span className="new-mentee-profile-upcomming-session-title">
                 Upcoming Mentor Session
               </span>
-              <span className="new-mentee-profile-upcomming-session-time">
-                <Calendar
-                  size={16}
-                  className="new-mentee-profile-upcomming-session-icon"
-                />
-                Today, 4:00 PM - 5:00 PM
-              </span>
+              <a href="#" className="ready-to-meet-link">
+                Ready to meet an industry expert?
+              </a>
             </div>
-            <div className="new-mentee-profile-upcomming-session-mentor-row">
-              <img
-                src="https://randomuser.me/api/portraits/women/52.jpg"
-                alt="Priya Sharma"
-                className="new-mentee-profile-upcomming-session-mentor-image"
-                draggable={false}
-              />
-              <div className="new-mentee-profile-upcomming-session-mentor-info">
-                <span className="new-mentee-profile-upcomming-session-mentor-name">
-                  Priya Sharma
-                </span>
-                <div className="new-mentee-profile-upcomming-session-mentor-tags">
-                  <span className="new-mentee-profile-upcomming-session-mentor-tag ux">
-                    UX Design
-                  </span>
-                  <span className="new-mentee-profile-upcomming-session-mentor-tag pm">
-                    Product Management
-                  </span>
+
+            <div className="session-content">
+              <div className="session-info">
+                <div className="calendar-icon">
+                  <Calendar size={24} color="#9CA3AF" />
                 </div>
-                <div className="new-mentee-profile-upcomming-session-topic">
-                  Session Topic: Creating User-Centered Design Systems
+                <div className="session-text">
+                  <div className="no-sessions-text">
+                    You haven't booked any sessions yet
+                  </div>
+                  <p className="guidance-text">
+                    Book your first mentoring session to get personalized
+                    guidance
+                  </p>
                 </div>
               </div>
+              <div className="find-mentors-button">Find Available Mentors</div>
             </div>
           </div>
-          <div className="new-mentee-profile-upcomming-session-right">
-            <div className="new-mentee-profile-upcomming-session-start">
-              <span className="new-mentee-profile-upcomming-session-starts-label">
-                Starts in
-              </span>
-              <span className="new-mentee-profile-upcomming-session-starts-time">
-                02:43:15
-              </span>{" "}
-              <button className="new-mentee-profile-upcomming-session-join-btn">
-                Join Session
-              </button>
-            </div>
-          </div>
-        </div>
-
+        )}
         {/* Recommended Mentors - 100% width */}
-        <div className="new-mentee-profile-recommended-mentor-container">
-          <div className="new-mentee-profile-recommended-mentor-header">
-            <h3>Recommended Mentors</h3>
-            <div className="new-mentee-profile-recommended-mentor-controls">
-              <button
-                className={`new-mentee-profile-mentor-nav-btn ${
-                  !canGoPrev ? "disabled" : ""
-                }`}
-                onClick={prevMentors}
-                disabled={!canGoPrev}
-              >
-                <ChevronLeft size={20} />
-              </button>
-              <button
-                className={`new-mentee-profile-mentor-nav-btn ${
-                  !canGoNext ? "disabled" : ""
-                }`}
-                onClick={nextMentors}
-                disabled={!canGoNext}
-              >
-                <ChevronRight size={20} />
-              </button>
-              {/* <a
+
+        {recommendedInternships && (
+          <div className="new-mentee-profile-recommended-mentor-container">
+            <div className="new-mentee-profile-recommended-mentor-header">
+              <h3>Recommended Mentors</h3>
+              <div className="new-mentee-profile-recommended-mentor-controls">
+                <button
+                  className={`new-mentee-profile-mentor-nav-btn ${
+                    !canGoPrev ? "disabled" : ""
+                  }`}
+                  onClick={prevMentors}
+                  disabled={!canGoPrev}
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  className={`new-mentee-profile-mentor-nav-btn ${
+                    !canGoNext ? "disabled" : ""
+                  }`}
+                  onClick={nextMentors}
+                  disabled={!canGoNext}
+                >
+                  <ChevronRight size={20} />
+                </button>
+                {/* <a
                 href="#"
                 className="new-mentee-profile-recommended-mentor-view-all"
               >
                 <span>View All</span>
                 <ChevronRight size={16} />
               </a> */}
-            </div>
-          </div>{" "}
-          <div className="new-mentee-profile-recommended-mentor-carousel">
-            {" "}
-            <div
-              className="new-mentee-profile-recommended-mentor-list"
-              style={{
-                transform: `translateX(-${
-                  currentMentorIndex * (100 / mentorsPerPage)
-                }%)`,
-                transition: isAnimating
-                  ? "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
-                  : "none",
-              }}
-            >
-              {recommendedMentors &&
-                recommendedMentors.map((mentor, index) => (
-                  <div
-                    className="new-mentee-profile-recommended-mentor-card"
-                    key={mentor.mentor_id}
-                    style={{
-                      opacity:
-                        index >= currentMentorIndex &&
-                        index < currentMentorIndex + mentorsPerPage
-                          ? 1
-                          : 0.6,
-                      transition: "opacity 0.3s ease",
-                    }}
-                  >
-                    <div className="new-mentee-profile-recommended-mentor-row">
-                      <img
-                        src={mentor.profile_photo}
-                        alt={mentor.mentor_name}
-                        className="new-mentee-profile-recommended-mentor-img"
-                        draggable={false}
-                      />
-                      <div className="new-mentee-profile-recommended-mentor-details">
-                        <div className="new-mentee-profile-recommended-mentor-name">
-                          {mentor.mentor_name}
-                        </div>
-                        <div className="new-mentee-profile-recommended-mentor-title">
-                          @ {mentor.mentor_company}
-                        </div>
-                        <div className="new-mentee-profile-recommended-mentor-tags">
-                          {mentor.mentor_titile}
-                        </div>
-                        <div className="new-mentee-profile-recommended-mentor-rating">
-                          {/* <Star size={16} className="star" fill="currentColor" /> */}
-                          {/* <span className="rating-score">{mentor.rating}</span> */}
+              </div>
+            </div>{" "}
+            <div className="new-mentee-profile-recommended-mentor-carousel">
+              {" "}
+              <div
+                className="new-mentee-profile-recommended-mentor-list"
+                style={{
+                  transform: `translateX(-${
+                    currentMentorIndex * (100 / mentorsPerPage)
+                  }%)`,
+                  transition: isAnimating
+                    ? "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                    : "none",
+                }}
+              >
+                {recommendedMentors &&
+                  recommendedMentors.map((mentor, index) => (
+                    <div
+                      className="new-mentee-profile-recommended-mentor-card"
+                      key={mentor.mentor_id}
+                      style={{
+                        opacity:
+                          index >= currentMentorIndex &&
+                          index < currentMentorIndex + mentorsPerPage
+                            ? 1
+                            : 0.6,
+                        transition: "opacity 0.3s ease",
+                      }}
+                    >
+                      <div className="new-mentee-profile-recommended-mentor-row">
+                        <img
+                          src={mentor.profile_photo}
+                          alt={mentor.mentor_name}
+                          className="new-mentee-profile-recommended-mentor-img"
+                          draggable={false}
+                        />
+                        <div className="new-mentee-profile-recommended-mentor-details">
+                          <div className="new-mentee-profile-recommended-mentor-name">
+                            {mentor.mentor_name}
+                          </div>
+                          <div className="new-mentee-profile-recommended-mentor-title">
+                            @ {mentor.mentor_company}
+                          </div>
+                          <div className="new-mentee-profile-recommended-mentor-tags">
+                            {mentor.mentor_titile}
+                          </div>
+                          <div className="new-mentee-profile-recommended-mentor-rating">
+                            {/* <Star size={16} className="star" fill="currentColor" /> */}
+                            {/* <span className="rating-score">{mentor.rating}</span> */}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="new-mentee-profile-recommended-mentor-tags">
-                      {mentor.mentor_domain.map((tag) => (
+                      <div className="new-mentee-profile-recommended-mentor-tags">
+                        {mentor.mentor_domain.map((tag) => (
+                          <span
+                            className="new-mentee-profile-recommended-mentor-tag"
+                            key={tag}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="new-mentee-profile-recommended-mentor-footer">
                         <span
-                          className="new-mentee-profile-recommended-mentor-tag"
-                          key={tag}
+                        // className={new-mentee-profile-recommended-mentor-availability ${mentor.availabilityClass}}
                         >
-                          {tag}
+                          {"Available"}
                         </span>
-                      ))}
+                        <a
+                          className="new-mentee-profile-recommended-mentor-session"
+                          href="#"
+                        >
+                          {"Book Now"}
+                        </a>
+                      </div>
                     </div>
-                    <div className="new-mentee-profile-recommended-mentor-footer">
-                      <span
-                      // className={new-mentee-profile-recommended-mentor-availability ${mentor.availabilityClass}}
-                      >
-                        {"Available"}
-                      </span>
-                      <a
-                        className="new-mentee-profile-recommended-mentor-session"
-                        href="#"
-                      >
-                        {"Book Now"}
-                      </a>
-                    </div>
-                  </div>
-                ))}
-            </div>
-            {/* Pagination dots */}
-            {/* {totalPages > 1 && (
-              <div className="new-mentee-profile-mentor-pagination">
-                {Array.from({ length: totalPages }).map((_, index) => (
-                  <button
-                    key={index}
-                    className={`new-mentee-profile-mentor-dot ${
-                      index === currentPage ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      if (!isAnimating) {
-                        setIsAnimating(true);
-                        setCurrentMentorIndex(index * mentorsPerPage);
-                        setTimeout(() => setIsAnimating(false), 300);
-                      }
-                    }}
-                  />
-                ))}
+                  ))}
               </div>
-            )} */}
-            {/* Progress indicator */}
-            {/* <div className="new-mentee-profile-mentor-progress">
-              <span className="new-mentee-profile-mentor-progress-text">
-                Showing{" "}
-                {Math.min(currentMentorIndex + mentorsPerPage, mentors.length)}{" "}
-                of {mentors.length} mentors
-              </span>
-            </div> */}
+            </div>
           </div>
-        </div>
-
+        )}
         {/* end of recommend section */}
 
         {/* Quick Actions - 100% width */}
@@ -699,25 +739,39 @@ const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
             </div>
             <div className="internship-rec-header">Recommended Internships</div>
             <div className="internship-rec-list">
-              {recommendedInternships.map((i, idx) => (
-                <div className="internship-rec-card" key={idx}>
-                  <div className="internship-rec-left">
-                    <div className="internship-rec-company">{i.company}</div>
-                    <div className="internship-rec-role">{i.role}</div>
-                    <div className="internship-rec-meta">
-                      <span>{i.location}</span>
-                      <span className="internship-rec-dot">·</span>
-                      <span>{i.duration}</span>
+              {recommendedInternships &&
+                recommendedInternships.map((internship) => (
+                  <div
+                    className="internship-rec-card"
+                    key={internship.internship_id}
+                  >
+                    <div className="internship-rec-left">
+                      <div className="internship-rec-company">
+                        {internship.internship_domain}
+                      </div>
+                      <div className="internship-rec-role">
+                        {internship.internship_title}
+                      </div>
+                      <div className="internship-rec-meta">
+                        <span>{internship.internship_location}</span>
+                        <span className="internship-rec-dot">·</span>
+                        <span>{internship.internship_duration} months</span>
+                      </div>
+                    </div>
+                    <div className="internship-rec-right">
+                      <div className="internship-rec-stipend">
+                        {internship.internship_amount > 0 && (
+                          <span>&#8377;</span>
+                        )}{" "}
+                        {internship.internship_amount}
+                      </div>
+                      <a href="#" className="internship-rec-cta">
+                        Apply Now
+                        {/* <ExternalLink size={14} /> */}
+                      </a>
                     </div>
                   </div>
-                  <div className="internship-rec-right">
-                    <div className="internship-rec-stipend">{i.stipend}</div>
-                    <a href="#" className="internship-rec-cta">
-                      {i.cta}
-                    </a>
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>

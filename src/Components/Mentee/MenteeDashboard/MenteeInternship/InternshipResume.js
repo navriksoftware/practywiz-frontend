@@ -7,19 +7,48 @@ import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 
 const InternshipResume = ({ singleMentee, user, token }) => {
-  const [resume, setResume] = useState({});
+  const [resume, setResume] = useState(null);
   const [dbResume, setDbResume] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadResumeStatus, setUploadResumeStatus] = useState(false);
   const menteeId = singleMentee?.mentee_dtls_id;
   const { user_id } = user;
   const url = ApiURL();
 
+  // useEffect(() => {
+  //   function getValueAfterHyphen(str) {
+  //     const index = str.indexOf("-");
+  //     if (index === -1) return null; // no hyphen found
+  //     return str.slice(index + 1).trim();
+  //   }
+  //   const fetchResume = async () => {
+  //     try {
+  //       const res = await axios.get(
+  //         `${url}api/v1/mentee/dashboard/resume/download`,
+  //         { params: { user_id } }
+  //       );
+  //       const resumeUrl = res.data.url;
+
+  //       if (res) {
+  //         const resumeName = getValueAfterHyphen(resumeUrl);
+  //         setDbResume(true);
+  //         setResume({ url: res.data.url, name: resumeName });
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchResume();
+  // }),
+  //   [setResume, setUploadResumeStatus];
+
   useEffect(() => {
     function getValueAfterHyphen(str) {
       const index = str.indexOf("-");
-      if (index === -1) return null; // no hyphen found
+      if (index === -1) return null;
       return str.slice(index + 1).trim();
     }
+
     const fetchResume = async () => {
       try {
         const res = await axios.get(
@@ -27,24 +56,19 @@ const InternshipResume = ({ singleMentee, user, token }) => {
           { params: { user_id } }
         );
         const resumeUrl = res.data.url;
-        console.log("line 23");
-        console.log(res);
+
         if (res) {
           const resumeName = getValueAfterHyphen(resumeUrl);
-          console.log("dgsdf", resumeName);
           setDbResume(true);
-          console.log("response", res.data);
-          console.log(res.data.url);
           setResume({ url: res.data.url, name: resumeName });
-
-          console.log("res url", resume.url);
         }
       } catch (error) {
-        toast.error("Failed to download resume. Please try again.");
+        console.log(error);
       }
     };
+
     fetchResume();
-  }, [setResume]);
+  }, [uploadResumeStatus, user_id]);
 
   // TODO: Implement this function to upload the file to the server
   const uploadFileToServer = async (file) => {
@@ -131,10 +155,6 @@ const InternshipResume = ({ singleMentee, user, token }) => {
       return;
     }
     try {
-      console.log(resume.file);
-      // console.log("userid", singleMentee);
-      console.log("userid", user_id);
-
       const formData = new FormData();
       formData.append("file", resume.file);
       formData.append("name", resume.name);
@@ -148,10 +168,13 @@ const InternshipResume = ({ singleMentee, user, token }) => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      toast.success("Resume created successfully");
-      // setResume(false);
+      if (res) {
+        toast.success("Resume Uploaded successfully");
+        setUploadResumeStatus(!uploadResumeStatus);
+      }
     } catch (error) {
       toast.error("Failed to Upload resume. Please try again.");
+      setUploadResumeStatus(false);
     }
   };
 

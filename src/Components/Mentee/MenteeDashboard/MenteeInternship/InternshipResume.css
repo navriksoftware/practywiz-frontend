@@ -138,27 +138,37 @@
 }
 
 .ir-upload-button {
-    margin-left: 10px;
-    padding: 8px 16px;
-    /* background-color: rgba(77, 255, 92, 0.83); */
-    color: #007BFF !important;
-    /* border: none; */
-    /* border-radius: 4px; */
+    background-color: #2563eb;
+    /* vibrant blue */
+    color: white !important;
+    padding: 6px 14px;
+    /* slightly smaller than original */
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
     white-space: nowrap;
+    transition: background-color 0.3s ease;
+}
+
+.ir-upload-button:hover {
+    background-color: #1e4ed8;
+    /* slightly darker on hover */
 }
 
 .ir-remove-button {
-    margin-left: 10px;
-    padding: 8px 16px;
     background-color: #FF4D4D;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    white-space: nowrap;
+    color: white !important;
+        padding: 6px 14px;
+        /* slightly smaller than original */
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+        transition: background-color 0.3s ease;
 }
 
 .ir-remove-button:hover {

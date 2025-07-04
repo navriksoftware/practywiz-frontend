@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -8,6 +8,7 @@ import "../InternshipCss/SingleApplicantProfile.css";
 const ApplicantProfile = () => {
   const url = ApiURL();
   const location = useLocation();
+  const [userResume, setUserResume] = useState("");
   const mentee = location.state.applicant || [];
   const [isShortlisted, setIsShortlisted] = useState(
     mentee?.mentee_internship_applied_status === "shortlisted" ? true : false
@@ -47,6 +48,37 @@ const ApplicantProfile = () => {
     }
   };
 
+  useEffect(() => {
+    //Review this code for resume Download
+    handleDownloadCV();
+  }, []);
+  const handleDownloadCV = async () => {
+    const user_id = mentee.mentee_user_dtls_id;
+    try {
+      const res = await axios.get(
+        `${url}api/v1/mentee/dashboard/resume/download`,
+        { params: { user_id } }
+      );
+      console.log("response", res);
+      if (res.data) {
+        setUserResume(res.data.url);
+      }
+    } catch (error) {
+      setUserResume("");
+      console.log("Error while Downloading Resume", error);
+      // console.log(userResume);
+    }
+  };
+
+  const downloadCv = () => {
+    if (userResume) {
+      toast.success("Resume Downloading Started");
+    } else {
+      // toast.error("Failed to download resume. Please Try Again Later.");
+      toast.error("Resume Not Exist");
+    }
+  };
+
   return (
     <div className="single-applicant-profile-overview-container">
       <div className="single-applicant-prof-profile-section-header">
@@ -66,7 +98,13 @@ const ApplicantProfile = () => {
           >
             {isShortlisted ? "Shortlisted" : "Shortlist"}
           </button>
-          <button className="single-applicant-btn-default">Download CV</button>
+          <button onClick={downloadCv} className="single-applicant-btn-default">
+            {userResume ? (
+              <a href={userResume}> Download CV</a>
+            ) : (
+              <span>Download CV</span>
+            )}
+          </button>
         </div>
       </div>
       {mentee && (
@@ -83,9 +121,12 @@ const ApplicantProfile = () => {
                   {mentee.mentee_firstname.toUpperCase()}{" "}
                   {mentee.mentee_lastname.toUpperCase()}
                 </h1>
-                <p className="single-applicant-profile-location">
-                  {`${mentee?.mentee_email} | ${mentee.mentee_phone_number}`}
-                </p>
+                {mentee.mentee_email && mentee.mentee_phone_number && (
+                  <p className="single-applicant-profile-location">
+                    {`${mentee?.mentee_email} | ${mentee.mentee_phone_number}`}
+                  </p>
+                )}
+
                 <p className="single-applicant-profile-description">
                   {mentee?.mentee_about}
                 </p>

@@ -5,5 +5,5 @@ export const ApiURL = () => {
   const productionURL =
     "https://practywiz-production-backend.azurewebsites.net/";
   const testingURL = "https://development-testing.azurewebsites.net/";
-  return productionURL;
+  return developmentURL;
 };

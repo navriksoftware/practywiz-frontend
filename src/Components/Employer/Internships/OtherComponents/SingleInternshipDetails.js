@@ -7,6 +7,11 @@ import axios from "axios";
 import { ApiURL } from "../../../../Utils/ApiURL";
 import DOMPurify from "dompurify";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../Redux/loadingRedux";
 
 const InternshipDetail = ({ user, token }) => {
   const url = ApiURL();
@@ -24,23 +29,28 @@ const InternshipDetail = ({ user, token }) => {
   const [jobDetails, setJobDetails] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isUserMentee, setUserMentee] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchSingleInternship = async () => {
       setLoading(true);
       try {
+        dispatch(showLoadingHandler());
         const response = await axios.post(
           `${url}api/v1/employer/internship/fetch-internship-post`,
           { internshipPostId }
         );
         if (response.data.success) {
           setSingleInternshipPost(response.data.success);
+          dispatch(hideLoadingHandler());
         } else {
           setSingleInternshipPost(null);
+          dispatch(hideLoadingHandler());
         }
       } catch (error) {
         console.error("Error fetching internship details:", error);
         setSingleInternshipPost(null);
+        dispatch(hideLoadingHandler());
       }
       setLoading(false);
     };

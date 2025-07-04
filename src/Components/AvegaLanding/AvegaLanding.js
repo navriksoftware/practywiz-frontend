@@ -162,7 +162,7 @@ export default function AvegaLanding() {
               <button
                 onClick={() =>
                   window.open(
-                    "mailto:wecares@practywiz.com?subject=Interested in Avega&body=Hi, I would like to know more about Avega and how it can help my institution."
+                    "mailto:wecare@practywiz.com?subject=Interested in Avega&body=Hi, I would like to know more about Avega and how it can help my institution."
                   )
                 }
                 className="avega-landing-page-v2-secondary-btn"
@@ -831,7 +831,7 @@ export default function AvegaLanding() {
               <button
                 onClick={() =>
                   window.open(
-                    "mailto:wecares@practywiz.com?subject=Interested in Avega&body=Hi, I would like to schedule a demo for Avega AI."
+                    "mailto:wecare@practywiz.com?subject=Interested in Avega&body=Hi, I would like to schedule a demo for Avega AI."
                   )
                 }
                 className="avega-landing-page-v2-secondary-btn"
