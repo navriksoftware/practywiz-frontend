@@ -7,6 +7,7 @@ function SimulationPage() {
   // --- Chat Sidebar State ---
   const [chatSidebarOpen, setChatSidebarOpen] = useState(false);
   const [inclassChatOpen, setInclassChatOpen] = useState(false);
+  const [caseStudyId, setCaseStudyId] = useState(null);
   // --- Chat Sidebar Handlers ---
   const handleChatSidebarToggle = () => {
     setChatSidebarOpen(!chatSidebarOpen);
@@ -21,16 +22,17 @@ function SimulationPage() {
   return (
     <>
       {/* <div ">Avega</div> */}
-      <Simulation setInclassChatOpen={setInclassChatOpen} />
+      <Simulation setInclassChatOpen={setInclassChatOpen} setCaseStudyId={setCaseStudyId} />
 
-      {/* {inclassChatOpen && 
+      {inclassChatOpen && 
 
       <ChatSidebar
         isOpen={chatSidebarOpen}
         onToggle={handleChatSidebarToggle}
         onSendMessage={handleChatMessage}
+        roomIdProvided={caseStudyId}
       />
-      } */}
+      }
     </>
   );
 }

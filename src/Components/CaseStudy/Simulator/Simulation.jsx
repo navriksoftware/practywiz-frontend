@@ -7,7 +7,7 @@ import ChatInterface from "./ChatInterface";
 import Navbar from "../../Navbar/Navbar";
 import { ApiURL } from "../../../Utils/ApiURL";
 
-function Simulation( { setInclassChatOpen }) {
+function Simulation( { setInclassChatOpen, setCaseStudyId }) {
   document.title = "Practywiz | Avega";
   const URL = ApiURL();
   const navigate = useNavigate();
@@ -79,9 +79,9 @@ function Simulation( { setInclassChatOpen }) {
 
   useEffect(() => {
 
-    console.log("Is in class chat open:", isInClass);
-    
+    // Updating state in perent component for status and assignment ID
     setInclassChatOpen(isInClass);
+    setCaseStudyId(facultyCaseAssignId || null);
     if (facultyCaseAssignId && menteeId) {
       fetchQuestions();
     }
@@ -334,17 +334,34 @@ function Simulation( { setInclassChatOpen }) {
     // Submit responses to backend
     submitResponses(completeResults);
 
+    if (isInClass) {
+      // If in class, just show a message and redirect after 5 seconds
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "AI",
+          text: "Your assignment have been submitted successfully!",
+        },
+      ]);
+      setTimeout(() => {
+        navigate("/mentee/dashboard");
+      }, 5000);
+      return;
+    } else {
     setMessages((prev) => [
       ...prev,
       {
         sender: "AI",
-        text: "Your responses have been submitted successfully! Redirecting to dashboard...",
+        text: "Your assignment have been submitted successfully! Redirecting to dashboard...",
       },
     ]);
+    }
 
     setTimeout(() => {
-      navigate("/mentee/dashboard");
-    }, 3000);
+      {!isInClass &&
+        navigate("/mentee/dashboard");
+      }
+    }, 5000);
   };
 
   // --- MAIN LOGIC ---
