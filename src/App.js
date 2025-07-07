@@ -90,7 +90,7 @@ import DemoResultPage from "./Pages/CaseStudyPages/DemoResultPage";
 import SingleNonPractywizCaseStudy from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleNonPractywizCaseStudy";
 import SingleStudentAssessmentPage from "./Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/SingleStudentAssessmentPage";
 import AvegaLandingPage from "./Pages/OtherLandingPages/AvegaLandingPage";
-import  FacultyProbeDashboard from "../src/Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/FacultyProbeDashboard.js"
+import FacultyProbeDashboard from "../src/Components/Institute/FacultyManagement/TeacherDashboard/OtherComponents/FacultyProbeDashboard.js"
 
 
 function App() {
@@ -246,12 +246,12 @@ function App() {
             path="/institute/view-profile/:id"
             element={<InstituteProfilePage />}
           />
-          {/* {user?.user_type === "institute" && ( */}
-          <Route
-            path="/institute/dashboard"
-            element={<InstituteDashboardPage user={user} token={token} />}
-          />
-          {/* )} */}
+          {user?.user_type === "institute" && (
+            <Route
+              path="/institute/dashboard"
+              element={<InstituteDashboardPage user={user} token={token} />}
+            />
+          )}
           {/* Institute links ends */}
           <Route path="/payment-error" element={<PaymentCancPage />} />
           {/* <Route path="/internships" element={<InternshipPages />} /> */}
@@ -288,14 +288,16 @@ function App() {
           <Route path="/mentee/avega" element={<SimulationPage />} />
           <Route path="/cart" element={<Cart user={user} token={token} />} />
           {/* teacher dashboard start */}
-          <Route
+          {user?.user_type === "faculty" && (<Route
             path="/faculty/dashboard"
             element={<TeacherDashboardPage user={user} token={token} />}
-          />
-          <Route
+          />)}
+          {user?.user_type === "faculty" && (<Route
             path="/faculty/Single-Student-Assessment-Page/mentee/:Mid/assignedCase/:ACid"
             element={<TestAssessmentPage />}
-          />
+          />)}
+
+
           {/* teacher dashboard end */}
           {/* internship section start */}
           <Route
@@ -348,7 +350,7 @@ function App() {
           {/* faculty probes pages access */}
           <Route
             path="/Faculty/Probe/Dashboard"
-            element={<FacultyProbeDashboard/>}
+            element={<FacultyProbeDashboard />}
           />
 
 

@@ -763,7 +763,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
               )}
             </div>
           )}
-          {selectedTab === "live-class" && <FacultyProbsResultPage />}
+          {selectedTab === "live-class" && <FacultyProbsResultPage roomId={faculty_case_assign_dtls_id} userName={"Gagan"} userId={facultyID} />}
 
           {/* Add Student Modal */}
           {/* {showAddModal && (
