@@ -24,7 +24,7 @@ function SimulationPage() {
       {/* <div ">Avega</div> */}
       <Simulation setInclassChatOpen={setInclassChatOpen} setCaseStudyId={setCaseStudyId} />
 
-      {/* {inclassChatOpen && 
+      {inclassChatOpen && 
 
       <ChatSidebar
         isOpen={chatSidebarOpen}
@@ -32,7 +32,7 @@ function SimulationPage() {
         onSendMessage={handleChatMessage}
         roomIdProvided={caseStudyId}
       />
-      } */}
+      }
     </>
   );
 }
