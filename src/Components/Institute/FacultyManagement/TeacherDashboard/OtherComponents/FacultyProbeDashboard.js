@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import "../DashboardCSS/FacultyProbeDashboard.css";
 import { socket } from "../../../../Utils/socket"
+import { useSelector } from "react-redux";
 
 // Dummy data
 const dummyStudents = [
@@ -129,15 +130,15 @@ const insightfulResponses = [
   },
 ];
 
-export default function FacultyProbsResultPage() {
+export default function FacultyProbsResultPage({ facultyroomId, facultyuserName, facultyuserId }) {
   // const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [questionCategory, setQuestionCategory] = useState("Fact");
   const [responseFormat, setResponseFormat] = useState("Multiple Choice");
   const [responseTimer, setResponseTimer] = useState("No Timer");
-   const [roomId, setRoomId] = useState("") // faculty_case_assign_dtls_id
-  const [facultyName, setFacultyName] = useState("")
+  const [roomId, setRoomId] = useState(facultyroomId) // faculty_case_assign_dtls_id
+  const [facultyName, setFacultyName] = useState(facultyuserName)
   const [isRoomJoined, setIsRoomJoined] = useState(false)
   const [roomInfo, setRoomInfo] = useState(null) // Class and faculty details
 
@@ -216,14 +217,14 @@ export default function FacultyProbsResultPage() {
   };
 
 
-// --------------------------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------------------------------
 
   // Room and user state variables (using existing database structure)
- 
+
 
   // UI state variables
   const [activeTab, setActiveTab] = useState("engagement")
-  
+
   const [statusFilter, setStatusFilter] = useState("all")
 
   // Question form state variables (same as previous version)
@@ -235,7 +236,9 @@ export default function FacultyProbsResultPage() {
   const [error, setError] = useState("")
 
   // Faculty user ID (consistent with previous version)
-  const userId = `faculty_${Date.now()}`
+  const userId = useSelector(
+    (state) => state.faculty?.facultyDtls?.faculty_id || null
+  );
 
   /**
    * Socket event handlers setup
@@ -409,7 +412,7 @@ export default function FacultyProbsResultPage() {
     const questionId = Date.now() // Will be replaced by SQL Server auto-increment
     const question = {
       questionId,
-      roomId: Number.parseInt(roomId), // faculty_case_assign_dtls_id
+      roomId: Number.parseInt(roomId.trim()), // faculty_case_assign_dtls_id
       questionType,
       text: questionText,
       options: questionType === "mcq" ? options.filter((opt) => opt.trim()) : [],
@@ -515,56 +518,30 @@ export default function FacultyProbsResultPage() {
     return counts
   }
 
-
-
-// Render room joining form if not joined yet
+  // Render room joining form if not joined yet
   if (!isRoomJoined) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4">
-        <div className="container mx-auto max-w-md">
-          <div className="flex items-center mb-6">
-            <button className="flex items-center text-gray-600 hover:text-gray-800">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
-            </button>
+      <div className="before-join-room-container">
+
+        <div className="before-join-room-header">
+          <div className="before-join-room-header-left">
+            <h1 className="before-join-room-title">Join Faculty Room</h1>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-bold mb-2">Join Room</h2>
-            <p className="text-gray-600 mb-6">Enter your details to start your session</p>
+          <div className="before-join-room-header-right">
 
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
-                <input
-                  type="text"
-                  value={facultyName}
-                  onChange={(e) => setFacultyName(e.target.value)}
-                  placeholder="Enter your name"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Room ID (Case Assignment ID)</label>
-                <input
-                  type="number"
-                  value={roomId}
-                  onChange={(e) => setRoomId(e.target.value)}
-                  placeholder="Enter faculty case assign ID"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <p className="text-xs text-gray-500 mt-1">Use the faculty_case_assign_dtls_id from your database</p>
-              </div>
-              {error && <div className="text-red-600 text-sm">{error}</div>}
-              <button
-                onClick={joinRoom}
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
-              >
-                Join Room
-              </button>
-            </div>
+
+
+            <button
+              onClick={joinRoom}
+              className="before-join-room-JoinButton"
+            >
+              Join Room
+            </button>
+            {error && <div className="before-join-room-errorMessage">{error}</div>}
           </div>
         </div>
+
       </div>
     )
   }
@@ -573,47 +550,43 @@ export default function FacultyProbsResultPage() {
 
   // Main faculty dashboard render
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
-      <div className="container mx-auto max-w-7xl">
+    <div className="probes-faculty-side-container">
+      <div className="probes-faculty-side-main-container">
         {/* Header section with room information */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <button className="flex items-center text-gray-600 hover:text-gray-800">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
-            </button>
+        <div className="probes-faculty-side-header">
+          <div className="probes-faculty-side-header-left">
             <div>
-              <h1 className="text-3xl font-bold">Faculty Dashboard</h1>
+              <h1 className="probes-faculty-side-title">Faculty Dashboard</h1>
               {roomInfo && (
-                <p className="text-gray-600">
+                <p className="probes-faculty-side-subtitle">
                   {roomInfo.className} • {roomInfo.facultyName}
                 </p>
               )}
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Room: {roomId}</div>
+          <div className="probes-faculty-side-header-right">
+            <div className="probes-faculty-side-room-badge">Room: {roomId}</div>
             {roomInfo && (
-              <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">{roomInfo.className}</div>
+              <div className="probes-faculty-side-class-badge">{roomInfo.className}</div>
             )}
           </div>
         </div>
 
         {/* Main Dashboard Layout - Three Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="probes-faculty-side-grid">
           {/* Left Panel - Question Creation */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-              <h3 className="text-xl font-semibold mb-4">Live Question Push</h3>
+          <div className="probes-faculty-side-col-1">
+            <div className="probes-faculty-side-card probes-faculty-side-card-mb">
+              <h3 className="probes-faculty-side-question-title">Live Question Push</h3>
 
-              <div className="space-y-4">
+              <div className="probes-faculty-side-form-space">
                 {/* Question Type Selector */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Question Type</label>
+                <div className="probes-faculty-side-form-group">
+                  <label className="probes-faculty-side-label">Question Type</label>
                   <select
                     value={questionType}
                     onChange={(e) => setQuestionType(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="probes-faculty-side-select"
                   >
                     <option value="mcq">Multiple Choice (MCQ)</option>
                     <option value="subjective">Subjective (Text Answer)</option>
@@ -621,62 +594,62 @@ export default function FacultyProbsResultPage() {
                 </div>
 
                 {/* Question Text Input */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Question</label>
+                <div className="probes-faculty-side-form-group">
+                  <label className="probes-faculty-side-label">Question</label>
                   <textarea
                     value={questionText}
                     onChange={(e) => setQuestionText(e.target.value)}
                     placeholder="Type your question here..."
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="probes-faculty-side-textarea"
                   />
                 </div>
 
                 {/* Options Input - Only show for MCQ questions */}
                 {questionType === "mcq" && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Options</label>
+                  <div className="probes-faculty-side-form-group">
+                    <label className="probes-faculty-side-label">Options</label>
                     {options.map((option, index) => (
                       <input
                         key={index}
                         value={option}
                         onChange={(e) => updateOption(index, e.target.value)}
                         placeholder={`Option ${index + 1}`}
-                        className="w-full px-3 py-2 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="probes-faculty-side-option-input"
                       />
                     ))}
                   </div>
                 )}
 
                 {/* Response Format Display */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Response Format</label>
-                  <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-md">
-                    {questionType === "mcq" ? <List className="h-4 w-4" /> : <FileText className="h-4 w-4" />}
-                    <span className="text-sm">{questionType === "mcq" ? "Multiple Choice" : "Text Response"}</span>
+                <div className="probes-faculty-side-form-group">
+                  <label className="probes-faculty-side-label">Response Format</label>
+                  <div className="probes-faculty-side-response-format">
+                    {questionType === "mcq" ? <List className="probes-faculty-side-response-icon" /> : <FileText className="probes-faculty-side-response-icon" />}
+                    <span className="probes-faculty-side-response-text">{questionType === "mcq" ? "Multiple Choice" : "Text Response"}</span>
                   </div>
                 </div>
 
                 {/* Timer Input */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Timer (seconds)</label>
+                <div className="probes-faculty-side-form-group">
+                  <label className="probes-faculty-side-label">Timer (seconds)</label>
                   <input
                     type="number"
                     value={timer}
                     onChange={(e) => setTimer(Number(e.target.value))}
                     min={10}
                     max={300}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="probes-faculty-side-input"
                   />
                 </div>
 
                 {/* Error Display */}
-                {error && <div className="text-red-600 text-sm">{error}</div>}
+                {error && <div className="probes-faculty-side-error">{error}</div>}
 
                 {/* Send Question Button */}
                 <button
                   onClick={sendQuestion}
-                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                  className="probes-faculty-side-send-button"
                 >
                   Push Question to Class
                 </button>
@@ -684,24 +657,24 @@ export default function FacultyProbsResultPage() {
             </div>
 
             {/* Previous Questions List */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h4 className="font-semibold mb-3">Previous Questions</h4>
-              <div className="space-y-2">
+            <div className="probes-faculty-side-card">
+              <h4 className="probes-faculty-side-previous-title">Previous Questions</h4>
+              <div className="probes-faculty-side-previous-space">
                 {questionHistory.slice(0, 3).map((question, index) => (
                   <div
                     key={question.questionId}
-                    className="text-sm p-2 bg-gray-50 rounded cursor-pointer hover:bg-gray-100"
+                    className="probes-faculty-side-previous-item"
                     onClick={() => viewQuestionDetails(question.questionId)}
                   >
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="probes-faculty-side-previous-header">
                       {question.questionType === "mcq" ? (
-                        <List className="h-3 w-3" />
+                        <List className="probes-faculty-side-previous-icon" />
                       ) : (
-                        <FileText className="h-3 w-3" />
+                        <FileText className="probes-faculty-side-previous-icon" />
                       )}
-                      <span className="font-medium truncate">{question.text}</span>
+                      <span className="probes-faculty-side-previous-text">{question.text}</span>
                     </div>
-                    <div className="text-gray-500 text-xs">
+                    <div className="probes-faculty-side-previous-meta">
                       {question.questionType.toUpperCase()} • {new Date(question.createdAt).toLocaleTimeString()}
                     </div>
                   </div>
@@ -711,25 +684,25 @@ export default function FacultyProbsResultPage() {
           </div>
 
           {/* Center Panel - Student Engagement */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-semibold">Student Engagement</h3>
-                <div className="flex gap-2">
-                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
+          <div className="probes-faculty-side-col-1">
+            <div className="probes-faculty-side-card">
+              <div className="probes-faculty-side-engagement-header">
+                <h3 className="probes-faculty-side-engagement-title">Student Engagement</h3>
+                <div className="probes-faculty-side-engagement-badges">
+                  <span className="probes-faculty-side-badge-answered">
                     Answered ({statusCounts.answered})
                   </span>
-                  <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs">
+                  <span className="probes-faculty-side-badge-thinking">
                     Thinking ({statusCounts.thinking})
                   </span>
-                  <span className="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">
+                  <span className="probes-faculty-side-badge-silent">
                     Silent ({statusCounts.silent})
                   </span>
                 </div>
               </div>
 
               {/* Filter Tabs */}
-              <div className="flex gap-2 mb-4 overflow-x-auto">
+              <div className="probes-faculty-side-filter-tabs">
                 {[
                   { id: "all", label: "All", count: statusCounts.all },
                   { id: "answered", label: "Answered", count: statusCounts.answered },
@@ -739,11 +712,10 @@ export default function FacultyProbsResultPage() {
                   <button
                     key={filter.id}
                     onClick={() => setStatusFilter(filter.id)}
-                    className={`px-3 py-1 rounded text-sm whitespace-nowrap ${
-                      statusFilter === filter.id
-                        ? "bg-blue-600 text-white"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                    }`}
+                    className={`probes-faculty-side-filter-tab ${statusFilter === filter.id
+                      ? "probes-faculty-side-filter-tab-active"
+                      : "probes-faculty-side-filter-tab-inactive"
+                      }`}
                   >
                     {filter.label} ({filter.count})
                   </button>
@@ -751,41 +723,41 @@ export default function FacultyProbsResultPage() {
               </div>
 
               {/* Search Input */}
-              <div className="relative mb-4">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <div className="probes-faculty-side-search-container">
+                <Search className="probes-faculty-side-search-icon" />
                 <input
                   type="text"
                   placeholder="Search students..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="probes-faculty-side-search-input"
                 />
               </div>
 
               {/* Student List with Real-time Status from SQL Server */}
-              <div className="space-y-3 max-h-96 overflow-y-auto">
+              <div className="probes-faculty-side-student-list">
                 {filteredStudents.map((student) => (
-                  <div key={student.userId} className="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50">
+                  <div key={student.userId} className="probes-faculty-side-student-item">
                     {/* Student Avatar */}
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
+                    <div className="probes-faculty-side-student-avatar">
                       {student.userName.charAt(0).toUpperCase()}
                     </div>
 
                     {/* Student Info */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <h4 className="font-medium truncate">{student.userName}</h4>
+                    <div className="probes-faculty-side-student-info">
+                      <div className="probes-faculty-side-student-name-row">
+                        <h4 className="probes-faculty-side-student-name">{student.userName}</h4>
                         {getEngagementIcon(student.engagement)}
                       </div>
-                      <p className="text-sm text-gray-500">
+                      <p className="probes-faculty-side-student-status">
                         {getEngagementText(student.engagement, student.lastActivity)}
                       </p>
-                      {student.menteeId && <p className="text-xs text-gray-400">ID: {student.menteeId}</p>}
+                      {student.menteeId && <p className="probes-faculty-side-student-id">ID: {student.menteeId}</p>}
                     </div>
 
                     {/* Online Status Indicator */}
                     <div
-                      className={`w-3 h-3 rounded-full ${student.status === "online" ? "bg-green-500" : "bg-gray-300"}`}
+                      className={`probes-faculty-side-online-indicator ${student.status === "online" ? "probes-faculty-side-online-indicator-green" : "probes-faculty-side-online-indicator-gray"}`}
                     />
                   </div>
                 ))}
@@ -793,7 +765,7 @@ export default function FacultyProbsResultPage() {
 
               {/* Empty State */}
               {filteredStudents.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
+                <div className="probes-faculty-side-empty-state">
                   {statusFilter === "all" ? "No students connected" : `No students in ${statusFilter} state`}
                 </div>
               )}
@@ -801,14 +773,14 @@ export default function FacultyProbsResultPage() {
           </div>
 
           {/* Right Panel - Analytics (Only for MCQ) */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-              <h3 className="text-xl font-semibold mb-4">Live Answer Summary</h3>
+          <div className="probes-faculty-side-col-1">
+            <div className="probes-faculty-side-card probes-faculty-side-card-mb">
+              <h3 className="probes-faculty-side-analytics-title">Live Answer Summary</h3>
 
               {/* Show analytics only for MCQ questions */}
               {!analytics || (currentQuestion && currentQuestion.questionType === "subjective") ? (
-                <div className="text-center py-8 text-gray-500">
-                  <BarChart3 className="h-12 w-12 mx-auto mb-2 text-gray-300" />
+                <div className="probes-faculty-side-analytics-empty">
+                  <BarChart3 className="probes-faculty-side-analytics-icon" />
                   <p>
                     {currentQuestion && currentQuestion.questionType === "subjective"
                       ? "Analytics not available for subjective questions"
@@ -816,22 +788,22 @@ export default function FacultyProbsResultPage() {
                   </p>
                 </div>
               ) : (
-                <div className="space-y-4">
-                  <div className="text-center">
-                    <h4 className="text-lg font-semibold">Response Distribution</h4>
-                    <p className="text-sm text-gray-600">{analytics.totalResponses} responses</p>
+                <div className="probes-faculty-side-analytics-content">
+                  <div className="probes-faculty-side-analytics-header">
+                    <h4>Response Distribution</h4>
+                    <p>{analytics.totalResponses} responses</p>
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="probes-faculty-side-analytics-responses">
                     {analytics.responses.map((response, index) => (
-                      <div key={index} className="space-y-1">
-                        <div className="flex justify-between text-sm">
-                          <span className="font-medium">Option {getOptionLabel(index)}</span>
-                          <span className="text-gray-600">{response.percentage}%</span>
+                      <div key={index} className="probes-faculty-side-analytics-response">
+                        <div className="probes-faculty-side-analytics-response-header">
+                          <span className="probes-faculty-side-analytics-response-label">Option {getOptionLabel(index)}</span>
+                          <span className="probes-faculty-side-analytics-response-percentage">{response.percentage}%</span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="probes-faculty-side-progress-bar">
                           <div
-                            className="bg-blue-600 h-2 rounded-full transition-all duration-500"
+                            className="probes-faculty-side-progress-fill"
                             style={{ width: `${response.percentage}%` }}
                           />
                         </div>
@@ -843,34 +815,34 @@ export default function FacultyProbsResultPage() {
             </div>
 
             {/* AI Teaching Assistant */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Brain className="h-5 w-5 text-purple-600" />
-                <h4 className="font-semibold">AI Teaching Assistant</h4>
-                <button className="ml-auto text-sm text-blue-600 hover:text-blue-800">
-                  <TrendingUp className="h-4 w-4 inline mr-1" />
+            <div className="probes-faculty-side-card">
+              <div className="probes-faculty-side-ai-header">
+                <Brain className="probes-faculty-side-ai-icon" />
+                <h4 className="probes-faculty-side-ai-title">AI Teaching Assistant</h4>
+                <button className="probes-faculty-side-ai-refresh">
+                  <TrendingUp className="probes-faculty-side-ai-refresh-icon" />
                   Refresh Insights
                 </button>
               </div>
 
-              <div className="space-y-3">
-                <div className="text-sm">
-                  <h5 className="font-medium mb-1">Engagement Analysis</h5>
-                  <p className="text-gray-600">
+              <div className="probes-faculty-side-ai-insights">
+                <div className="probes-faculty-side-ai-insight">
+                  <h5>Engagement Analysis</h5>
+                  <p>
                     {statusCounts.answered > 0 && (
-                      <span className="text-green-600">{statusCounts.answered} students actively participating. </span>
+                      <span className="probes-faculty-side-text-green">{statusCounts.answered} students actively participating. </span>
                     )}
                     {statusCounts.silent > statusCounts.answered && (
-                      <span className="text-orange-600">Consider engaging silent students. </span>
+                      <span className="probes-faculty-side-text-orange">Consider engaging silent students. </span>
                     )}
                   </p>
                 </div>
 
                 {/* Show insights based on question type */}
                 {currentQuestion && (
-                  <div className="text-sm">
-                    <h5 className="font-medium mb-1">Current Question Insights</h5>
-                    <ul className="space-y-1 text-gray-600">
+                  <div className="probes-faculty-side-ai-insight">
+                    <h5>Current Question Insights</h5>
+                    <ul>
                       <li>• Question Type: {currentQuestion.questionType.toUpperCase()}</li>
                       <li>• Response rate: {Math.round((statusCounts.answered / statusCounts.all) * 100)}%</li>
                       {currentQuestion.questionType === "mcq" && analytics && (
@@ -887,9 +859,9 @@ export default function FacultyProbsResultPage() {
                 )}
 
                 {/* Database Integration Status */}
-                <div className="text-sm">
-                  <h5 className="font-medium mb-1">System Status</h5>
-                  <ul className="space-y-1 text-gray-600">
+                <div className="probes-faculty-side-ai-insight">
+                  <h5>System Status</h5>
+                  <ul>
                     <li>• Database: SQL Server Connected</li>
                     <li>• Room ID: {roomId} (faculty_case_assign_dtls_id)</li>
                     <li>• Real-time sync: Active</li>
@@ -902,43 +874,43 @@ export default function FacultyProbsResultPage() {
 
         {/* Current Question Display */}
         {currentQuestion && (
-          <div className="mt-6 bg-white rounded-lg shadow-md p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold flex items-center gap-2">
-                <Clock className="h-5 w-5" />
+          <div className="probes-faculty-side-card probes-faculty-side-current-question">
+            <div className="probes-faculty-side-current-question-header">
+              <h3 className="probes-faculty-side-current-question-title">
+                <Clock className="probes-faculty-side-current-question-icon" />
                 Current Question ({currentQuestion.questionType.toUpperCase()})
               </h3>
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-lg">{timeLeft}s</span>
-                <div className="w-20 bg-gray-200 rounded-full h-2">
+              <div className="probes-faculty-side-current-question-timer">
+                <span className="probes-faculty-side-timer-text">{timeLeft}s</span>
+                <div className="probes-faculty-side-timer-progress">
                   <div
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-1000"
+                    className="probes-faculty-side-timer-progress-fill"
                     style={{ width: `${(timeLeft / currentQuestion.timer) * 100}%` }}
                   />
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="probes-faculty-side-current-question-grid">
               {/* Question Display */}
-              <div className="p-4 bg-blue-50 rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
+              <div className="probes-faculty-side-question-display">
+                <div className="probes-faculty-side-question-type">
                   {currentQuestion.questionType === "mcq" ? (
-                    <List className="h-4 w-4" />
+                    <List className="probes-faculty-side-question-type-icon" />
                   ) : (
-                    <FileText className="h-4 w-4" />
+                    <FileText className="probes-faculty-side-question-type-icon" />
                   )}
-                  <span className="text-sm font-medium text-blue-700">
+                  <span className="probes-faculty-side-question-type-text">
                     {currentQuestion.questionType === "mcq" ? "Multiple Choice Question" : "Subjective Question"}
                   </span>
                 </div>
-                <h4 className="font-semibold mb-2">{currentQuestion.text}</h4>
+                <h4 className="probes-faculty-side-question-text">{currentQuestion.text}</h4>
 
                 {/* Show options only for MCQ */}
                 {currentQuestion.questionType === "mcq" && (
-                  <ul className="space-y-1">
+                  <ul className="probes-faculty-side-question-options">
                     {currentQuestion.options.map((option, index) => (
-                      <li key={index} className="text-sm">
+                      <li key={index} className="probes-faculty-side-question-option">
                         {getOptionLabel(index)}. {option}
                       </li>
                     ))}
@@ -947,18 +919,18 @@ export default function FacultyProbsResultPage() {
 
                 {/* Show instruction for subjective questions */}
                 {currentQuestion.questionType === "subjective" && (
-                  <p className="text-sm text-blue-600 italic">Students will provide text answers</p>
+                  <p className="probes-faculty-side-question-instruction">Students will provide text answers</p>
                 )}
               </div>
 
               {/* Live Response Summary */}
-              <div className="space-y-2">
-                <h5 className="font-semibold">Live Responses: {statusCounts.answered}</h5>
+              <div className="probes-faculty-side-response-summary">
+                <h5>Live Responses: {statusCounts.answered}</h5>
 
                 {/* Show analytics only for MCQ */}
                 {currentQuestion.questionType === "mcq" && analytics ? (
                   analytics.responses.map((response, index) => (
-                    <div key={index} className="flex justify-between text-sm">
+                    <div key={index} className="probes-faculty-side-response-item">
                       <span>
                         {getOptionLabel(index)}. {response.count} votes
                       </span>
@@ -966,7 +938,7 @@ export default function FacultyProbsResultPage() {
                     </div>
                   ))
                 ) : (
-                  <div className="text-sm text-gray-600">
+                  <div className="probes-faculty-side-response-waiting">
                     {currentQuestion.questionType === "subjective"
                       ? "View individual responses in the Details tab"
                       : "Waiting for responses..."}
@@ -979,54 +951,54 @@ export default function FacultyProbsResultPage() {
 
         {/* Question Details Modal/Panel - Enhanced for SQL Server */}
         {questionDetails && (
-          <div className="mt-6 bg-white rounded-lg shadow-md p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold flex items-center gap-2">
-                <Eye className="h-5 w-5" />
+          <div className="probes-faculty-side-card probes-faculty-side-question-details">
+            <div className="probes-faculty-side-question-details-header">
+              <h3 className="probes-faculty-side-question-details-title">
+                <Eye className="probes-faculty-side-question-details-icon" />
                 Question Responses ({questionDetails.questionType.toUpperCase()})
               </h3>
-              <button onClick={() => setQuestionDetails(null)} className="text-gray-500 hover:text-gray-700">
+              <button onClick={() => setQuestionDetails(null)} className="probes-faculty-side-question-details-close">
                 ✕
               </button>
             </div>
 
-            <div className="bg-blue-50 p-4 rounded-lg mb-6">
-              <h4 className="font-semibold mb-2">Question: {questionDetails.question}</h4>
-              <p className="text-sm text-gray-600">Total Responses: {questionDetails.totalResponses}</p>
+            <div className="probes-faculty-side-question-details-summary">
+              <h4>Question: {questionDetails.question}</h4>
+              <p>Total Responses: {questionDetails.totalResponses}</p>
             </div>
 
             {/* MCQ Question Details */}
             {questionDetails.questionType === "mcq" && questionDetails.analytics && (
-              <div className="space-y-4">
+              <div className="probes-faculty-side-mcq-details">
                 {questionDetails.analytics.map((optionData, index) => (
-                  <div key={index} className="border rounded-lg p-4">
-                    <div className="flex justify-between items-center mb-3">
-                      <h5 className="font-semibold">
+                  <div key={index} className="probes-faculty-side-mcq-option">
+                    <div className="probes-faculty-side-mcq-option-header">
+                      <h5 className="probes-faculty-side-mcq-option-title">
                         {getOptionLabel(index)}. {optionData.option}
                       </h5>
-                      <div className="text-sm text-gray-600">
+                      <div className="probes-faculty-side-mcq-option-stats">
                         {optionData.count} responses ({optionData.percentage}%)
                       </div>
                     </div>
 
                     {optionData.students.length > 0 ? (
-                      <div className="space-y-2">
-                        <h6 className="text-sm font-medium text-gray-700">Students who selected this option:</h6>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <div className="probes-faculty-side-mcq-students">
+                        <h6>Students who selected this option:</h6>
+                        <div className="probes-faculty-side-mcq-students-grid">
                           {optionData.students.map((student, studentIndex) => (
-                            <div key={studentIndex} className="bg-gray-50 p-2 rounded text-sm">
-                              <div className="font-medium">{student.studentName}</div>
-                              <div className="text-gray-600 text-xs">
+                            <div key={studentIndex} className="probes-faculty-side-mcq-student">
+                              <div className="probes-faculty-side-mcq-student-name">{student.studentName}</div>
+                              <div className="probes-faculty-side-mcq-student-time">
                                 Submitted: {new Date(student.submittedAt).toLocaleTimeString()}
                                 {student.timeSpent > 0 && ` • Time: ${student.timeSpent}s`}
                               </div>
-                              <div className="text-gray-500 text-xs">Student ID: {student.studentId}</div>
+                              <div className="probes-faculty-side-mcq-student-id">Student ID: {student.studentId}</div>
                             </div>
                           ))}
                         </div>
                       </div>
                     ) : (
-                      <div className="text-sm text-gray-500 italic">No students selected this option</div>
+                      <div className="probes-faculty-side-mcq-no-students">No students selected this option</div>
                     )}
                   </div>
                 ))}
@@ -1035,26 +1007,26 @@ export default function FacultyProbsResultPage() {
 
             {/* Subjective Question Details */}
             {questionDetails.questionType === "subjective" && questionDetails.responses && (
-              <div className="space-y-4">
-                <h5 className="font-semibold text-lg mb-4">Student Text Responses:</h5>
+              <div className="probes-faculty-side-subjective-details">
+                <h5 className="probes-faculty-side-subjective-title">Student Text Responses:</h5>
                 {questionDetails.responses.map((response, index) => (
-                  <div key={index} className="border rounded-lg p-4 bg-gray-50">
-                    <div className="flex justify-between items-start mb-2">
-                      <h6 className="font-medium text-blue-700">{response.studentName}</h6>
-                      <div className="text-sm text-gray-500">
+                  <div key={index} className="probes-faculty-side-subjective-response">
+                    <div className="probes-faculty-side-subjective-response-header">
+                      <h6 className="probes-faculty-side-subjective-response-name">{response.studentName}</h6>
+                      <div className="probes-faculty-side-subjective-response-time">
                         {new Date(response.submittedAt).toLocaleTimeString()}
                         {response.timeSpent > 0 && ` • ${response.timeSpent}s`}
                       </div>
                     </div>
-                    <div className="text-xs text-gray-500 mb-2">Student ID: {response.studentId}</div>
-                    <div className="bg-white p-3 rounded border">
-                      <p className="text-gray-800">{response.textAnswer}</p>
+                    <div className="probes-faculty-side-subjective-response-id">Student ID: {response.studentId}</div>
+                    <div className="probes-faculty-side-subjective-response-text">
+                      <p>{response.textAnswer}</p>
                     </div>
                   </div>
                 ))}
 
                 {questionDetails.responses.length === 0 && (
-                  <div className="text-center py-8 text-gray-500">No responses submitted yet</div>
+                  <div className="probes-faculty-side-subjective-no-responses">No responses submitted yet</div>
                 )}
               </div>
             )}
@@ -1069,7 +1041,7 @@ export default function FacultyProbsResultPage() {
 
   // return (
   //   <div className="faculty-probs-result-page-container">
-     
+
   //     {/* Navigation Tabs */}
   //     <nav className="faculty-probs-result-page-nav">
   //       {[
@@ -1388,7 +1360,7 @@ export default function FacultyProbsResultPage() {
   //       </div>
   //     </main>
 
-    
+
   //   </div>
   // );
 }

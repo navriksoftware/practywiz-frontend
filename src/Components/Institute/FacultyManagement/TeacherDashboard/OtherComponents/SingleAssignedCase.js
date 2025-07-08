@@ -61,9 +61,13 @@ const STUDENTS_DATA = [
   },
 ];
 
+
 const SingleAssignedCase = ({ setActivePage }) => {
   const facultyID = useSelector(
     (state) => state.faculty.facultyDtls.faculty_id
+  );
+  const userName = useSelector(
+    (state) => state.faculty.facultyDtls.faculty_name
   );
   const [students, setStudents] = useState(STUDENTS_DATA);
   const [filteredStudents, setFilteredStudents] = useState(STUDENTS_DATA);
@@ -338,7 +342,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
       (studentlist.filter((s) => s.mentee_result_status === "Completed")
         .length /
         totalStudents) *
-        100
+      100
     );
 
     // Return the calculated metrics
@@ -455,11 +459,10 @@ const SingleAssignedCase = ({ setActivePage }) => {
             {/* Tabs for Student List and Case Study Questions */}
             <div className="single-case-details-view-tabs">
               <button
-                className={`single-case-details-view-tab ${
-                  selectedTab === "student-list"
+                className={`single-case-details-view-tab ${selectedTab === "student-list"
                     ? "single-case-details-view-tab-active"
                     : ""
-                }`}
+                  }`}
                 onClick={() => setSelectedTab("student-list")}
               >
                 Student List
@@ -468,22 +471,20 @@ const SingleAssignedCase = ({ setActivePage }) => {
               {resultdata?.non_practywiz_case_question &&
                 resultdata.non_practywiz_case_question.length > 0 && (
                   <button
-                    className={`single-case-details-view-tab ${
-                      selectedTab === "case-study-questions"
+                    className={`single-case-details-view-tab ${selectedTab === "case-study-questions"
                         ? "single-case-details-view-tab-active"
                         : ""
-                    }`}
+                      }`}
                     onClick={() => setSelectedTab("case-study-questions")}
                   >
                     Case Study Questions
                   </button>
                 )}
               <button
-                className={`single-case-details-view-tab ${
-                  selectedTab === "live-class"
+                className={`single-case-details-view-tab ${selectedTab === "live-class"
                     ? "single-case-details-view-tab-active"
                     : ""
-                }`}
+                  }`}
                 onClick={() => setSelectedTab("live-class")}
               >
                 Live Class
@@ -756,14 +757,14 @@ const SingleAssignedCase = ({ setActivePage }) => {
           {selectedTab === "case-study-questions" && (
             <div className="single-case-details-view-questions-container">
               {!resultdata?.non_practywiz_case_question ||
-              resultdata.non_practywiz_case_question.length === 0 ? (
+                resultdata.non_practywiz_case_question.length === 0 ? (
                 "hello"
               ) : (
                 <QuestionShow data={resultdata} />
               )}
             </div>
           )}
-          {selectedTab === "live-class" && <FacultyProbsResultPage roomId={faculty_case_assign_dtls_id} userName={"Gagan"} userId={facultyID} />}
+          {selectedTab === "live-class" && <FacultyProbsResultPage facultyroomId={faculty_case_assign_dtls_id} facultyuserName={userName} facultyuserId={facultyID} />}
 
           {/* Add Student Modal */}
           {/* {showAddModal && (

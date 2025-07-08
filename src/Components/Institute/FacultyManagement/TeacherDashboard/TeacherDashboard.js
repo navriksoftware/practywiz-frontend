@@ -58,6 +58,7 @@ const TeacherDashboard = ({ user, token }) => {
             user_dtls_id: facultyRaw?.user_dtls_id,
             institute_name: facultyRaw?.faculty_institute_name,
             institute_code: facultyRaw?.faculty_institute_code,
+            faculty_name: facultyRaw?.faculty_firstname + " " + facultyRaw?.faculty_lastname,
           };
           dispatch(setfacultyDtls(cleanedData));
           setuserdata(response.data.success);
