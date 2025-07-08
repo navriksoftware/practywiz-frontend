@@ -2,7 +2,7 @@ import { io } from "socket.io-client"
 import { ApiURL } from "../../Utils/ApiURL"
 // Socket configuration
 
-URL = ApiURL()
+ const URL = ApiURL()
 
 // Socket configuration
 const SOCKET_URL = URL.slice(0, -1)
