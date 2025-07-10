@@ -1,22 +1,34 @@
-import { useState, useEffect, useRef } from "react"
-import { socket } from "../../Utils/socket"
-import { useSelector } from "react-redux"
-import { ArrowLeft, Clock, CheckCircle, Users, AlertCircle, RefreshCw, FileText, List } from "lucide-react"
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
+import { socket } from "../../Utils/socket";
+import { useSelector } from "react-redux";
+import {
+  Clock,
+  CheckCircle,
+  Users,
+  AlertCircle,
+  RefreshCw,
+} from "lucide-react";
+import "./ChatSidebar.css";
 
-function ChatSidebar({
+const ChatSidebar = React.memo(function ChatSidebar({
   isOpen,
   onToggle,
   participants = [],
   menteeFirstname,
-  onSendMessage
+  onSendMessage,
+  roomIdProvided = null,
 }) {
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const messagesEndRef = useRef(null);
   const sidebarRef = useRef(null);
- const [error, setError] = useState("")
-  
-  
+  const [error, setError] = useState("");
 
   const userId = useSelector(
     (state) => state.mentee.singleMentee[0]?.mentee_dtls_id
@@ -27,10 +39,6 @@ function ChatSidebar({
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [chatMessages]);
 
   // Handle click outside to close sidebar
   useEffect(() => {
@@ -65,7 +73,7 @@ function ChatSidebar({
     };
   }, [isOpen]);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = useCallback(() => {
     if (message.trim()) {
       const newMessage = {
         id: Date.now(),
@@ -83,269 +91,292 @@ function ChatSidebar({
         onSendMessage(newMessage);
       }
     }
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
-
-  // const formatTime = (timestamp) => {
-  //   return timestamp.toLocaleTimeString([], {
-  //     hour: "2-digit",
-  //     minute: "2-digit",
-  //   });
-  // };
+  }, [message, menteeFirstname, onSendMessage]);
 
   // Mock participants data if none provided
-  const defaultParticipants = [
-    { id: 1, name: "Dr. Sarah Johnson", role: "Faculty", isOnline: true },
-    { id: 2, name: "Avega AI", role: "AI Assistant", isOnline: true },
-    { id: 3, name: menteeFirstname || "You", role: "Student", isOnline: true },
-  ];
+  const defaultParticipants = useMemo(
+    () => [
+      { id: 1, name: "Dr. Sarah Johnson", role: "Faculty", isOnline: true },
+      { id: 2, name: "Avega AI", role: "AI Assistant", isOnline: true },
+      {
+        id: 3,
+        name: menteeFirstname || "You",
+        role: "Student",
+        isOnline: true,
+      },
+    ],
+    [menteeFirstname]
+  );
 
-  const displayParticipants =
-    participants.length > 0 ? participants : defaultParticipants;
-
-
-
-
-  //scoket connection start
+  //socket connection start
 
   // Room and user state variables (same names as previous version)
-  const [roomId, setRoomId] = useState("190")
-  const [studentName, setStudentName] = useState(userName)
-  const [isRoomJoined, setIsRoomJoined] = useState(false)
+  const [roomId] = useState(roomIdProvided.toString());
+  const [studentName] = useState(userName);
+  const [isRoomJoined, setIsRoomJoined] = useState(false);
 
   // Question state variables (maintaining previous naming)
-  const [currentQuestion, setCurrentQuestion] = useState(null)
-  const [selectedOption, setSelectedOption] = useState("")
-  const [textAnswer, setTextAnswer] = useState("") // New: for subjective questions
-  const [hasSubmitted, setHasSubmitted] = useState(false)
-  const [timeLeft, setTimeLeft] = useState(0)
+  const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [textAnswer, setTextAnswer] = useState(""); // New: for subjective questions
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(0);
   // const [error, setError] = useState("")
-  const [successMessage, setSuccessMessage] = useState("")
+  const [successMessage, setSuccessMessage] = useState("");
+
+  // Previous questions tracking
+  const [previousQuestions, setPreviousQuestions] = useState([]);
+  const [expandedQuestionId, setExpandedQuestionId] = useState(null);
 
   // UI state variables
-  const [isReconnecting, setIsReconnecting] = useState(false)
-  const [connectionStatus, setConnectionStatus] = useState("connected")
-  const [roomStats, setRoomStats] = useState({ studentCount: 0 })
+  const [isReconnecting, setIsReconnecting] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState("connected");
+  const [roomStats, setRoomStats] = useState({ studentCount: 0 });
 
   // Student user ID (consistent with previous version)
   // const userId = `student_${Date.now()}`
 
   // Refs for tracking user engagement
-  const questionStartTime = useRef(null)
-  const typingTimeoutRef = useRef(null)
+  const questionStartTime = useRef(null);
+  const typingTimeoutRef = useRef(null);
+
+  // Auto-scroll effect for new questions and chat messages
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatMessages, currentQuestion]);
 
   // Socket event handlers setup
   useEffect(() => {
+    // Define all event handlers outside of the useEffect to use them in cleanup
     // Handle receiving new questions (both MCQ and subjective)
     const handleReceiveQuestion = (question) => {
-      setCurrentQuestion(question)
-      setSelectedOption("")
-      setTextAnswer("") // Reset text answer for new question
-      setHasSubmitted(false)
-      setTimeLeft(question.timer)
-      setError("")
-      setSuccessMessage("")
-      questionStartTime.current = Date.now()
+      setCurrentQuestion(question);
+      setSelectedOption("");
+      setTextAnswer(""); // Reset text answer for new question
+      setHasSubmitted(false);
+      setTimeLeft(question.timer);
+      setError("");
+      setSuccessMessage("");
+      questionStartTime.current = Date.now();
 
       // Update engagement status to thinking when new question arrives
-      socket.emit("updateEngagement", { engagement: "thinking" })
-    }
+      socket.emit("updateEngagement", { engagement: "thinking" });
+
+      // Scroll to the new question after a brief delay
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100);
+    };
 
     // Handle session restoration (for reconnection scenarios)
     const handleSessionRestored = (data) => {
       if (data.currentQuestion) {
-        setCurrentQuestion(data.currentQuestion)
-        setTimeLeft(data.timeLeft)
-        setHasSubmitted(data.hasSubmitted)
+        setCurrentQuestion(data.currentQuestion);
+        setTimeLeft(data.timeLeft);
+        setHasSubmitted(data.hasSubmitted);
 
         // Restore previous answers based on question type
         if (data.currentQuestion.questionType === "mcq") {
-          setSelectedOption(data.selectedOption || "")
+          setSelectedOption(data.selectedOption || "");
         } else if (data.currentQuestion.questionType === "subjective") {
-          setTextAnswer(data.textAnswer || "")
+          setTextAnswer(data.textAnswer || "");
         }
 
         if (data.hasSubmitted) {
-          socket.emit("updateEngagement", { engagement: "answered" })
+          socket.emit("updateEngagement", { engagement: "answered" });
         }
       }
-      setIsReconnecting(false)
-    }
+      setIsReconnecting(false);
+    };
 
     // Handle successful answer submission
     const handleAnswerSubmitted = (data) => {
-      setHasSubmitted(true)
-      setSuccessMessage(data.message || "Answer submitted successfully!")
-      setError("")
+      setHasSubmitted(true);
+      setSuccessMessage(data.message || "Answer submitted successfully!");
+      setError("");
 
       // Update engagement status to answered
-      socket.emit("updateEngagement", { engagement: "answered" })
+      socket.emit("updateEngagement", { engagement: "answered" });
 
       // Clear success message after 3 seconds
-      setTimeout(() => setSuccessMessage(""), 3000)
-    }
+      setTimeout(() => setSuccessMessage(""), 3000);
+    };
 
     // Handle successful room joining
     const handleRoomJoined = (data) => {
       if (data.success) {
-        setIsRoomJoined(true)
-        setRoomStats({ studentCount: data.studentCount })
-        setError("")
-        setConnectionStatus("connected")
+        setIsRoomJoined(true);
+        setRoomStats({ studentCount: data.studentCount });
+        setError("");
+        setConnectionStatus("connected");
 
         if (data.isRejoining) {
-          setIsReconnecting(true)
-          console.log("Student rejoined session")
+          setIsReconnecting(true);
+          console.log("Student rejoined session");
         }
       }
-    }
+    };
 
     // Handle error messages
     const handleError = (data) => {
-      setError(data.message || "An error occurred")
-      setSuccessMessage("")
-    }
+      setError(data.message || "An error occurred");
+      setSuccessMessage("");
+    };
 
     // Handle specific error messages
     const handleErrorMessage = (message) => {
-      setError(message)
-      setSuccessMessage("")
-    }
+      setError(message);
+      setSuccessMessage("");
+    };
 
     // Handle connection status changes
     const handleConnect = () => {
-      setConnectionStatus("connected")
-      setIsReconnecting(false)
-    }
+      setConnectionStatus("connected");
+      setIsReconnecting(false);
+    };
 
     const handleDisconnect = () => {
-      setConnectionStatus("disconnected")
-      setIsReconnecting(true)
-    }
+      setConnectionStatus("disconnected");
+      setIsReconnecting(true);
+    };
 
     const handleReconnect = () => {
-      setConnectionStatus("connected")
-      setIsReconnecting(false)
-    }
+      setConnectionStatus("connected");
+      setIsReconnecting(false);
+    };
 
     // Register all socket event listeners
-    socket.on("receiveQuestion", handleReceiveQuestion)
-    socket.on("sessionRestored", handleSessionRestored)
-    socket.on("answerSubmitted", handleAnswerSubmitted)
-    socket.on("roomJoined", handleRoomJoined)
-    socket.on("error", handleError)
-    socket.on("errorMessage", handleErrorMessage)
-    socket.on("connect", handleConnect)
-    socket.on("disconnect", handleDisconnect)
-    socket.on("reconnect", handleReconnect)
+    socket.on("receiveQuestion", handleReceiveQuestion);
+    socket.on("sessionRestored", handleSessionRestored);
+    socket.on("answerSubmitted", handleAnswerSubmitted);
+    socket.on("roomJoined", handleRoomJoined);
+    socket.on("error", handleError);
+    socket.on("errorMessage", handleErrorMessage);
+    socket.on("connect", handleConnect);
+    socket.on("disconnect", handleDisconnect);
+    socket.on("reconnect", handleReconnect);
 
     // Cleanup socket listeners on component unmount
     return () => {
-      socket.off("receiveQuestion", handleReceiveQuestion)
-      socket.off("sessionRestored", handleSessionRestored)
-      socket.off("answerSubmitted", handleAnswerSubmitted)
-      socket.off("roomJoined", handleRoomJoined)
-      socket.off("error", handleError)
-      socket.off("errorMessage", handleErrorMessage)
-      socket.off("connect", handleConnect)
-      socket.off("disconnect", handleDisconnect)
-      socket.off("reconnect", handleReconnect)
-    }
-  }, [])
+      socket.off("receiveQuestion", handleReceiveQuestion);
+      socket.off("sessionRestored", handleSessionRestored);
+      socket.off("answerSubmitted", handleAnswerSubmitted);
+      socket.off("roomJoined", handleRoomJoined);
+      socket.off("error", handleError);
+      socket.off("errorMessage", handleErrorMessage);
+      socket.off("connect", handleConnect);
+      socket.off("disconnect", handleDisconnect);
+      socket.off("reconnect", handleReconnect);
+    };
+  }, []);
 
   // Timer countdown effect
   useEffect(() => {
     if (timeLeft > 0 && !hasSubmitted) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000)
-      return () => clearTimeout(timer)
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timer);
     }
-  }, [timeLeft, hasSubmitted])
+  }, [timeLeft, hasSubmitted]);
+
+  // Debounced typing indicator function
+  const debouncedEmitThinking = useCallback(() => {
+    socket.emit("updateEngagement", { engagement: "thinking" });
+  }, []);
 
   // Handle typing indicators for subjective questions
   useEffect(() => {
-    if (currentQuestion?.questionType === "subjective" && !hasSubmitted) {
-      // Clear existing timeout
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current)
-      }
+    // Only run this effect when needed
+    if (!currentQuestion?.questionType === "subjective" || hasSubmitted) {
+      return;
+    }
 
-      // If there's text, emit typing status
-      if (textAnswer.trim()) {
-        socket.emit("studentTyping")
+    // Clear existing timeout
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
 
-        // Set timeout to change back to thinking after 2 seconds of no typing
-        typingTimeoutRef.current = setTimeout(() => {
-          socket.emit("updateEngagement", { engagement: "thinking" })
-        }, 2000)
-      }
+    // If there's text, emit typing status
+    if (textAnswer.trim()) {
+      socket.emit("studentTyping");
+
+      // Set timeout to change back to thinking after 2 seconds of no typing
+      typingTimeoutRef.current = setTimeout(debouncedEmitThinking, 2000);
     }
 
     return () => {
       if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current)
+        clearTimeout(typingTimeoutRef.current);
       }
-    }
-  }, [textAnswer, currentQuestion, hasSubmitted])
+    };
+  }, [
+    textAnswer,
+    currentQuestion?.questionType,
+    hasSubmitted,
+    debouncedEmitThinking,
+  ]);
 
   // Function to join room as student
-  const joinRoom = () => {
+  const joinRoom = useCallback(() => {
     if (!roomId.trim() || !studentName.trim()) {
-      setError("Please enter both room ID and your name")
-      return
+      setError("Please enter both room ID and your name");
+      return;
     }
 
-    setConnectionStatus("connecting")
+    setConnectionStatus("connecting");
     socket.emit("joinRoom", {
       roomId: roomId.trim(),
       userId: userId.toString(),
       userName: studentName.trim(),
       role: "student",
-    })
-  }
+    });
+  }, [roomId, studentName, userId]);
 
   // Function to handle MCQ option selection
-  const handleOptionSelect = (option) => {
-    if (hasSubmitted || currentQuestion?.questionType !== "mcq") return
+  const handleOptionSelect = useCallback(
+    (option) => {
+      if (hasSubmitted || currentQuestion?.questionType !== "mcq") return;
 
-    setSelectedOption(option)
-    setError("")
+      setSelectedOption(option);
+      setError("");
 
-    // Update engagement status to thinking when option is selected
-    socket.emit("updateEngagement", { engagement: "thinking" })
-  }
+      // Update engagement status to thinking when option is selected
+      socket.emit("updateEngagement", { engagement: "thinking" });
+    },
+    [hasSubmitted, currentQuestion?.questionType]
+  );
 
   // Function to handle subjective text input changes
-  const handleTextAnswerChange = (e) => {
-    if (hasSubmitted || currentQuestion?.questionType !== "subjective") return
+  const handleTextAnswerChange = useCallback(
+    (e) => {
+      if (hasSubmitted || currentQuestion?.questionType !== "subjective")
+        return;
 
-    setTextAnswer(e.target.value)
-    setError("")
-  }
+      setTextAnswer(e.target.value);
+      setError("");
+    },
+    [hasSubmitted, currentQuestion?.questionType]
+  );
 
   // Function to submit answer (both MCQ and subjective)
-  const submitAnswer = () => {
-    if (hasSubmitted) return
+  const submitAnswer = useCallback(() => {
+    if (hasSubmitted) return;
 
     // Validation for MCQ questions
     if (currentQuestion?.questionType === "mcq" && !selectedOption) {
-      setError("Please select an option before submitting")
-      return
+      setError("Please select an option before submitting");
+      return;
     }
 
     // Validation for subjective questions
     if (currentQuestion?.questionType === "subjective" && !textAnswer.trim()) {
-      setError("Please enter your answer before submitting")
-      return
+      setError("Please enter your answer before submitting");
+      return;
     }
 
     // Calculate time spent on question
-    const timeSpent = questionStartTime.current ? Math.floor((Date.now() - questionStartTime.current) / 1000) : 0
+    const timeSpent = questionStartTime.current
+      ? Math.floor((Date.now() - questionStartTime.current) / 1000)
+      : 0;
 
     // Prepare submission data based on question type
     const submissionData = {
@@ -353,326 +384,502 @@ function ChatSidebar({
       roomId,
       questionId: currentQuestion.questionId,
       timeSpent,
-    }
+    };
 
     if (currentQuestion.questionType === "mcq") {
-      submissionData.selectedOption = selectedOption
+      submissionData.selectedOption = selectedOption;
     } else if (currentQuestion.questionType === "subjective") {
-      submissionData.textAnswer = textAnswer.trim()
+      submissionData.textAnswer = textAnswer.trim();
     }
 
-    socket.emit("submitAnswer", submissionData)
-  }
+    // Save the current question to previous questions
+    const answeredQuestion = {
+      ...currentQuestion,
+      userAnswer:
+        currentQuestion.questionType === "mcq"
+          ? selectedOption
+          : textAnswer.trim(),
+      answeredAt: new Date(),
+    };
+
+    setPreviousQuestions((prev) => [...prev, answeredQuestion]);
+
+    socket.emit("submitAnswer", submissionData);
+  }, [
+    hasSubmitted,
+    currentQuestion,
+    selectedOption,
+    textAnswer,
+    userId,
+    roomId,
+  ]);
 
   // Helper function to get option labels (A, B, C, D)
-  const getOptionLabel = (index) => String.fromCharCode(65 + index)
+  const getOptionLabel = useCallback(
+    (index) => String.fromCharCode(65 + index),
+    []
+  );
 
   // Helper function to format time display
-  const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${mins}:${secs.toString().padStart(2, "0")}`
-  }
+  const formatTime = useCallback((seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  }, []);
 
-  // Helper function to get connection status color
-  const getConnectionStatusColor = () => {
-    switch (connectionStatus) {
-      case "connected":
-        return "bg-green-500"
-      case "connecting":
-        return "bg-yellow-500"
-      case "disconnected":
-        return "bg-red-500"
-      default:
-        return "bg-gray-500"
-    }
-  }
+  // Memoize word count calculation
+  const wordCount = useMemo(
+    () =>
+      textAnswer
+        .trim()
+        .split(/\s+/)
+        .filter((word) => word.length > 0).length,
+    [textAnswer]
+  );
 
-
-  // Render room joining form if not joined yet
+  // No form, just a join button with room ID and username
   if (!isRoomJoined) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4">
-        <div className="container mx-auto max-w-md">
-          <div className="flex items-center mb-6">
-            <button className="flex items-center text-gray-600 hover:text-gray-800">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
-            </button>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-bold mb-2">Join Room</h2>
-            <p className="text-gray-600 mb-6">Enter your details to join the session</p>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
-                <input
-                  type="text"
-                  value={studentName}
-                  onChange={(e) => setStudentName(e.target.value)}
-                  placeholder="Enter your name"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Room ID</label>
-                <input
-                  type="text"
-                  value={roomId}
-                  onChange={(e) => setRoomId(e.target.value)}
-                  placeholder="Enter room ID"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              {error && <div className="text-red-600 text-sm">{error}</div>}
-              <button
-                onClick={joinRoom}
-                disabled={connectionStatus === "connecting"}
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
+      <>
+        {/* Chat Toggle Button with Join */}
+        <button
+          className="join-chat-btn"
+          onClick={joinRoom}
+          disabled={connectionStatus === "connecting"}
+        >
+          <div className="join-btn-content">
+            <div className="join-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                {connectionStatus === "connecting" ? "Joining..." : "Join Room"}
-              </button>
+                <path
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <div className="join-btn-text">
+              <span className="join-btn-label">
+                {connectionStatus === "connecting"
+                  ? "Joining..."
+                  : "Join Chat Room"}
+              </span>
+              <div className="join-btn-details">
+                <span className="join-room-id">Room: {roomId}</span>
+                <span className="join-username">as {studentName}</span>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    )
+        </button>
+
+        {/* Error display if any */}
+        {error && <div className="join-error-popup">{error}</div>}
+      </>
+    );
   }
 
-  // Main student dashboard render
+  // Main chat sidebar UI
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
-      <div className="container mx-auto max-w-4xl">
-        {/* Header section */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <button className="flex items-center text-gray-600 hover:text-gray-800">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
-            </button>
-            <h1 className="text-3xl font-bold">Student Dashboard</h1>
-          </div>
+    <>
+      {/* Chat Toggle Button */}
+      <button
+        className={`chat-toggle-btn ${isOpen ? "open" : ""}`}
+        onClick={onToggle}
+        aria-label="Toggle chat sidebar"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <div className="toggle-btn-info">
+          <div className="toggle-btn-room">Room: {roomId}</div>
+          <div className="toggle-btn-user">{studentName}</div>
+        </div>
+        {!isOpen && chatMessages.length > 0 && (
+          <span className="chat-notification-badge">{chatMessages.length}</span>
+        )}
+      </button>
 
-          {/* Connection status and room info */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <div className={`w-3 h-3 rounded-full ${getConnectionStatusColor()}`} />
-              <span className="text-sm text-gray-600 capitalize">{connectionStatus}</span>
+      {/* Chat Sidebar */}
+      <div ref={sidebarRef} className={`chat-sidebar ${isOpen ? "open" : ""}`}>
+        <div className="chat-sidebar-header sticky-header">
+          <div className="chat-header-content">
+            <div className="header-title-section">
+              <div className="faculty-info">
+                <div className="faculty-avatar">
+                  <span className="faculty-initial">DJ</span>
+                </div>
+                <div className="faculty-details">
+                  <h3 className="faculty-name">Dr. Sarah Johnson</h3>
+                  <span className="faculty-role">Faculty</span>
+                </div>
+              </div>
+              <button
+                className="chat-close-btn"
+                onClick={onToggle}
+                aria-label="Close chat"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 5L5 15M5 5l10 10"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
             </div>
-            <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Room: {roomId}</div>
-            <div className="flex items-center gap-1 text-sm text-gray-600">
-              <Users className="h-4 w-4" />
-              {roomStats.studentCount}
+            <div className="header-status-container">
+              <div className="connection-status">
+                <div className={`status-indicator ${connectionStatus}`} />
+                <span className="status-text">{connectionStatus}</span>
+              </div>
+              <div className="room-id">Room: {roomId}</div>
+              <div className="student-count">
+                <Users className="user-icon" />
+                {roomStats.studentCount}
+              </div>
             </div>
           </div>
         </div>
 
         {/* Reconnection banner */}
         {isReconnecting && (
-          <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-6 flex items-center gap-2">
-            <RefreshCw className="h-4 w-4 animate-spin" />
-            <span>Reconnecting to session...</span>
+          <div className="reconnecting-banner">
+            <RefreshCw className="spinner-icon" />
+            <span className="reconnecting-text">
+              Reconnecting to session...
+            </span>
           </div>
         )}
 
-        {/* Success message */}
+        {/* Success & Error messages */}
         {successMessage && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 flex items-center gap-2">
-            <CheckCircle className="h-4 w-4" />
-            <span>{successMessage}</span>
+          <div className="success-banner">
+            <CheckCircle className="success-icon" />
+            <span className="message-text">{successMessage}</span>
           </div>
         )}
 
-        {/* Error message */}
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 flex items-center gap-2">
-            <AlertCircle className="h-4 w-4" />
-            <span>{error}</span>
+          <div className="error-banner">
+            <AlertCircle className="error-icon" />
+            <span className="message-text">{error}</span>
           </div>
         )}
 
-        {/* Main content area */}
-        {!currentQuestion ? (
-          // Waiting for question state
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="h-8 w-8 text-blue-600" />
-              </div>
-              <h2 className="text-2xl font-semibold mb-2">Waiting for Question</h2>
-              <p className="text-gray-600 mb-4">Your instructor will send a question shortly</p>
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
-                <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" />
-                <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: "0.2s" }} />
-                <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: "0.4s" }} />
-              </div>
-            </div>
-          </div>
-        ) : (
-          // Question display area
-          <div className="space-y-6">
-            {/* Question header with timer */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  {currentQuestion.questionType === "mcq" ? (
-                    <List className="h-5 w-5" />
-                  ) : (
-                    <FileText className="h-5 w-5" />
-                  )}
-                  <h2 className="text-xl font-semibold">
-                    {currentQuestion.questionType === "mcq" ? "Multiple Choice Question" : "Subjective Question"}
-                  </h2>
-                </div>
+        <div className="chat-content-area">
+          {/* Previous Questions */}
+          {previousQuestions.length > 0 && (
+            <div className="questions-timeline">
+              {previousQuestions.map((question, index) => (
+                <div
+                  key={question.questionId || index}
+                  className="question-bubble answered"
+                >
+                  <div className="question-header">
+                    <div className="question-meta">
+                      <span className="question-time">
+                        {question.answeredAt?.toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }) || ""}
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    className="question-content"
+                    onClick={() =>
+                      setExpandedQuestionId(
+                        expandedQuestionId === question.questionId
+                          ? null
+                          : question.questionId
+                      )
+                    }
+                  >
+                    <div className="question-text">{question.text}</div>
+                    <div className="question-toggle">
+                      <svg
+                        className={`toggle-icon ${
+                          expandedQuestionId === question.questionId
+                            ? "open"
+                            : ""
+                        }`}
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </div>
+                  </div>
 
-                {/* Timer display */}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-5 w-5 text-gray-500" />
-                    <span className={`font-mono text-lg ${timeLeft <= 10 ? "text-red-600" : "text-gray-700"}`}>
+                  {expandedQuestionId === question.questionId && (
+                    <div className="question-options-expanded">
+                      {question.questionType === "mcq" &&
+                        question.options.map((option, optIndex) => (
+                          <div
+                            key={optIndex}
+                            className={`option-item ${
+                              option === question.userAnswer
+                                ? "selected-answer"
+                                : ""
+                            }`}
+                          >
+                            <div className="option-marker">
+                              {String.fromCharCode(65 + optIndex)}
+                            </div>
+                            <span className="option-text">{option}</span>
+                            {option === question.userAnswer && (
+                              <CheckCircle className="answer-check" />
+                            )}
+                          </div>
+                        ))}
+
+                      {question.questionType === "subjective" && (
+                        <div className="subjective-answer-display">
+                          <div className="answer-label">Your answer:</div>
+                          <div className="answer-content">
+                            {question.userAnswer}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Current Question */}
+          {currentQuestion && (
+            <div className="question-bubble current" ref={messagesEndRef}>
+              <div className="question-header">
+                <div className="question-meta">
+                  <div className="new-question-indicator">
+                    <div className="red-dot"></div>
+                    <span className="new-label">New Question</span>
+                  </div>
+                  <div className="timer-display">
+                    <Clock className="timer-icon" />
+                    <span
+                      className={`timer-text ${timeLeft <= 10 ? "urgent" : ""}`}
+                    >
                       {formatTime(timeLeft)}
                     </span>
                   </div>
-                  <div className="w-24 bg-gray-200 rounded-full h-2">
-                    <div
-                      className={`h-2 rounded-full transition-all duration-1000 ${
-                        timeLeft <= 10 ? "bg-red-500" : "bg-blue-600"
-                      }`}
-                      style={{ width: `${(timeLeft / currentQuestion.timer) * 100}%` }}
-                    />
-                  </div>
                 </div>
               </div>
 
-              {/* Question text */}
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <h3 className="text-lg font-medium text-gray-800">{currentQuestion.text}</h3>
-              </div>
-            </div>
+              <div className="question-content">
+                <div className="question-text">{currentQuestion.text}</div>
 
-            {/* Answer input area */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              {/* MCQ Options */}
-              {currentQuestion.questionType === "mcq" && (
-                <div className="space-y-3">
-                  <h4 className="font-semibold text-gray-700 mb-4">Select your answer:</h4>
-                  {currentQuestion.options.map((option, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleOptionSelect(option)}
-                      disabled={hasSubmitted || timeLeft === 0}
-                      className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
-                        selectedOption === option
-                          ? "border-blue-500 bg-blue-50 text-blue-700"
-                          : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-                      } ${hasSubmitted || timeLeft === 0 ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-sm font-semibold ${
-                            selectedOption === option ? "border-blue-500 bg-blue-500 text-white" : "border-gray-300"
-                          }`}
-                        >
+                {currentQuestion.questionType === "mcq" && (
+                  <div className="mcq-options">
+                    {currentQuestion.options.map((option, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleOptionSelect(option)}
+                        disabled={hasSubmitted || timeLeft === 0}
+                        className={`option-button ${
+                          selectedOption === option ? "selected" : ""
+                        } ${hasSubmitted || timeLeft === 0 ? "disabled" : ""}`}
+                      >
+                        <div className="option-marker">
                           {getOptionLabel(index)}
                         </div>
-                        <span className="flex-1">{option}</span>
-                        {selectedOption === option && <CheckCircle className="h-5 w-5 text-blue-500" />}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* Subjective Text Input */}
-              {currentQuestion.questionType === "subjective" && (
-                <div className="space-y-4">
-                  <h4 className="font-semibold text-gray-700">Write your answer:</h4>
-                  <textarea
-                    value={textAnswer}
-                    onChange={handleTextAnswerChange}
-                    disabled={hasSubmitted || timeLeft === 0}
-                    placeholder="Type your answer here..."
-                    rows={6}
-                    className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                      hasSubmitted || timeLeft === 0 ? "opacity-50 cursor-not-allowed bg-gray-50" : "border-gray-300"
-                    }`}
-                  />
-                  <div className="flex justify-between text-sm text-gray-500">
-                    <span>Characters: {textAnswer.length}</span>
-                    <span>
-                      Words:{" "}
-                      {
-                        textAnswer
-                          .trim()
-                          .split(/\s+/)
-                          .filter((word) => word.length > 0).length
-                      }
-                    </span>
+                        <span className="option-text">{option}</span>
+                        {selectedOption === option && (
+                          <CheckCircle className="option-check" />
+                        )}
+                      </button>
+                    ))}
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Submit button */}
-              <div className="mt-6 flex justify-center">
-                {!hasSubmitted ? (
-                  <button
-                    onClick={submitAnswer}
-                    disabled={
-                      timeLeft === 0 ||
-                      (currentQuestion.questionType === "mcq" && !selectedOption) ||
-                      (currentQuestion.questionType === "subjective" && !textAnswer.trim())
-                    }
-                    className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-                  >
-                    Submit Answer
-                  </button>
-                ) : (
-                  <div className="flex items-center gap-2 text-green-600">
-                    <CheckCircle className="h-5 w-5" />
-                    <span className="font-semibold">Answer Submitted Successfully!</span>
+                {currentQuestion.questionType === "subjective" && (
+                  <div className="subjective-input">
+                    <textarea
+                      value={textAnswer}
+                      onChange={handleTextAnswerChange}
+                      disabled={hasSubmitted || timeLeft === 0}
+                      placeholder="Type your answer here..."
+                      rows={4}
+                      className={`answer-textarea ${
+                        hasSubmitted || timeLeft === 0 ? "disabled" : ""
+                      }`}
+                    />
+                    <div className="input-stats">
+                      <span>Characters: {textAnswer.length}</span>
+                      <span>Words: {wordCount}</span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="submit-section">
+                  {!hasSubmitted ? (
+                    <button
+                      onClick={submitAnswer}
+                      disabled={
+                        timeLeft === 0 ||
+                        (currentQuestion.questionType === "mcq" &&
+                          !selectedOption) ||
+                        (currentQuestion.questionType === "subjective" &&
+                          !textAnswer.trim())
+                      }
+                      className={`submit-btn ${
+                        timeLeft === 0 ||
+                        (currentQuestion.questionType === "mcq" &&
+                          !selectedOption) ||
+                        (currentQuestion.questionType === "subjective" &&
+                          !textAnswer.trim())
+                          ? "disabled"
+                          : ""
+                      }`}
+                    >
+                      Submit Answer
+                    </button>
+                  ) : (
+                    <div className="submitted-status">
+                      <CheckCircle className="success-icon" />
+                      <span className="success-text">
+                        Answer Submitted Successfully!
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {hasSubmitted && (
+                  <div className="submission-feedback">
+                    <div className="feedback-content">
+                      <div className="your-response">
+                        <span className="response-label">Your Response:</span>
+                        {currentQuestion.questionType === "mcq" ? (
+                          <span className="selected-answer">
+                            {selectedOption}
+                          </span>
+                        ) : (
+                          <div className="subjective-response">
+                            {textAnswer}
+                          </div>
+                        )}
+                      </div>
+                      <p className="waiting-message">
+                        Waiting for other students to complete...
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {timeLeft === 0 && !hasSubmitted && (
+                  <div className="timeout-notice">
+                    <div className="timeout-content">
+                      <h4 className="timeout-title">Time's Up!</h4>
+                      <p className="timeout-message">
+                        The question has expired. Wait for the next question.
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>
+            </div>
+          )}
 
-              {/* Submission status */}
-              {hasSubmitted && (
-                <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <div className="text-center">
-                    <h4 className="font-semibold text-green-800 mb-2">Your Response:</h4>
-                    {currentQuestion.questionType === "mcq" ? (
-                      <p className="text-green-700">
-                        Selected: <span className="font-medium">{selectedOption}</span>
-                      </p>
-                    ) : (
-                      <div className="text-green-700">
-                        <p className="font-medium mb-2">Your answer:</p>
-                        <div className="bg-white p-3 rounded border text-left">{textAnswer}</div>
-                      </div>
-                    )}
-                    <p className="text-sm text-green-600 mt-2">Waiting for other students to complete...</p>
+          {/* Waiting for Question */}
+          {!currentQuestion && (
+            <div className="waiting-state">
+              <div className="waiting-content">
+                <div className="clock-container">
+                  <Clock className="big-clock-icon" />
+                </div>
+                <h2 className="waiting-title">Waiting for Question</h2>
+                <p className="waiting-subtitle">
+                  Your instructor will send a question shortly
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Chat Messages Section */}
+        {/* <div className="chat-messages-section">
+          <div className="chat-messages-container">
+            {chatMessages.length === 0 ? (
+              <div className="empty-chat">
+                <div className="chat-icon-wrapper">
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                </div>
+              </div>
+            ) : (
+              chatMessages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`chat-message ${
+                    msg.isOwnMessage ? "own-message" : "other-message"
+                  }`}
+                >
+                  <div className="message-content">
+                    <div className="message-header">
+                      <span className="message-sender">{msg.sender}</span>
+                      <span className="message-time">
+                        {formatTime(msg.timestamp)}
+                      </span>
+                    </div>
+                    <div className="message-text">{msg.text}</div>
                   </div>
                 </div>
-              )}
-
-              {/* Time up message */}
-              {timeLeft === 0 && !hasSubmitted && (
-                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-center">
-                  <h4 className="font-semibold text-red-800">Time's Up!</h4>
-                  <p className="text-red-600">The question has expired. Wait for the next question.</p>
-                </div>
-              )}
-            </div>
+              ))
+            }
+            <div ref={messagesEndRef} />
           </div>
-        )}
+        </div> */}
       </div>
-    </div>
-  )
 
-
-
- 
-}
+      {/* Overlay for mobile - only shows on mobile devices */}
+      {isOpen && (
+        <div className="chat-sidebar-overlay" onClick={onToggle}></div>
+      )}
+    </>
+  );
+});
 
 export default ChatSidebar;
