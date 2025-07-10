@@ -1,7 +1,12 @@
 import { io } from "socket.io-client"
+import { ApiURL } from "../../Utils/ApiURL"
+// Socket configuration
+
+ const URL = ApiURL()
 
 // Socket configuration
-const SOCKET_URL = "http://localhost:1337"
+const SOCKET_URL = URL.slice(0, -1)
+// const SOCKET_URL = "http://localhost:1337"
 
 export const socket = io(SOCKET_URL, {
   autoConnect: true,
