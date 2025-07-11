@@ -219,9 +219,28 @@ const ChatSidebar = React.memo(function ChatSidebar({
 
     // Handle error messages
     const handleError = (data) => {
-      setError(data.message || "An error occurred");
-      setSuccessMessage("");
-    };
+      setError(data.message || "An error occurred")
+      setSuccessMessage("")
+    }
+
+
+       // Handle session ended by faculty
+    const handleSessionEnded = (data) => {
+      setSuccessMessage(`Session ended by ${data.endedBy}`)
+      setIsRoomJoined(false)
+      setCurrentQuestion(null)
+      setHasSubmitted(false)
+      setSelectedOption("")
+      setTextAnswer("")
+      setTimeLeft(0)
+
+      // Show message for 5 seconds then redirect
+      setTimeout(() => {
+        setSuccessMessage("")
+        // You can add navigation logic here if needed
+      }, 5000)
+    } 
+
 
     // Handle specific error messages
     const handleErrorMessage = (message) => {
@@ -246,29 +265,31 @@ const ChatSidebar = React.memo(function ChatSidebar({
     };
 
     // Register all socket event listeners
-    socket.on("receiveQuestion", handleReceiveQuestion);
-    socket.on("sessionRestored", handleSessionRestored);
-    socket.on("answerSubmitted", handleAnswerSubmitted);
-    socket.on("roomJoined", handleRoomJoined);
-    socket.on("error", handleError);
-    socket.on("errorMessage", handleErrorMessage);
-    socket.on("connect", handleConnect);
-    socket.on("disconnect", handleDisconnect);
-    socket.on("reconnect", handleReconnect);
+    socket.on("receiveQuestion", handleReceiveQuestion)
+    socket.on("sessionRestored", handleSessionRestored)
+    socket.on("answerSubmitted", handleAnswerSubmitted)
+    socket.on("roomJoined", handleRoomJoined)
+    socket.on("error", handleError)
+    socket.on("errorMessage", handleErrorMessage)
+    socket.on("sessionEnded", handleSessionEnded)
+    socket.on("connect", handleConnect)
+    socket.on("disconnect", handleDisconnect)
+    socket.on("reconnect", handleReconnect)
 
     // Cleanup socket listeners on component unmount
     return () => {
-      socket.off("receiveQuestion", handleReceiveQuestion);
-      socket.off("sessionRestored", handleSessionRestored);
-      socket.off("answerSubmitted", handleAnswerSubmitted);
-      socket.off("roomJoined", handleRoomJoined);
-      socket.off("error", handleError);
-      socket.off("errorMessage", handleErrorMessage);
-      socket.off("connect", handleConnect);
-      socket.off("disconnect", handleDisconnect);
-      socket.off("reconnect", handleReconnect);
-    };
-  }, []);
+      socket.off("receiveQuestion", handleReceiveQuestion)
+      socket.off("sessionRestored", handleSessionRestored)
+      socket.off("answerSubmitted", handleAnswerSubmitted)
+      socket.off("roomJoined", handleRoomJoined)
+       socket.off("sessionEnded", handleSessionEnded)
+      socket.off("error", handleError)
+      socket.off("errorMessage", handleErrorMessage)
+      socket.off("connect", handleConnect)
+      socket.off("disconnect", handleDisconnect)
+      socket.off("reconnect", handleReconnect)
+    }
+  }, [])
 
   // Timer countdown effect
   useEffect(() => {

@@ -1,5 +1,5 @@
 /* Faculty before room join css  */
-.before-join-room-container{
+.before-join-room-container {
   min-height: 70vh;
   background-color: #f9fafb;
   display: flex;
@@ -8,21 +8,25 @@
   justify-content: center;
   padding: 2rem;
 }
+
 .before-join-room-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
 }
+
 .before-join-room-header-left {
   text-align: center;
 }
+
 .before-join-room-header-right {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
-.before-join-room-JoinButton{
+
+.before-join-room-JoinButton {
   background-color: #2563eb;
   color: white;
   padding: 0.5rem 1rem;
@@ -35,10 +39,166 @@
 .before-join-room-JoinButton:hover {
   background-color: #1d4ed8;
 }
-.before-join-room-errorMessage{
+
+.before-join-room-errorMessage {
   color: #ef4444;
   margin-top: 1rem;
 }
+
+/* --------------------------------------------------------------------------------------------------- */
+.faculty-dashboard-end-session-button {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.faculty-dashboard-end-session-button:hover {
+  background-color: #b91c1c;
+}
+
+/* Modal Styles */
+.faculty-dashboard-modal-overlay {
+  position: fixed;
+  top: 4rem;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.faculty-dashboard-modal {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 90%;
+}
+
+.faculty-dashboard-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+}
+
+.faculty-dashboard-modal-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.faculty-dashboard-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.faculty-dashboard-modal-close:hover {
+  background-color: #f3f4f6;
+}
+
+.faculty-dashboard-modal-content {
+  padding: 1.5rem;
+}
+
+.faculty-dashboard-modal-content p {
+  margin: 0 0 0.75rem 0;
+  color: #374151;
+}
+
+.faculty-dashboard-modal-warning {
+  color: #dc2626;
+  font-size: 0.875rem;
+}
+
+.faculty-dashboard-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.faculty-dashboard-modal-cancel,
+.faculty-dashboard-modal-confirm {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.faculty-dashboard-modal-cancel {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.faculty-dashboard-modal-cancel:hover {
+  background-color: #e5e7eb;
+}
+
+.faculty-dashboard-modal-confirm {
+  background-color: #dc2626;
+  color: white;
+  border: 1px solid #dc2626;
+}
+
+.faculty-dashboard-modal-confirm:hover {
+  background-color: #b91c1c;
+}
+
+
+/* Base styles for all icons */
+.probes-faculty-side-answered,
+.probes-faculty-side-thinking,
+.probes-faculty-side-typing,
+.probes-faculty-side-silent,
+.probes-faculty-side-default {
+  width: 16px;   /* Tailwind: w-4 */
+  height: 16px;  /* Tailwind: h-4 */
+}
+
+/* Engagement-specific color styles */
+.probes-faculty-side-answered {
+  color: #22c55e; /* Tailwind: text-green-500 */
+}
+
+.probes-faculty-side-thinking {
+  color: #f97316; /* Tailwind: text-orange-500 */
+}
+
+.probes-faculty-side-typing {
+  color: #3b82f6; /* Tailwind: text-blue-500 */
+}
+
+.probes-faculty-side-silent {
+  color: #ef4444; /* Tailwind: text-red-500 */
+}
+
+.probes-faculty-side-default {
+  color: #9ca3af; /* Tailwind: text-gray-400 */
+}
+
+.probes-faculty-side-ai-cardHeight{
+  height: 100%;
+}
+
 
 
 /* ----------------------------------------------------------------------------------------------- */
@@ -130,7 +290,8 @@
 
 @media (min-width: 1024px) {
   .probes-faculty-side-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1.5fr 0.9fr;
+
   }
 }
 
@@ -154,6 +315,7 @@
 .probes-faculty-side-question-title {
   font-size: 1.25rem;
   font-weight: 600;
+  letter-spacing: 0px;
   margin-bottom: 1rem;
 }
 
@@ -332,6 +494,7 @@
 .probes-faculty-side-engagement-title {
   font-size: 1.25rem;
   font-weight: 600;
+  letter-spacing: 0px;
 }
 
 .probes-faculty-side-engagement-badges {
@@ -437,11 +600,12 @@
 .probes-faculty-side-student-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   padding: 0.75rem;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
   transition: background-color 0.2s;
+  width: 50%;
 }
 
 .probes-faculty-side-student-item:hover {
@@ -467,7 +631,7 @@
 
 .probes-faculty-side-student-name-row {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 0.5rem;
 }
 
@@ -476,6 +640,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 0.9rem;
 }
 
 .probes-faculty-side-student-status {
@@ -673,18 +838,18 @@
 
 /* Current Question Display */
 .probes-faculty-side-current-question {
-  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .probes-faculty-side-current-question-header {
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; */
   margin-bottom: 1rem;
 }
 
 .probes-faculty-side-current-question-title {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -727,11 +892,11 @@
   gap: 1.5rem;
 }
 
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
   .probes-faculty-side-current-question-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-}
+} */
 
 .probes-faculty-side-question-display {
   padding: 1rem;

@@ -153,6 +153,8 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
   const [questionDetails, setQuestionDetails] = useState(null)
   const [selectedQuestionId, setSelectedQuestionId] = useState(null)
   const [searchTerm, setSearchTerm] = useState("")
+  const [showEndSessionConfirm, setShowEndSessionConfirm] = useState(false)
+  const [successMessage, setSuccessMessage] = useState("")
   // const [currentQuestion, setCurrentQuestion] = useState("");
   // const [activeTab, setActiveTab] = useState("Question Management");
 
@@ -332,6 +334,41 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
       }
     }
 
+    // Handle session ended by faculty
+    const handleSessionEnded = (data) => {
+      setSuccessMessage(`Session ended by ${data.endedBy}`)
+      setIsRoomJoined(false)
+      setCurrentQuestion(null)
+      setAnalytics(null)
+      setQuestionHistory([])
+      setStudentStatuses([])
+      setStudents([])
+
+      // Redirect or show message after 3 seconds
+      setTimeout(() => {
+        setSuccessMessage("")
+        // You can add navigation logic here if needed
+      }, 3000)
+    }
+
+    // Handle session end confirmation
+    const handleSessionEndedConfirm = (data) => {
+      if (data.success) {
+        setSuccessMessage("Session ended successfully")
+        setIsRoomJoined(false)
+        setCurrentQuestion(null)
+        setAnalytics(null)
+        setQuestionHistory([])
+        setStudentStatuses([])
+        setStudents([])
+        setShowEndSessionConfirm(false)
+
+        setTimeout(() => {
+          setSuccessMessage("")
+        }, 3000)
+      }
+    }
+
     // Handle error messages
     const handleError = (data) => {
       setError(data.message || "An error occurred")
@@ -345,6 +382,8 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
     socket.on("questionSent", handleQuestionSent)
     socket.on("questionDetails", handleQuestionDetails)
     socket.on("roomJoined", handleRoomJoined)
+    socket.on("sessionEnded", handleSessionEnded)
+    socket.on("sessionEndedConfirm", handleSessionEndedConfirm)
     socket.on("error", handleError)
 
     // Cleanup socket listeners on component unmount
@@ -356,6 +395,8 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
       socket.off("questionSent", handleQuestionSent)
       socket.off("questionDetails", handleQuestionDetails)
       socket.off("roomJoined", handleRoomJoined)
+      socket.off("sessionEnded", handleSessionEnded)
+      socket.off("sessionEndedConfirm", handleSessionEndedConfirm)
       socket.off("error", handleError)
     }
   }, [])
@@ -454,17 +495,28 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
   const getEngagementIcon = (engagement) => {
     switch (engagement) {
       case "answered":
-        return <CheckCircle className="h-4 w-4 text-green-500" />
+        return (
+          <CheckCircle className="probes-faculty-side-answered" />
+        );
       case "thinking":
-        return <Brain className="h-4 w-4 text-orange-500" />
+        return (
+          <Brain className="probes-faculty-side-thinking" />
+        );
       case "typing":
-        return <MessageCircle className="h-4 w-4 text-blue-500" />
+        return (
+          <MessageCircle className="probes-faculty-side-typing" />
+        );
       case "silent":
-        return <UserX className="h-4 w-4 text-red-500" />
+        return (
+          <UserX className="probes-faculty-side-silent" />
+        );
       default:
-        return <Users className="h-4 w-4 text-gray-400" />
+        return (
+          <Users className="probes-faculty-side-default" />
+        );
     }
-  }
+  };
+
 
   // Helper function to get engagement status color classes
   const getEngagementColor = (engagement) => {
@@ -518,6 +570,16 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
     return counts
   }
 
+
+  /**
+ * Function to end session
+ */
+  const endSession = () => {
+    socket.emit("endSession", {
+      roomId: Number.parseInt(roomId.trim()),
+    })
+  }
+
   // Render room joining form if not joined yet
   if (!isRoomJoined) {
     return (
@@ -552,6 +614,34 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
   return (
     <div className="probes-faculty-side-container">
       <div className="probes-faculty-side-main-container">
+
+        {/* End Session Confirmation Modal */}
+        {showEndSessionConfirm && (
+          <div className="faculty-dashboard-modal-overlay">
+            <div className="faculty-dashboard-modal">
+              <div className="faculty-dashboard-modal-header">
+                <h3 className="faculty-dashboard-modal-title">End Session</h3>
+                <button onClick={() => setShowEndSessionConfirm(false)} className="faculty-dashboard-modal-close">
+                  ✕
+                </button>
+              </div>
+              <div className="faculty-dashboard-modal-content">
+                <p>Are you sure you want to end this session?</p>
+                <p className="faculty-dashboard-modal-warning">
+                  This will disconnect all students and faculty from the room and cannot be undone.
+                </p>
+              </div>
+              <div className="faculty-dashboard-modal-actions">
+                <button onClick={() => setShowEndSessionConfirm(false)} className="faculty-dashboard-modal-cancel">
+                  Cancel
+                </button>
+                <button onClick={endSession} className="faculty-dashboard-modal-confirm">
+                  End Session
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         {/* Header section with room information */}
         <div className="probes-faculty-side-header">
           <div className="probes-faculty-side-header-left">
@@ -569,6 +659,9 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
             {roomInfo && (
               <div className="probes-faculty-side-class-badge">{roomInfo.className}</div>
             )}
+            <button onClick={() => setShowEndSessionConfirm(true)} className="faculty-dashboard-end-session-button">
+              End Session
+            </button>
           </div>
         </div>
 
@@ -622,13 +715,13 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
                 )}
 
                 {/* Response Format Display */}
-                <div className="probes-faculty-side-form-group">
+                {/* <div className="probes-faculty-side-form-group">
                   <label className="probes-faculty-side-label">Response Format</label>
                   <div className="probes-faculty-side-response-format">
                     {questionType === "mcq" ? <List className="probes-faculty-side-response-icon" /> : <FileText className="probes-faculty-side-response-icon" />}
                     <span className="probes-faculty-side-response-text">{questionType === "mcq" ? "Multiple Choice" : "Text Response"}</span>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Timer Input */}
                 <div className="probes-faculty-side-form-group">
@@ -657,10 +750,11 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
             </div>
 
             {/* Previous Questions List */}
-            <div className="probes-faculty-side-card">
-              <h4 className="probes-faculty-side-previous-title">Previous Questions</h4>
-              <div className="probes-faculty-side-previous-space">
-                {questionHistory.slice(0, 3).map((question, index) => (
+            {questionHistory.slice(0, 3).map((question, index) => (
+              <div className="probes-faculty-side-card">
+                <h4 className="probes-faculty-side-previous-title">Previous Questions</h4>
+                <div className="probes-faculty-side-previous-space">
+
                   <div
                     key={question.questionId}
                     className="probes-faculty-side-previous-item"
@@ -678,14 +772,15 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
                       {question.questionType.toUpperCase()} • {new Date(question.createdAt).toLocaleTimeString()}
                     </div>
                   </div>
-                ))}
+                </div>
               </div>
-            </div>
+            ))}
+
           </div>
 
           {/* Center Panel - Student Engagement */}
-          <div className="probes-faculty-side-col-1">
-            <div className="probes-faculty-side-card">
+          <div className="probes-faculty-side-col-1 ">
+            <div className="probes-faculty-side-card probes-faculty-side-ai-cardHeight">
               <div className="probes-faculty-side-engagement-header">
                 <h3 className="probes-faculty-side-engagement-title">Student Engagement</h3>
                 <div className="probes-faculty-side-engagement-badges">
@@ -752,7 +847,7 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
                       <p className="probes-faculty-side-student-status">
                         {getEngagementText(student.engagement, student.lastActivity)}
                       </p>
-                      {student.menteeId && <p className="probes-faculty-side-student-id">ID: {student.menteeId}</p>}
+                      {/* {student.menteeId && <p className="probes-faculty-side-student-id">ID: {student.menteeId}</p>} */}
                     </div>
 
                     {/* Online Status Indicator */}
@@ -774,6 +869,82 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
 
           {/* Right Panel - Analytics (Only for MCQ) */}
           <div className="probes-faculty-side-col-1">
+  {currentQuestion && (
+              <div className="probes-faculty-side-card probes-faculty-side-current-question">
+                <div className="probes-faculty-side-current-question-header">
+                  <h3 className="probes-faculty-side-current-question-title">
+                    <Clock className="probes-faculty-side-current-question-icon" />
+                    Current Question ({currentQuestion.questionType.toUpperCase()})
+                  </h3>
+                  <div className="probes-faculty-side-current-question-timer">
+                    <span className="probes-faculty-side-timer-text">{timeLeft}s</span>
+                    <div className="probes-faculty-side-timer-progress">
+                      <div
+                        className="probes-faculty-side-timer-progress-fill"
+                        style={{ width: `${(timeLeft / currentQuestion.timer) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="probes-faculty-side-current-question-grid">
+                  {/* Question Display */}
+                  <div className="probes-faculty-side-question-display">
+                    <div className="probes-faculty-side-question-type">
+                      {currentQuestion.questionType === "mcq" ? (
+                        <List className="probes-faculty-side-question-type-icon" />
+                      ) : (
+                        <FileText className="probes-faculty-side-question-type-icon" />
+                      )}
+                      <span className="probes-faculty-side-question-type-text">
+                        {currentQuestion.questionType === "mcq" ? "Multiple Choice Question" : "Subjective Question"}
+                      </span>
+                    </div>
+                    <h4 className="probes-faculty-side-question-text">{currentQuestion.text}</h4>
+
+                    {/* Show options only for MCQ */}
+                    {currentQuestion.questionType === "mcq" && (
+                      <ul className="probes-faculty-side-question-options">
+                        {currentQuestion.options.map((option, index) => (
+                          <li key={index} className="probes-faculty-side-question-option">
+                            {getOptionLabel(index)}. {option}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {/* Show instruction for subjective questions */}
+                    {currentQuestion.questionType === "subjective" && (
+                      <p className="probes-faculty-side-question-instruction">Students will provide text answers</p>
+                    )}
+                  </div>
+
+                  {/* Live Response Summary */}
+                  <div className="probes-faculty-side-response-summary">
+                    <h5>Live Responses: {statusCounts.answered}</h5>
+
+                    {/* Show analytics only for MCQ */}
+                    {currentQuestion.questionType === "mcq" && analytics ? (
+                      analytics.responses.map((response, index) => (
+                        <div key={index} className="probes-faculty-side-response-item">
+                          <span>
+                            {getOptionLabel(index)}. {response.count} votes
+                          </span>
+                          <span>{response.percentage}%</span>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="probes-faculty-side-response-waiting">
+                        {currentQuestion.questionType === "subjective"
+                          ? "View individual responses in the Details tab"
+                          : "Waiting for responses..."}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="probes-faculty-side-card probes-faculty-side-card-mb">
               <h3 className="probes-faculty-side-analytics-title">Live Answer Summary</h3>
 
@@ -817,8 +988,8 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
             {/* AI Teaching Assistant */}
             <div className="probes-faculty-side-card">
               <div className="probes-faculty-side-ai-header">
-                <Brain className="probes-faculty-side-ai-icon" />
-                <h4 className="probes-faculty-side-ai-title">AI Teaching Assistant</h4>
+
+                <h3 className="probes-faculty-side-engagement-title">AI Teaching Assistant</h3>
                 <button className="probes-faculty-side-ai-refresh">
                   <TrendingUp className="probes-faculty-side-ai-refresh-icon" />
                   Refresh Insights
@@ -859,95 +1030,25 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
                 )}
 
                 {/* Database Integration Status */}
-                <div className="probes-faculty-side-ai-insight">
+                {/* <div className="probes-faculty-side-ai-insight">
                   <h5>System Status</h5>
                   <ul>
                     <li>• Database: SQL Server Connected</li>
                     <li>• Room ID: {roomId} (faculty_case_assign_dtls_id)</li>
                     <li>• Real-time sync: Active</li>
                   </ul>
-                </div>
+                </div> */}
+
+
               </div>
+
             </div>
+          
           </div>
         </div>
 
         {/* Current Question Display */}
-        {currentQuestion && (
-          <div className="probes-faculty-side-card probes-faculty-side-current-question">
-            <div className="probes-faculty-side-current-question-header">
-              <h3 className="probes-faculty-side-current-question-title">
-                <Clock className="probes-faculty-side-current-question-icon" />
-                Current Question ({currentQuestion.questionType.toUpperCase()})
-              </h3>
-              <div className="probes-faculty-side-current-question-timer">
-                <span className="probes-faculty-side-timer-text">{timeLeft}s</span>
-                <div className="probes-faculty-side-timer-progress">
-                  <div
-                    className="probes-faculty-side-timer-progress-fill"
-                    style={{ width: `${(timeLeft / currentQuestion.timer) * 100}%` }}
-                  />
-                </div>
-              </div>
-            </div>
 
-            <div className="probes-faculty-side-current-question-grid">
-              {/* Question Display */}
-              <div className="probes-faculty-side-question-display">
-                <div className="probes-faculty-side-question-type">
-                  {currentQuestion.questionType === "mcq" ? (
-                    <List className="probes-faculty-side-question-type-icon" />
-                  ) : (
-                    <FileText className="probes-faculty-side-question-type-icon" />
-                  )}
-                  <span className="probes-faculty-side-question-type-text">
-                    {currentQuestion.questionType === "mcq" ? "Multiple Choice Question" : "Subjective Question"}
-                  </span>
-                </div>
-                <h4 className="probes-faculty-side-question-text">{currentQuestion.text}</h4>
-
-                {/* Show options only for MCQ */}
-                {currentQuestion.questionType === "mcq" && (
-                  <ul className="probes-faculty-side-question-options">
-                    {currentQuestion.options.map((option, index) => (
-                      <li key={index} className="probes-faculty-side-question-option">
-                        {getOptionLabel(index)}. {option}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {/* Show instruction for subjective questions */}
-                {currentQuestion.questionType === "subjective" && (
-                  <p className="probes-faculty-side-question-instruction">Students will provide text answers</p>
-                )}
-              </div>
-
-              {/* Live Response Summary */}
-              <div className="probes-faculty-side-response-summary">
-                <h5>Live Responses: {statusCounts.answered}</h5>
-
-                {/* Show analytics only for MCQ */}
-                {currentQuestion.questionType === "mcq" && analytics ? (
-                  analytics.responses.map((response, index) => (
-                    <div key={index} className="probes-faculty-side-response-item">
-                      <span>
-                        {getOptionLabel(index)}. {response.count} votes
-                      </span>
-                      <span>{response.percentage}%</span>
-                    </div>
-                  ))
-                ) : (
-                  <div className="probes-faculty-side-response-waiting">
-                    {currentQuestion.questionType === "subjective"
-                      ? "View individual responses in the Details tab"
-                      : "Waiting for responses..."}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Question Details Modal/Panel - Enhanced for SQL Server */}
         {questionDetails && (
