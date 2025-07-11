@@ -225,7 +225,7 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
 
 
   // UI state variables
-  const [activeTab, setActiveTab] = useState("engagement")
+  const [activeTab, setActiveTab] = useState("Overview") // Active tab in the dashboard
 
   const [statusFilter, setStatusFilter] = useState("all")
 
@@ -478,7 +478,7 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
   const viewQuestionDetails = (questionId) => {
     setSelectedQuestionId(questionId)
     socket.emit("getQuestionDetails", { questionId, roomId: Number.parseInt(roomId) })
-    setActiveTab("details")
+    setActiveTab("PreviousQuestions")
   }
 
   // Function to update MCQ option
@@ -615,107 +615,126 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
     <div className="probes-faculty-side-container">
       <div className="probes-faculty-side-main-container">
 
-        {/* End Session Confirmation Modal */}
-        {showEndSessionConfirm && (
-          <div className="faculty-dashboard-modal-overlay">
-            <div className="faculty-dashboard-modal">
-              <div className="faculty-dashboard-modal-header">
-                <h3 className="faculty-dashboard-modal-title">End Session</h3>
-                <button onClick={() => setShowEndSessionConfirm(false)} className="faculty-dashboard-modal-close">
-                  ✕
-                </button>
-              </div>
-              <div className="faculty-dashboard-modal-content">
-                <p>Are you sure you want to end this session?</p>
-                <p className="faculty-dashboard-modal-warning">
-                  This will disconnect all students and faculty from the room and cannot be undone.
-                </p>
-              </div>
-              <div className="faculty-dashboard-modal-actions">
-                <button onClick={() => setShowEndSessionConfirm(false)} className="faculty-dashboard-modal-cancel">
-                  Cancel
-                </button>
-                <button onClick={endSession} className="faculty-dashboard-modal-confirm">
-                  End Session
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-        {/* Header section with room information */}
-        <div className="probes-faculty-side-header">
-          <div className="probes-faculty-side-header-left">
-            <div>
-              <h1 className="probes-faculty-side-title">Faculty Dashboard</h1>
-              {roomInfo && (
-                <p className="probes-faculty-side-subtitle">
-                  {roomInfo.className} • {roomInfo.facultyName}
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="probes-faculty-side-header-right">
-            <div className="probes-faculty-side-room-badge">Room: {roomId}</div>
-            {roomInfo && (
-              <div className="probes-faculty-side-class-badge">{roomInfo.className}</div>
-            )}
-            <button onClick={() => setShowEndSessionConfirm(true)} className="faculty-dashboard-end-session-button">
-              End Session
+
+        <nav className="faculty-probs-result-page-nav">
+          {[
+            "Overview",
+            "PreviousQuestions"
+          ].map((tab) => (
+            <button
+              key={tab}
+              className={`faculty-probs-result-page-nav-tab ${activeTab === tab ? "active" : ""}`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
             </button>
-          </div>
-        </div>
+          ))}
 
-        {/* Main Dashboard Layout - Three Column Grid */}
-        <div className="probes-faculty-side-grid">
-          {/* Left Panel - Question Creation */}
-          <div className="probes-faculty-side-col-1">
-            <div className="probes-faculty-side-card probes-faculty-side-card-mb">
-              <h3 className="probes-faculty-side-question-title">Live Question Push</h3>
+        </nav>
 
-              <div className="probes-faculty-side-form-space">
-                {/* Question Type Selector */}
-                <div className="probes-faculty-side-form-group">
-                  <label className="probes-faculty-side-label">Question Type</label>
-                  <select
-                    value={questionType}
-                    onChange={(e) => setQuestionType(e.target.value)}
-                    className="probes-faculty-side-select"
-                  >
-                    <option value="mcq">Multiple Choice (MCQ)</option>
-                    <option value="subjective">Subjective (Text Answer)</option>
-                  </select>
+
+
+        {activeTab === "Overview" && (<> {/* End Session Confirmation Modal */}
+          {showEndSessionConfirm && (
+            <div className="faculty-dashboard-modal-overlay">
+              <div className="faculty-dashboard-modal">
+                <div className="faculty-dashboard-modal-header">
+                  <h3 className="faculty-dashboard-modal-title">End Session</h3>
+                  <button onClick={() => setShowEndSessionConfirm(false)} className="faculty-dashboard-modal-close">
+                    ✕
+                  </button>
                 </div>
-
-                {/* Question Text Input */}
-                <div className="probes-faculty-side-form-group">
-                  <label className="probes-faculty-side-label">Question</label>
-                  <textarea
-                    value={questionText}
-                    onChange={(e) => setQuestionText(e.target.value)}
-                    placeholder="Type your question here..."
-                    rows={3}
-                    className="probes-faculty-side-textarea"
-                  />
+                <div className="faculty-dashboard-modal-content">
+                  <p>Are you sure you want to end this session?</p>
+                  <p className="faculty-dashboard-modal-warning">
+                    This will disconnect all students and faculty from the room and cannot be undone.
+                  </p>
                 </div>
-
-                {/* Options Input - Only show for MCQ questions */}
-                {questionType === "mcq" && (
-                  <div className="probes-faculty-side-form-group">
-                    <label className="probes-faculty-side-label">Options</label>
-                    {options.map((option, index) => (
-                      <input
-                        key={index}
-                        value={option}
-                        onChange={(e) => updateOption(index, e.target.value)}
-                        placeholder={`Option ${index + 1}`}
-                        className="probes-faculty-side-option-input"
-                      />
-                    ))}
-                  </div>
+                <div className="faculty-dashboard-modal-actions">
+                  <button onClick={() => setShowEndSessionConfirm(false)} className="faculty-dashboard-modal-cancel">
+                    Cancel
+                  </button>
+                  <button onClick={endSession} className="faculty-dashboard-modal-confirm">
+                    End Session
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          {/* Header section with room information */}
+          <div className="probes-faculty-side-header">
+            <div className="probes-faculty-side-header-left">
+              <div>
+                <h1 className="probes-faculty-side-title">Faculty Dashboard</h1>
+                {roomInfo && (
+                  <p className="probes-faculty-side-subtitle">
+                    {roomInfo.className} • {roomInfo.facultyName}
+                  </p>
                 )}
+              </div>
+            </div>
+            <div className="probes-faculty-side-header-right">
+              <div className="probes-faculty-side-room-badge">Room: {roomId}</div>
+              {roomInfo && (
+                <div className="probes-faculty-side-class-badge">{roomInfo.className}</div>
+              )}
+              <button onClick={() => setShowEndSessionConfirm(true)} className="faculty-dashboard-end-session-button">
+                End Session
+              </button>
+            </div>
+          </div>
 
-                {/* Response Format Display */}
-                {/* <div className="probes-faculty-side-form-group">
+          {/* Main Dashboard Layout - Three Column Grid */}
+          <div className="probes-faculty-side-grid">
+            {/* Left Panel - Question Creation */}
+            <div className="probes-faculty-side-col-1">
+              <div className="probes-faculty-side-card probes-faculty-side-card-mb">
+                <h3 className="probes-faculty-side-question-title">Live Question Push</h3>
+
+                <div className="probes-faculty-side-form-space">
+                  {/* Question Type Selector */}
+                  <div className="probes-faculty-side-form-group">
+                    <label className="probes-faculty-side-label">Question Type</label>
+                    <select
+                      value={questionType}
+                      onChange={(e) => setQuestionType(e.target.value)}
+                      className="probes-faculty-side-select"
+                    >
+                      <option value="mcq">Multiple Choice (MCQ)</option>
+                      <option value="subjective">Subjective (Text Answer)</option>
+                    </select>
+                  </div>
+
+                  {/* Question Text Input */}
+                  <div className="probes-faculty-side-form-group">
+                    <label className="probes-faculty-side-label">Question</label>
+                    <textarea
+                      value={questionText}
+                      onChange={(e) => setQuestionText(e.target.value)}
+                      placeholder="Type your question here..."
+                      rows={3}
+                      className="probes-faculty-side-textarea"
+                    />
+                  </div>
+
+                  {/* Options Input - Only show for MCQ questions */}
+                  {questionType === "mcq" && (
+                    <div className="probes-faculty-side-form-group">
+                      <label className="probes-faculty-side-label">Options</label>
+                      {options.map((option, index) => (
+                        <input
+                          key={index}
+                          value={option}
+                          onChange={(e) => updateOption(index, e.target.value)}
+                          placeholder={`Option ${index + 1}`}
+                          className="probes-faculty-side-option-input"
+                        />
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Response Format Display */}
+                  {/* <div className="probes-faculty-side-form-group">
                   <label className="probes-faculty-side-label">Response Format</label>
                   <div className="probes-faculty-side-response-format">
                     {questionType === "mcq" ? <List className="probes-faculty-side-response-icon" /> : <FileText className="probes-faculty-side-response-icon" />}
@@ -723,314 +742,314 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
                   </div>
                 </div> */}
 
-                {/* Timer Input */}
-                <div className="probes-faculty-side-form-group">
-                  <label className="probes-faculty-side-label">Timer (seconds)</label>
+                  {/* Timer Input */}
+                  <div className="probes-faculty-side-form-group">
+                    <label className="probes-faculty-side-label">Timer (seconds)</label>
+                    <input
+                      type="number"
+                      value={timer}
+                      onChange={(e) => setTimer(Number(e.target.value))}
+                      min={10}
+                      max={300}
+                      className="probes-faculty-side-input"
+                    />
+                  </div>
+
+                  {/* Error Display */}
+                  {error && <div className="probes-faculty-side-error">{error}</div>}
+
+                  {/* Send Question Button */}
+                  <button
+                    onClick={sendQuestion}
+                    className="probes-faculty-side-send-button"
+                  >
+                    Push Question to Class
+                  </button>
+                </div>
+              </div>
+
+              {/* Previous Questions List */}
+              {questionHistory.slice(0, 3).map((question, index) => (
+                <div className="probes-faculty-side-card">
+                  <h4 className="probes-faculty-side-previous-title">Previous Questions</h4>
+                  <div className="probes-faculty-side-previous-space">
+
+                    <div
+                      key={question.questionId}
+                      className="probes-faculty-side-previous-item"
+                      onClick={() => viewQuestionDetails(question.questionId)}
+                    >
+                      <div className="probes-faculty-side-previous-header">
+                        {question.questionType === "mcq" ? (
+                          <List className="probes-faculty-side-previous-icon" />
+                        ) : (
+                          <FileText className="probes-faculty-side-previous-icon" />
+                        )}
+                        <span className="probes-faculty-side-previous-text">{question.text}</span>
+                      </div>
+                      <div className="probes-faculty-side-previous-meta">
+                        {question.questionType.toUpperCase()} • {new Date(question.createdAt).toLocaleTimeString()}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+            </div>
+
+            {/* Center Panel - Student Engagement */}
+            <div className="probes-faculty-side-col-1 ">
+              <div className="probes-faculty-side-card probes-faculty-side-ai-cardHeight">
+                <div className="probes-faculty-side-engagement-header">
+                  <h3 className="probes-faculty-side-engagement-title">Student Engagement</h3>
+                  <div className="probes-faculty-side-engagement-badges">
+                    <span className="probes-faculty-side-badge-answered">
+                      Answered ({statusCounts.answered})
+                    </span>
+                    <span className="probes-faculty-side-badge-thinking">
+                      Thinking ({statusCounts.thinking})
+                    </span>
+                    <span className="probes-faculty-side-badge-silent">
+                      Silent ({statusCounts.silent})
+                    </span>
+                  </div>
+                </div>
+
+                {/* Filter Tabs */}
+                <div className="probes-faculty-side-filter-tabs">
+                  {[
+                    { id: "all", label: "All", count: statusCounts.all },
+                    { id: "answered", label: "Answered", count: statusCounts.answered },
+                    { id: "thinking", label: "Thinking", count: statusCounts.thinking },
+                    { id: "silent", label: "Silent", count: statusCounts.silent },
+                  ].map((filter) => (
+                    <button
+                      key={filter.id}
+                      onClick={() => setStatusFilter(filter.id)}
+                      className={`probes-faculty-side-filter-tab ${statusFilter === filter.id
+                        ? "probes-faculty-side-filter-tab-active"
+                        : "probes-faculty-side-filter-tab-inactive"
+                        }`}
+                    >
+                      {filter.label} ({filter.count})
+                    </button>
+                  ))}
+                </div>
+
+                {/* Search Input */}
+                <div className="probes-faculty-side-search-container">
+                  <Search className="probes-faculty-side-search-icon" />
                   <input
-                    type="number"
-                    value={timer}
-                    onChange={(e) => setTimer(Number(e.target.value))}
-                    min={10}
-                    max={300}
-                    className="probes-faculty-side-input"
+                    type="text"
+                    placeholder="Search students..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="probes-faculty-side-search-input"
                   />
                 </div>
 
-                {/* Error Display */}
-                {error && <div className="probes-faculty-side-error">{error}</div>}
-
-                {/* Send Question Button */}
-                <button
-                  onClick={sendQuestion}
-                  className="probes-faculty-side-send-button"
-                >
-                  Push Question to Class
-                </button>
-              </div>
-            </div>
-
-            {/* Previous Questions List */}
-            {questionHistory.slice(0, 3).map((question, index) => (
-              <div className="probes-faculty-side-card">
-                <h4 className="probes-faculty-side-previous-title">Previous Questions</h4>
-                <div className="probes-faculty-side-previous-space">
-
-                  <div
-                    key={question.questionId}
-                    className="probes-faculty-side-previous-item"
-                    onClick={() => viewQuestionDetails(question.questionId)}
-                  >
-                    <div className="probes-faculty-side-previous-header">
-                      {question.questionType === "mcq" ? (
-                        <List className="probes-faculty-side-previous-icon" />
-                      ) : (
-                        <FileText className="probes-faculty-side-previous-icon" />
-                      )}
-                      <span className="probes-faculty-side-previous-text">{question.text}</span>
-                    </div>
-                    <div className="probes-faculty-side-previous-meta">
-                      {question.questionType.toUpperCase()} • {new Date(question.createdAt).toLocaleTimeString()}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-          </div>
-
-          {/* Center Panel - Student Engagement */}
-          <div className="probes-faculty-side-col-1 ">
-            <div className="probes-faculty-side-card probes-faculty-side-ai-cardHeight">
-              <div className="probes-faculty-side-engagement-header">
-                <h3 className="probes-faculty-side-engagement-title">Student Engagement</h3>
-                <div className="probes-faculty-side-engagement-badges">
-                  <span className="probes-faculty-side-badge-answered">
-                    Answered ({statusCounts.answered})
-                  </span>
-                  <span className="probes-faculty-side-badge-thinking">
-                    Thinking ({statusCounts.thinking})
-                  </span>
-                  <span className="probes-faculty-side-badge-silent">
-                    Silent ({statusCounts.silent})
-                  </span>
-                </div>
-              </div>
-
-              {/* Filter Tabs */}
-              <div className="probes-faculty-side-filter-tabs">
-                {[
-                  { id: "all", label: "All", count: statusCounts.all },
-                  { id: "answered", label: "Answered", count: statusCounts.answered },
-                  { id: "thinking", label: "Thinking", count: statusCounts.thinking },
-                  { id: "silent", label: "Silent", count: statusCounts.silent },
-                ].map((filter) => (
-                  <button
-                    key={filter.id}
-                    onClick={() => setStatusFilter(filter.id)}
-                    className={`probes-faculty-side-filter-tab ${statusFilter === filter.id
-                      ? "probes-faculty-side-filter-tab-active"
-                      : "probes-faculty-side-filter-tab-inactive"
-                      }`}
-                  >
-                    {filter.label} ({filter.count})
-                  </button>
-                ))}
-              </div>
-
-              {/* Search Input */}
-              <div className="probes-faculty-side-search-container">
-                <Search className="probes-faculty-side-search-icon" />
-                <input
-                  type="text"
-                  placeholder="Search students..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="probes-faculty-side-search-input"
-                />
-              </div>
-
-              {/* Student List with Real-time Status from SQL Server */}
-              <div className="probes-faculty-side-student-list">
-                {filteredStudents.map((student) => (
-                  <div key={student.userId} className="probes-faculty-side-student-item">
-                    {/* Student Avatar */}
-                    <div className="probes-faculty-side-student-avatar">
-                      {student.userName.charAt(0).toUpperCase()}
-                    </div>
-
-                    {/* Student Info */}
-                    <div className="probes-faculty-side-student-info">
-                      <div className="probes-faculty-side-student-name-row">
-                        <h4 className="probes-faculty-side-student-name">{student.userName}</h4>
-                        {getEngagementIcon(student.engagement)}
+                {/* Student List with Real-time Status from SQL Server */}
+                <div className="probes-faculty-side-student-list">
+                  {filteredStudents.map((student) => (
+                    <div key={student.userId} className="probes-faculty-side-student-item">
+                      {/* Student Avatar */}
+                      <div className="probes-faculty-side-student-avatar">
+                        {student.userName.charAt(0).toUpperCase()}
                       </div>
-                      <p className="probes-faculty-side-student-status">
-                        {getEngagementText(student.engagement, student.lastActivity)}
-                      </p>
-                      {/* {student.menteeId && <p className="probes-faculty-side-student-id">ID: {student.menteeId}</p>} */}
-                    </div>
 
-                    {/* Online Status Indicator */}
-                    <div
-                      className={`probes-faculty-side-online-indicator ${student.status === "online" ? "probes-faculty-side-online-indicator-green" : "probes-faculty-side-online-indicator-gray"}`}
-                    />
-                  </div>
-                ))}
-              </div>
+                      {/* Student Info */}
+                      <div className="probes-faculty-side-student-info">
+                        <div className="probes-faculty-side-student-name-row">
+                          <h4 className="probes-faculty-side-student-name">{student.userName}</h4>
+                          {getEngagementIcon(student.engagement)}
+                        </div>
+                        <p className="probes-faculty-side-student-status">
+                          {getEngagementText(student.engagement, student.lastActivity)}
+                        </p>
+                        {/* {student.menteeId && <p className="probes-faculty-side-student-id">ID: {student.menteeId}</p>} */}
+                      </div>
 
-              {/* Empty State */}
-              {filteredStudents.length === 0 && (
-                <div className="probes-faculty-side-empty-state">
-                  {statusFilter === "all" ? "No students connected" : `No students in ${statusFilter} state`}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Right Panel - Analytics (Only for MCQ) */}
-          <div className="probes-faculty-side-col-1">
-  {currentQuestion && (
-              <div className="probes-faculty-side-card probes-faculty-side-current-question">
-                <div className="probes-faculty-side-current-question-header">
-                  <h3 className="probes-faculty-side-current-question-title">
-                    <Clock className="probes-faculty-side-current-question-icon" />
-                    Current Question ({currentQuestion.questionType.toUpperCase()})
-                  </h3>
-                  <div className="probes-faculty-side-current-question-timer">
-                    <span className="probes-faculty-side-timer-text">{timeLeft}s</span>
-                    <div className="probes-faculty-side-timer-progress">
+                      {/* Online Status Indicator */}
                       <div
-                        className="probes-faculty-side-timer-progress-fill"
-                        style={{ width: `${(timeLeft / currentQuestion.timer) * 100}%` }}
+                        className={`probes-faculty-side-online-indicator ${student.status === "online" ? "probes-faculty-side-online-indicator-green" : "probes-faculty-side-online-indicator-gray"}`}
                       />
                     </div>
-                  </div>
+                  ))}
                 </div>
 
-                <div className="probes-faculty-side-current-question-grid">
-                  {/* Question Display */}
-                  <div className="probes-faculty-side-question-display">
-                    <div className="probes-faculty-side-question-type">
-                      {currentQuestion.questionType === "mcq" ? (
-                        <List className="probes-faculty-side-question-type-icon" />
-                      ) : (
-                        <FileText className="probes-faculty-side-question-type-icon" />
-                      )}
-                      <span className="probes-faculty-side-question-type-text">
-                        {currentQuestion.questionType === "mcq" ? "Multiple Choice Question" : "Subjective Question"}
-                      </span>
-                    </div>
-                    <h4 className="probes-faculty-side-question-text">{currentQuestion.text}</h4>
-
-                    {/* Show options only for MCQ */}
-                    {currentQuestion.questionType === "mcq" && (
-                      <ul className="probes-faculty-side-question-options">
-                        {currentQuestion.options.map((option, index) => (
-                          <li key={index} className="probes-faculty-side-question-option">
-                            {getOptionLabel(index)}. {option}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
-                    {/* Show instruction for subjective questions */}
-                    {currentQuestion.questionType === "subjective" && (
-                      <p className="probes-faculty-side-question-instruction">Students will provide text answers</p>
-                    )}
+                {/* Empty State */}
+                {filteredStudents.length === 0 && (
+                  <div className="probes-faculty-side-empty-state">
+                    {statusFilter === "all" ? "No students connected" : `No students in ${statusFilter} state`}
                   </div>
-
-                  {/* Live Response Summary */}
-                  <div className="probes-faculty-side-response-summary">
-                    <h5>Live Responses: {statusCounts.answered}</h5>
-
-                    {/* Show analytics only for MCQ */}
-                    {currentQuestion.questionType === "mcq" && analytics ? (
-                      analytics.responses.map((response, index) => (
-                        <div key={index} className="probes-faculty-side-response-item">
-                          <span>
-                            {getOptionLabel(index)}. {response.count} votes
-                          </span>
-                          <span>{response.percentage}%</span>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="probes-faculty-side-response-waiting">
-                        {currentQuestion.questionType === "subjective"
-                          ? "View individual responses in the Details tab"
-                          : "Waiting for responses..."}
-                      </div>
-                    )}
-                  </div>
-                </div>
+                )}
               </div>
-            )}
+            </div>
 
-            <div className="probes-faculty-side-card probes-faculty-side-card-mb">
-              <h3 className="probes-faculty-side-analytics-title">Live Answer Summary</h3>
-
-              {/* Show analytics only for MCQ questions */}
-              {!analytics || (currentQuestion && currentQuestion.questionType === "subjective") ? (
-                <div className="probes-faculty-side-analytics-empty">
-                  <BarChart3 className="probes-faculty-side-analytics-icon" />
-                  <p>
-                    {currentQuestion && currentQuestion.questionType === "subjective"
-                      ? "Analytics not available for subjective questions"
-                      : "Send an MCQ question to see live analytics"}
-                  </p>
-                </div>
-              ) : (
-                <div className="probes-faculty-side-analytics-content">
-                  <div className="probes-faculty-side-analytics-header">
-                    <h4>Response Distribution</h4>
-                    <p>{analytics.totalResponses} responses</p>
+            {/* Right Panel - Analytics (Only for MCQ) */}
+            <div className="probes-faculty-side-col-1">
+              {currentQuestion && (
+                <div className="probes-faculty-side-card probes-faculty-side-current-question">
+                  <div className="probes-faculty-side-current-question-header">
+                    <h3 className="probes-faculty-side-current-question-title">
+                      <Clock className="probes-faculty-side-current-question-icon" />
+                      Current Question ({currentQuestion.questionType.toUpperCase()})
+                    </h3>
+                    <div className="probes-faculty-side-current-question-timer">
+                      <span className="probes-faculty-side-timer-text">{timeLeft}s</span>
+                      <div className="probes-faculty-side-timer-progress">
+                        <div
+                          className="probes-faculty-side-timer-progress-fill"
+                          style={{ width: `${(timeLeft / currentQuestion.timer) * 100}%` }}
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="probes-faculty-side-analytics-responses">
-                    {analytics.responses.map((response, index) => (
-                      <div key={index} className="probes-faculty-side-analytics-response">
-                        <div className="probes-faculty-side-analytics-response-header">
-                          <span className="probes-faculty-side-analytics-response-label">Option {getOptionLabel(index)}</span>
-                          <span className="probes-faculty-side-analytics-response-percentage">{response.percentage}%</span>
-                        </div>
-                        <div className="probes-faculty-side-progress-bar">
-                          <div
-                            className="probes-faculty-side-progress-fill"
-                            style={{ width: `${response.percentage}%` }}
-                          />
-                        </div>
+                  <div className="probes-faculty-side-current-question-grid">
+                    {/* Question Display */}
+                    <div className="probes-faculty-side-question-display">
+                      <div className="probes-faculty-side-question-type">
+                        {currentQuestion.questionType === "mcq" ? (
+                          <List className="probes-faculty-side-question-type-icon" />
+                        ) : (
+                          <FileText className="probes-faculty-side-question-type-icon" />
+                        )}
+                        <span className="probes-faculty-side-question-type-text">
+                          {currentQuestion.questionType === "mcq" ? "Multiple Choice Question" : "Subjective Question"}
+                        </span>
                       </div>
-                    ))}
+                      <h4 className="probes-faculty-side-question-text">{currentQuestion.text}</h4>
+
+                      {/* Show options only for MCQ */}
+                      {currentQuestion.questionType === "mcq" && (
+                        <ul className="probes-faculty-side-question-options">
+                          {currentQuestion.options.map((option, index) => (
+                            <li key={index} className="probes-faculty-side-question-option">
+                              {getOptionLabel(index)}. {option}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      {/* Show instruction for subjective questions */}
+                      {currentQuestion.questionType === "subjective" && (
+                        <p className="probes-faculty-side-question-instruction">Students will provide text answers</p>
+                      )}
+                    </div>
+
+                    {/* Live Response Summary */}
+                    <div className="probes-faculty-side-response-summary">
+                      <h5>Live Responses: {statusCounts.answered}</h5>
+
+                      {/* Show analytics only for MCQ */}
+                      {currentQuestion.questionType === "mcq" && analytics ? (
+                        analytics.responses.map((response, index) => (
+                          <div key={index} className="probes-faculty-side-response-item">
+                            <span>
+                              {getOptionLabel(index)}. {response.count} votes
+                            </span>
+                            <span>{response.percentage}%</span>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="probes-faculty-side-response-waiting">
+                          {currentQuestion.questionType === "subjective"
+                            ? "View individual responses in the Details tab"
+                            : "Waiting for responses..."}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
-            </div>
 
-            {/* AI Teaching Assistant */}
-            <div className="probes-faculty-side-card">
-              <div className="probes-faculty-side-ai-header">
+              <div className="probes-faculty-side-card probes-faculty-side-card-mb">
+                <h3 className="probes-faculty-side-analytics-title">Live Answer Summary</h3>
 
-                <h3 className="probes-faculty-side-engagement-title">AI Teaching Assistant</h3>
-                <button className="probes-faculty-side-ai-refresh">
-                  <TrendingUp className="probes-faculty-side-ai-refresh-icon" />
-                  Refresh Insights
-                </button>
-              </div>
+                {/* Show analytics only for MCQ questions */}
+                {!analytics || (currentQuestion && currentQuestion.questionType === "subjective") ? (
+                  <div className="probes-faculty-side-analytics-empty">
+                    <BarChart3 className="probes-faculty-side-analytics-icon" />
+                    <p>
+                      {currentQuestion && currentQuestion.questionType === "subjective"
+                        ? "Analytics not available for subjective questions"
+                        : "Send an MCQ question to see live analytics"}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="probes-faculty-side-analytics-content">
+                    <div className="probes-faculty-side-analytics-header">
+                      <h4>Response Distribution</h4>
+                      <p>{analytics.totalResponses} responses</p>
+                    </div>
 
-              <div className="probes-faculty-side-ai-insights">
-                <div className="probes-faculty-side-ai-insight">
-                  <h5>Engagement Analysis</h5>
-                  <p>
-                    {statusCounts.answered > 0 && (
-                      <span className="probes-faculty-side-text-green">{statusCounts.answered} students actively participating. </span>
-                    )}
-                    {statusCounts.silent > statusCounts.answered && (
-                      <span className="probes-faculty-side-text-orange">Consider engaging silent students. </span>
-                    )}
-                  </p>
-                </div>
-
-                {/* Show insights based on question type */}
-                {currentQuestion && (
-                  <div className="probes-faculty-side-ai-insight">
-                    <h5>Current Question Insights</h5>
-                    <ul>
-                      <li>• Question Type: {currentQuestion.questionType.toUpperCase()}</li>
-                      <li>• Response rate: {Math.round((statusCounts.answered / statusCounts.all) * 100)}%</li>
-                      {currentQuestion.questionType === "mcq" && analytics && (
-                        <li>
-                          • Most popular option: {" "}
-                          {analytics.responses.length > 0
-                            ? analytics.responses.reduce((a, b) => (a.count > b.count ? a : b)).option
-                            : "N/A"}
-                        </li>
-                      )}
-                      <li>• {statusCounts.thinking} students still thinking</li>
-                    </ul>
+                    <div className="probes-faculty-side-analytics-responses">
+                      {analytics.responses.map((response, index) => (
+                        <div key={index} className="probes-faculty-side-analytics-response">
+                          <div className="probes-faculty-side-analytics-response-header">
+                            <span className="probes-faculty-side-analytics-response-label">Option {getOptionLabel(index)}</span>
+                            <span className="probes-faculty-side-analytics-response-percentage">{response.percentage}%</span>
+                          </div>
+                          <div className="probes-faculty-side-progress-bar">
+                            <div
+                              className="probes-faculty-side-progress-fill"
+                              style={{ width: `${response.percentage}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
+              </div>
 
-                {/* Database Integration Status */}
-                {/* <div className="probes-faculty-side-ai-insight">
+              {/* AI Teaching Assistant */}
+              <div className="probes-faculty-side-card">
+                <div className="probes-faculty-side-ai-header">
+
+                  <h3 className="probes-faculty-side-engagement-title">AI Teaching Assistant</h3>
+                  <button className="probes-faculty-side-ai-refresh">
+                    <TrendingUp className="probes-faculty-side-ai-refresh-icon" />
+                    Refresh Insights
+                  </button>
+                </div>
+
+                <div className="probes-faculty-side-ai-insights">
+                  <div className="probes-faculty-side-ai-insight">
+                    <h5>Engagement Analysis</h5>
+                    <p>
+                      {statusCounts.answered > 0 && (
+                        <span className="probes-faculty-side-text-green">{statusCounts.answered} students actively participating. </span>
+                      )}
+                      {statusCounts.silent > statusCounts.answered && (
+                        <span className="probes-faculty-side-text-orange">Consider engaging silent students. </span>
+                      )}
+                    </p>
+                  </div>
+
+                  {/* Show insights based on question type */}
+                  {currentQuestion && (
+                    <div className="probes-faculty-side-ai-insight">
+                      <h5>Current Question Insights</h5>
+                      <ul>
+                        <li>• Question Type: {currentQuestion.questionType.toUpperCase()}</li>
+                        <li>• Response rate: {Math.round((statusCounts.answered / statusCounts.all) * 100)}%</li>
+                        {currentQuestion.questionType === "mcq" && analytics && (
+                          <li>
+                            • Most popular option: {" "}
+                            {analytics.responses.length > 0
+                              ? analytics.responses.reduce((a, b) => (a.count > b.count ? a : b)).option
+                              : "N/A"}
+                          </li>
+                        )}
+                        <li>• {statusCounts.thinking} students still thinking</li>
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Database Integration Status */}
+                  {/* <div className="probes-faculty-side-ai-insight">
                   <h5>System Status</h5>
                   <ul>
                     <li>• Database: SQL Server Connected</li>
@@ -1040,99 +1059,143 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
                 </div> */}
 
 
+                </div>
+
               </div>
 
             </div>
-          
           </div>
-        </div>
-
-        {/* Current Question Display */}
 
 
-        {/* Question Details Modal/Panel - Enhanced for SQL Server */}
-        {questionDetails && (
-          <div className="probes-faculty-side-card probes-faculty-side-question-details">
-            <div className="probes-faculty-side-question-details-header">
-              <h3 className="probes-faculty-side-question-details-title">
-                <Eye className="probes-faculty-side-question-details-icon" />
-                Question Responses ({questionDetails.questionType.toUpperCase()})
-              </h3>
-              <button onClick={() => setQuestionDetails(null)} className="probes-faculty-side-question-details-close">
-                ✕
-              </button>
-            </div>
 
-            <div className="probes-faculty-side-question-details-summary">
-              <h4>Question: {questionDetails.question}</h4>
-              <p>Total Responses: {questionDetails.totalResponses}</p>
-            </div>
 
-            {/* MCQ Question Details */}
-            {questionDetails.questionType === "mcq" && questionDetails.analytics && (
-              <div className="probes-faculty-side-mcq-details">
-                {questionDetails.analytics.map((optionData, index) => (
-                  <div key={index} className="probes-faculty-side-mcq-option">
-                    <div className="probes-faculty-side-mcq-option-header">
-                      <h5 className="probes-faculty-side-mcq-option-title">
-                        {getOptionLabel(index)}. {optionData.option}
-                      </h5>
-                      <div className="probes-faculty-side-mcq-option-stats">
-                        {optionData.count} responses ({optionData.percentage}%)
+
+
+        </>)
+
+
+
+        }
+
+        {activeTab === "PreviousQuestions" && (
+          <div>
+            <div>
+              {/* Previous Questions List */}
+              {questionHistory.slice(0, 3).map((question, index) => (
+                <div className="probes-faculty-side-card">
+                  {/* <h4 className="probes-faculty-side-previous-title">Previous Questions</h4> */}
+                  <div className="probes-faculty-side-previous-space">
+
+                    <div
+                      key={question.questionId}
+                      className="probes-faculty-side-previous-item"
+                      onClick={() => viewQuestionDetails(question.questionId)}
+                    >
+                      <div className="probes-faculty-side-previous-header">
+                        {question.questionType === "mcq" ? (
+                          <List className="probes-faculty-side-previous-icon" />
+                        ) : (
+                          <FileText className="probes-faculty-side-previous-icon" />
+                        )}
+                        <span className="probes-faculty-side-previous-text">{question.text}</span>
+                      </div>
+                      <div className="probes-faculty-side-previous-meta">
+                        {question.questionType.toUpperCase()} • {new Date(question.createdAt).toLocaleTimeString()}
                       </div>
                     </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div>
+              {/* Question Details Modal/Panel - Enhanced for SQL Server */}
+              {questionDetails && (
+                <div className="probes-faculty-side-card probes-faculty-side-question-details">
+                  <div className="probes-faculty-side-question-details-header">
+                    <h3 className="probes-faculty-side-question-details-title">
+                      <Eye className="probes-faculty-side-question-details-icon" />
+                      Question Responses ({questionDetails.questionType.toUpperCase()})
+                    </h3>
+                    <button onClick={() => setQuestionDetails(null)} className="probes-faculty-side-question-details-close">
+                      ✕
+                    </button>
+                  </div>
 
-                    {optionData.students.length > 0 ? (
-                      <div className="probes-faculty-side-mcq-students">
-                        <h6>Students who selected this option:</h6>
-                        <div className="probes-faculty-side-mcq-students-grid">
-                          {optionData.students.map((student, studentIndex) => (
-                            <div key={studentIndex} className="probes-faculty-side-mcq-student">
-                              <div className="probes-faculty-side-mcq-student-name">{student.studentName}</div>
-                              <div className="probes-faculty-side-mcq-student-time">
-                                Submitted: {new Date(student.submittedAt).toLocaleTimeString()}
-                                {student.timeSpent > 0 && ` • Time: ${student.timeSpent}s`}
-                              </div>
-                              <div className="probes-faculty-side-mcq-student-id">Student ID: {student.studentId}</div>
+                  <div className="probes-faculty-side-question-details-summary">
+                    <h4>Question: {questionDetails.question}</h4>
+                    <p>Total Responses: {questionDetails.totalResponses}</p>
+                  </div>
+
+                  {/* MCQ Question Details */}
+                  {questionDetails.questionType === "mcq" && questionDetails.analytics && (
+                    <div className="probes-faculty-side-mcq-details">
+                      {questionDetails.analytics.map((optionData, index) => (
+                        <div key={index} className="probes-faculty-side-mcq-option">
+                          <div className="probes-faculty-side-mcq-option-header">
+                            <h5 className="probes-faculty-side-mcq-option-title">
+                              {getOptionLabel(index)}. {optionData.option}
+                            </h5>
+                            <div className="probes-faculty-side-mcq-option-stats">
+                              {optionData.count} responses ({optionData.percentage}%)
                             </div>
-                          ))}
+                          </div>
+
+                          {optionData.students.length > 0 ? (
+                            <div className="probes-faculty-side-mcq-students">
+                              <h6>Students who selected this option:</h6>
+                              <div className="probes-faculty-side-mcq-students-grid">
+                                {optionData.students.map((student, studentIndex) => (
+                                  <div key={studentIndex} className="probes-faculty-side-mcq-student">
+                                    <div className="probes-faculty-side-mcq-student-name">{student.studentName}</div>
+                                    <div className="probes-faculty-side-mcq-student-time">
+                                      Submitted: {new Date(student.submittedAt).toLocaleTimeString()}
+                                      {student.timeSpent > 0 && ` • Time: ${student.timeSpent}s`}
+                                    </div>
+                                    <div className="probes-faculty-side-mcq-student-id">Student ID: {student.studentId}</div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="probes-faculty-side-mcq-no-students">No students selected this option</div>
+                          )}
                         </div>
-                      </div>
-                    ) : (
-                      <div className="probes-faculty-side-mcq-no-students">No students selected this option</div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Subjective Question Details */}
-            {questionDetails.questionType === "subjective" && questionDetails.responses && (
-              <div className="probes-faculty-side-subjective-details">
-                <h5 className="probes-faculty-side-subjective-title">Student Text Responses:</h5>
-                {questionDetails.responses.map((response, index) => (
-                  <div key={index} className="probes-faculty-side-subjective-response">
-                    <div className="probes-faculty-side-subjective-response-header">
-                      <h6 className="probes-faculty-side-subjective-response-name">{response.studentName}</h6>
-                      <div className="probes-faculty-side-subjective-response-time">
-                        {new Date(response.submittedAt).toLocaleTimeString()}
-                        {response.timeSpent > 0 && ` • ${response.timeSpent}s`}
-                      </div>
+                      ))}
                     </div>
-                    <div className="probes-faculty-side-subjective-response-id">Student ID: {response.studentId}</div>
-                    <div className="probes-faculty-side-subjective-response-text">
-                      <p>{response.textAnswer}</p>
-                    </div>
-                  </div>
-                ))}
+                  )}
 
-                {questionDetails.responses.length === 0 && (
-                  <div className="probes-faculty-side-subjective-no-responses">No responses submitted yet</div>
-                )}
-              </div>
-            )}
+                  {/* Subjective Question Details */}
+                  {questionDetails.questionType === "subjective" && questionDetails.responses && (
+                    <div className="probes-faculty-side-subjective-details">
+                      <h5 className="probes-faculty-side-subjective-title">Student Text Responses:</h5>
+                      {questionDetails.responses.map((response, index) => (
+                        <div key={index} className="probes-faculty-side-subjective-response">
+                          <div className="probes-faculty-side-subjective-response-header">
+                            <h6 className="probes-faculty-side-subjective-response-name">{response.studentName}</h6>
+                            <div className="probes-faculty-side-subjective-response-time">
+                              {new Date(response.submittedAt).toLocaleTimeString()}
+                              {response.timeSpent > 0 && ` • ${response.timeSpent}s`}
+                            </div>
+                          </div>
+                          <div className="probes-faculty-side-subjective-response-id">Student ID: {response.studentId}</div>
+                          <div className="probes-faculty-side-subjective-response-text">
+                            <p>{response.textAnswer}</p>
+                          </div>
+                        </div>
+                      ))}
+
+                      {questionDetails.responses.length === 0 && (
+                        <div className="probes-faculty-side-subjective-no-responses">No responses submitted yet</div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         )}
+
+
       </div>
     </div>
   )

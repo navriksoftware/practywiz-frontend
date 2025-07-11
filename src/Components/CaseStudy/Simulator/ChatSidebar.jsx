@@ -205,6 +205,7 @@ const ChatSidebar = React.memo(function ChatSidebar({
     // Handle successful room joining
     const handleRoomJoined = (data) => {
       if (data.success) {
+        console.log("Room joined successfully ugwqeuidfgqwekdfgqweft",data);
         setIsRoomJoined(true);
         setRoomStats({ studentCount: data.studentCount });
         setError("");

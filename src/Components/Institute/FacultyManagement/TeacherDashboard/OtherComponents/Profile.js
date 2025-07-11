@@ -645,7 +645,7 @@ const ActiveCaseStudies = ({ setActivePage }) => {
                   <i className="fa-solid fa-graduation-cap" />
                   <span className="teacher-profile-home-page-case-detail-subj-tag">
                     {caseStudy.class_name}
-                    {caseStudy.class_code ? `(${caseStudy.class_code})` : ""}
+                    {caseStudy.class_code ? `(${caseStudy.class_code})` : ""}{caseStudy.faculty_case_assign_dtls_id}
                   </span>
                 </div>
 
