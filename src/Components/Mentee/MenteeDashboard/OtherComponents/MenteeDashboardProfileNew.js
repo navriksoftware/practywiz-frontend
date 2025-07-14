@@ -1,29 +1,29 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import {
-  Search,
-  Bell,
   Calendar,
   HelpCircle,
   FileText,
   Briefcase,
   Headphones,
-  Star,
-  Clock,
-  MapPin,
   TrendingUp,
   Target,
   Zap,
   CalendarIcon,
   ChevronRight,
-  Award,
   ExternalLink,
   ChevronLeft,
 } from "lucide-react";
+import { useDispatch } from "react-redux";
 import "../DashboardCSS/MenteeDashboardProfileNew.css";
 import { ApiURL } from "./../../../../Utils/ApiURL";
+import {
+  hideLoadingHandler,
+  showLoadingHandler,
+} from "../../../../Redux/loadingRedux";
 
 // Dummy data
 const dummyData = {
@@ -42,66 +42,7 @@ const dummyData = {
     time: "Today, 4:00 PM - 5:00 PM",
     countdown: "02:43:15",
   },
-  recommendedMentors: [
-    {
-      mentor_id: 1,
-      mentor_name: "Rahul Mehta",
-      mentor_company: "Senior Product Manager at Amazon",
-      profile_photo: "/placeholder.svg?height=60&width=60",
-      // matched_score: 4.9,
-      matched_skills: ["Product Strategy", "Growth"],
-      // availability: "Available Tomorrow",
-      // availabilityStatus: "available",
-    },
-    {
-      id: 2,
-      name: "Ananya Desai",
-      position: "UX Research Lead at Google",
-      avatar: "/placeholder.svg?height=60&width=60",
-      rating: 4.8,
-      expertise: ["User Research", "Design Thinking"],
-      availability: "Available Today",
-      availabilityStatus: "available",
-    },
-    {
-      id: 3,
-      name: "Vikram Singh",
-      position: "Engineering Manager at Microsoft",
-      avatar: "/placeholder.svg?height=60&width=60",
-      rating: 4.7,
-      expertise: ["System Design", "Leadership"],
-      availability: "Available Next Week",
-      availabilityStatus: "busy",
-    },
-    {
-      id: 4,
-      name: "Neha Kapoor",
-      position: "Data Science Lead at Netflix",
-      avatar: "/placeholder.svg?height=60&width=60",
-      rating: 4.9,
-      expertise: ["Machine Learning", "Analytics"],
-      availability: "Available Tomorrow",
-      availabilityStatus: "available",
-    },
-  ],
-  caseStudies: [
-    {
-      id: 1,
-      company: "Seven-Eleven Japan Co.",
-      title: "Power System1",
-      dueDate: "23-05-2025",
-      status: "Inactive",
-      startTime: "23 Jun 8:30 AM",
-    },
-    {
-      id: 2,
-      company: "Seven-Eleven Japan Co.",
-      title: "Power System1",
-      dueDate: "23-05-2025",
-      status: "Inactive",
-      startTime: "23 Jun 8:30 AM",
-    },
-  ],
+
   internship: {
     current: {
       company: "TechFusion Inc.",
@@ -154,181 +95,99 @@ const dummyData = {
   },
 };
 
-const mentors = [
-  {
-    name: "Rahul Mehta",
-    title: "Senior Product Manager at Amazon",
-    rating: 4.9,
-    tags: ["Product Strategy", "Growth"],
-    availability: "Available Tomorrow",
-    session: "Book Session",
-    img: "https://randomuser.me/api/portraits/men/32.jpg",
-    availabilityClass: "tomorrow",
-  },
-  {
-    name: "Ananya Desai",
-    title: "UX Research Lead at Google",
-    rating: 4.8,
-    tags: ["User Research", "Design Thinking"],
-    availability: "Available Today",
-    session: "Book Session",
-    img: "https://randomuser.me/api/portraits/women/44.jpg",
-    availabilityClass: "today",
-  },
-  {
-    name: "Vikram Singh",
-    title: "Engineering Manager at Microsoft",
-    rating: 4.7,
-    tags: ["System Design", "Leadership"],
-    availability: "Available Next Week",
-    session: "Book Session",
-    img: "https://randomuser.me/api/portraits/men/45.jpg",
-    availabilityClass: "nextweek",
-  },
-  {
-    name: "Neha Kapoor",
-    title: "Data Science Lead at Netflix",
-    rating: 4.9,
-    tags: ["Machine Learning", "Analytics"],
-    availability: "Available Tomorrow",
-    session: "Book Session",
-    img: "https://randomuser.me/api/portraits/women/68.jpg",
-    availabilityClass: "tomorrow",
-  },
-];
-
-const quickActions = [
-  {
-    label: "Book Session",
-    icon: <Calendar className="quick-action-icon mn-calendar" />,
-    bg: "mn-calendar",
-  },
-  {
-    label: "Ask Doubt",
-    icon: <HelpCircle className="quick-action-icon mn-help" />,
-    bg: "mn-help",
-  },
-  {
-    label: "View Certificate",
-    icon: <Award className="quick-action-icon mn-certificate" />,
-    bg: "mn-certificate",
-  },
-  {
-    label: "Internship Dashboard",
-    icon: <Briefcase className="quick-action-icon mn-briefcase" />,
-    bg: "mn-briefcase",
-  },
-  {
-    label: "Help & Support",
-    icon: <Headphones className="quick-action-icon mn-support" />,
-    bg: "mn-support",
-  },
-];
-
-const assignedCases = [
-  {
-    platform: "PractyWiz",
-    company: "Seven-Eleven Japan Co.",
-    role: "Power System1",
-    due: "23-05-2025",
-    status: "Inactive",
-    assessment: "Assessment start time and date",
-    start: "23 Jun 8:30 AM",
-  },
-  {
-    platform: "PractyWiz",
-    company: "Seven-Eleven Japan Co.",
-    role: "Power System1",
-    due: "23-05-2025",
-    status: "Inactive",
-    assessment: "Assessment start time and date",
-    start: "23 Jun 8:30 AM",
-  },
-];
-
-const recommendedInternships = [
-  {
-    company: "InnovateTech",
-    role: "Product Management Intern",
-    location: "Bangalore (Remote)",
-    duration: "3 months",
-    stipend: "₹20,000/month",
-    cta: "Apply Now",
-  },
-  {
-    company: "DesignHub",
-    role: "UI/UX Design Intern",
-    location: "Mumbai (Hybrid)",
-    duration: "6 months",
-    stipend: "₹18,000/month",
-    cta: "Apply Now",
-  },
-];
 // TODO: create API to fetch recommended mentors, if any case studies, if any current internships, recommended internships, and progress summary data
 // TODO:need to make backend controller for this component in mentee controller, also need to create a route for this component in mentee routes and sql query for this component in mentee queries
 // TODO: need to handle no data like zero state for new mentee or if no data is available for any of the sections like recommended mentors, case studies, internships, and progress summary
-const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
+const MenteeDashboardProfileNew = ({
+  user,
+  singleMenteeDtlsId,
+  token,
+  handleViewCaseStudy,
+  HandleInternshipmenu,
+}) => {
   const [recommendedMentors, setRecommendedMentors] = useState([]);
   const [recommendedInternships, setRecommendedInternships] = useState([]);
-  const [firstMentor, setFirstMentor] = useState(0);
-  const [lastMentor, setLastMentor] = useState();
+  const [assignedCaseStudies, setAssignedCaseStudies] = useState([]);
   const [allBookingSessions, setAllBookingSessions] = useState([]);
+  // const [internshipTracker, setInternshipTracker] = useState([]);
+  const [menteeOngoingInternship, setMenteeOngoingInternship] = useState([]);
+  const dispatch = useDispatch();
   const url = ApiURL();
-  // Debounce search functionality
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearchQuery(searchQuery);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
 
   // const mentee_id = user?.user?.user_id;
-  useEffect(() => {
-    const recomMentors = async () => {
-      try {
-        const response = await axios.get(
-          `${url}api/v1/mentee/dashboard/recommend-mentors/${singleMenteeDtlsId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response) {
-          const recommendedMentorsData = response.data.recommendedMentors;
-          setRecommendedMentors(recommendedMentorsData);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    if (singleMenteeDtlsId) {
-      console.log("methid");
-      recomMentors();
-      recomInternships();
-    }
-  }, []);
+  // useEffect(() => {
+  //   dispatch(showLoadingHandler());
+  //   if (singleMenteeDtlsId) {
+  //     // setLoading(dispatch);
+
+  //     fetchMentors();
+  //     recomMentors();
+  //     recomInternships();
+  //     menteeAssignedCaseStudies();
+  //     dispatch(hideLoadingHandler());
+
+  //   }
+  // }, [url, user?.user_id]);
 
   useEffect(() => {
-    const fetchMentors = async () => {
+    const fetchAllData = async () => {
+      try {
+        dispatch(showLoadingHandler());
+
+        if (singleMenteeDtlsId) {
+          await Promise.all([
+            fetchMentors(),
+            recomMentors(),
+            recomInternships(),
+            menteeAssignedCaseStudies(),
+            MenteeOngoingInternship(),
+          ]);
+        }
+      } catch (error) {
+        console.error("Error while fetching data:", error);
+        // Optionally handle error state here
+      } finally {
+        dispatch(hideLoadingHandler());
+      }
+    };
+
+    fetchAllData();
+  }, [url, user?.user_id, singleMenteeDtlsId]);
+  const recomMentors = async () => {
+    try {
+      const response = await axios.get(
+        `${url}api/v1/mentee/dashboard/recommend-mentors/${singleMenteeDtlsId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response) {
+        const recommendedMentorsData = response.data.recommendedMentors;
+        setRecommendedMentors(recommendedMentorsData);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchMentors = async () => {
+    try {
       const response = await axios.post(
         `${url}api/v1/mentee/dashboard/appointments/upcoming`,
         { userDtlsId: user?.user_id }
       );
       if (response.data) {
-        console.log("upcoming mentors", response.data.success);
         setAllBookingSessions(response.data.success);
       }
       if (response.data.error) {
-        console.log("upcomming mentor", response.data.error);
         setAllBookingSessions([]);
       }
-    };
-    fetchMentors();
-  }, [url, user?.user_id]);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const recomInternships = async () => {
     try {
@@ -343,7 +202,8 @@ const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
       if (response) {
         const recommendedInternshipsData = response.data.matchedInternships;
         setRecommendedInternships(recommendedInternshipsData);
-        console.log(recommendedInternshipsData);
+
+        // console.log(recommendedInternshipsData);
 
         const handleResize = () => {
           setWindowWidth(window.innerWidth);
@@ -355,6 +215,43 @@ const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const menteeAssignedCaseStudies = async () => {
+    try {
+      const response = await axios.get(
+        `${url}api/v1/mentee/dashboard/mentee-case-studies/${singleMenteeDtlsId}`
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // }
+      );
+      if (response && response.data) {
+        // console.log(response.data.data);
+        setAssignedCaseStudies(response.data.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const MenteeOngoingInternship = async () => {
+    try {
+      const response = await axios.get(
+        `${url}api/v1/mentee/dashboard/mentee-ongoing-internship/${user.user_id}`
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // }
+      );
+      if (response && response.data) {
+        // console.log(response.data.data);
+        setMenteeOngoingInternship(response.data.data);
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -651,21 +548,60 @@ const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
             Quick Actions
           </div>
           <div className="new-mentee-profile-quick-action-list">
-            {quickActions.map((action, idx) => (
-              <div
-                className="new-mentee-profile-quick-action-card"
-                key={action.label}
-              >
+            <Link to={"/mentor-connect"}>
+              <div className="new-mentee-profile-quick-action-card ">
                 <div
-                  className={`new-mentee-profile-quick-action-icon-bg ${action.bg}`}
+                  // onClick={}
+                  className={`new-mentee-profile-quick-action-icon-bg mn-calendar`}
                 >
-                  {action.icon}
+                  <Calendar className="quick-action-icon mn-calendar" />
                 </div>
-                <div className="new-mentee-profile-quick-action-label">
-                  {action.label}
+                <div className="new-mentee-profile-quick-action-label mn-calendar">
+                  Book Session
                 </div>
               </div>
-            ))}
+            </Link>
+            {/* Case Study Card */}
+            <div
+              onClick={handleViewCaseStudy}
+              className="new-mentee-profile-quick-action-card"
+            >
+              <div
+                className={`new-mentee-profile-quick-action-icon-bg mn-help`}
+              >
+                <Headphones className="quick-action-icon mn-help" />
+              </div>
+              <div className="new-mentee-profile-quick-action-label mn-help">
+                Case Studies
+              </div>
+            </div>
+            {/* Internship Dashboard card */}
+            <div
+              onClick={HandleInternshipmenu}
+              className="new-mentee-profile-quick-action-card"
+            >
+              <div
+                className={`new-mentee-profile-quick-action-icon-bg mn-briefcase`}
+              >
+                <Briefcase className="quick-action-icon mn-briefcase" />
+              </div>
+              <div className="new-mentee-profile-quick-action-label">
+                Internship Dashboard
+              </div>
+            </div>
+            {/* help and support Card */}
+            <Link to={"/faq"}>
+              <div className="new-mentee-profile-quick-action-card">
+                <div
+                  className={`new-mentee-profile-quick-action-icon-bg mn-help`}
+                >
+                  <HelpCircle className="quick-action-icon mn-help" />
+                </div>
+                <div className="new-mentee-profile-quick-action-label">
+                  Help & Support
+                </div>
+              </div>
+            </Link>
           </div>
         </div>
 
@@ -678,68 +614,172 @@ const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
               </span>
             </div>
             <div className="assigned-case-list">
-              {assignedCases.map((c, i) => (
-                <div className="assigned-case-card" key={i}>
-                  <div className="assigned-case-card-top">
-                    <span className="assigned-case-platform">{c.platform}</span>{" "}
-                    <a href="#" className="assigned-case-view-link">
-                      View Case Study <ExternalLink size={14} />
-                    </a>
-                  </div>
-                  <div className="assigned-case-company">{c.company}</div>
-                  <div className="assigned-case-role">{c.role}</div>
-                  <div className="assigned-case-meta-row">
-                    <span className="assigned-case-due">Due {c.due}</span>
-                    <span className="assigned-case-status">{c.status}</span>
-                  </div>
-                  <div className="assigned-case-assessment">{c.assessment}</div>
-                  <div className="assigned-case-card-bottom">
-                    <CalendarIcon className="assigned-case-calendar-icon" />
-                    <span className="assigned-case-start">
-                      Start: {c.start}
-                    </span>
-                  </div>
+              {assignedCaseStudies.length < 1 ? (
+                <div className="assigned-case-card-blank">
+                  <div className="assigned-case-card-blank-inner-section">
+                    <div className="assigned-case-card-blank-inner-section-icon">
+                      <FileText size={48} color="#d1d5db" />
+                    </div>
+
+                    <div className="assigned-case-card-blank-content">
+                      <div className="assigned-case-card-blank-text">
+                        If your faculty adds one, it will appear here. If you
+                        not part of institute you can join one
+                      </div>
+
+                      <div className="assigned-case-card-blank-subtitle">
+                        Work on real-world problems to build your portfolio
+                      </div>
+
+                      <button
+                        className="assigned-case-card-blank-button"
+                        onMouseEnter={(e) =>
+                          (e.target.style.background = "#2563eb")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.target.style.background = "#3b82f6")
+                        }
+                      >
+                        <a href="#" className="assigned-case-view-link">
+                          Explore Case Studies
+                        </a>
+                      </button>
+                    </div>
+                  </div>{" "}
                 </div>
-              ))}
+              ) : (
+                assignedCaseStudies.map((c, i) => (
+                  <div className="assigned-case-card" key={i}>
+                    <div className="assigned-case-card-top">
+                      <span className="assigned-case-platform">
+                        {c.faculty_case_assign_owned_by_practywiz
+                          ? "PractyWiz"
+                          : "Non-Practywiz"}
+                      </span>{" "}
+                      <a
+                        href="#"
+                        onClick={handleViewCaseStudy}
+                        className="assigned-case-view-link"
+                      >
+                        View Case Study <ExternalLink size={14} />
+                      </a>
+                    </div>
+                    <div className="assigned-case-company">
+                      {c.non_practywiz_case_title ||
+                        c.case_title ||
+                        "Demo Case Study Title"}
+                    </div>
+                    <div className="assigned-case-role">{c.class_name}</div>
+                    <div className="assigned-case-meta-row">
+                      <span className="assigned-case-due">
+                        Due {c.faculty_case_assign_end_date.slice(0, 10)}
+                      </span>
+                      <span className="assigned-case-status">
+                        {c.class_status ? "Active" : "InActive"}
+                      </span>
+                    </div>
+                    <div className="assigned-case-assessment">
+                      Assessment start time and date
+                    </div>
+                    <div className="assigned-case-card-bottom">
+                      <CalendarIcon className="assigned-case-calendar-icon" />
+                      <span className="assigned-case-start">
+                        Start: {c.faculty_case_assign_start_date.slice(0, 10)}
+                      </span>
+                    </div>
+                  </div>
+                ))
+              )}
+              {}
             </div>
           </div>
+
+          {/* Internship Tracker section */}
           <div className="new-mentee-profile-internship-tracker-">
             {" "}
             <div className="internship-header-row">
               <span className="internship-header">Internship Tracker</span>{" "}
-              <a href="#" className="internship-view-all">
-                <span>View All</span>
-                <ChevronRight size={16} />
-              </a>
             </div>
-            <div className="internship-tracker-card">
-              <div className="internship-tracker-card-top">
-                <span className="internship-company">TechFusion Inc.</span>
-                <span className="internship-status">Active</span>{" "}
-                <a href="#" className="internship-view-details">
-                  View Details <ExternalLink size={14} />
-                </a>
-              </div>
-              <div className="internship-role">UX Design Intern</div>
-              <div className="internship-dates-row">
-                <CalendarIcon className="internship-date-icon" />
-                <span className="internship-dates">May 15 - Jul 15, 2025</span>
-                <span className="internship-stipend">₹15,000/month</span>
-              </div>
-              <div className="internship-progress-row">
-                <span className="internship-progress-label">Progress</span>
-                <div className="internship-progress-bar-bg">
+            <div className="new-mentee-profile-internship-tracker-list">
+              {menteeOngoingInternship.length > 0 ? (
+                menteeOngoingInternship.map((internship) => (
                   <div
-                    className="internship-progress-bar-fg"
-                    style={{ width: "60%" }}
-                  />
+                    key={internship.internship_post_dtls_id}
+                    className="internship-tracker-card"
+                  >
+                    <div className="internship-tracker-card-top">
+                      <span className="internship-company">
+                        {internship.employer_internship_post_position}
+                      </span>
+                      <span className="internship-status">
+                        {internship.progressbar === 100
+                          ? "Completed"
+                          : "Active"}
+                      </span>{" "}
+                    </div>
+                    <div className="internship-role">
+                      {internship.employer_organization_name}
+                    </div>
+                    <div className="internship-dates-row">
+                      <CalendarIcon className="internship-date-icon" />
+                      <span className="internship-dates">
+                        {internship.internship_applicant_dtls_update_date.slice(
+                          0,
+                          10
+                        )}{" "}
+                      </span>
+                      <span className="internship-dates">
+                        {internship.employer_internship_post_duration}
+                        months
+                      </span>
+                      <span className="internship-stipend">
+                        {internship.employer_internship_post_stipend_amount >
+                          0 && <span>&#8377;</span>}{" "}
+                        {internship.employer_internship_post_stipend_amount}
+                      </span>
+                    </div>
+                    <div className="internship-progress-row">
+                      <span className="internship-progress-label">
+                        Progress
+                      </span>
+                      <div className="internship-progress-bar-bg">
+                        <div
+                          className="internship-progress-bar-fg"
+                          style={{ width: internship.progressbar + "%" }}
+                        />
+                      </div>
+                      <span className="internship-progress-percent">
+                        {internship.progressbar}%
+                      </span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="internship-tracker-card-blank">
+                  {/* <div className="no-internships-content"> */}
+                  <div className="no-internships-icon">
+                    <FileText size={48} />
+                  </div>
+                  <div className="no-internships-title">
+                    No Active Internships
+                    <div className="no-internships-subtitle">
+                      You haven't applied for any internships yet
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={HandleInternshipmenu}
+                    className="start-applying-button"
+                  >
+                    Start Applying
+                  </button>
+                  {/* </div> */}
                 </div>
-                <span className="internship-progress-percent">60%</span>
-              </div>
+              )}
             </div>
             <div className="internship-rec-header">Recommended Internships</div>
             <div className="internship-rec-list">
-              {recommendedInternships &&
+              {recommendedInternships.length > 0 &&
                 recommendedInternships.map((internship) => (
                   <div
                     className="internship-rec-card"
@@ -759,11 +799,14 @@ const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
                       </div>
                     </div>
                     <div className="internship-rec-right">
-                      <div className="internship-rec-stipend">
+                      <div className="internship-stipend">
                         {internship.internship_amount > 0 && (
                           <span>&#8377;</span>
                         )}{" "}
                         {internship.internship_amount}
+                        {internship.internship_amount > 0 && (
+                          <span>/Month</span>
+                        )}{" "}
                       </div>
                       <a href="#" className="internship-rec-cta">
                         Apply Now
@@ -776,7 +819,7 @@ const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
           </div>
         </div>
         {/* Progress Summary */}
-        <section className="mentee-new-dashboard-progress-summary">
+        {/* <section className="mentee-new-dashboard-progress-summary">
           <h2>Progress Summary</h2>
 
           <div className="mentee-new-dashboard-progress-grid">
@@ -872,7 +915,7 @@ const MenteeDashboardProfileNew = ({ user, singleMenteeDtlsId, token }) => {
               </button>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
     </div>
   );

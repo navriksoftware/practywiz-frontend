@@ -478,6 +478,10 @@ const MenteeDashboard = ({ user, token }) => {
     dispatch(logOut());
     dispatch(setSingleMenteeDetails(null));
   };
+
+  const handleViewCaseStudy = () => {
+    ShowCaseStudyShowList();
+  };
   return (
     <>
       <div className="md-header">
@@ -1038,23 +1042,25 @@ const MenteeDashboard = ({ user, token }) => {
             </div>
             {/* </div>
         <div className="mob-main"> */}
-            {showMenteeProfile && (
+            {/* {showMenteeProfile && (
               <MenteeProfileDashboard
                 singleMentee={singleMentee}
                 user={user}
                 token={token}
                 MenteePsettingsHandler={MenteePsettingsHandler}
               />
-            )}
-            {/* {showMenteeProfile && (
+            )} */}
+            {showMenteeProfile && (
               <MenteeDashboardProfileNew
                 user={user}
                 singleMenteeDtlsId={singleMenteeDtlsId}
                 token={token}
+                handleViewCaseStudy={handleViewCaseStudy}
+                HandleInternshipmenu={HandleInternshipmenu}
                 // mentee_id={menteeDtlsId}
                 // MenteePsettingsHandler={MenteePsettingsHandler}
               />
-            )} */}
+            )}
             {showMenteePsettings && (
               <MenteeProfileSettings
                 singleMentee={singleMentee}
