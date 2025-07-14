@@ -1,184 +1,140 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { ApiURL } from "../../../../../Utils/ApiURL";
-import axios from "axios";
-import formatDate from "../../../../../Utils/FormatDate.js"; // Assuming you have a utility function for date formatting
-import { Home, CheckCircle, AlertTriangle, TrendingUp, Divide, Star } from 'lucide-react';
-import '../DashboardCSS/TestAssessmentpage.css'; // Adjust the path as necessary
-import "../DashboardCSS/SingleStudentAssessmentPage.css";
-import {
-    PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer,
-} from "recharts";
+"use client"
 
-const COLORS = ["#8884d8", "#82ca9d"]; // analysis, fact
+import { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
+import { ApiURL } from "../../../../../Utils/ApiURL"
+import axios from "axios"
+import formatDate from "../../../../../Utils/FormatDate.js"
+import { Home, CheckCircle, AlertTriangle, TrendingUp, ChevronLeft } from "lucide-react"
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts"
+import "./case-study-review.css"
 
-const TestAssessmentPage = () => {
-    const { Mid, ACid } = useParams();
+const COLORS = ["#3B82F6", "#10B981"] // Blue for Analysis, Green for Fact
 
-    console.log(Mid, ACid);
-    const [singleData, setsingleData] = useState([]);
-    const url = ApiURL();
+const CaseStudyReview = () => {
+    const { Mid, ACid } = useParams()
+    const [singleData, setSingleData] = useState([])
+    const [factDetails, setFactDetails] = useState([])
+    const [analysisDetails, setAnalysisDetails] = useState({ questions: [] })
+    const [researchDetails, setResearchDetails] = useState([])
+    const [activeTab, setActiveTab] = useState("fact")
+    const [totalObtained, setTotalObtained] = useState(0)
+    const [totalMax, setTotalMax] = useState(0)
+    const [loading, setLoading] = useState(false);
+    const url = ApiURL()
 
     const fetchSingleAssessmentDtls = async () => {
         try {
+            setLoading(true);
             const response = await Promise.race([
                 axios.post(`${url}api/v1/faculty/dashboard/single-assessment-details`, {
                     MenteeId: Mid,
                     FacultyAssignId: ACid,
                 }),
-                new Promise((_, reject) =>
-                    setTimeout(() => reject(new Error("Request timed out")), 45000)
-                ),
-            ]);
-
+                new Promise((_, reject) => setTimeout(() => reject(new Error("Request timed out")), 45000)),
+            ])
             if (response.data.success) {
-                setsingleData(response.data.success[0]);
-                console.log("response.data.success[0]", response.data.success[0]);
+                setSingleData(response.data.success[0])
+                console.log(response.data.success[0])
             } else if (response.data.error) {
-                setsingleData([]);
+                setSingleData([])
             }
         } catch (error) {
-            setsingleData([]);
-
-            if (error.message === "Request timed out") {
-                console.log("Request timed out. Please try again.");
-            } else {
-                console.log("An error occurred. Please try again.", error);
-            }
-        } finally {
+            setSingleData([])
+            console.log("An error occurred. Please try again.", error)
         }
-    };
+        finally {
+            setLoading(false);
+        }
+    }
 
     useEffect(() => {
-        fetchSingleAssessmentDtls();
-    }, [url]);
-
-    const [factDetails, setFactDetails] = useState([]);
-    const [analysisDetails, setAnalysisDetails] = useState({ questions: [] }); // initialize with an object, as your code expects analysisDetails.questions
-    const [researchDetails, setResearchDetails] = useState([]);
+        fetchSingleAssessmentDtls()
+    }, [url])
 
     useEffect(() => {
         if (singleData?.mentee_result_fact_details) {
             try {
-                const parsedFact = JSON.parse(singleData.mentee_result_fact_details);
-                setFactDetails(Array.isArray(parsedFact) ? parsedFact : []);
+                const parsedFact = JSON.parse(singleData.mentee_result_fact_details)
+                setFactDetails(Array.isArray(parsedFact) ? parsedFact : [])
             } catch {
-                setFactDetails([]);
+                setFactDetails([])
             }
         }
-
         if (singleData?.mentee_result_analysis_details) {
             try {
-                const parsedAnalysis = JSON.parse(
-                    singleData.mentee_result_analysis_details
-                );
-                // ensure parsedAnalysis has questions array to prevent errors
+                const parsedAnalysis = JSON.parse(singleData.mentee_result_analysis_details)
                 setAnalysisDetails({
                     ...parsedAnalysis,
-                    questions: Array.isArray(parsedAnalysis.questions)
-                        ? parsedAnalysis.questions
-                        : [],
-                });
+                    questions: Array.isArray(parsedAnalysis.questions) ? parsedAnalysis.questions : [],
+                })
             } catch {
-                setAnalysisDetails({ questions: [] });
+                setAnalysisDetails({ questions: [] })
             }
         }
-
         if (singleData?.mentee_result_research_details) {
             try {
-                const parsedResearch = JSON.parse(
-                    singleData.mentee_result_research_details
-                );
-                setResearchDetails(Array.isArray(parsedResearch) ? parsedResearch : []);
+                const parsedResearch = JSON.parse(singleData.mentee_result_research_details)
+                setResearchDetails(Array.isArray(parsedResearch) ? parsedResearch : [])
             } catch {
-                setResearchDetails([]);
+                setResearchDetails([])
             }
         }
-    }, [singleData]);
+    }, [singleData])
 
     useEffect(() => {
-        calculateCombinedMarks(factDetails, analysisDetails.questions);
-    }, [factDetails, analysisDetails.questions]);
+        calculateCombinedMarks(factDetails, analysisDetails.questions)
+    }, [factDetails, analysisDetails.questions])
+
+    const calculateCombinedMarks = (factQuestions, analysisQuestions) => {
+        let obtainedSum = 0
+        let maxSum = 0
+        const allQuestions = [...factQuestions, ...analysisQuestions]
+        allQuestions.forEach((q) => {
+            const obtained = Number(q.obtainedMark)
+            const max = Number(q.maxMark)
+            if (!isNaN(obtained)) obtainedSum += obtained
+            if (!isNaN(max)) maxSum += max
+        })
+        setTotalObtained(obtainedSum)
+        setTotalMax(maxSum)
+    }
 
     const handleScoreUpdate = (type, index, field, value) => {
-        const update = (data) =>
-            data.map((item, i) => (i === index ? { ...item, [field]: value } : item));
-
+        const update = (data) => data.map((item, i) => (i === index ? { ...item, [field]: value } : item))
         if (type === "fact") {
-            setFactDetails((prev) => update(prev));
-            calculateCombinedMarks(factDetails, analysisDetails.questions);
+            setFactDetails((prev) => update(prev))
         } else if (type === "analysis") {
             setAnalysisDetails((prev) => ({
                 ...prev,
                 questions: update(prev.questions || []),
-            }));
-            calculateCombinedMarks(factDetails, analysisDetails.questions);
+            }))
         }
-
-        // else if (type === "research") setResearchDetails(prev => update(prev));
-    };
-
-    const [totalObtained, setTotalObtained] = useState(
-        singleData?.mentee_result_total_score || 0
-    );
-    const [totalMax, setTotalMax] = useState(
-        singleData?.mentee_result_max_score || 0
-    );
-
-    const calculateCombinedMarks = (factQuestions, analysisQuestions) => {
-        let obtainedSum = 0;
-        let maxSum = 0;
-
-        const allQuestions = [...factQuestions, ...analysisQuestions];
-
-        allQuestions.forEach((q) => {
-            const obtained = Number(q.obtainedMark);
-            const max = Number(q.maxMark);
-
-            if (!isNaN(obtained)) obtainedSum += obtained;
-            if (!isNaN(max)) maxSum += max;
-        });
-
-        setTotalObtained(obtainedSum);
-        setTotalMax(maxSum);
-    };
+    }
 
     const handleSubmit = async () => {
         const validateMarks = (details, type) => {
             for (let i = 0; i < details.length; i++) {
-                const item = details[i];
-                const obtained = item.obtainedMark;
-                const max = item.maxMark;
-
+                const item = details[i]
+                const obtained = item.obtainedMark
+                const max = item.maxMark
                 if (obtained === "" || obtained === null || obtained === undefined) {
-                    alert(`${type} - Q${i + 1}: Obtained mark cannot be empty`);
-                    return false;
+                    alert(`${type} - Q${i + 1}: Obtained mark cannot be empty`)
+                    return false
                 }
-
                 if (isNaN(obtained) || Number(obtained) > Number(max)) {
-                    alert(
-                        `${type} - Q${i + 1
-                        }: Obtained mark must be a number and not exceed Max mark (${max})`
-                    );
-                    return false;
+                    alert(`${type} - Q${i + 1}: Obtained mark must be a number and not exceed Max mark (${max})`)
+                    return false
                 }
             }
-            return true;
-        };
-
-        const isFactValid = validateMarks(factDetails, "Fact");
-        const isAnalysisValid = validateMarks(
-            analysisDetails.questions,
-            "Analysis"
-        );
-        //   const isResearchValid = validateMarks(researchDetails, 'Research');
-
-        if (!isFactValid || !isAnalysisValid) {
-            return; // Stop submission if validation fails
+            return true
         }
 
-        // // ✅ Calculate combined total marks
-        // const { totalObtained, totalMax } = calculateCombinedMarks(factDetails, analysisDetails.questions);
+        const isAnalysisValid = validateMarks(analysisDetails.questions, "Analysis")
+
+        if (!isAnalysisValid) {
+            return // Stop submission if validation fails
+        }
 
         const payload = {
             menteeId: Mid,
@@ -186,438 +142,442 @@ const TestAssessmentPage = () => {
             factDetails,
             analysisDetails,
             researchDetails,
-            totalObtained,
+            updateTotalMarks,
             totalMax,
-        };
-
-        console.log("Updated Score Payload", payload);
+        }
 
         try {
             const response = await Promise.race([
-                axios.post(
-                    `${url}api/v1/faculty/dashboard/single-Student-assessment/update`,
-                    payload
-                ),
-                new Promise((_, reject) =>
-                    setTimeout(() => reject(new Error("Request timed out")), 45000)
-                ),
-            ]);
-
+                axios.post(`${url}api/v1/faculty/dashboard/single-Student-assessment/update`, payload),
+                new Promise((_, reject) => setTimeout(() => reject(new Error("Request timed out")), 45000)),
+            ])
             if (response.data.success) {
-                console.log("Scores updated successfully:", response.data.success);
-                fetchSingleAssessmentDtls();
-            } else if (response.data.error) {
-                console.log("Error updating scores:", response.data.error);
+                console.log("Scores updated successfully:", response.data.success)
+                fetchSingleAssessmentDtls()
+                alert("Scores updated successfully!")
             }
         } catch (error) {
-            if (error.message === "Request timed out") {
-                console.log("Request timed out. Please try again.");
-            } else {
-                console.log("An error occurred. Please try again.", error);
-            }
+            console.log("An error occurred. Please try again.", error)
+            alert("Error updating scores. Please try again.")
         }
-    };
+    }
 
-    const minimalisticColors = {
-        primary: "#4A5568", // Dark gray
-        secondary: "#A0AEC0", // Light gray
-        accent: "#2D3748", // Slightly darker gray
-    };
+    // Calculate chart data
+    const factObtained = factDetails.reduce((sum, q) => sum + Number(q.obtainedMark || 0), 0)
+    const analysisObtained = analysisDetails.questions.reduce((sum, q) => sum + Number(q.obtainedMark || 0), 0)
+    const updateTotalMarks = factDetails.reduce((sum, q) => sum + Number(q.obtainedMark || 0), 0) + analysisDetails.questions.reduce((sum, q) => sum + Number(q.obtainedMark || 0), 0)
 
-    // Parse JSON strings
-    const analysisQuestions = analysisDetails.questions;
-    // const factQuestions = JSON.parse(singleData?.mentee_result_fact_details);
 
-    // Calculate obtained scores
-    const factObtained = factDetails.reduce((sum, q) => sum + Number(q.obtainedMark), 0);
-    const analysisObtained = analysisQuestions.reduce((sum, q) => sum + Number(q.obtainedMark), 0);
-
-    // Total score
-    const total = factObtained + analysisObtained;
 
     const chartData = [
-        { name: "Analysis-Based Score", value: analysisObtained },
-        { name: "Fact-Based Score", value: factObtained },
-    ];
+        {
+            name: "Analysis Questions",
+            value: analysisObtained,
+            percentage: totalObtained ? Math.round((analysisObtained / totalObtained) * 100) : 0,
+        },
+        {
+            name: "Fact Questions",
+            value: factObtained,
+            percentage: totalObtained ? Math.round((factObtained / totalObtained) * 100) : 0,
+        },
+    ]
 
+    useEffect(() => {
+        // Set default active tab based on available data
+        if (factDetails.length > 0) {
+            setActiveTab("fact")
+        } else if (analysisDetails.questions.length > 0) {
+            setActiveTab("analysis")
+        } else if (researchDetails.length > 0) {
+            setActiveTab("research")
+        }
+    }, [factDetails, analysisDetails.questions, researchDetails])
 
-    const [ActivePage, setActivePage] = useState("overview")
-    const [ActiveSubPage, setActiveSubPage] = useState("fact")
-
-
-
-
-
-    return (
-        <div className="single-student-assessment-pages">
-            {/* Header Navigation */}
-            <nav className="single-student-assessment-pages__nav">
-                <div className="single-student-assessment-pages__breadcrumb">
-
-                    <span onClick={() => setActivePage("overview")}>Overview</span>
-
-                    <span onClick={() => setActivePage("questions")}>Question</span>
-
-                    <span onClick={() => setActivePage("research")}>Research</span>
+    console.log(analysisDetails)
+    return (<>
+        {loading ? (
+            <div className="loading-container">
+                <div className="loading-spinner"></div>
+                <p>Loading ...</p>
+            </div>
+        ) :
+            <div className="result-page-single-details-container">
+                {/* Header */}
+                <div className="result-page-single-details-header">
+                    <div className="result-page-single-details-breadcrumb">
+                        <ChevronLeft className="result-page-single-details-back-icon" />
+                        <Home className="result-page-single-details-home-icon" />
+                        <span>Dashboard</span>
+                        <span>/</span>
+                        <span>Case Studies</span>
+                        <span>/</span>
+                        <span className="result-page-single-details-current">Student Review</span>
+                    </div>
                 </div>
-            </nav>
 
+                {/* Main Content */}
+                <div className="result-page-single-details-main">
+                    <h1 className="result-page-single-details-title">{singleData?.case_study_title}</h1>
 
-            {ActivePage === "overview" &&
-                <div className="single-student-assessment-pages__Overview-Layout">
-                    <div className="single-student-assessment-pages__Overview-Item">
-                        {/* Student Information */}
-                        <div className="single-student-assessment-pages__card">
-                            <h2 className="single-student-assessment-pages__card-title">Student Information</h2>
-                            <div className="single-student-assessment-pages__info-grid">
-                                <div className="single-student-assessment-pages__info-item">
-                                    <span className="single-student-assessment-pages__info-label">Student Name</span>
-                                    <span className="single-student-assessment-pages__info-value">{singleData?.user_firstname}</span>
-                                </div>
-                                <div className="single-student-assessment-pages__info-item">
-                                    <span className="single-student-assessment-pages__info-label">Roll Number</span>
-                                    <span className="single-student-assessment-pages__info-value">{singleData?.mentee_roll_no}</span>
-                                </div>
-                                <div className="single-student-assessment-pages__info-item">
-                                    <span className="single-student-assessment-pages__info-label">Class Name</span>
-                                    <span className="single-student-assessment-pages__info-value">{singleData?.class_name}</span>
-                                </div>
-                                <div className="single-student-assessment-pages__info-item">
-                                    <span className="single-student-assessment-pages__info-label">Class Subject Code</span>
-                                    <span className="single-student-assessment-pages__info-value">    {singleData?.class_subject_code}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Case Study Details */}
-                        <div className="single-student-assessment-pages__card">
-                            <h2 className="single-student-assessment-pages__card-title">Case Study Details</h2>
-                            <div className="single-student-assessment-pages__info-grid">
-                                <div className="single-student-assessment-pages__info-item single-student-assessment-pages__info-item--full">
-                                    <span className="single-student-assessment-pages__info-label">Case Study Title</span>
-                                    <span className="single-student-assessment-pages__info-value">{singleData?.case_study_title}</span>
-                                </div>
-                                <div className="single-student-assessment-pages__info-item single-student-assessment-pages__info-item--full">
-                                    <span className="single-student-assessment-pages__info-label">Categories</span>
-                                    <div className="single-student-assessment-pages__tags">
-                                        {/* {JSON.parse(singleData?.case_study_category || '[]')?.map((category, index) => (
-                                            <span key={index} className="single-student-assessment-pages__tag single-student-assessment-pages__tag--blue">
-                                                {category}
-                                            </span>
-                                        ))} */}
-                                        <span  className="single-student-assessment-pages__tag single-student-assessment-pages__tag--blue">
-                                            {singleData?.case_study_category}
+                    <div className="result-page-single-details-layout">
+                        {/* Left Column */}
+                        <div className="result-page-single-details-left-column">
+                            {/* Performance Breakdown */}
+                            <div className="result-page-single-details-card">
+                                <h2 className="result-page-single-details-card-title">Performance Breakdown</h2>
+                                <div className="result-page-single-details-score-display">
+                                    <div className="result-page-single-details-score-large">
+                                        {singleData?.mentee_result_total_score || updateTotalMarks}/{totalMax}
+                                    </div>
+                                    <div className="result-page-single-details-status">
+                                        <span className="result-page-single-details-status-badge">Submitted</span>
+                                        <span className="result-page-single-details-last-updated">
+                                            Last updated: {formatDate(singleData?.mentee_result_update_date)}
                                         </span>
                                     </div>
                                 </div>
-                                <div className="single-student-assessment-pages__info-item single-student-assessment-pages__info-item--full">
-                                    <span className="single-student-assessment-pages__info-label">Review Dates</span>
-                                    <span className="single-student-assessment-pages__info-value"> {formatDate(singleData?.faculty_case_assign_start_date)} - {formatDate(singleData?.faculty_case_assign_end_date)}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className="single-student-assessment-pages__Overview-Item">
-
-                        <div className="single-student-assessment-pages__status-card">
-                            <div className="single-student-assessment-pages__status-header">
-                                <CheckCircle className="single-student-assessment-pages__status-icon single-student-assessment-pages__status-icon--success" />
-                                <span className="single-student-assessment-pages__status-text">Submitted</span>
-                                <span className="single-student-assessment-pages__status-date"> Last updated: {formatDate(singleData?.mentee_result_update_date)}</span>
-                            </div>
-                            {singleData?.mentee_result_analysis_details &&
-                                (() => {
-                                    try {
-                                        const parsedDetails = JSON.parse(
-                                            singleData.mentee_result_analysis_details
-                                        );
-                                        return (
-                                            <div className="single-student-assessment-pages__performance-text-Row" >
-                                                <p className="single-student-assessment-pages__performance-text">
-                                                    {parsedDetails.performance}
-                                                </p>
-                                                <span className="single-student-assessment-pages__score-large"> {singleData?.mentee_result_total_score}/{totalMax}</span>
-                                                {/* <span className="single-student-assessment-pages__score-large"> {totalObtained}/{totalMax}</span> */}
-                                            </div>
-                                        );
-                                    } catch (error) {
-                                        return <p>Error parsing performance feedback.</p>;
-                                    }
-                                })()}
-
-                        </div>
-
-                        {/* Performance Breakdown */}
-                        <div className="single-student-assessment-pages__card">
-                            <h2 className="single-student-assessment-pages__card-title">Performance Breakdown</h2>
-                            <div className="single-student-assessment-pages__score-section">
-
-                                <div style={{ width: "100%", height: 400 }}>
-                                    {/* <h3>Score Contribution: Analysis vs Fact-Based Questions</h3> */}
-                                    <ResponsiveContainer>
+                                <div className="result-page-single-details-chart-container">
+                                    <ResponsiveContainer width="100%" height={200}>
                                         <PieChart>
-                                            <Pie
-                                                data={chartData}
-                                                cx="50%"
-                                                cy="50%"
-                                                labelLine={true}
-                                                label={({ name, percent }) => `${name} (${(percent * 100).toFixed(1)}%)`}
-                                                outerRadius={120}
-                                                dataKey="value"
-                                            >
+                                            <Pie data={chartData} cx="50%" cy="50%" innerRadius={60} outerRadius={80} dataKey="value">
                                                 {chartData.map((entry, index) => (
                                                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                                 ))}
                                             </Pie>
                                             <Tooltip />
-                                            <Legend />
                                         </PieChart>
                                     </ResponsiveContainer>
+                                    <div className="result-page-single-details-chart-legend">
+                                        <div className="result-page-single-details-legend-item">
+                                            <div className="result-page-single-details-legend-color result-page-single-details-legend-fact"></div>
+                                            <span>Fact Questions: {chartData[1]?.percentage || 0}%</span>
+                                        </div>
+                                        <div className="result-page-single-details-legend-item">
+                                            <div className="result-page-single-details-legend-color result-page-single-details-legend-analysis"></div>
+                                            <span>Analysis Questions: {chartData[0]?.percentage || 0}%</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-
-                    </div>
-                </div>
-            }
-            {ActivePage === "questions" &&
-                <div className="">
-
-                    <div>
-                        <ul className="single-student-assessment-pages__list">
-                            <li><div onClick={() => setActiveSubPage("fact")}>Fact Base Question</div></li>
-                            <li><div onClick={() => setActiveSubPage("Analysis")}>Analysis Base Question</div></li>
-                        </ul>
-                    </div>
-
-                    {ActiveSubPage === "fact" &&
-
-                        /* Fact Questions */
-                        <div className="single-student-assessment-pages__card">
-
-
-
-
-                            {factDetails.map((FBQuestion, index) => (
-
-                                <div className="single-student-assessment-pages__question">
-                                    <div className="single-student-assessment-pages__question-header">
-                                        <span className="single-student-assessment-pages__question-title">Question {index + 1}</span>
+                            {/* Student Information */}
+                            <div className="result-page-single-details-card">
+                                <h2 className="result-page-single-details-card-title">Student Information</h2>
+                                <div className="result-page-single-details-info-grid">
+                                    <div className="result-page-single-details-info-item">
+                                        <span className="result-page-single-details-info-label">Student Name</span>
+                                        <span className="result-page-single-details-info-value">{singleData?.user_firstname}</span>
                                     </div>
-                                    <p className="single-student-assessment-pages__question-text">  {FBQuestion?.Question}</p>
-                                    <p className="single-student-assessment-pages__answer"> {FBQuestion?.userAnswer}</p>
-                                    <div className="single-student-assessment-pages__question-status">
-                                        <CheckCircle className="single-student-assessment-pages__status-icon single-student-assessment-pages__status-icon--success" />
-                                        <span className="single-student-assessment-pages__status-text">{FBQuestion?.correctAnswer}</span>
+                                    <div className="result-page-single-details-info-item">
+                                        <span className="result-page-single-details-info-label">Roll Number</span>
+                                        <span className="result-page-single-details-info-value">{singleData?.mentee_roll_no}</span>
                                     </div>
+                                    <div className="result-page-single-details-info-item">
+                                        <span className="result-page-single-details-info-label">Class Name</span>
+                                        <span className="result-page-single-details-info-value">{singleData?.class_name}</span>
+                                    </div>
+                                    <div className="result-page-single-details-info-item">
+                                        <span className="result-page-single-details-info-label">Subject Code</span>
+                                        <span className="result-page-single-details-info-value">{singleData?.class_subject_code}</span>
+                                    </div>
+                                </div>
+                            </div>
 
-                                    {/* <div className="single-student-assessment-pages__feedback-section">
-                                        <div className="single-student-assessment-pages__feedback-item single-student-assessment-pages__feedback-item--strength">
-                                            <TrendingUp className="single-student-assessment-pages__feedback-icon" />
-                                            <div>
-                                                <span className="single-student-assessment-pages__feedback-label">Strengths</span>
-                                                <p className="single-student-assessment-pages__feedback-text">{FBQuestion?.strength}</p>
-                                            </div>
-                                        </div>
-                                        <div className="single-student-assessment-pages__feedback-item single-student-assessment-pages__feedback-item--improvement">
-                                            <AlertTriangle className="single-student-assessment-pages__feedback-icon" />
-                                            <div>
-                                                <span className="single-student-assessment-pages__feedback-label">Areas to Improve</span>
-                                                <p className="single-student-assessment-pages__feedback-text">{FBQuestion?.areaToImprove}</p>
-                                            </div>
-                                        </div>
-                                    </div> */}
-
-                                    <div className="single-student-assessment-page__score-row">
-                                        <div className="single-student-assessment-page__score-inputs">
-                                            <div className="single-student-assessment-page-flexVertical">
-                                                {" "}
-                                                <span className="single-student-assessment-page__score-label">
-                                                    Gained Score
-                                                </span>
-                                                <input
-                                                    type="number"
-                                                    value={FBQuestion?.isCorrect ? FBQuestion?.maxMark : 0}
-                                                    // onChange={(e) =>
-                                                    //     handleScoreUpdate(
-                                                    //         "fact",
-                                                    //         index,
-                                                    //         "obtainedMark",
-                                                    //         Number(e.target.value)
-                                                    //     )
-                                                    // }
-                                                    className="single-student-assessment-page__score-input"
-                                                />
-
-                                            </div>
-                                            {/* <span className="single-student-assessment-page__score-divider">
-                                                /
+                            {/* Case Study Details */}
+                            <div className="result-page-single-details-card">
+                                <h2 className="result-page-single-details-card-title">Case Study Details</h2>
+                                <div className="result-page-single-details-info-grid">
+                                    <div className="result-page-single-details-info-item result-page-single-details-info-item-full">
+                                        <span className="result-page-single-details-info-label">Case Study Title</span>
+                                        <span className="result-page-single-details-info-value">{singleData?.case_study_title}</span>
+                                    </div>
+                                    <div className="result-page-single-details-info-item result-page-single-details-info-item-full">
+                                        <span className="result-page-single-details-info-label">Categories</span>
+                                        <div className="result-page-single-details-tags">
+                                            <span className="result-page-single-details-tag result-page-single-details-tag-blue">
+                                                Team Collaboration
                                             </span>
-                                            <div className="single-student-assessment-page-flexVertical">
-                                                {" "}
-                                                <span className="single-student-assessment-page__score-label">
-                                                    Total Score
+                                            <span className="result-page-single-details-tag result-page-single-details-tag-purple">
+                                                Problem Solving
+                                            </span>
+                                            <span className="result-page-single-details-tag result-page-single-details-tag-green">
+                                                Knowledge Sharing
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="result-page-single-details-info-item result-page-single-details-info-item-full">
+                                        <span className="result-page-single-details-info-label">Review Period</span>
+                                        <div className="result-page-single-details-date-range">
+                                            <div>
+                                                <span className="result-page-single-details-date-label">Start</span>
+                                                <span className="result-page-single-details-date-value">
+                                                    {formatDate(singleData?.faculty_case_assign_start_date)}
                                                 </span>
-                                                <input
-                                                    type="number"
-                                                    value={FBQuestion?.maxMark}
-                                                    onChange={(e) =>
-                                                        handleScoreUpdate("question1", "total", e.target.value)
-                                                    }
-                                                    className="single-student-assessment-page__score-input"
-                                                />
-                                            </div>{" "} */}
+                                            </div>
+                                            <div>
+                                                <span className="result-page-single-details-date-label">End</span>
+                                                <span className="result-page-single-details-date-value">
+                                                    {formatDate(singleData?.faculty_case_assign_end_date)}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-                            ))}
-
-                        </div>
-                    }
-
-                    {ActiveSubPage === "Analysis" &&
-                        /* Analysis Questions */
-
-                        <div className="single-student-assessment-pages__card">
-
-                            {/* Analysis Question */}
-                            {singleData?.mentee_result_analysis_details &&
-                                analysisDetails?.questions &&
-                                Array.isArray(analysisDetails.questions) ? (
-                                analysisDetails.questions.map((ABQuestion, index) => (
-                                    <div className="single-student-assessment-pages__question">
-                                        <div className="single-student-assessment-pages__question-header">
-                                            <span className="single-student-assessment-pages__question-title">Question {index + 1}</span>
-                                        </div>
-                                        <p className="single-student-assessment-pages__question-text">{ABQuestion?.Question}</p>
-                                        <p className="single-student-assessment-pages__answer"> {ABQuestion?.userAnswer}</p>
-                                        <div className="single-student-assessment-pages__question-status">
-                                            <CheckCircle className="single-student-assessment-pages__status-icon single-student-assessment-pages__status-icon--success" />
-                                            <span className="single-student-assessment-pages__status-text">{ABQuestion?.feedback}</span>
-                                        </div>
-
-                                        <div className="single-student-assessment-pages__feedback-section">
-                                            <div className="single-student-assessment-pages__feedback-item single-student-assessment-pages__feedback-item--strength">
-                                                <TrendingUp className="single-student-assessment-pages__feedback-icon" />
-                                                <div>
-                                                    <span className="single-student-assessment-pages__feedback-label">Strengths</span>
-                                                    <p className="single-student-assessment-pages__feedback-text">{ABQuestion?.strengths}</p>
-                                                </div>
-                                            </div>
-                                            <div className="single-student-assessment-pages__feedback-item single-student-assessment-pages__feedback-item--improvement">
-                                                <AlertTriangle className="single-student-assessment-pages__feedback-icon" />
-                                                <div>
-                                                    <span className="single-student-assessment-pages__feedback-label">Areas to Improve</span>
-                                                    <p className="single-student-assessment-pages__feedback-text">{ABQuestion?.areaToImprove}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="single-student-assessment-page__score-row">
-                                            <div className="single-student-assessment-page__score-inputs">
-                                                <div className="single-student-assessment-page-flexVertical">
-                                                    <span className="single-student-assessment-page__score-label">
-                                                        Gained Score
-                                                    </span>
-                                                    <input
-                                                        type="number"
-                                                        value={ABQuestion?.obtainedMark}
-                                                        onChange={(e) =>
-                                                            handleScoreUpdate(
-                                                                "analysis",
-                                                                index,
-                                                                "obtainedMark",
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                        className="single-student-assessment-page__score-input"
-                                                    />
-                                                </div>
-
-                                                <span className="single-student-assessment-page__score-divider">
-                                                    /
-                                                </span>
-
-                                                <div className="single-student-assessment-page-flexVertical">
-                                                    <span className="single-student-assessment-page__score-label">
-                                                        Total Score
-                                                    </span>
-                                                    <input
-                                                        type="number"
-                                                        value={ABQuestion?.maxMark}
-                                                        onChange={(e) =>
-                                                            handleScoreUpdate(
-                                                                "analysis",
-                                                                index,
-                                                                "maxMark",
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                        className="single-student-assessment-page__score-input"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))) : (
-                                <p>No Questions Attempted.</p>
-                                // <p>Error parsing assessment data.</p>
-                            )}
-
-
-                        </div>
-                    }
-                    {/* Overall Performance */}
-                    {/* <div className="single-student-assessment-pages__card">
-                            <h2 className="single-student-assessment-pages__card-title">Overall Performance</h2>
-                            <p className="single-student-assessment-pages__performance-text">
-                                Overall performance is good. Strong in fundamentals, needs improvement in practical application examples.
-                            </p>
-                            <div className="single-student-assessment-pages__final-score">
-                                <span className="single-student-assessment-pages__score-label">Total Score</span>
-                                <span className="single-student-assessment-pages__score-value">17/17</span>
                             </div>
-                            <button className="single-student-assessment-pages__update-btn">Update Scores</button>
-                        </div> */}
-
-                    <div className="single-student-assessment-pages__card">
-                        <div className="single-student-assessment-pages__final-score">
-                            <span className="single-student-assessment-pages__score-label">Total Score</span>
-                            <span className="single-student-assessment-pages__score-value">    {singleData?.mentee_result_total_score}/ {totalMax}</span>
-                            {/* <span className="single-student-assessment-pages__score-value">    {totalObtained}/ {totalMax}</span> */}
                         </div>
-                        <button className="single-student-assessment-pages__update-btn" onClick={handleSubmit}>Update Scores</button>
+
+                        {/* Right Column */}
+                        <div className="result-page-single-details-right-column">
+                            {/* Score Summary */}
+                            <div className="result-page-single-details-card">
+                                <h2 className="result-page-single-details-card-title">Score Summary</h2>
+                                {/* <div className="result-page-single-details-score-summary">
+                                <div className="result-page-single-details-score-large">
+                                    {updateTotalMarks}/{totalMax}
+                                </div>
+                                <div className="result-page-single-details-status">
+                                    <span className="result-page-single-details-status-badge">Submitted</span>
+                                    <span className="result-page-single-details-last-updated">
+                                        Last updated: {formatDate(singleData?.mentee_result_update_date)}
+                                    </span>
+                                </div>
+                            </div> */}
+
+                                {singleData?.mentee_result_analysis_details &&
+                                    (() => {
+                                        try {
+                                            const parsedDetails = JSON.parse(singleData.mentee_result_analysis_details)
+                                            return <p className="result-page-single-details-performance-text">{parsedDetails.performance}</p>
+                                        } catch (error) {
+                                            return <p>Error parsing performance feedback.</p>
+                                        }
+                                    })()}
+                            </div>
+
+                            {/* Question Tabs */}
+                            <div className="result-page-single-details-card">
+                                <div className="result-page-single-details-tabs">
+                                    {factDetails.length > 0 && <button
+                                        className={`result-page-single-details-tab ${activeTab === "fact" ? "result-page-single-details-tab-active" : ""}`}
+                                        onClick={() => setActiveTab("fact")}
+                                    >
+                                        Fact Questions ({factDetails.length})
+                                    </button>}
+                                    {analysisDetails.questions.length > 0 && <button
+                                        className={`result-page-single-details-tab ${activeTab === "analysis" ? "result-page-single-details-tab-active" : ""}`}
+                                        onClick={() => setActiveTab("analysis")}
+                                    >
+                                        Analysis Questions ({analysisDetails.questions.length})
+                                    </button>}
+
+                                    {researchDetails.length > 0 && <button
+                                        className={`result-page-single-details-tab ${activeTab === "research" ? "result-page-single-details-tab-active" : ""}`}
+                                        onClick={() => setActiveTab("research")}
+                                    >
+                                        Research Questions ({researchDetails.length})
+                                    </button>}
+                                </div>
+
+                                <div className="result-page-single-details-tab-content">
+                                    {activeTab === "fact" && <> {factDetails.length > 0 ? (
+                                        <>
+                                            {factDetails.map((question, index) => (
+                                                <div key={index} className="result-page-single-details-question">
+                                                    <div className="result-page-single-details-question-header">
+                                                        <h3 className="result-page-single-details-question-title">
+                                                            Question {index + 1}
+                                                        </h3>
+                                                        <span className="result-page-single-details-question-score">
+                                                            {question?.isCorrect ? question?.maxMark : 0}/{question?.maxMark}
+                                                        </span>
+                                                    </div>
+
+                                                    <p className="result-page-single-details-question-text">
+                                                        {question?.Question}
+                                                    </p>
+
+                                                    <div className="result-page-single-details-answer-box">
+                                                        {question?.userAnswer}
+                                                    </div>
+
+                                                    <div className="result-page-single-details-question-status">
+                                                        <CheckCircle
+                                                            className={`result-page-single-details-status-icon ${question?.isCorrect
+                                                                ? "result-page-single-details-correct"
+                                                                : "result-page-single-details-incorrect"
+                                                                }`}
+                                                        />
+                                                        <span className="result-page-single-details-status-text">
+                                                            {question?.isCorrect ? "Correct" : "Incorrect answer provided."}
+                                                        </span>
+                                                    </div>
+
+                                                    <div className="result-page-single-details-feedback-row">
+                                                        <div className="result-page-single-details-feedback-item result-page-single-details-strengths">
+                                                            <TrendingUp className="result-page-single-details-feedback-icon" />
+                                                            <div>
+                                                                <span className="result-page-single-details-feedback-label">
+                                                                    Strengths
+                                                                </span>
+                                                                <p className="result-page-single-details-feedback-text">
+                                                                    {question?.strength || "Strong factual recall"}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="result-page-single-details-feedback-item result-page-single-details-improvements">
+                                                            <AlertTriangle className="result-page-single-details-feedback-icon" />
+                                                            <div>
+                                                                <span className="result-page-single-details-feedback-label">
+                                                                    Areas to Improve
+                                                                </span>
+                                                                <p className="result-page-single-details-feedback-text">
+                                                                    {question?.areaToImprove || "None"}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </>
+                                    ) : (
+                                        <div className="result-page-single-details-no-questions">
+                                            No Fact Questions available.
+                                        </div>
+                                    )
+                                    } </>}
+
+
+                                    {activeTab === "analysis" &&
+                                        analysisDetails.questions.map((question, index) => (
+                                            <div key={index} className="result-page-single-details-question">
+                                                <div className="result-page-single-details-question-header">
+                                                    <h3 className="result-page-single-details-question-title">Question {index + 1}</h3>
+                                                    <span className="result-page-single-details-question-score">
+                                                        {question?.obtainedMark}/{question?.maxMark}
+                                                    </span>
+                                                </div>
+                                                <p className="result-page-single-details-question-text">{question?.Question}</p>
+                                                <div className="result-page-single-details-answer-box">{question?.userAnswer}</div>
+                                                <div className="result-page-single-details-question-status">
+                                                    <CheckCircle className="result-page-single-details-status-icon result-page-single-details-correct" />
+                                                    <span className="result-page-single-details-status-text">{question?.feedback}</span>
+                                                </div>
+                                                <div className="result-page-single-details-feedback-row">
+                                                    <div className="result-page-single-details-feedback-item result-page-single-details-strengths">
+                                                        <TrendingUp className="result-page-single-details-feedback-icon" />
+                                                        <div>
+                                                            <span className="result-page-single-details-feedback-label">Strengths</span>
+                                                            <p className="result-page-single-details-feedback-text">{question?.strengths}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="result-page-single-details-feedback-item result-page-single-details-improvements">
+                                                        <AlertTriangle className="result-page-single-details-feedback-icon" />
+                                                        <div>
+                                                            <span className="result-page-single-details-feedback-label">Areas to Improve</span>
+                                                            <p className="result-page-single-details-feedback-text">{question?.areaToImprove}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Score Update Section */}
+                                                <div className="result-page-single-details-score-update">
+                                                    <div className="result-page-single-details-score-inputs">
+                                                        <div className="result-page-single-details-score-input-group">
+                                                            <label className="result-page-single-details-score-label">Gained Score</label>
+                                                            <input
+                                                                type="number"
+                                                                value={question?.obtainedMark}
+                                                                onChange={(e) => handleScoreUpdate("analysis", index, "obtainedMark", e.target.value)}
+                                                                className="result-page-single-details-score-input"
+                                                                min="0"
+                                                                max={question?.maxMark}
+                                                            />
+                                                        </div>
+                                                        <span className="result-page-single-details-score-divider">/</span>
+                                                        <div className="result-page-single-details-score-input-group">
+                                                            <label className="result-page-single-details-score-label">Total Score</label>
+                                                            <input
+                                                                type="number"
+                                                                value={question?.maxMark}
+
+                                                                className="result-page-single-details-score-input"
+                                                                min="1"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+
+                                    {activeTab === "research" && <>{researchDetails.length > 0 ? <>
+                                        {researchDetails.map((question, index) => (
+                                            <div key={index} className="result-page-single-details-question">
+                                                <div className="result-page-single-details-question-header">
+                                                    <h3 className="result-page-single-details-question-title">Question {index + 1}</h3>
+                                                    <span className="result-page-single-details-question-score">
+                                                        {question?.isCorrect ? question?.maxMark : 0}/{question?.maxMark}
+                                                    </span>
+                                                </div>
+                                                <p className="result-page-single-details-question-text">{question?.Question}</p>
+                                                <div className="result-page-single-details-answer-box">{question?.userAnswer}</div>
+                                                <div className="result-page-single-details-question-status">
+                                                    <CheckCircle
+                                                        className={`result-page-single-details-status-icon ${question?.isCorrect ? "result-page-single-details-correct" : "result-page-single-details-incorrect"}`}
+                                                    />
+                                                    <span className="result-page-single-details-status-text">
+                                                        {question?.isCorrect ? "Correct" : "Incorrect answer provided."}
+                                                    </span>
+                                                </div>
+                                                <div className="result-page-single-details-feedback-row">
+                                                    <div className="result-page-single-details-feedback-item result-page-single-details-strengths">
+                                                        <TrendingUp className="result-page-single-details-feedback-icon" />
+                                                        <div>
+                                                            <span className="result-page-single-details-feedback-label">Strengths</span>
+                                                            <p className="result-page-single-details-feedback-text">
+                                                                {question?.strength || "Strong factual recall"}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="result-page-single-details-feedback-item result-page-single-details-improvements">
+                                                        <AlertTriangle className="result-page-single-details-feedback-icon" />
+                                                        <div>
+                                                            <span className="result-page-single-details-feedback-label">Areas to Improve</span>
+                                                            <p className="result-page-single-details-feedback-text">
+                                                                {question?.areaToImprove || "None"}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+
+                                    </>
+                                        : (
+                                            <div className="result-page-single-details-no-questions">
+                                                No Research Questions available.
+                                            </div>
+                                        )
+                                    }</>}
+
+
+                                </div>
+                            </div>
+
+                            {/* Update Button - Only show on Analysis tab */}
+                            {activeTab === "analysis" && (
+                                <div className="result-page-single-details-actions">
+                                    <button className="result-page-single-details-update-btn" onClick={handleSubmit}>
+                                        Update Scores
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
-
-                </div>}
-
-
-            {ActivePage === "research" && <>{researchDetails.map((FBQuestion, index) => (
-
-                <div className="single-student-assessment-pages__question">
-                    <div className="single-student-assessment-pages__question-header">
-                        <span className="single-student-assessment-pages__question-title">Question {index + 1}</span>
-                    </div>
-                    <p className="single-student-assessment-pages__question-text">  {FBQuestion?.Question}</p>
-                    <p className="single-student-assessment-pages__answer"> {FBQuestion?.userAnswer}</p>
-                    {/* <div className="single-student-assessment-pages__question-status">
-                        <CheckCircle className="single-student-assessment-pages__status-icon single-student-assessment-pages__status-icon--success" />
-                        <span className="single-student-assessment-pages__status-text">{FBQuestion?.correctAnswer}</span>
-                    </div> */}
-
-
-
-
                 </div>
+            </div>
+        }</>
+    )
+}
 
-            ))}</>}
-
-
-
-        </div >
-    );
-};
-
-export default TestAssessmentPage;
+export default CaseStudyReview
