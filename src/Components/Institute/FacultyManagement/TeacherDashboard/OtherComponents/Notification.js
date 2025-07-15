@@ -43,6 +43,17 @@ const Notification = ({
             },
           ];
           setData(updatedData);
+
+          // Check for unread notifications after refresh
+          const allNotifications = response.data.success?.flat();
+          const unreadExists = allNotifications?.some(
+            (notification) => !notification.notification_is_read
+          );
+          // Delay the state update slightly
+          setTimeout(() => {
+            setHasUnreadNotifications(unreadExists);
+          }, 0);
+
           if (showToast) {
             toast.success("Notifications refreshed successfully");
           }
