@@ -1580,10 +1580,10 @@
   background: white;
 }
 
-.previews-question-tab-question-item:hover {
+/* .previews-question-tab-question-item:hover {
   background-color: #f1f5f9;
   border-color: #e2e8f0;
-}
+} */
 
 .previews-question-tab-question-item-active {
   background-color: #3b82f6;

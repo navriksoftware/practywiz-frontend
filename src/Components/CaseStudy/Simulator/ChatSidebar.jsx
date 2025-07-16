@@ -93,20 +93,6 @@ const ChatSidebar = React.memo(function ChatSidebar({
     }
   }, [message, menteeFirstname, onSendMessage]);
 
-  // Mock participants data if none provided
-  const defaultParticipants = useMemo(
-    () => [
-      { id: 1, name: "Dr. Sarah Johnson", role: "Faculty", isOnline: true },
-      { id: 2, name: "Avega AI", role: "AI Assistant", isOnline: true },
-      {
-        id: 3,
-        name: menteeFirstname || "You",
-        role: "Student",
-        isOnline: true,
-      },
-    ],
-    [menteeFirstname]
-  );
 
   //socket connection start
 
@@ -114,9 +100,10 @@ const ChatSidebar = React.memo(function ChatSidebar({
   const [roomId] = useState(roomIdProvided.toString());
   const [studentName] = useState(userName);
   const [isRoomJoined, setIsRoomJoined] = useState(false);
-
+  const [roomInfo, setRoomInfo] = useState(null);
   // Question state variables (maintaining previous naming)
   const [currentQuestion, setCurrentQuestion] = useState(null);
+  console.log("Current Question:", currentQuestion);
   const [selectedOption, setSelectedOption] = useState("");
   const [textAnswer, setTextAnswer] = useState(""); // New: for subjective questions
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -205,7 +192,8 @@ const ChatSidebar = React.memo(function ChatSidebar({
     // Handle successful room joining
     const handleRoomJoined = (data) => {
       if (data.success) {
-        console.log("Room joined successfully ugwqeuidfgqwekdfgqweft",data);
+        console.log("Room joined successfully",data);
+setRoomInfo(data.roomInfo);
         setIsRoomJoined(true);
         setRoomStats({ studentCount: data.studentCount });
         setError("");
@@ -425,7 +413,7 @@ const ChatSidebar = React.memo(function ChatSidebar({
     };
 
     setPreviousQuestions((prev) => [...prev, answeredQuestion]);
-
+console.log("Previous Questions:", submissionData);
     socket.emit("submitAnswer", submissionData);
   }, [
     hasSubmitted,
@@ -547,10 +535,10 @@ const ChatSidebar = React.memo(function ChatSidebar({
             <div className="header-title-section">
               <div className="faculty-info">
                 <div className="faculty-avatar">
-                  <span className="faculty-initial">DJ</span>
+                  <span className="faculty-initial">{roomInfo?.facultyName?.charAt(0)}</span>
                 </div>
                 <div className="faculty-details">
-                  <h3 className="faculty-name">Dr. Sarah Johnson</h3>
+                  <h3 className="faculty-name">{roomInfo?.facultyName}</h3>
                   <span className="faculty-role">Faculty</span>
                 </div>
               </div>
@@ -591,14 +579,14 @@ const ChatSidebar = React.memo(function ChatSidebar({
         </div>
 
         {/* Reconnection banner */}
-        {isReconnecting && (
+        {/* {isReconnecting && (
           <div className="reconnecting-banner">
             <RefreshCw className="spinner-icon" />
             <span className="reconnecting-text">
               Reconnecting to session...
             </span>
           </div>
-        )}
+        )} */}
 
         {/* Success & Error messages */}
         {successMessage && (
