@@ -7,6 +7,7 @@ import QuestionShow from "./QuestionShow";
 import { exportMenteeDataToExcel } from "../../../../../Utils/exportMenteeDataToExcel";
 import FacultyProbsResultPage from "./FacultyProbeDashboard";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const STUDENTS_DATA = [
   {
@@ -407,6 +408,30 @@ const SingleAssignedCase = ({ setActivePage }) => {
   const handleExport = () => {
     exportMenteeDataToExcel(studentlist); // ✅ instant download
   };
+
+  
+
+  const facultyroomId = faculty_case_assign_dtls_id;
+  const facultyuserName = userName;
+  const facultyuserId = facultyID;
+
+  // ✅ Encode everything
+  const encodedRoomId = encodeURIComponent(facultyroomId);
+  const encodedUserName = encodeURIComponent(facultyuserName);
+  const encodedUserId = encodeURIComponent(facultyuserId);
+
+const handleliveClasspage = () => {
+
+  // ✅ Construct the safe URL
+  const urllink = `/case-study/live/classroom?facultyroomId=${encodedRoomId}&facultyuserName=${encodedUserName}&facultyuserId=${encodedUserId}`;
+
+  // ✅ Open new tab
+  window.open(urllink, '_blank');
+
+};
+
+
+
   return (
     <>
       {isLoading ? (
@@ -460,8 +485,8 @@ const SingleAssignedCase = ({ setActivePage }) => {
             <div className="single-case-details-view-tabs">
               <button
                 className={`single-case-details-view-tab ${selectedTab === "student-list"
-                    ? "single-case-details-view-tab-active"
-                    : ""
+                  ? "single-case-details-view-tab-active"
+                  : ""
                   }`}
                 onClick={() => setSelectedTab("student-list")}
               >
@@ -472,8 +497,8 @@ const SingleAssignedCase = ({ setActivePage }) => {
                 resultdata.non_practywiz_case_question.length > 0 && (
                   <button
                     className={`single-case-details-view-tab ${selectedTab === "case-study-questions"
-                        ? "single-case-details-view-tab-active"
-                        : ""
+                      ? "single-case-details-view-tab-active"
+                      : ""
                       }`}
                     onClick={() => setSelectedTab("case-study-questions")}
                   >
@@ -482,10 +507,10 @@ const SingleAssignedCase = ({ setActivePage }) => {
                 )}
               <button
                 className={`single-case-details-view-tab ${selectedTab === "live-class"
-                    ? "single-case-details-view-tab-active"
-                    : ""
+                  ? "single-case-details-view-tab-active"
+                  : ""
                   }`}
-                onClick={() => setSelectedTab("live-class")}
+                onClick={handleliveClasspage}
               >
                 Live Class
               </button>
@@ -764,7 +789,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
               )}
             </div>
           )}
-          {selectedTab === "live-class" && <FacultyProbsResultPage facultyroomId={faculty_case_assign_dtls_id} facultyuserName={userName} facultyuserId={facultyID} />}
+          {/* {selectedTab === "live-class" && <FacultyProbsResultPage facultyroomId={faculty_case_assign_dtls_id} facultyuserName={userName} facultyuserId={facultyID} />} */}
 
           {/* Add Student Modal */}
           {/* {showAddModal && (

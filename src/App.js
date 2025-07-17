@@ -292,6 +292,16 @@ function App() {
             path="/faculty/dashboard"
             element={<TeacherDashboardPage user={user} token={token} />}
           />)}
+
+          {user?.user_type === "faculty" && (
+            <Route
+              path="/case-study/live/classroom"
+              element={<FacultyProbeDashboard />}
+            />
+          )}
+
+
+
           {user?.user_type === "faculty" && (<Route
             path="/faculty/Single-Student-Assessment-Page/mentee/:Mid/assignedCase/:ACid"
             element={<TestAssessmentPage />}

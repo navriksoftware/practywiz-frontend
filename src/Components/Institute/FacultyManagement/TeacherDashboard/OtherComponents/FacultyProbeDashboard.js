@@ -18,6 +18,7 @@ import {
 import "../DashboardCSS/FacultyProbeDashboard.css";
 import { socket } from "../../../../Utils/socket"
 import { useSelector } from "react-redux";
+import { useSearchParams } from 'react-router-dom';
 // import { Input } from "@/components/ui/input"
 // import { Badge } from "@/components/ui/badge" 
 
@@ -133,8 +134,18 @@ const insightfulResponses = [
   },
 ];
 
-export default function FacultyProbsResultPage({ facultyroomId, facultyuserName, facultyuserId }) {
+export default function FacultyProbsResultPage() {
   // const [searchTerm, setSearchTerm] = useState("");
+
+
+  const [searchParams] = useSearchParams();
+
+  const facultyroomId = searchParams.get('facultyroomId');
+  const facultyuserName = searchParams.get('facultyuserName');
+  const facultyuserId = searchParams.get('facultyuserId');
+
+
+
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [questionCategory, setQuestionCategory] = useState("Fact");
@@ -242,6 +253,7 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
   const [error, setError] = useState("")
   const [connectionStatus, setConnectionStatus] = useState("connected");
   const [searchQuery, setSearchQuery] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
   // Faculty user ID (consistent with previous version)
   const userId = useSelector(
     (state) => state.faculty?.facultyDtls?.faculty_id || null
@@ -335,6 +347,7 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
     // Handle detailed question response data
     const handleQuestionDetails = (data) => {
       setQuestionDetails(data)
+       setIsLoading(false);
       console.log("Question Details:", data)
     }
 
@@ -498,9 +511,12 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
    * Retrieves data from SQL Server tables
    */
   const viewQuestionDetails = (questionId) => {
+    setIsLoading(true);
     setSelectedQuestionId(questionId)
     socket.emit("getQuestionDetails", { questionId, roomId: Number.parseInt(roomId) })
+    
     setActiveTab("PreviousQuestions")
+   
   }
 
   // Function to update MCQ option
@@ -608,11 +624,6 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
     question.text.toLowerCase().includes(searchQuery.toLowerCase()),
   )
 
-
-
-
-
-
   // Render room joining form if not joined yet
   if (!isRoomJoined) {
     return (
@@ -622,11 +633,7 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
           <div className="before-join-room-header-left">
             <h1 className="before-join-room-title">Join Faculty Room</h1>
           </div>
-
           <div className="before-join-room-header-right">
-
-
-
             <button
               onClick={joinRoom}
               className="before-join-room-JoinButton"
@@ -651,8 +658,6 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
   return (
     <div className="probes-faculty-side-container">
       <div className="probes-faculty-side-main-container">
-
-
         <nav className="faculty-probs-result-page-nav">
           {[
             "Overview",
@@ -668,9 +673,6 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
           ))}
 
         </nav>
-
-
-
         {activeTab === "Overview" && (<> {/* End Session Confirmation Modal */}
           {showEndSessionConfirm && (
             <div className="faculty-dashboard-modal-overlay">
@@ -809,10 +811,6 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
                 <div className="probes-faculty-side-previous-space">
                   {/* Previous Questions List */}
                   {questionHistory.slice(0, 3).map((question, index) => (
-
-
-
-
                     <div
                       key={question.questionId}
                       className="probes-faculty-side-previous-item"
@@ -1161,16 +1159,7 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
 
             </div>
           </div>
-
-
-
-
-
-
         </>)
-
-
-
         }
 
         {activeTab === "PreviousQuestions" && (
@@ -1182,19 +1171,20 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
                   <h2 className="previews-question-tab-sidebar-title">Questions List</h2>
                 </div>
 
-                <div className="previews-question-tab-search-container">
+                {/* <div className="previews-question-tab-search-container">
                   <div className="previews-question-tab-search-wrapper">
                     <Search className="previews-question-tab-search-icon" />
-                    {/* <Input
+                    <Input
                 placeholder="Search questions..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="previews-question-tab-search-input"
-              /> */}
+              />
                   </div>
-                </div>
+                </div> */}
 
                 <div className="previews-question-tab-questions-list">
+
                   {filteredQuestions.map((question, index) => (
                     <div
                       key={question.questionId}
@@ -1216,72 +1206,128 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
                       </div> */}
                     </div>
                   ))}
-                </div>
+                </div>  
               </div>
 
               {/* Main Content - Question Details */}
-              <div className="previews-question-tab-main-content">
-                {questionDetails && (
-                  <div className="previews-question-tab-details-container">
-                    {/* Question Header */}
-                    <div className="previews-question-tab-details-header">
-                      <div className="previews-question-tab-details-title-section">
-                        <h1 className="previews-question-tab-details-title">Question: {questionDetails.question}</h1>
-                        <div className="previews-question-tab-details-meta">
-                          <div variant="secondary" className="previews-question-tab-type-badge">
-                            {questionDetails.questionType.toUpperCase()}
-                          </div>
-                          <span className="previews-question-tab-total-responses">
-                            Total Responses: {questionDetails.totalResponses}
-                          </span>
-                        </div>
-                      </div>
+              {!questionDetails && (
+                <div className="preview-question-NoAvble-main-content">
+                  <div className="preview-question-NoAvble-details-container">
+                    <div className="preview-question-NoAvble-icon-wrapper">
+                      <svg className="preview-question-NoAvble-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" fill="#f0f0f0" />
+                        <path d="M12 8v4" stroke="#888" strokeWidth="2" strokeLinecap="round" />
+                        <circle cx="12" cy="16" r="1" fill="#888" />
+                      </svg>
                     </div>
+                    <h2 className="preview-question-NoAvble-title">
+                      Please select a question to view details
+                    </h2>
+                    <p className="preview-question-NoAvble-description">
+                      No question selected. Click on a question from the list to see its details and student responses.
+                    </p>
+                  </div>
+                </div>
+              )}
+              <div className="previews-question-tab-main-content">
+                {isLoading ? (
+                  <div className="loading-container-for-preview">
+                    <div className="loading-spinner-for-preview"></div>
+                    <p>Loading Question response...</p>
+                  </div>
+                ) : <>
 
-                    {/* MCQ Analytics */}
-                    {questionDetails.questionType === "mcq" && questionDetails.analytics && (
-                      <div className="previews-question-tab-analytics-section">
-                        {questionDetails.analytics.map((optionData, index) => (
-                          <div key={index} className="previews-question-tab-option-container">
-                            <div className="previews-question-tab-option-header">
-                              <div className="previews-question-tab-option-label">
-                                {getOptionLabel(index)}. {optionData.option && ` ${optionData.option}`}
-                              </div>
-                              <div className="previews-question-tab-option-stats">
-                                <span className="previews-question-tab-option-count">
-                                  ({optionData.count} response{optionData.count !== 1 ? "s" : ""})
-                                </span>
-                                <span className="previews-question-tab-option-percentage">{optionData.percentage}%</span>
-                              </div>
+                  {questionDetails && (
+                    <div className="previews-question-tab-details-container">
+                      {/* Question Header */}
+                      <div className="previews-question-tab-details-header">
+                        <div className="previews-question-tab-details-title-section">
+                          <h1 className="previews-question-tab-details-title">Question: {questionDetails.question}</h1>
+                          <div className="previews-question-tab-details-meta">
+                            <div variant="secondary" className="previews-question-tab-type-badge">
+                              {questionDetails.questionType.toUpperCase()}
                             </div>
-                            <div className="previews-question-tab-progress-container">
-                              <div
-                                className="previews-question-tab-progress-bar"
-                                style={{ width: `${optionData.percentage}%` }}
-                              />
-                            </div>
+                            <span className="previews-question-tab-total-responses">
+                              Total Responses: {questionDetails.totalResponses}
+                            </span>
                           </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Student Responses Section */}
-                    <div className="previews-question-tab-responses-section">
-                      <h3 className="previews-question-tab-responses-title">Student Responses</h3>
-
-                      <div className="previews-question-tab-responses-table">
-                        <div className="previews-question-tab-table-header">
-                          <div className="previews-question-tab-header-cell">Student Name</div>
-                          <div className="previews-question-tab-header-cell">Submission Time</div>
-                          <div className="previews-question-tab-header-cell">Student ID</div>
-                          <div className="previews-question-tab-header-cell">Selected Option</div>
                         </div>
+                      </div>
 
-                        {questionDetails.questionType === "mcq" && questionDetails.analytics && (
-                          <div className="previews-question-tab-table-body">
-                            {questionDetails.analytics.flatMap((optionData) =>
-                              optionData.students.map((student, studentIndex) => (
-                                <div key={`${optionData.option}-${studentIndex}`} className="previews-question-tab-table-row">
+                      {/* MCQ Analytics */}
+                      {questionDetails.questionType === "mcq" && questionDetails.analytics && (
+                        <div className="previews-question-tab-analytics-section">
+                          {questionDetails.analytics.map((optionData, index) => (
+                            <div key={index} className="previews-question-tab-option-container">
+                              <div className="previews-question-tab-option-header">
+                                <div className="previews-question-tab-option-label">
+                                  {getOptionLabel(index)}. {optionData.option && ` ${optionData.option}`}
+                                </div>
+                                <div className="previews-question-tab-option-stats">
+                                  <span className="previews-question-tab-option-count">
+                                    ({optionData.count} response{optionData.count !== 1 ? "s" : ""})
+                                  </span>
+                                  <span className="previews-question-tab-option-percentage">{optionData.percentage}%</span>
+                                </div>
+                              </div>
+                              <div className="previews-question-tab-progress-container">
+                                <div
+                                  className="previews-question-tab-progress-bar"
+                                  style={{ width: `${optionData.percentage}%` }}
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Student Responses Section */}
+                      <div className="previews-question-tab-responses-section">
+                        <h3 className="previews-question-tab-responses-title">Student Responses</h3>
+
+                        <div className="previews-question-tab-responses-table">
+                          <div className="previews-question-tab-table-header">
+                            <div className="previews-question-tab-header-cell">Student Name</div>
+                            <div className="previews-question-tab-header-cell">Submission Time</div>
+                            <div className="previews-question-tab-header-cell">Student ID</div>
+                            <div className="previews-question-tab-header-cell">Selected Option</div>
+                          </div>
+
+                          {questionDetails.questionType === "mcq" && questionDetails.analytics && (
+                            <div className="previews-question-tab-table-body">
+                              {questionDetails.analytics.flatMap((optionData) =>
+                                optionData.students.map((student, studentIndex) => (
+                                  <div key={`${optionData.option}-${studentIndex}`} className="previews-question-tab-table-row">
+                                    <div className="previews-question-tab-table-cell">
+                                      <div className="previews-question-tab-student-info">
+                                        <User className="previews-question-tab-student-icon" />
+                                        <span>{student.studentName}</span>
+                                      </div>
+                                    </div>
+                                    <div className="previews-question-tab-table-cell">
+                                      <div className="previews-question-tab-time-info">
+                                        <Clock className="previews-question-tab-time-icon" />
+                                        <span>{new Date(student.submittedAt).toLocaleTimeString()}</span>
+                                      </div>
+                                    </div>
+                                    <div className="previews-question-tab-table-cell">
+                                      <span className="previews-question-tab-student-id">Student ID: {student.studentId}</span>
+                                    </div>
+                                    <div className="previews-question-tab-table-cell">
+                                      <div variant="outline" className="previews-question-tab-option-badge">
+                                        Option{" "}
+                                        {questionDetails.analytics.findIndex((opt) => opt.students.includes(student)) + 1}
+                                      </div>
+                                    </div>
+                                  </div>
+                                )),
+                              )}
+                            </div>
+                          )}
+                          {questionDetails.questionType === "subjective" && Array.isArray(questionDetails.responses) && (
+                            <div className="previews-question-tab-table-body">
+                              {questionDetails.responses.map((student, index) => (
+                                <div key={`student-${student.studentId}-${index}`} className="previews-question-tab-table-row">
                                   <div className="previews-question-tab-table-cell">
                                     <div className="previews-question-tab-student-info">
                                       <User className="previews-question-tab-student-icon" />
@@ -1298,49 +1344,20 @@ export default function FacultyProbsResultPage({ facultyroomId, facultyuserName,
                                     <span className="previews-question-tab-student-id">Student ID: {student.studentId}</span>
                                   </div>
                                   <div className="previews-question-tab-table-cell">
-                                    <div variant="outline" className="previews-question-tab-option-badge">
-                                      Option{" "}
-                                      {questionDetails.analytics.findIndex((opt) => opt.students.includes(student)) + 1}
+                                    <div className="previews-question-tab-option-badge">
+                                      Answer: {student.textAnswer}
                                     </div>
                                   </div>
                                 </div>
-                              )),
-                            )}
-                          </div>
-                        )}
-                        {questionDetails.questionType === "subjective" && Array.isArray(questionDetails.responses) && (
-                          <div className="previews-question-tab-table-body">
-                            {questionDetails.responses.map((student, index) => (
-                              <div key={`student-${student.studentId}-${index}`} className="previews-question-tab-table-row">
-                                <div className="previews-question-tab-table-cell">
-                                  <div className="previews-question-tab-student-info">
-                                    <User className="previews-question-tab-student-icon" />
-                                    <span>{student.studentName}</span>
-                                  </div>
-                                </div>
-                                <div className="previews-question-tab-table-cell">
-                                  <div className="previews-question-tab-time-info">
-                                    <Clock className="previews-question-tab-time-icon" />
-                                    <span>{new Date(student.submittedAt).toLocaleTimeString()}</span>
-                                  </div>
-                                </div>
-                                <div className="previews-question-tab-table-cell">
-                                  <span className="previews-question-tab-student-id">Student ID: {student.studentId}</span>
-                                </div>
-                                <div className="previews-question-tab-table-cell">
-                                  <div className="previews-question-tab-option-badge">
-                                    Answer: {student.textAnswer}
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
+                              ))}
+                            </div>
+                          )}
 
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </>}
               </div>
             </div>
 
