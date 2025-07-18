@@ -62,7 +62,6 @@ const STUDENTS_DATA = [
   },
 ];
 
-
 const SingleAssignedCase = ({ setActivePage }) => {
   const facultyID = useSelector(
     (state) => state.faculty.facultyDtls.faculty_id
@@ -87,6 +86,9 @@ const SingleAssignedCase = ({ setActivePage }) => {
   const url = ApiURL();
   const [isLoading, setIsLoading] = useState(false);
   const [studentlist, setstudentlist] = useState([]);
+
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [publishStatus, setPublishStatus] = useState(null);
 
   // Fetch assigned case studies when facultyid is available
   useEffect(() => {
@@ -343,7 +345,7 @@ const SingleAssignedCase = ({ setActivePage }) => {
       (studentlist.filter((s) => s.mentee_result_status === "Completed")
         .length /
         totalStudents) *
-      100
+        100
     );
 
     // Return the calculated metrics
@@ -403,6 +405,31 @@ const SingleAssignedCase = ({ setActivePage }) => {
     // Convert milliseconds to full days
     const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
     return `${diffInDays} day${diffInDays !== 1 ? "s" : ""}`;
+  };
+
+  // Handle publish results
+  const handlePublishResults = async () => {
+    setIsPublishing(true);
+    setPublishStatus(null);
+    try {
+      const response = await axios.post(
+        `${url}api/v1/faculty/publish-results`,
+        {
+          faculty_case_assign_dtls_id: faculty_case_assign_dtls_id,
+          faculty_dtls_id: facultyID,
+        }
+      );
+      setPublishStatus({ type: "success", message: response.data.message });
+    } catch (error) {
+      setPublishStatus({
+        type: "error",
+        message:
+          error.response?.data?.message ||
+          "Failed to publish results. Please try again.",
+      });
+    } finally {
+      setIsPublishing(false);
+    }
   };
 
   const handleExport = () => {
@@ -604,6 +631,21 @@ const handleliveClasspage = () => {
                       <i className="fa fa-file-export"></i>
                       Export Data
                     </button>
+                    <button
+                      className="single-case-details-view-publish-btn"
+                      onClick={handlePublishResults}
+                      disabled={isPublishing}
+                    >
+                      <i className="fa fa-bullhorn" />
+                      {isPublishing ? "Publishing..." : "Publish Results"}
+                    </button>
+                    {publishStatus && (
+                      <span
+                        className={`single-case-details-view-publish-status ${publishStatus.type}`}
+                      >
+                        {publishStatus.message}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -782,7 +824,7 @@ const handleliveClasspage = () => {
           {selectedTab === "case-study-questions" && (
             <div className="single-case-details-view-questions-container">
               {!resultdata?.non_practywiz_case_question ||
-                resultdata.non_practywiz_case_question.length === 0 ? (
+              resultdata.non_practywiz_case_question.length === 0 ? (
                 "hello"
               ) : (
                 <QuestionShow data={resultdata} />

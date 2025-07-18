@@ -1,13 +1,3 @@
-/* Base styles and shared components */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  line-height: 1.5;
-  color: #333;
-  margin: 0;
-  padding: 0;
-}
-
 /* Animation keyframes */
 @keyframes fade-in {
   from {
@@ -60,10 +50,10 @@ body {
 .chat-toggle-btn {
   position: fixed;
   right: 20px;
-  top: 5%;
+  top: 2.2rem;
   transform: translateY(-50%);
-  width: 56px;
-  height: 56px;
+  width: 50px;
+  height: 50px;
   background: linear-gradient(135deg, #4285f4 0%, #1976d2 100%);
   border: none;
   border-radius: 16px;
@@ -1705,4 +1695,63 @@ body.chat-sidebar-open .main-container {
   .faculty-role {
     font-size: 11px;
   }
+}
+
+.join-chat-btn {
+  position: fixed;
+  top: 11px;
+  right: 20px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #4285f4 0%, #1976d2 100%);
+  color: white;
+  font-family: inherit; /* Ensures the button uses the parent's font */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(66, 133, 244, 0.2);
+}
+
+.join-chat-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(66, 133, 244, 0.3);
+}
+
+.join-chat-btn:disabled {
+  background: #adb5bd;
+  cursor: wait;
+}
+
+.join-btn-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.join-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.join-btn-text {
+  text-align: left;
+}
+
+.join-btn-label {
+  font-size: 16px;
+  font-weight: 600;
+  display: block;
+}
+
+.join-btn-details {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.join-room-id {
+  margin-right: 8px;
 }
